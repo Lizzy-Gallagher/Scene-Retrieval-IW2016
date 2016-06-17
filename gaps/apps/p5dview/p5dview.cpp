@@ -14,7 +14,8 @@
 // Program variables
 
 static const char *input_project_name = NULL;
-static const char *input_data_directory = "../..";
+//static const char *input_data_directory = "../..";
+static const char *input_data_directory = "data/";
 static const char *input_trajectory_name = NULL;
 static const char *output_color_directory = NULL;
 static const char *output_depth_directory = NULL;

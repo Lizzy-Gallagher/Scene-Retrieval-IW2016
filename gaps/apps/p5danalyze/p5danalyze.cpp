@@ -23,7 +23,7 @@ static int print_debug = 0;
 
 static std::map<std::string, std::string> id_to_category;
 static int pixels_to_meters = 50;
-static int meters_of_context = 4;
+static int meters_of_context = 6;
 static int resolution = pixels_to_meters * (2 * meters_of_context);
 
 static P5DProject *
@@ -416,19 +416,26 @@ class Wall
 
 
 static R2Grid*
-DrawWall(R3SceneNode* wall, R2Grid *grid, R2Vector translation, RNAngle theta, R2Vector *dist_ptr = NULL)
+DrawWall(R3SceneNode* wall, R2Grid *grid, R2Vector translation, RNAngle theta, bool do_mirror, R2Vector *dist_ptr = NULL)
 {
     R2Grid* temp_grid = new R2Grid(resolution, resolution);
 
     fprintf(stderr, "Drawing  Wall %s ...\n", wall->Name());
 
     R2Vector centroid = R2Vector(wall->Centroid().X(), wall->Centroid().Y());
+    //R2Vector center_of_grid = R2Vector(resolution / 2.0, resolution / 2.0);
 
+    //R2Affine x_mirror 
     R2Affine world_to_grid_transformation = R2identity_affine;
+    /*if (do_x_mirror) {
+        world_to_grid_transformation.Translate(center_of_grid);
+        world_to_grid_transformation.XMirror();
+        world_to_grid_transformation.Translate(-1.0 * center_of_grid);
+    }
     if (dist_ptr != NULL) {
         world_to_grid_transformation.Translate(*dist_ptr * pixels_to_meters);
         world_to_grid_transformation.Translate(-1.0 * *dist_ptr);
-    }
+    }*/
     world_to_grid_transformation.Translate(translation);
     world_to_grid_transformation.Translate(centroid);
     world_to_grid_transformation.Scale(pixels_to_meters);
@@ -512,7 +519,7 @@ DrawWall(R3SceneNode* wall, R2Grid *grid, R2Vector translation, RNAngle theta, R
         temp_grid->Threshold(0, 0, 1);
         temp_grid->WriteFile(output_filename);
     }
-    fprintf(stderr, "Number of Walls: %d\n", walls.size());
+    fprintf(stderr, "Number of Walls: %lu\n", walls.size());
 
     for (int w = 0; w < walls.size(); w++) {
         Wall* wall = walls[w];
@@ -538,7 +545,7 @@ DrawWall(R3SceneNode* wall, R2Grid *grid, R2Vector translation, RNAngle theta, R
         }    
         char output_filename[1024];
         sprintf(output_filename, "Wall_%d.png", w);
-        fprintf(stderr, "Num Triangles in wall %d: %d", w, wall->triangles.size());
+        fprintf(stderr, "Num Triangles in wall %d: %lu", w, wall->triangles.size());
         my_grid->Threshold(0, 0, 1);
         my_grid->WriteFile(output_filename);
     }
@@ -549,24 +556,28 @@ DrawWall(R3SceneNode* wall, R2Grid *grid, R2Vector translation, RNAngle theta, R
 }
 
 static R2Grid*
-DrawObject(R3SceneNode* obj, R2Grid *grid, R2Vector translation, RNAngle theta, R2Vector *dist_ptr = NULL)
+DrawObject(R3SceneNode* obj, R2Grid *grid, R2Vector translation, RNAngle theta, bool do_fX, bool do_fY, R2Vector *dist_ptr = NULL)
 {
     R2Grid* temp_grid = new R2Grid(resolution, resolution);
 
-    P5DObject *p5d_obj = (P5DObject *) obj->Data();
-
-    fprintf(stderr, "Drawing  %s (%s)...\n", obj->Name(), p5d_obj->className);
+    /*P5DObject *p5d_obj = (P5DObject *) obj->Data();
+    fprintf(stderr, "Drawing  %s (%s)...\n", obj->Name(), p5d_obj->className);*/
 
     R2Vector centroid = R2Vector(obj->Centroid().X(), obj->Centroid().Y());
-
+    
     // Hold
     R2Affine world_to_grid_transformation = R2identity_affine;
     if (dist_ptr != NULL) {
+        dist_ptr->Rotate(-1.0 * theta);
+        if (do_fX) dist_ptr->Mirror(R2posy_line);
+        if (do_fY) dist_ptr->Mirror(R2posx_line);
         world_to_grid_transformation.Translate(*dist_ptr * pixels_to_meters);
         world_to_grid_transformation.Translate(-1.0 * *dist_ptr);
     }
     world_to_grid_transformation.Translate(translation);
     world_to_grid_transformation.Translate(centroid);
+    if (do_fX) world_to_grid_transformation.XMirror();
+    if (do_fY) world_to_grid_transformation.YMirror();
     world_to_grid_transformation.Scale(pixels_to_meters);
     world_to_grid_transformation.Rotate(-1.0 * theta);
     world_to_grid_transformation.Translate(-1.0 * centroid);
@@ -658,14 +669,14 @@ WriteGrids(R3Scene *scene)
     R3SceneNode* src_obj = object_nodes[i];
     std::string src_cat = GetObjectCategory(src_obj);
     
-    /*for (int j = 0; j < object_nodes.size(); j++) {
+    for (int j = 0; j < object_nodes.size(); j++) {
         if (i == j) continue;
         
         R3SceneNode* dst_obj = object_nodes[j];
         std::string dst_cat = GetObjectCategory(dst_obj);
 
         grids[src_cat][dst_cat] = new R2Grid(resolution, resolution); 
-    }*/
+    }
     
     
     for (int w = 0; w < wall_nodes.size(); w++) {
@@ -688,13 +699,14 @@ WriteGrids(R3Scene *scene)
     P5DObject *p5d_obj = (P5DObject *) src_obj->Data();
     RNAngle theta = p5d_obj->a;
     
+    RNAngle src_theta = 0.0;
     if (!strcmp(p5d_obj->className, "Door")) theta += RN_PI_OVER_TWO;
     else if (!strcmp(p5d_obj->className, "Window")) theta += RN_PI_OVER_TWO;
     
-    if (p5d_obj->fX) theta += RN_PI;
-    if (p5d_obj->fY) theta += RN_PI;
+    bool do_fX = p5d_obj->fX;
+    bool do_fY = p5d_obj->fY;
 
-    /*for (int j = 0; j < object_nodes.size(); j++) {
+    for (int j = 0; j < object_nodes.size(); j++) {
         if (i == j) continue;
         
         R3SceneNode* dst_obj = object_nodes[j];
@@ -702,28 +714,28 @@ WriteGrids(R3Scene *scene)
         
         R2Grid *grid = grids[src_cat][dst_cat];
         
-        DrawObject(src_obj, grid, translation, theta);
+        DrawObject(src_obj, grid, translation, theta, do_fX, do_fY);
 
         R3Vector dist3d = (dst_obj->Centroid() - src_obj->Centroid());
         R2Vector dist = R2Vector(dist3d.X(), dist3d.Y());
-        DrawObject(dst_obj, grid, translation, theta, &dist);
-    }*/
+        DrawObject(dst_obj, grid, translation, theta, do_fX, do_fY, &dist);
+    }
 
     for (int w = 0; w < wall_nodes.size(); w++) {
         R3SceneNode* wall_node = wall_nodes[w];
 
         R2Grid *grid = grids[src_cat]["wall"];
 
-        DrawObject(src_obj, grid, translation, theta);
+        DrawObject(src_obj, grid, translation, theta, do_fX, do_fY);
 
         R3Vector dist3d = (wall_node->Centroid() - src_obj->Centroid());
         R2Vector dist = R2Vector(dist3d.X(), dist3d.Y());
 
-        DrawWall(wall_node, grid, translation, theta, &dist);
+        DrawObject(wall_node, grid, translation, theta, do_fX, do_fY, &dist);
     }
   }
 
-  fprintf(stderr, "Number of Walls: %d\n", wall_nodes.size());
+  fprintf(stderr, "Number of Walls: %lu\n", wall_nodes.size());
 
   for (auto it : grids) {
     std::string src_cat = it.first;
