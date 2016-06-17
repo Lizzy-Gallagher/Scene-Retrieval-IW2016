@@ -1,0 +1,7 @@
+-x
+c++
+-DNDEBUG
+-I.
+-I../../pkgs
+-Wall
+-std=c++0x
