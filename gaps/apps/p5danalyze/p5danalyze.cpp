@@ -23,7 +23,7 @@ static int print_debug = 0;
 
 static std::map<std::string, std::string> id_to_category;
 static int pixels_to_meters = 50;
-static int meters_of_context = 6;
+static int meters_of_context = 5;
 static int resolution = pixels_to_meters * (2 * meters_of_context);
 
 static double threshold = meters_of_context + 1;
@@ -411,42 +411,53 @@ DrawObject(R3SceneNode* obj, R2Grid *grid, R2Vector translation, RNAngle theta, 
     return grid;
 }
 
+// Take collection of grids and write them
+static int 
+WriteHeatMaps(std::map<std::string, std::map<std::string, R2Grid*>> grids)
+{
+  for (auto it : grids) {
+    std::string src_cat = it.first;
+    std::map<std::string, R2Grid*> map = it.second;
 
+    for (auto it2 : map) {
+        std::string dst_cat = it2.first;
+        R2Grid* grid        = it2.second;
+
+        char output_filename[1024];
+        sprintf(output_filename, "%s/%s___%s.grd", output_grid_directory, 
+                src_cat.c_str(), dst_cat.c_str());
+        if (!WriteGrid(grid, output_filename)) return 0;
+    }
+  }
+
+  return 1;
+}
+
+std::map<std::string, std::map<std::string, R2Grid*>> grids;
+
+std::vector<R3SceneNode*> object_nodes;
+std::vector<R3SceneNode*> wall_nodes;
 
 static int
-WriteGrids(R3Scene *scene)
+InitHeatmapCollection(R3Scene* scene)
 {
-  // Create the output directory
-  char cmd[1024];
-  sprintf(cmd, "mkdir -p %s", output_grid_directory);
-  system(cmd);
-
-  // Create mapping of ids to object categories
-  LoadIdToCategoryMap();
-
-  // Category->Category->Heatmap
-  std::map<std::string, std::map<std::string, R2Grid*>> grids;
-
-  std::vector<R3SceneNode*> object_nodes;
-  std::vector<R3SceneNode*> room_nodes;
-  std::vector<R3SceneNode*> wall_nodes;
-  std::vector<R3SceneNode*> floor_nodes;
+  
+  //std::vector<R3SceneNode*> room_nodes;
+  //std::vector<R3SceneNode*> floor_nodes;
 
   for (int i = 0; i < scene->NNodes(); i++) {
     R3SceneNode* node = scene->Node(i);
 
     std::string name (node->Name());
     if (std::string::npos != name.find("Object")) // probably a better way with casting
-    {
-        //fprintf(stdout, "%d : %s\n", obj_num++, name.c_str());
         object_nodes.push_back(node);
-    }
-    if (std::string::npos != name.find("Room"))
+    if (std::string::npos != name.find("Wall"))
+        wall_nodes.push_back(node);     
+    /*if (std::string::npos != name.find("Room"))
         room_nodes.push_back(node);
     if (std::string::npos != name.find("Floor"))
-        floor_nodes.push_back(node);
-    if (std::string::npos != name.find("Wall"))
-        wall_nodes.push_back(node);    
+        floor_nodes.push_back(node);*/
+
   }
 
   // Populate category->category map
@@ -465,6 +476,23 @@ WriteGrids(R3Scene *scene)
     
     grids[src_cat]["wall"] = new R2Grid(resolution, resolution);
   }
+ 
+  return 1;
+}
+
+static int
+WriteGrids(R3Scene *scene)
+{
+  // Create the output directory
+  char cmd[1024];
+  sprintf(cmd, "mkdir -p %s", output_grid_directory);
+  system(cmd);
+
+  // Create mapping of ids to object categories
+  LoadIdToCategoryMap();
+
+  // Category->Category->Heatmap
+  InitHeatmapCollection(scene);
 
   for (int i = 0; i < object_nodes.size(); i++) {
     R3SceneNode* src_obj = object_nodes[i];
@@ -517,22 +545,7 @@ WriteGrids(R3Scene *scene)
     }
   }
 
-  // Print all the grids
-  for (auto it : grids) {
-    std::string src_cat = it.first;
-    std::map<std::string, R2Grid*> map = it.second;
-
-    for (auto it2 : map) {
-        std::string dst_cat = it2.first;
-        R2Grid* grid    = it2.second;
-
-        char output_filename[1024];
-        sprintf(output_filename, "%s/%s___%s.grd", output_grid_directory, 
-                src_cat.c_str(), dst_cat.c_str());
-        if (!WriteGrid(grid, output_filename)) return 0;
-        
-    }
-  }
+  if (!WriteHeatMaps(grids)) return 0;
 
   // Return success
   return 1;
