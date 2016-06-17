@@ -1,0 +1,4255 @@
+<HTML>
+<HEAD>
+<TITLE> R3Shapes Package </TITLE>
+</HEAD>
+<BODY>
+<H1> R3Shapes Package </H1>
+
+
+
+<HR><H2>Description:</H2>
+
+The R3Shapes package supports basics 3D geometry classes.
+<P>
+It contains classes representing 3D primitives (such as vectors,
+points, lines, rays, spans, planes, and halfspaces).  It also contains
+classes for 3D transformations (such as 4x4 matrices, etc.) and higher
+level 3D shapes (such as polygons, boxes, spheres, cones, pyramids,
+prisms, etc).  The higher level shape classes are derived from an
+abstract R3Shape class which supports transformations, bounding box
+queries, drawing, and other abstract geometric functions.
+<P>
+For all pairs of 3D primitives (and many 3D shapes), functions are
+provided for computing the relationships between them.  For instance,
+there are functions to compute the distance between primitives
+(R3Distance), check for intersections (R3Intersects), check whether
+one primitive contains another (R3Contains), compute whether
+primitives are perpendicular (R3Perpendicular), and check whether
+primitives are parallel (R3Parallel).
+<P>
+
+
+<HR><H2>List of Classes:</H2>
+
+<DL>
+<DT> 3D Primitives:
+<DL>
+  <DT> <A HREF="#R3Vector">R3Vector</A> - 3D vector.
+  <DT> <A HREF="#R3Point">R3Point</A> - 3D point.
+  <DT> <A HREF="#R3Line">R3Line</A> - 3D infinite line.
+  <DT> <A HREF="#R3Ray">R3Ray</A> - 3D ray.
+  <DT> <A HREF="#R3Span">R3Span</A> - 3D line segment.
+  <DT> <A HREF="#R3Plane">R3Plane</A> - 3D plane.
+  <DT> <A HREF="#R3Halfspace">R3Halfspace</A> - 3D halfspace.
+  <DT> &nbsp;
+</DL>
+
+<DT> 3D Shapes:
+<DL>
+  <DT> <A HREF="#R3Shape">R3Shape</A> - abstract 3D shape.
+  <DT> <A HREF="#R3Surface">R3Surface</A> - abstract 3D surface.
+  <DT> <A HREF="#R3Circle">R3Circle</A> - 3D circle.
+  <DT> <A HREF="#R3Ellipse">R3Ellipse</A> - 3D ellipse.
+  <DT> <A HREF="#R3Triangle">R3Triangle</A> - 3D triangle.
+  <DT> <A HREF="#R3Mesh">R3Mesh</A> - surface defined by a set of 3D triangles.
+  <DT> <A HREF="#R3Solid">R3Solid</A> - abstract 3D solid.
+  <DT> <A HREF="#R3Box">R3Box</A> - 3D axis-aligned box. 
+  <DT> <A HREF="#R3Cylinder">R3Cylinder</A> - 3D cylinder.
+  <DT> <A HREF="#R3Cone">R3Cone</A> - 3D cone.
+  <DT> <A HREF="#R3Sphere">R3Sphere</A> - 3D sphere.
+  <DT> <A HREF="#R3Ellipsoid">R3Ellipsoid</A> - 3D axis-aligned ellipsoid.
+  <DT> <A HREF="#R3Grid">R3Grid</A> - 3D scalar grid.
+  <DT> &nbsp;
+</DL>
+
+<DT> 3D Transformations:
+<DL>
+  <DT> <A HREF="#R3Transformation">R3Transformation</A> - abstract 3D transformation.
+  <DT> <A HREF="#R3Affine">R3Affine</A> - 3D affine transformation.
+  <DT> <A HREF="#R3CoordSystem">R3CoordSystem</A> - 3D coordinate system (origin and triad).
+  <DT> <A HREF="#R3Triad">R3Triad</A> - 3 orthogonal axis vectors.
+  <DT> <A HREF="#R4Matrix">R4Matrix</A> - 4x4 matrix.
+  <DT> &nbsp;
+</DL>
+</DL>
+<P>
+
+
+
+<HR><H2>List of Functions:</H2>
+
+<DL>
+<DT> 3D Relationships:
+<DL>
+  <DT> <A HREF="../pkgs/R3Shapes/R3Dist.h">R3Distance</A> - returns distance between two primitives.
+  <DT> <A HREF="../pkgs/R3Shapes/R3Isect.h">R3Intersects</A> - returns whether two primitives intersect.
+  <DT> <A HREF="../pkgs/R3Shapes/R3Cont.h">R3Contains</A> - returns whether one primitive contains another.
+  <DT> <A HREF="../pkgs/R3Shapes/R3Cont.h">R3Inside</A> - returns whether one primitive is contained by another.
+  <DT> <A HREF="../pkgs/R3Shapes/R3Parall.h">R3Parallel</A> - returns whether one primitive is parallel to another.
+  <DT> <A HREF="../pkgs/R3Shapes/R3Perp.h">R3Perpendicular</A> - returns whether one primitive is perpendicular to another.
+</DL>
+</DL>
+<P>
+
+
+
+<HR><H2>Example:</H2>
+
+Click <A HREF="../apps/msh2msh/msh2msh.cpp">this</A> to see a sample program.
+<P>
+
+
+
+<HR> <H2> <A NAME="R3Affine" HREF="../pkgs/R3Shapes/R3Affine.h">R3Affine</A> </H2> 
+
+<DL> <DL>
+<DT> <H3>Base Classes:</H3> 
+<DL>
+<DT> <H4>Public Base Classes:</H4> 
+<DL>
+<DT>    <A HREF="#R3Transformation">R3Transformation</A>
+</DL> </DL>
+<P>
+<DT> <H3>Member Functions:</H3>
+<DL>
+<DT> <H4> Constructor functions: </H4>
+<DL>
+<DT>	R3Affine(void);
+<DT>	R3Affine(const R4Matrix& matrix, RNBoolean mirror = 0);
+<DT>        virtual ~R3Affine(void);
+<DT>
+</DL>
+<DT> <H4> Property functions/operators: </H4>
+<DL>
+<DT>        const R4Matrix& Matrix(void) const;
+<DT>        const R4Matrix& InverseMatrix(void) const;
+<DT>        const RNBoolean IsIdentity(void) const;
+<DT>        const RNBoolean IsMirrored(void) const;
+<DT>        const RNBoolean IsAffine(void) const;
+<DT>        const RNBoolean IsIsotropic(void) const;
+<DT>        const RNBoolean HasTranslation(void) const;
+<DT>        const RNBoolean HasScale(void) const;
+<DT>        const RNBoolean HasRotation(void) const;
+<DT>        const RNBoolean HasMirror(void) const;
+<DT>	const R3Affine Inverse(void) const;
+<DT>	const RNBoolean operator==(const R3Affine& affine) const;
+<DT>	const RNBoolean operator!=(const R3Affine& affine) const;
+<DT>
+</DL>
+<DT> <H4> Application functions/operators: </H4>
+<DL>
+<DT>	void Apply(R3Vector& vector) const;
+<DT>	void Apply(R3Point& point) const;
+<DT>	void Apply(R3Transformation& transformation) const;
+<DT>	void Apply(R3Affine& affine) const;
+<DT>	void ApplyInverse(R3Vector& vector) const;
+<DT>	void ApplyInverse(R3Point& point) const;
+<DT>	void ApplyInverse(R3Transformation& transformation) const;
+<DT>	void ApplyInverse(R3Affine& affine) const;
+<DT>	void ApplyInverseTranspose(R3Vector& vector) const;
+<DT>	void ApplyTranspose(R3Vector& vector) const;
+<DT>
+</DL>
+<DT> <H4> Manipulation functions/operators: </H4>
+<DL>
+<DT>        void Invert(void);
+<DT>        void Mirror(void);
+<DT>        void XMirror(void);
+<DT>        void YMirror(void);
+<DT>        void ZMirror(void);
+<DT>        void Mirror(RNAxis axis);
+<DT>        void Mirror(const R3Plane& plane);
+<DT>	void XTranslate(RNScalar offset);
+<DT>	void YTranslate(RNScalar offset);
+<DT>	void ZTranslate(RNScalar offset);
+<DT>	void Translate(RNScalar offset);
+<DT>	void Translate(RNAxis axis, RNScalar offset);
+<DT>	void Translate(const R3Vector& offset);
+<DT>	void XScale(RNScalar scale);
+<DT>	void YScale(RNScalar scale);
+<DT>	void ZScale(RNScalar scale);
+<DT>	void Scale(RNScalar scale);
+<DT>	void Scale(RNAxis axis, RNScalar scale);
+<DT>	void Scale(const R3Vector& scale);
+<DT>	void XRotate(RNAngle radians);
+<DT>	void YRotate(RNAngle radians);
+<DT>	void ZRotate(RNAngle radians);
+<DT>	void Rotate(const R3Vector& radians);
+<DT>	void Rotate(RNAxis axis, RNAngle radians);
+<DT>	void Rotate(const R3Vector& vector, RNAngle radians);
+<DT>	void Rotate(const R3Vector& from, const R3Vector& to);
+<DT>	void Rotate(const R3Quaternion& quaternion);
+<DT>	void Transform(const R3Transformation& transformation);
+<DT>	void Transform(const R3Affine& affine);
+<DT>	void InverseTransform(const R3Transformation& transformation);
+<DT>	void InverseTransform(const R3Affine& affine);
+<DT>	void Reset(const R3Transformation& transformation);
+<DT>	void Reset(const R4Matrix& matrix, RNBoolean mirror = 0);
+<DT>
+</DL>
+<DT> <H4> Draw functions/operators: </H4>
+<DL>
+<DT>        void Load(void) const;
+<DT>        void Draw(void) const;
+<DT>        void Push(void) const;
+<DT>        void Pop(void) const;
+<DT>
+</DL>
+<DT> <H4> Do not use these ???: </H4>
+<DL>
+<DT>        const RNScalar ScaleFactor(void) const;
+<DT>
+</DL>
+</DL> </DL>
+</DL>
+
+
+
+<P>
+<HR> <H2> <A NAME="R3Base" HREF="../pkgs/R3Shapes/R3Base.h">R3Base</A> </H2> 
+
+<DL> <DL>
+<DT> <H3>Base Classes:</H3> 
+<DL>
+<DT> <H4>Public Base Classes:</H4> 
+<DL>
+<DT>	None
+</DL> </DL>
+<P>
+<DT> <H3>Member Functions:</H3>
+<DL>
+</DL> </DL>
+</DL>
+
+
+
+<P>
+<HR> <H2> <A NAME="R3Box" HREF="../pkgs/R3Shapes/R3Box.h">R3Box</A> </H2> 
+
+<DL> <DL>
+<DT> <H3>Base Classes:</H3> 
+<DL>
+<DT> <H4>Public Base Classes:</H4> 
+<DL>
+<DT>    <A HREF="#R3Solid">R3Solid</A>
+</DL> </DL>
+<P>
+<DT> <H3>Member Functions:</H3>
+<DL>
+<DT> <H4> Constructor functions: </H4>
+<DL>
+<DT>	R3Box(void);
+<DT>        R3Box(const R3Box& box);
+<DT>	R3Box(const R3Point& min, const R3Point& max);
+<DT>	R3Box(RNCoord xmin, RNCoord ymin, RNCoord zmin, 
+<DT>	      RNCoord xmax, RNCoord ymax, RNCoord zmax);
+<DT>
+</DL>
+<DT> <H4> Box property functions/operators: </H4>
+<DL>
+<DT>	const RNCoord XMin(void) const;
+<DT>	const RNCoord YMin(void) const;
+<DT>	const RNCoord ZMin(void) const;
+<DT>	const RNCoord XMax(void) const;
+<DT>	const RNCoord YMax(void) const;
+<DT>	const RNCoord ZMax(void) const;
+<DT>	const RNCoord Coord(RNDirection dir, RNDimension dim) const;
+<DT>	const R3Point& Min(void) const;
+<DT>	const R3Point& Max(void) const;
+<DT>	const R3Point Corner(RNOctant octant) const;
+<DT>	const R3Point Corner(RNDirection xdir, RNDirection ydir, RNDirection zdir) const;
+<DT>	const R3Plane Plane(RNSide side) const;
+<DT>	const R3Plane Plane(RNDirection dir, RNDimension dim) const;
+<DT>	const R3Box Side(RNSide side) const;
+<DT>	const R3Box Side(RNDirection dir, RNDimension dim) const;
+<DT>	const R3Box Octant(RNOctant octant) const;
+<DT>	const R3Box Octant(RNDirection xdir, RNDirection ydir, RNDirection zdir) const;
+<DT>	const RNBoolean IsEmpty(void) const;
+<DT>	const RNBoolean IsFinite(void) const;
+<DT>        const int NDimensions(void) const;
+<DT>        const int NDimensionsAlongSide(RNDirection dir, RNDimension dim) const;
+<DT>	const RNBoolean IsSideNull(RNDirection dir, RNDimension dim) const;
+<DT>	const RNBoolean IsSideLinear(RNDirection dir, RNDimension dim) const;	
+<DT>        const int NDimensionsAlongAxis(const RNAxis axis) const;
+<DT>	const RNBoolean IsAxisNull(const RNAxis axis) const;
+<DT>	const RNLength XLength(void) const;
+<DT>	const RNLength YLength(void) const;
+<DT>	const RNLength ZLength(void) const;
+<DT>	const RNLength AxisLength(const RNAxis axis) const;
+<DT>	const RNLength DiagonalLength(void) const;
+<DT>	const RNLength XRadius(void) const;
+<DT>	const RNLength YRadius(void) const;
+<DT>	const RNLength ZRadius(void) const;
+<DT>	const RNLength AxisRadius(const RNAxis axis) const;
+<DT>	const RNLength DiagonalRadius(void) const;
+<DT>	const RNCoord XCenter(void) const;
+<DT>	const RNCoord YCenter(void) const;
+<DT>	const RNCoord ZCenter(void) const;
+<DT>	const RNCoord AxisCenter(const RNAxis axis) const;
+<DT>	const RNAxis ShortestAxis(void) const;
+<DT>	const RNAxis LongestAxis(void) const;
+<DT>	const RNLength ShortestAxisLength(void) const;
+<DT>	const RNLength LongestAxisLength(void) const;
+<DT>
+</DL>
+<DT> <H4> Shape property functions: </H4>
+<DL>
+<DT>	virtual const RNBoolean IsPoint(void) const;
+<DT>	virtual const RNBoolean IsLinear(void) const;
+<DT>	virtual const RNBoolean IsPlanar(void) const;
+<DT>	virtual const RNBoolean IsConvex(void) const;
+<DT>        virtual const RNInterval NFacets(void) const;
+<DT>	virtual const RNArea Area(void) const;
+<DT>	virtual const RNVolume Volume(void) const;
+<DT>	virtual const R3Point Centroid(void) const;
+<DT>	virtual const R3Point ClosestPoint(const R3Point& point) const;
+<DT>	virtual const R3Point FurthestPoint(const R3Point& point) const;
+<DT>	virtual const R3Shape& BShape(void) const;
+<DT>	virtual const R3Box BBox(void) const;
+<DT>	virtual const R3Sphere BSphere(void) const;
+<DT>
+</DL>
+<DT> <H4> Manipulation functions/operators: </H4>
+<DL>
+<DT>        virtual void Empty(void);
+<DT>        virtual void Inflate(RNScalar fraction);
+<DT>        virtual void Translate(const R3Vector& vector);
+<DT>	virtual void Union(const R3Point& point);
+<DT>	virtual void Union(const R3Box& box);
+<DT>	virtual void Union(const R3Sphere& sphere);
+<DT>	virtual void Intersect(const R3Box& box);
+<DT>	virtual void Transform(const R3Transformation& transformation);
+<DT>	virtual void Reset(const R3Point& min, const R3Point& max);
+<DT>	
+</DL>
+<DT> <H4> Draw functions/operators: </H4>
+<DL>
+<DT>        virtual void Draw(const R3DrawFlags draw_flags = R3_DEFAULT_DRAW_FLAGS) const;
+<DT>
+</DL>
+<DT> <H4> Relationship functions/operators: </H4>
+<DL>
+<DT>	RNBoolean operator==(const R3Box& box) const;
+<DT>	RNBoolean operator!=(const R3Box& box) const;
+<DT>
+</DL>
+<DT> <H4> Standard shape definitions: </H4>
+<DL>
+<DT>	RN_CLASS_TYPE_DECLARATIONS(R3Box);
+<DT>        R3_SHAPE_RELATIONSHIP_DECLARATIONS(R3Box);
+<DT>
+</DL>
+<DT> <H4> Undocumented functions/operators: </H4>
+<DL>
+<DT>	const R3Point& operator[](RNDirection dir) const;
+<DT>	R3Point& operator[](RNDirection dir);
+<DT>
+</DL>
+</DL> </DL>
+</DL>
+
+
+
+<P>
+<HR> <H2> <A NAME="R3Circle" HREF="../pkgs/R3Shapes/R3Circle.h">R3Circle</A> </H2> 
+
+<DL> <DL>
+<DT> <H3>Base Classes:</H3> 
+<DL>
+<DT> <H4>Public Base Classes:</H4> 
+<DL>
+<DT>    <A HREF="#R3Surface">R3Surface</A>
+</DL> </DL>
+<P>
+<DT> <H3>Member Functions:</H3>
+<DL>
+<DT> <H4> Constructor functions: </H4>
+<DL>
+<DT>	R3Circle(void);
+<DT>        R3Circle(const R3Circle& circle);
+<DT>        R3Circle(const R3Point& center, RNLength radius, const R3Vector& normal);
+<DT>        R3Circle(const R3Point& p1, const R3Point& p2, const R3Point& p3);
+<DT>
+</DL>
+<DT> <H4> Circle property functions/operators: </H4>
+<DL>
+<DT>        const R3Point& Center(void) const;
+<DT>        const RNLength Radius(void) const;
+<DT>	const R3Plane& Plane(void) const;
+<DT>	const R3Vector& Normal(void) const;
+<DT>	const RNBoolean IsEmpty(void) const;
+<DT>	const RNBoolean IsFinite(void) const;
+<DT>
+</DL>
+<DT> <H4> Shape property functions/operators: </H4>
+<DL>
+<DT>	virtual const RNBoolean IsPoint(void) const;
+<DT>	virtual const RNBoolean IsLinear(void) const;
+<DT>	virtual const RNBoolean IsPlanar(void) const;
+<DT>	virtual const RNBoolean IsConvex(void) const;
+<DT>        virtual const RNInterval NFacets(void) const;
+<DT>	virtual const RNLength Length(void) const;
+<DT>	virtual const RNArea Area(void) const;
+<DT>	virtual const R3Point Centroid(void) const;
+<DT>	virtual const R3Shape& BShape(void) const;
+<DT>	virtual const R3Box BBox(void) const;
+<DT>	virtual const R3Sphere BSphere(void) const;
+<DT>
+</DL>
+<DT> <H4> Relationship functions/operators: </H4>
+<DL>
+<DT>	RNBoolean operator==(const R3Circle& circle) const;
+<DT>	RNBoolean operator!=(const R3Circle& circle) const;
+<DT>
+</DL>
+<DT> <H4> Manipulation functions/operators: </H4>
+<DL>
+<DT>	virtual void Flip(void);
+<DT>	virtual void Reposition(const R3Point& center);
+<DT>	virtual void Translate(const R3Vector& offset);
+<DT>	virtual void Align(const R3Vector& normal);
+<DT>	virtual void Resize(RNScalar radius);
+<DT>        virtual void Transform(const R3Transformation& transformation);
+<DT>	virtual void Reset(const R3Point& center, RNScalar radius, const R3Vector& normal);
+<DT>
+</DL>
+<DT> <H4> Draw functions/operators: </H4>
+<DL>
+<DT>        virtual void Draw(const R3DrawFlags draw_flags = R3_DEFAULT_DRAW_FLAGS) const;
+<DT>
+</DL>
+<DT> <H4> Standard shape definitions: </H4>
+<DL>
+<DT>	RN_CLASS_TYPE_DECLARATIONS(R3Circle);
+<DT>        R3_SHAPE_RELATIONSHIP_DECLARATIONS(R3Circle);
+<DT>
+</DL>
+</DL> </DL>
+</DL>
+
+
+
+<P>
+<HR> <H2> <A NAME="R3Cone" HREF="../pkgs/R3Shapes/R3Cone.h">R3Cone</A> </H2> 
+
+<DL> <DL>
+<DT> <H3>Base Classes:</H3> 
+<DL>
+<DT> <H4>Public Base Classes:</H4> 
+<DL>
+<DT>    <A HREF="#R3Solid">R3Solid</A>
+</DL> </DL>
+<P>
+<DT> <H3>Member Functions:</H3>
+<DL>
+<DT> <H4> Constructor functions: </H4>
+<DL>
+<DT>	R3Cone(void);
+<DT>        R3Cone(const R3Cone& cone);
+<DT>        R3Cone(const R3Span& axis, RNLength radius);
+<DT>        R3Cone(const R3Point& p1, const R3Point& p2, RNLength radius);
+<DT>
+</DL>
+<DT> <H4> Cone propetry functions/operators: </H4>
+<DL>
+<DT>        const R3Point& Apex(void) const;
+<DT>        const R3Span& Axis(void) const;
+<DT>        const R3Circle& Base(void) const;
+<DT>        const RNLength Radius(void) const;
+<DT>        const RNLength Height(void) const;
+<DT>	const RNBoolean IsEmpty(void) const;
+<DT>	const RNBoolean IsFinite(void) const;
+<DT>
+</DL>
+<DT> <H4> Shape propetry functions/operators: </H4>
+<DL>
+<DT>	virtual const RNBoolean IsPoint(void) const;
+<DT>	virtual const RNBoolean IsLinear(void) const ;
+<DT>	virtual const RNBoolean IsPlanar(void) const ;
+<DT>	virtual const RNBoolean IsConvex(void) const ;
+<DT>        virtual const RNInterval NFacets(void) const;
+<DT>	virtual const RNArea Area(void) const;
+<DT>	virtual const RNVolume Volume(void) const;
+<DT>	virtual const R3Point Centroid(void) const;
+<DT>	virtual const R3Shape& BShape(void) const;
+<DT>	virtual const R3Box BBox(void) const;
+<DT>	virtual const R3Sphere BSphere(void) const;
+<DT>
+</DL>
+<DT> <H4> Manipulation functions/operators: </H4>
+<DL>
+<DT>        virtual void Empty(void);
+<DT>        virtual void Translate(const R3Vector& vector);
+<DT>        virtual void Reposition(const R3Span& span);
+<DT>        virtual void Resize(RNLength radius);
+<DT>	virtual void Transform(const R3Transformation& transformation);
+<DT>
+</DL>
+<DT> <H4> Draw functions/operators: </H4>
+<DL>
+<DT>        virtual void Draw(const R3DrawFlags draw_flags = R3_DEFAULT_DRAW_FLAGS) const;
+<DT>
+</DL>
+<DT> <H4> Relationship functions/operators: </H4>
+<DL>
+<DT>	RNBoolean operator==(const R3Cone& cone) const;
+<DT>	RNBoolean operator!=(const R3Cone& cone) const;
+<DT>
+</DL>
+<DT> <H4> Standard shape definitions: </H4>
+<DL>
+<DT>	RN_CLASS_TYPE_DECLARATIONS(R3Cone);
+<DT>        R3_SHAPE_RELATIONSHIP_DECLARATIONS(R3Cone);
+<DT>
+</DL>
+</DL> </DL>
+</DL>
+
+
+
+<P>
+<HR> <H2> <A NAME="R3CoordSystem" HREF="../pkgs/R3Shapes/R3CoordSystem.h">R3CoordSystem</A> </H2> 
+
+<DL> <DL>
+<DT> <H3>Base Classes:</H3> 
+<DL>
+<DT> <H4>Public Base Classes:</H4> 
+<DL>
+<DT>    <A HREF="#R3Base">R3Base</A>
+</DL> </DL>
+<P>
+<DT> <H3>Member Functions:</H3>
+<DL>
+<DT> <H4> Constructor functions: </H4>
+<DL>
+<DT>	R3CoordSystem(void);
+<DT>	R3CoordSystem(const R3CoordSystem& cs);
+<DT>	R3CoordSystem(const R3Point& origin, const R3Triad& axes);
+<DT>
+</DL>
+<DT> <H4> Property functions/operators: </H4>
+<DL>
+<DT>	const R3Point& Origin(void) const;
+<DT>	const R3Triad& Axes(void) const;
+<DT>        const R4Matrix Matrix(void) const;
+<DT>        const R4Matrix InverseMatrix(void) const;
+<DT>	const RNBoolean operator==(const R3CoordSystem& cs) const;
+<DT>	const RNBoolean operator!=(const R3CoordSystem& cs) const;
+<DT>
+</DL>
+<DT> <H4> Manipulation functions/operators: </H4>
+<DL>
+<DT>	void Translate(const R3Vector& offset);
+<DT>	void Rotate(RNAxis axis, RNAngle radians);
+<DT>	void Rotate(const R3Vector& axis, RNAngle radians);
+<DT>	void Rotate(const R3Vector& from, const R3Vector& to);
+<DT>	void Mirror(const R3Plane& plane);
+<DT>        void Transform(const R3Transformation& transformation);
+<DT>        void InverseTransform(const R3Transformation& transformation);
+<DT>        void SetOrigin(const R3Point& origin);
+<DT>        void SetAxes(const R3Triad& axes);
+<DT>        void Reset(const R3Point& origin, const R3Triad& axes);
+<DT>
+</DL>
+<DT> <H4> Draw functions/operators: </H4>
+<DL>
+<DT>        void Draw(void) const;
+<DT>        void Outline(void) const;
+<DT>
+</DL>
+</DL> </DL>
+</DL>
+
+
+
+<P>
+<HR> <H2> <A NAME="R3Cylinder" HREF="../pkgs/R3Shapes/R3Cylinder.h">R3Cylinder</A> </H2> 
+
+<DL> <DL>
+<DT> <H3>Base Classes:</H3> 
+<DL>
+<DT> <H4>Public Base Classes:</H4> 
+<DL>
+<DT>    <A HREF="#R3Solid">R3Solid</A>
+</DL> </DL>
+<P>
+<DT> <H3>Member Functions:</H3>
+<DL>
+<DT> <H4> Constructor functions: </H4>
+<DL>
+<DT>	R3Cylinder(void);
+<DT>        R3Cylinder(const R3Cylinder& cylinder);
+<DT>        R3Cylinder(const R3Span& axis, RNLength radius);
+<DT>        R3Cylinder(const R3Point& p1, const R3Point& p2, RNLength radius);
+<DT>
+</DL>
+<DT> <H4> Cylinder propetry functions/operators: </H4>
+<DL>
+<DT>        const R3Span& Axis(void) const;
+<DT>        const R3Circle& Base(void) const;
+<DT>        const R3Circle& Top(void) const;
+<DT>        const RNLength Radius(void) const;
+<DT>        const RNLength Height(void) const;
+<DT>	const RNBoolean IsEmpty(void) const;
+<DT>	const RNBoolean IsFinite(void) const;
+<DT>
+</DL>
+<DT> <H4> Shape propetry functions/operators: </H4>
+<DL>
+<DT>	virtual const RNBoolean IsPoint(void) const;
+<DT>	virtual const RNBoolean IsLinear(void) const ;
+<DT>	virtual const RNBoolean IsPlanar(void) const ;
+<DT>	virtual const RNBoolean IsConvex(void) const ;
+<DT>        virtual const RNInterval NFacets(void) const;
+<DT>	virtual const RNArea Area(void) const;
+<DT>	virtual const RNVolume Volume(void) const;
+<DT>	virtual const R3Point Centroid(void) const;
+<DT>	virtual const R3Shape& BShape(void) const;
+<DT>	virtual const R3Box BBox(void) const;
+<DT>	virtual const R3Sphere BSphere(void) const;
+<DT>
+</DL>
+<DT> <H4> Manipulation functions/operators: </H4>
+<DL>
+<DT>        virtual void Empty(void);
+<DT>        virtual void Translate(const R3Vector& vector);
+<DT>        virtual void Reposition(const R3Span& span);
+<DT>        virtual void Resize(RNLength radius);
+<DT>	virtual void Transform(const R3Transformation& transformation);
+<DT>
+</DL>
+<DT> <H4> Draw functions/operators: </H4>
+<DL>
+<DT>        virtual void Draw(const R3DrawFlags draw_flags = R3_DEFAULT_DRAW_FLAGS) const;
+<DT>
+</DL>
+<DT> <H4> Relationship functions/operators: </H4>
+<DL>
+<DT>	RNBoolean operator==(const R3Cylinder& cylinder) const;
+<DT>	RNBoolean operator!=(const R3Cylinder& cylinder) const;
+<DT>
+</DL>
+<DT> <H4> Standard shape definitions: </H4>
+<DL>
+<DT>	RN_CLASS_TYPE_DECLARATIONS(R3Cylinder);
+<DT>        R3_SHAPE_RELATIONSHIP_DECLARATIONS(R3Cylinder);
+<DT>
+</DL>
+</DL> </DL>
+</DL>
+
+
+
+<P>
+<HR> <H2> <A NAME="R3Ellipse" HREF="../pkgs/R3Shapes/R3Ellipse.h">R3Ellipse</A> </H2> 
+
+<DL> <DL>
+<DT> <H3>Base Classes:</H3> 
+<DL>
+<DT> <H4>Public Base Classes:</H4> 
+<DL>
+<DT>    <A HREF="#R3Surface">R3Surface</A>
+</DL> </DL>
+<P>
+<DT> <H3>Member Functions:</H3>
+<DL>
+<DT> <H4> Constructor functions: </H4>
+<DL>
+<DT>	R3Ellipse(void);
+<DT>        R3Ellipse(const R3Ellipse& ellipse);
+<DT>        R3Ellipse(const R3CoordSystem& cs, const R2Vector& radii);
+<DT>
+</DL>
+<DT> <H4> Ellipse property functions/operators: </H4>
+<DL>
+<DT>        const R3Point& Center(void) const;
+<DT>        const R2Vector& Radii(void) const;
+<DT>	const R3Plane Plane(void) const;
+<DT>	const R3Vector& Normal(void) const;
+<DT>	const RNBoolean IsEmpty(void) const;
+<DT>	const RNBoolean IsFinite(void) const;
+<DT>
+</DL>
+<DT> <H4> Shape property functions/operators: </H4>
+<DL>
+<DT>	virtual const RNBoolean IsPoint(void) const;
+<DT>	virtual const RNBoolean IsLinear(void) const;
+<DT>	virtual const RNBoolean IsPlanar(void) const;
+<DT>	virtual const RNBoolean IsConvex(void) const;
+<DT>        virtual const RNInterval NFacets(void) const;
+<DT>	virtual const RNArea Area(void) const;
+<DT>	virtual const R3Point Centroid(void) const;
+<DT>	virtual const R3Shape& BShape(void) const;
+<DT>	virtual const R3Box BBox(void) const;
+<DT>	virtual const R3Sphere BSphere(void) const;
+<DT>
+</DL>
+<DT> <H4> Manipulation functions/operators: </H4>
+<DL>
+<DT>	virtual void Flip(void);
+<DT>        virtual void Empty(void);
+<DT>        virtual void Translate(const R3Vector& vector);
+<DT>        virtual void Reposition(const R3Point& center);
+<DT>        virtual void Resize(const R2Vector& radii);
+<DT>	virtual void Transform(const R3Transformation& transformation);
+<DT>
+</DL>
+<DT> <H4> Draw functions/operators: </H4>
+<DL>
+<DT>        virtual void Draw(const R3DrawFlags draw_flags = R3_DEFAULT_DRAW_FLAGS) const;
+<DT>
+</DL>
+<DT> <H4> Relationship functions/operators: </H4>
+<DL>
+<DT>	RNBoolean operator==(const R3Ellipse& ellipse) const;
+<DT>	RNBoolean operator!=(const R3Ellipse& ellipse) const;
+<DT>
+</DL>
+<DT> <H4> Standard shape definitions: </H4>
+<DL>
+<DT>	RN_CLASS_TYPE_DECLARATIONS(R3Ellipse);
+<DT>        R3_SHAPE_RELATIONSHIP_DECLARATIONS(R3Ellipse);
+<DT>
+</DL>
+<DT> <H4> Upkeep functions: </H4>
+<DL>
+<DT>        void UpdateBBox(void);
+<DT>
+</DL>
+</DL> </DL>
+</DL>
+
+
+
+<P>
+<HR> <H2> <A NAME="R3Ellipsoid" HREF="../pkgs/R3Shapes/R3Ellipsoid.h">R3Ellipsoid</A> </H2> 
+
+<DL> <DL>
+<DT> <H3>Base Classes:</H3> 
+<DL>
+<DT> <H4>Public Base Classes:</H4> 
+<DL>
+<DT>    <A HREF="#R3Solid">R3Solid</A>
+</DL> </DL>
+<P>
+<DT> <H3>Member Functions:</H3>
+<DL>
+<DT> <H4> Constructor functions: </H4>
+<DL>
+<DT>	R3Ellipsoid(void);
+<DT>        R3Ellipsoid(const R3Ellipsoid& ellipsoid);
+<DT>        R3Ellipsoid(const R3CoordSystem& cs, const R3Vector& radii);
+<DT>
+</DL>
+<DT> <H4> Ellipsoid property functions/operators: </H4>
+<DL>
+<DT>        const R3Point& Center(void) const;
+<DT>        const R3CoordSystem& CoordSystem(void) const;
+<DT>        const R3Vector& Radii(void) const;
+<DT>	const RNBoolean IsEmpty(void) const;
+<DT>	const RNBoolean IsFinite(void) const;
+<DT>
+</DL>
+<DT> <H4> Shape property functions/operators: </H4>
+<DL>
+<DT>	virtual const RNBoolean IsPoint(void) const;
+<DT>	virtual const RNBoolean IsLinear(void) const;
+<DT>	virtual const RNBoolean IsPlanar(void) const;
+<DT>	virtual const RNBoolean IsConvex(void) const;
+<DT>        virtual const RNInterval NFacets(void) const;
+<DT>	virtual const RNArea Area(void) const;
+<DT>	virtual const RNVolume Volume(void) const;
+<DT>	virtual const R3Point Centroid(void) const;
+<DT>	virtual const R3Shape& BShape(void) const;
+<DT>	virtual const R3Box BBox(void) const;
+<DT>	virtual const R3Sphere BSphere(void) const;
+<DT>
+</DL>
+<DT> <H4> Manipulation functions/operators: </H4>
+<DL>
+<DT>        virtual void Empty(void);
+<DT>        virtual void Translate(const R3Vector& vector);
+<DT>        virtual void Reposition(const R3Point& center);
+<DT>        virtual void Resize(const R3Vector& radii);
+<DT>	virtual void Transform(const R3Transformation& transformation);
+<DT>
+</DL>
+<DT> <H4> Draw functions/operators: </H4>
+<DL>
+<DT>        virtual void Draw(const R3DrawFlags draw_flags = R3_DEFAULT_DRAW_FLAGS) const;
+<DT>
+</DL>
+<DT> <H4> Relationship functions/operators: </H4>
+<DL>
+<DT>	RNBoolean operator==(const R3Ellipsoid& ellipsoid) const;
+<DT>	RNBoolean operator!=(const R3Ellipsoid& ellipsoid) const;
+<DT>
+</DL>
+<DT> <H4> Standard shape definitions: </H4>
+<DL>
+<DT>	RN_CLASS_TYPE_DECLARATIONS(R3Ellipsoid);
+<DT>        R3_SHAPE_RELATIONSHIP_DECLARATIONS(R3Ellipsoid);
+<DT>
+</DL>
+<DT> <H4> Upkeep functions: </H4>
+<DL>
+<DT>        void UpdateBBox(void);
+<DT>
+</DL>
+</DL> </DL>
+</DL>
+
+
+
+<P>
+<HR> <H2> <A NAME="R3Grid" HREF="../pkgs/R3Shapes/R3Grid.h">R3Grid</A> </H2> 
+
+<DL> <DL>
+<DT> <H3>Base Classes:</H3> 
+<DL>
+<DT> <H4>Public Base Classes:</H4> 
+<DL>
+<DT>	None
+</DL> </DL>
+<P>
+<DT> <H3>Member Functions:</H3>
+<DL>
+<DT> <H4> Constructors: </H4>
+<DL>
+<DT>  R3Grid(int xresolution = 0, int yresolution = 0, int zresolution = 0);
+<DT>  R3Grid(int xresolution, int yresolution, int zresolution, const R3Box& bbox);
+<DT>  R3Grid(const R3Grid& grid);
+<DT>  ~R3Grid(void);
+<DT>
+</DL>
+<DT> <H4> Grid property functions: </H4>
+<DL>
+<DT>  int NEntries(void) const;
+<DT>  int XResolution(void) const;
+<DT>  int YResolution(void) const;
+<DT>  int ZResolution(void) const;
+<DT>  int Resolution(RNDimension dim) const;
+<DT>  RNScalar Sum(void) const;
+<DT>  RNScalar Mean(void) const;
+<DT>  RNScalar Variance(void) const;
+<DT>  RNScalar StandardDeviation(void) const;
+<DT>  RNScalar Maximum(void) const;
+<DT>  RNScalar Minimum(void) const;
+<DT>  RNInterval Range(void) const;
+<DT>  RNScalar L1Norm(void) const;
+<DT>  RNScalar L2Norm(void) const;
+<DT>  RNScalar L2NormSquared(void) const;
+<DT>  RNScalar Volume(void) const;
+<DT>  int Cardinality(void) const;
+<DT>  R3Box GridBox(void) const;
+<DT>  R3Box WorldBox(void) const;
+<DT>  R3Point GridCentroid(void) const;
+<DT>  R3Point WorldCentroid(void) const;
+<DT>  R3Triad GridPrincipleAxes(const R3Point *grid_centroid = NULL, RNScalar *variances = NULL) const;
+<DT>  R3Triad WorldPrincipleAxes(const R3Point *world_centroid = NULL, RNScalar *variances = NULL) const;
+<DT>  R2Grid *Slice(int dim, int grid_coordinate) const;
+<DT>
+</DL>
+<DT> <H4> Transformation property functions: </H4>
+<DL>
+<DT>  const R3Affine& WorldToGridTransformation(void) const;
+<DT>  const R3Affine& GridToWorldTransformation(void) const;
+<DT>  RNScalar WorldToGridScaleFactor(void) const;
+<DT>  RNScalar GridToWorldScaleFactor(void) const;
+<DT>  RNScalar WorldSpacing(RNDimension dim) const;
+<DT>
+</DL>
+<DT> <H4> Grid value access functions: </H4>
+<DL>
+<DT>  RNScalar GridValue(int index) const;
+<DT>  RNScalar GridValue(int i, int j, int k) const;
+<DT>  RNScalar GridValue(RNCoord x, RNCoord y, RNCoord z) const;
+<DT>  RNScalar GridValue(const R3Point& grid_point) const;
+<DT>  RNScalar WorldValue(RNCoord x, RNCoord y, RNCoord z) const;
+<DT>  RNScalar WorldValue(const R3Point& world_point) const;
+<DT>  RNScalar& operator()(int i, int j,int k);
+<DT>
+</DL>
+<DT> <H4> Grid manipulation functions: </H4>
+<DL>
+<DT>  void Abs(void);
+<DT>  void Sqrt(void);
+<DT>  void Square(void);
+<DT>  void Negate(void);
+<DT>  void Invert(void);
+<DT>  void Transpose(void);
+<DT>  void Normalize(void);
+<DT>  void Convolve(const RNScalar filter[3][3][3]);
+<DT>  void Laplacian(void);
+<DT>  void Gradient(RNDimension dim);
+<DT>  void GradientMagnitude(void);
+<DT>  void DetectEdges(void);
+<DT>  void Dilate(RNScalar grid_distance);
+<DT>  void Erode(RNScalar grid_distance);
+<DT>  void Blur(RNScalar grid_sigma = 2);
+<DT>  void BilateralFilter(RNLength grid_sigma = 2, RNScalar value_sigma = -1);
+<DT>  void PercentileFilter(RNLength grid_radius, RNScalar percentile);
+<DT>  void MinFilter(RNLength grid_radius);
+<DT>  void MaxFilter(RNLength grid_radius);
+<DT>  void MedianFilter(RNLength grid_radius);
+<DT>  void MaskNonMinima(RNLength grid_radius = 0);
+<DT>  void MaskNonMaxima(RNLength grid_radius = 0);
+<DT>  void Clear(RNScalar value = 0);
+<DT>  void Substitute(RNScalar old_value, RNScalar new_value);
+<DT>  void Add(RNScalar value);
+<DT>  void Copy(const R3Grid& grid);
+<DT>  void Add(const R3Grid& grid);
+<DT>  void Add(const R3Grid& grid, const R3Point& grid_position, const R3Point& filter_origin, RNScalar amplitude = 1);
+<DT>  void Subtract(RNScalar value);
+<DT>  void Subtract(const R3Grid& grid);
+<DT>  void Multiply(RNScalar value);
+<DT>  void Multiply(const R3Grid& grid);
+<DT>  void Divide(RNScalar value);
+<DT>  void Divide(const R3Grid& grid);
+<DT>  void Pow(RNScalar exponent);
+<DT>  void Mask(const R3Grid& grid);
+<DT>  void Threshold(RNScalar threshold, RNScalar low, RNScalar high);
+<DT>  void SignedDistanceTransform(void);
+<DT>  void SquaredDistanceTransform(void);
+<DT>  void Voronoi(R3Grid *squared_distance_grid = NULL);
+<DT>  void Gauss(RNLength sigma = sqrt(8.0), RNBoolean square = TRUE);
+<DT>  void Resample(int xres, int yres, int zres);
+<DT>  void PadWithZero(int xres, int yres, int zres, int xoffset = 0, int yoffset = 0, int zoffset = 0);
+<DT>  void ClusterWithMeanShift(void);
+<DT>  void SetGridValue(int index, RNScalar value);
+<DT>  void SetGridValue(int i, int j, int k, RNScalar value);
+<DT>  void AddGridValue(int i, int j, int k, RNScalar value);
+<DT>
+</DL>
+<DT> <H4> Arithmetic operators: </H4>
+<DL>
+<DT>  R3Grid& operator=(const R3Grid& grid);
+<DT>  R3Grid& operator+=(RNScalar scale);
+<DT>  R3Grid& operator+=(const R3Grid& grid);
+<DT>  R3Grid& operator-=(RNScalar scale);
+<DT>  R3Grid& operator-=(const R3Grid& grid);
+<DT>  R3Grid& operator*=(RNScalar scale);
+<DT>  R3Grid& operator*=(const R3Grid& grid);
+<DT>  R3Grid& operator/=(RNScalar scale);
+<DT>  R3Grid& operator/=(const R3Grid& grid);
+<DT>
+</DL>
+<DT> <H4> Rasterization functions: </H4>
+<DL>
+<DT>  void RasterizeGridPoint(RNCoord x, RNCoord y, RNCoord z, RNScalar value);
+<DT>  void RasterizeWorldPoint(RNCoord x, RNCoord y, RNCoord z, RNScalar value);
+<DT>  void RasterizeGridPoint(const R3Point& point, RNScalar value);
+<DT>  void RasterizeWorldPoint(const R3Point& point, RNScalar value);
+<DT>  void RasterizeGridSpan(const int p1[3], const int p2[3], RNScalar value);
+<DT>  void RasterizeGridSpan(const R3Point& p1, const R3Point& p2, RNScalar value);
+<DT>  void RasterizeWorldSpan(const R3Point& p1, const R3Point& p2, RNScalar value);
+<DT>  void RasterizeGridTriangle(const int p1[3], const int p2[3], const int p3[3], RNScalar value);
+<DT>  void RasterizeGridTriangle(const R3Point& p1, const R3Point& p2, const R3Point& p3, RNScalar value);
+<DT>  void RasterizeWorldTriangle(const R3Point& p1, const R3Point& p2, const R3Point& p3, RNScalar value);
+<DT>  void RasterizeGridPlane(const R3Plane& plane, RNScalar value);
+<DT>  void RasterizeWorldPlane(const R3Plane& plane, RNScalar value);
+<DT>  void RasterizeGridBox(const R3Box& box, RNScalar value);
+<DT>  void RasterizeGridSphere(const R3Point& center, RNLength radius, RNScalar value, RNBoolean solid = TRUE);
+<DT>  void RasterizeWorldSphere(const R3Point& center, RNLength radius, RNScalar value, RNBoolean solid = TRUE);
+<DT>
+</DL>
+<DT> <H4> Relationship functions: </H4>
+<DL>
+<DT>  RNScalar Dot(const R3Grid& grid) const;
+<DT>  RNScalar L1Distance(const R3Grid& grid) const;
+<DT>  RNScalar L2Distance(const R3Grid& grid) const;
+<DT>  RNScalar L2DistanceSquared(const R3Grid& grid) const;
+<DT>
+</DL>
+<DT> <H4> Transformation manipulation functions: </H4>
+<DL>
+<DT>  void SetWorldToGridTransformation(const R3Affine& affine);
+<DT>  void SetWorldToGridTransformation(const R3Box& world_box);
+<DT>  void SetWorldToGridTransformation(const R3Point& world_origin, const R3Vector& world_axis1, const R3Vector& world_axis2, RNLength world_radius);
+<DT>
+</DL>
+<DT> <H4> Transformation utility functions: </H4>
+<DL>
+<DT>  R3Point WorldPosition(const R3Point& grid_point) const;
+<DT>  R3Point GridPosition(const R3Point& world_point) const;
+<DT>  R3Point WorldPosition(RNCoord x, RNCoord y, RNCoord z) const;
+<DT>  R3Point GridPosition(RNCoord x, RNCoord y, RNCoord z) const;
+<DT>
+</DL>
+<DT> <H4> I/O functions: </H4>
+<DL>
+<DT>  int ReadFile(const char *filename);
+<DT>  int WriteFile(const char *filename) const;
+<DT>  int ReadGridFile(const char *filename);
+<DT>  int ReadDelphiFile(const char *filename);
+<DT>  int ReadCCP4File(const char *filename);
+<DT>  int ReadInsightFile(const char *filename);
+<DT>  int ReadVoxelFile(const char *filename);
+<DT>  int ReadDXFile(const char *filename);
+<DT>  int ReadRawFile(const char *filename);
+<DT>  int ReadASCIIFile(const char *filename);
+<DT>  int WriteGridFile(const char *filename) const;
+<DT>  int WriteDXFile(const char *filename) const;
+<DT>  int WritePDBFile(const char *filename) const;
+<DT>  int WriteRawFile(const char *filename, const char *format = "Float32") const;
+<DT>  int WriteASCIIFile(const char *filename) const;
+<DT>  int ReadGrid(FILE *fp = NULL);
+<DT>  int WriteGrid(FILE *fp = NULL) const;
+<DT>  int Print(FILE *fp = NULL) const;
+<DT>
+</DL>
+<DT> <H4> Visualization functions: </H4>
+<DL>
+<DT>  void DrawIsoSurface(RNScalar isolevel) const;
+<DT>  void DrawSlice(int dim, int coord) const;
+<DT>
+</DL>
+<DT> <H4> Utility functions: </H4>
+<DL>
+<DT>  int ConnectedComponents(RNScalar isolevel = 0, int max_components = 0, int *seeds = NULL, int *sizes = NULL, int *grid_components = NULL);
+<DT>  int GenerateIsoSurface(RNScalar isolevel, R3Point *points, int max_points) const;
+<DT>
+</DL>
+<DT> <H4> Debugging functions: </H4>
+<DL>
+<DT>  const RNScalar *GridValues(void) const;
+<DT>  void IndicesToIndex(int i, int j, int k, int& index);
+<DT>  void IndexToIndices(int index, int& i, int& j, int& k);
+<DT>
+</DL>
+<DT> <H4> Gaussian filtering: </H4>
+<DL>
+<DT>  RNScalar GridValue(RNCoord x, RNCoord y, RNCoord z, RNLength sigma) const;
+<DT>  RNScalar WorldValue(RNCoord x, RNCoord y, RNCoord z, RNLength sigma) const;
+<DT>  void RasterizeGridPoint(RNCoord x, RNCoord y, RNCoord z, RNScalar value, RNLength sigma);
+<DT>  void RasterizeWorldPoint(RNCoord x, RNCoord y, RNCoord z, RNScalar value, RNLength sigma);
+<DT>
+</DL>
+</DL> </DL>
+</DL>
+
+
+
+<P>
+</DL>
+</DL> </DL>
+</DL>
+
+
+
+<P>
+</DL>
+</DL> </DL>
+</DL>
+
+
+
+<P>
+</DL>
+</DL> </DL>
+</DL>
+
+
+
+<P>
+</DL>
+</DL> </DL>
+</DL>
+
+
+
+<P>
+</DL>
+</DL> </DL>
+</DL>
+
+
+
+<P>
+<HR> <H2> <A NAME="R3Halfspace" HREF="../pkgs/R3Shapes/R3Halfspace.h">R3Halfspace</A> </H2> 
+
+<DL> <DL>
+<DT> <H3>Base Classes:</H3> 
+<DL>
+<DT> <H4>Public Base Classes:</H4> 
+<DL>
+<DT>	None
+</DL> </DL>
+<P>
+<DT> <H3>Member Functions:</H3>
+<DL>
+<DT> <H4> Constructor functions: </H4>
+<DL>
+<DT>	R3Halfspace(void);
+<DT>        R3Halfspace(const R3Halfspace& halfspace);
+<DT>	R3Halfspace(RNScalar a, RNScalar b, RNScalar c, RNScalar d);
+<DT>	R3Halfspace(const RNScalar array[4]);
+<DT>	R3Halfspace(const R3Vector& normal, RNScalar d);
+<DT>	R3Halfspace(const R3Point& point, const R3Vector& normal);
+<DT>	R3Halfspace(const R3Point& point, const R3Line& line);
+<DT>	R3Halfspace(const R3Point& point, const R3Vector& vector1, const R3Vector& vector2);
+<DT>	R3Halfspace(const R3Point& point1, const R3Point& point2, const R3Point& point3);
+<DT>	R3Halfspace(const R3Plane& plane, int dummy /* avoid implicit conversion */);
+<DT>
+</DL>
+<DT> <H4> Property functions/operators: </H4>
+<DL>
+<DT>	const R3Plane& Plane(void) const;
+<DT>	const R3Vector& Normal(void) const;
+<DT>	const RNBoolean IsZero(void) const;
+<DT>	const RNBoolean operator==(const R3Halfspace& halfspace) const;
+<DT>	const RNBoolean operator!=(const R3Halfspace& halfspace) const;
+<DT>
+</DL>
+<DT> <H4> Manipulation functions/operators: </H4>
+<DL>
+<DT>	void Flip(void);
+<DT>	void Mirror(const R3Plane& plane);
+<DT>	void Translate(const R3Vector& vector);
+<DT>	void Reposition(const R3Point& point);
+<DT>	void Align(const R3Vector& vector);
+<DT>        void Transform(const R3Transformation& transformation);
+<DT>	void InverseTransform(const R3Transformation& transformation);
+<DT>	void Reset(const R3Plane& plane);
+<DT>
+</DL>
+<DT> <H4> Draw functions/operators: </H4>
+<DL>
+<DT>        void Draw(void) const;
+<DT>
+</DL>
+<DT> <H4> Arithmetic functions/operators: </H4>
+<DL>
+<DT>	R3Halfspace operator-(void) const;
+<DT>	
+</DL>
+</DL> </DL>
+</DL>
+
+
+
+<P>
+<HR> <H2> <A NAME="R3Kdtree" HREF="../pkgs/R3Shapes/R3Kdtree.h">R3Kdtree</A> </H2> 
+
+<DL> <DL>
+<DT> <H3>Base Classes:</H3> 
+<DL>
+<DT> <H4>Public Base Classes:</H4> 
+<DL>
+<DT>	None
+</DL> </DL>
+<P>
+<DT> <H3>Member Functions:</H3>
+<DL>
+<DT> <H4> Constructor/destructors: </H4>
+<DL>
+<DT>  R3Kdtree(const R3Box& bbox, int position_offset = 0);
+<DT>  R3Kdtree(const R3Box& bbox, R3Point (*position_callback)(PtrType, void *), void *data = NULL);
+<DT>  R3Kdtree(const RNArray<PtrType>& points, int position_offset = 0);
+<DT>  R3Kdtree(const RNArray<PtrType>& points, R3Point (*position_callback)(PtrType, void *), void *data = NULL);
+<DT>  R3Kdtree(const R3Kdtree<PtrType>& kdtree);
+<DT>  ~R3Kdtree(void);
+<DT>
+</DL>
+<DT> <H4> Property functions: </H4>
+<DL>
+<DT>  const R3Box& BBox(void) const;
+<DT>  int NPoints(void) const;
+<DT>  int NNodes(void) const;
+<DT>
+</DL>
+<DT> <H4> Manipulation functions: </H4>
+<DL>
+<DT>  void InsertPoint(PtrType point);
+<DT>
+</DL>
+<DT> <H4> Search for closest one: </H4>
+<DL>
+<DT>  PtrType FindClosest(PtrType query_point, 
+<DT>    RNLength min_distance, RNLength max_distance, 
+<DT>    int (*IsCompatible)(PtrType, PtrType, void *), void *compatible_data, 
+<DT>    RNLength *closest_distance = NULL) const;
+<DT>  PtrType FindClosest(PtrType query_point, 
+<DT>    RNLength min_distance = 0, RNLength max_distance = FLT_MAX, 
+<DT>    RNLength *closest_distance = NULL) const;
+<DT>  PtrType FindClosest(const R3Point& query_position, 
+<DT>    RNLength min_distance = 0, RNLength max_distance = FLT_MAX, 
+<DT>    RNLength *closest_distance = NULL) const;
+<DT>  PtrType FindClosest(const R3Line& query_line, 
+<DT>    RNLength min_distance = 0, RNLength max_distance = FLT_MAX, 
+<DT>    RNLength *closest_distance = NULL) const;
+<DT>  PtrType FindClosest(const R3Plane& query_plane, 
+<DT>    RNLength min_distance = 0, RNLength max_distance = FLT_MAX, 
+<DT>    RNLength *closest_distance = NULL) const;
+<DT>  PtrType FindClosest(const R3Shape& query_shape, 
+<DT>    RNLength min_distance = 0, RNLength max_distance = FLT_MAX, 
+<DT>    RNLength *closest_distance = NULL) const;
+<DT>
+</DL>
+<DT> <H4> Search for closest K: </H4>
+<DL>
+<DT>  int FindClosest(PtrType query_point, 
+<DT>    RNLength min_distance, RNLength max_distance, int max_points, 
+<DT>    int (*IsCompatible)(PtrType, PtrType, void *), void *compatible_data, 
+<DT>    RNArray<PtrType>& points, RNLength *distances = NULL) const;
+<DT>  int FindClosest(PtrType query_point, 
+<DT>    RNLength min_distance, RNLength max_distance, int max_points, 
+<DT>    RNArray<PtrType>& points, RNLength *distances = NULL) const;
+<DT>  int FindClosest(const R3Point& query_position, 
+<DT>    RNLength min_distance, RNLength max_distance, int max_points, 
+<DT>    RNArray<PtrType>& points, RNLength *distances = NULL) const;
+<DT>  int FindClosest(const R3Line& query_line, 
+<DT>    RNLength min_distance, RNLength max_distance, int max_points, 
+<DT>    RNArray<PtrType>& points, RNLength *distances = NULL) const;
+<DT>  int FindClosest(const R3Plane& query_plane, 
+<DT>    RNLength min_distance, RNLength max_distance, int max_points, 
+<DT>    RNArray<PtrType>& points, RNLength *distances = NULL) const;
+<DT>  int FindClosest(const R3Shape& query_shape, 
+<DT>    RNLength min_distance, RNLength max_distance, int max_points, 
+<DT>    RNArray<PtrType>& points, RNLength *distances = NULL) const;
+<DT>
+</DL>
+<DT> <H4> Search for all within some distance: </H4>
+<DL>
+<DT>  int FindAll(PtrType query_point, 
+<DT>    RNLength min_distance, RNLength max_distance, 
+<DT>    int (*IsCompatible)(PtrType, PtrType, void *), void *compatible_data, 
+<DT>    RNArray<PtrType>& points) const;
+<DT>  int FindAll(PtrType query_point, 
+<DT>    RNLength min_distance, RNLength max_distance, 
+<DT>    RNArray<PtrType>& points) const;
+<DT>  int FindAll(const R3Point& query_position, 
+<DT>    RNLength min_distance, RNLength max_distance, 
+<DT>    RNArray<PtrType>& points) const;
+<DT>  int FindAll(const R3Line& query_line, 
+<DT>    RNLength min_distance, RNLength max_distance, 
+<DT>    RNArray<PtrType>& points) const;
+<DT>  int FindAll(const R3Plane& query_plane, 
+<DT>    RNLength min_distance, RNLength max_distance, 
+<DT>    RNArray<PtrType>& points) const;
+<DT>  int FindAll(const R3Shape& query_shape, 
+<DT>    RNLength min_distance, RNLength max_distance, 
+<DT>    RNArray<PtrType>& points) const;
+<DT>
+</DL>
+<DT> <H4> Search for any one: </H4>
+<DL>
+<DT>  PtrType FindAny(PtrType query_point, 
+<DT>    RNLength min_distance, RNLength max_distance, 
+<DT>    int (*IsCompatible)(PtrType, PtrType, void *), void *compatible_data) const;
+<DT>  PtrType FindAny(PtrType query_point, 
+<DT>    RNLength min_distance = 0, RNLength max_distance = FLT_MAX) const;
+<DT>  PtrType FindAny(const R3Point& query_position, 
+<DT>    RNLength min_distance = 0, RNLength max_distance = FLT_MAX) const;
+<DT>
+</DL>
+<DT> <H4> Draw functions: </H4>
+<DL>
+<DT>  void Outline(void) const;
+<DT>
+</DL>
+<DT> <H4> Internal search functions for point queries: </H4>
+<DL>
+<DT>  void FindClosest(R3KdtreeNode<PtrType> *node, const R3Box& node_box, 
+<DT>    PtrType query_point, const R3Point& query_position, 
+<DT>    RNLength min_distance_squared, RNLength max_distance_squared, 
+<DT>    int (*IsCompatible)(PtrType, PtrType, void *), void *compatible_data, 
+<DT>    PtrType& closest_point, RNLength& closest_distance_squared) const;
+<DT>  void FindClosest(R3KdtreeNode<PtrType> *node, const R3Box& node_box, 
+<DT>    PtrType query_point, const R3Point& query_position, 
+<DT>    RNLength min_distance_squared, RNLength max_distance_squared, int max_points, 
+<DT>    int (*IsCompatible)(PtrType, PtrType, void *), void *compatible_data, 
+<DT>    RNArray<PtrType>& points, RNLength *distances_squared) const;
+<DT>  void FindAll(R3KdtreeNode<PtrType> *node, const R3Box& node_box, 
+<DT>    PtrType query_point, const R3Point& position, 
+<DT>    RNLength min_distance_squared, RNLength max_distance_squared, 
+<DT>    int (*IsCompatible)(PtrType, PtrType, void *), void *compatible_data, 
+<DT>    RNArray<PtrType>& points) const;
+<DT>  PtrType FindAny(R3KdtreeNode<PtrType> *node, const R3Box& node_box, 
+<DT>    PtrType query_point, const R3Point& query_position, 
+<DT>    RNLength min_distance_squared, RNLength max_distance_squared, 
+<DT>    int (*IsCompatible)(PtrType, PtrType, void *), void *compatible_data) const;
+<DT>
+</DL>
+<DT> <H4> Internal search functions for shape queries: </H4>
+<DL>
+<DT>  template <class Shape>
+<DT>  void FindClosest(R3KdtreeNode<PtrType> *node, const R3Box& node_box, 
+<DT>    const Shape& query_plane, 
+<DT>    RNLength min_distance, RNLength max_distance, 
+<DT>    PtrType& closest_point, RNLength& closest_distance) const;
+<DT>  template <class Shape>
+<DT>  void FindClosest(R3KdtreeNode<PtrType> *node, const R3Box& node_box, 
+<DT>    const Shape& query_plane, 
+<DT>    RNLength min_distance, RNLength max_distance, int max_points, 
+<DT>    RNArray<PtrType>& points, RNLength *distances) const;
+<DT>  template <class Shape>
+<DT>  void FindAll(R3KdtreeNode<PtrType> *node, const R3Box& node_box, 
+<DT>    const Shape& query_plane, 
+<DT>    RNLength min_distance, RNLength max_distance, 
+<DT>    RNArray<PtrType>& points) const;
+<DT>
+</DL>
+<DT> <H4> Internal manipulation functions: </H4>
+<DL>
+<DT>  void InsertPoint(R3KdtreeNode<PtrType> *node, const R3Box& node_box, PtrType point);
+<DT>  void InsertPoints(R3KdtreeNode<PtrType> *node, const R3Box& node_box, PtrType *points, int npoints);
+<DT>  int PartitionPoints(PtrType *points, int npoints, RNDimension dim, int imin, int imax);
+<DT>  void SplitNode(R3KdtreeNode<PtrType> *node, const R3Box& node_box);
+<DT>
+</DL>
+<DT> <H4> Internal visualization functions: </H4>
+<DL>
+<DT>  void Outline(R3KdtreeNode<PtrType> *node, const R3Box& bbox) const;
+<DT>
+</DL>
+<DT> <H4> Internal debugging functions: </H4>
+<DL>
+<DT>  void PrintDebugInfo(void) const;
+<DT>  int PrintBalance(R3KdtreeNode<PtrType> *node, int depth) const;
+<DT>
+</DL>
+<DT> <H4> Internal position extraction function: </H4>
+<DL>
+<DT>  const R3Point Position(PtrType point) const { 
+<DT>    if (position_offset >= 0) return *((R3Point *) ((unsigned char *) point + position_offset)); 
+<DT>    else if (position_callback) return (*position_callback)(point, position_callback_data);
+<DT>    else { fprintf(stderr, "Invalid position callback\n"); abort(); return R3null_point; }
+</DL>
+</DL> </DL>
+</DL>
+
+
+
+<P>
+</DL>
+<DT> <H4> Search for furthest one to a query point: </H4>
+<DL>
+<DT>  PtrType FindFurthest(PtrType query_point, 
+<DT>    RNLength min_distance, RNLength max_distance, 
+<DT>    int (*IsCompatible)(PtrType, PtrType, void *), void *compatible_data, 
+<DT>    RNLength *furthest_distance = NULL) const;
+<DT>  PtrType FindFurthest(PtrType query_point, 
+<DT>    RNLength min_distance = 0, RNLength max_distance = FLT_MAX, 
+<DT>    RNLength *furthest_distance = NULL) const;
+<DT>  PtrType FindFurthest(const R3Point& query_position, 
+<DT>    RNLength min_distance = 0, RNLength max_distance = FLT_MAX, 
+<DT>    RNLength *furthest_distance = NULL) const;
+<DT>  void FindFurthest(R3KdtreeNode<PtrType> *node, const R3Box& node_box, 
+<DT>    PtrType query_point, const R3Point& query_position, 
+<DT>    RNLength min_distance_squared, RNLength max_distance_squared, 
+<DT>    int (*IsCompatible)(PtrType, PtrType, void *), void *compatible_data, 
+<DT>    PtrType& furthest_point, RNLength& furthest_distance_squared) const;
+<DT>#endif
+<DT>
+</DL>
+<DT> <H4> Internal data: </H4>
+<DL>
+<DT>  R3Box bbox;
+<DT>  int position_offset;
+<DT>  R3Point (*position_callback)(PtrType, void *);
+<DT>  void *position_callback_data;
+<DT>  R3KdtreeNode<PtrType> *root;
+<DT>  int npoints;
+<DT>  int nnodes;
+</DL>
+</DL> </DL>
+</DL>
+
+
+
+<P>
+<HR> <H2> <A NAME="R3Line" HREF="../pkgs/R3Shapes/R3Line.h">R3Line</A> </H2> 
+
+<DL> <DL>
+<DT> <H3>Base Classes:</H3> 
+<DL>
+<DT> <H4>Public Base Classes:</H4> 
+<DL>
+<DT>	None
+</DL> </DL>
+<P>
+<DT> <H3>Member Functions:</H3>
+<DL>
+<DT> <H4> Constructor functions: </H4>
+<DL>
+<DT>	R3Line(void);
+<DT>	R3Line(const R3Line& line);
+<DT>	R3Line(const R3Point& point, const R3Vector& vector, RNBoolean normalized = FALSE);
+<DT>	R3Line(const R3Point& point1, const R3Point& point2);
+<DT>	R3Line(RNCoord x1, RNCoord y1, RNCoord z1, RNCoord x2, RNCoord y2, RNCoord z2);
+<DT>	R3Line(const RNArray<R3Point *>& points);
+<DT>	R3Line(R3Point *points, int npoints);
+<DT>
+</DL>
+<DT> <H4> Property functions/operators: </H4>
+<DL>
+<DT>        const R3Point& Point(void) const;
+<DT>        const R3Vector& Vector(void) const;
+<DT>	const RNBoolean IsZero(void) const;
+<DT>	const RNBoolean operator==(const R3Line& line) const;
+<DT>	const RNBoolean operator!=(const R3Line& line) const;
+<DT>
+</DL>
+<DT> <H4> Manipulation functions/operators: </H4>
+<DL>
+<DT>	void Flip(void);
+<DT>	void Mirror(const R3Plane& plane);
+<DT>        void Translate(const R3Vector& vector);
+<DT>        void Reposition(const R3Point& point);
+<DT>        void Align(const R3Vector& vector, RNBoolean normalized = FALSE);
+<DT>        void Transform(const R3Transformation& transformation);
+<DT>	void InverseTransform(const R3Transformation& transformation);
+<DT>	void Reset(const R3Point& point, const R3Vector& vector, RNBoolean normalized = FALSE);
+<DT>
+</DL>
+<DT> <H4> Draw functions/operators: </H4>
+<DL>
+<DT>        void Draw(void) const;
+<DT>
+</DL>
+<DT> <H4> Arithmetic functions/operators: </H4>
+<DL>
+<DT>	R3Line operator-(void) const;
+<DT>	
+</DL>
+</DL> </DL>
+</DL>
+
+
+
+<P>
+<HR> <H2> <A NAME="R3MeshVertex" HREF="../pkgs/R3Shapes/R3MeshVertex.h">R3MeshVertex</A> </H2> 
+
+<DL> <DL>
+<DT> <H3>Base Classes:</H3> 
+<DL>
+<DT> <H4>Public Base Classes:</H4> 
+<DL>
+<DT>	None
+</DL> </DL>
+<P>
+<DT> <H3>Member Functions:</H3>
+<DL>
+<DT>    R3MeshVertex(void);
+<DT>    virtual ~R3MeshVertex(void);
+</DL> </DL>
+</DL>
+
+
+
+<P>
+<HR> <H2> <A NAME="R3MeshEdge" HREF="../pkgs/R3Shapes/R3MeshEdge.h">R3MeshEdge</A> </H2> 
+
+<DL> <DL>
+<DT> <H3>Base Classes:</H3> 
+<DL>
+<DT> <H4>Public Base Classes:</H4> 
+<DL>
+<DT>	None
+</DL> </DL>
+<P>
+<DT> <H3>Member Functions:</H3>
+<DL>
+<DT>    R3MeshEdge(void);
+<DT>    virtual ~R3MeshEdge(void);
+</DL> </DL>
+</DL>
+
+
+
+<P>
+<HR> <H2> <A NAME="R3MeshFace" HREF="../pkgs/R3Shapes/R3MeshFace.h">R3MeshFace</A> </H2> 
+
+<DL> <DL>
+<DT> <H3>Base Classes:</H3> 
+<DL>
+<DT> <H4>Public Base Classes:</H4> 
+<DL>
+<DT>	None
+</DL> </DL>
+<P>
+<DT> <H3>Member Functions:</H3>
+<DL>
+<DT>    R3MeshFace(void);
+<DT>    virtual ~R3MeshFace(void);
+</DL> </DL>
+</DL>
+
+
+
+<P>
+</DL> </DL>
+</DL>
+
+
+
+<P>
+<HR> <H2> <A NAME="R3Mesh" HREF="../pkgs/R3Shapes/R3Mesh.h">R3Mesh</A> </H2> 
+
+<DL> <DL>
+<DT> <H3>Base Classes:</H3> 
+<DL>
+<DT> <H4>Public Base Classes:</H4> 
+<DL>
+<DT>	None
+</DL> </DL>
+<P>
+<DT> <H3>Member Functions:</H3>
+<DL>
+<DT> <H4> CONSTRUCTOR FUNCTIONS: </H4>
+<DL>
+<DT>    R3Mesh(void);
+</DL>
+<DT> <H4> Create an empty mesh: </H4>
+<DL>
+<DT>    R3Mesh(const R3Mesh& mesh);
+</DL>
+<DT> <H4> Create a copy of a mesh: </H4>
+<DL>
+<DT>    virtual ~R3Mesh(void);
+</DL>
+<DT> <H4> Deallocate all data associated with mesh: </H4>
+<DL>
+<DT>
+</DL>
+<DT> <H4> VERTEX/EDGE/FACE ENUMERATION FUNCTIONS: </H4>
+<DL>
+<DT>    int NVertices(void) const;
+</DL>
+<DT> <H4> Return number of vertices in mesh: </H4>
+<DL>
+<DT>    R3MeshVertex *Vertex(int k) const;
+</DL>
+<DT> <H4> Return kth vertex of mesh: </H4>
+<DL>
+<DT>    int NEdges(void) const;
+</DL>
+<DT> <H4> Return number of edges in mesh: </H4>
+<DL>
+<DT>    R3MeshEdge *Edge(int k) const;
+</DL>
+<DT> <H4> Return kth edge of mesh: </H4>
+<DL>
+<DT>    int NFaces(void) const;
+</DL>
+<DT> <H4> Return number of faces in mesh: </H4>
+<DL>
+<DT>    R3MeshFace *Face(int k) const;
+</DL>
+<DT> <H4> Return kth face of mesh: </H4>
+<DL>
+<DT>
+</DL>
+<DT> <H4> MESH PROPERTIES: </H4>
+<DL>
+<DT>    const char *Name(void) const;
+</DL>
+<DT> <H4> Return name of mesh: </H4>
+<DL>
+<DT>    const R3Box& BBox(void) const;
+</DL>
+<DT> <H4> Return bounding box of all vertices in mesh: </H4>
+<DL>
+<DT>    R3Point Centroid(void) const;
+</DL>
+<DT> <H4> Return centroid of mesh: </H4>
+<DL>
+<DT>    RNArea Area(void) const;
+</DL>
+<DT> <H4> Return surface area of mesh: </H4>
+<DL>
+<DT>    RNLength AverageEdgeLength(void) const;
+</DL>
+<DT> <H4> Return average edge length: </H4>
+<DL>
+<DT>    RNLength AverageRadius(const R3Point *centroid = NULL) const;
+</DL>
+<DT> <H4> Return average distance from point on surface to centroid: </H4>
+<DL>
+<DT>    R3Triad PrincipleAxes(const R3Point *centroid = NULL, RNScalar *variances = NULL) const;
+</DL>
+<DT> <H4> Return principle axes of mesh: </H4>
+<DL>
+<DT>    R3Affine PCANormalizationTransformation(RNBoolean translate = TRUE, RNBoolean rotate = TRUE, RNBoolean scale = TRUE) const;
+</DL>
+<DT> <H4> Return transformation that aligns centroid, principal axes, and scale with R3xyz_triad: </H4>
+<DL>
+<DT>    void *Data(void) const;
+</DL>
+<DT> <H4> Return user data associated with mesh: </H4>
+<DL>
+<DT>
+</DL>
+<DT> <H4> VERTEX PROPERTIES: </H4>
+<DL>
+<DT>    const R3Point& VertexPosition(const R3MeshVertex *vertex) const;
+</DL>
+<DT> <H4> Returns the position of the vertex: </H4>
+<DL>
+<DT>    const R3Vector& VertexNormal(const R3MeshVertex *vertex) const;
+</DL>
+<DT> <H4> Returns the normal of the surface at the vertex: </H4>
+<DL>
+<DT>    const RNRgb& VertexColor(const R3MeshVertex *vertex) const;
+</DL>
+<DT> <H4> Returns the color of the surface at the vertex: </H4>
+<DL>
+<DT>    RNArea VertexArea(const R3MeshVertex *vertex) const;
+</DL>
+<DT> <H4> Returns the area of the surface associated with this vertex: </H4>
+<DL>
+<DT>    R3Plane VertexTangentPlane(const R3MeshVertex *vertex) const;
+</DL>
+<DT> <H4> Returns the tangent plane at vertex: </H4>
+<DL>
+<DT>    RNScalar VertexCurvature(const R3MeshVertex *vertex) const;
+</DL>
+<DT> <H4> Returns the (Gauss) curvature of the surface at the vertex: </H4>
+<DL>
+<DT>    RNScalar VertexGaussCurvature(const R3MeshVertex *vertex) const;
+</DL>
+<DT> <H4> Returns the Gauss curvature of the surface at the vertex: </H4>
+<DL>
+<DT>    RNScalar VertexMeanCurvature(const R3MeshVertex *vertex) const;
+</DL>
+<DT> <H4> Returns the mean curvature of the surface at the vertex: </H4>
+<DL>
+<DT>    RNLength VertexAverageEdgeLength(const R3MeshVertex *vertex) const;
+</DL>
+<DT> <H4> Returns the average length of edges attached to vertex: </H4>
+<DL>
+<DT>    R3Vector VertexLaplacianVector(const R3MeshVertex *vertex) const;
+</DL>
+<DT> <H4> Returns the vector from a cotan weighted average of neighbors to the vertex: </H4>
+<DL>
+<DT>    int VertexValence(const R3MeshVertex *vertex) const;
+</DL>
+<DT> <H4> Returns the number of edges attached to vertex: </H4>
+<DL>
+<DT>    int VertexID(const R3MeshVertex *vertex) const;
+</DL>
+<DT> <H4> Returns the ID stored with a vertex: </H4>
+<DL>
+<DT>    RNFlags VertexFlags(const R3MeshVertex *vertex) const;
+</DL>
+<DT> <H4> Returns the flags stored with a vertex: </H4>
+<DL>
+<DT>    RNScalar VertexValue(const R3MeshVertex *vertex) const;
+</DL>
+<DT> <H4> Returns the value stored with a vertex: </H4>
+<DL>
+<DT>    RNMark VertexMark(const R3MeshVertex *vertex) const;
+</DL>
+<DT> <H4> Returns the mark stored with a vertex: </H4>
+<DL>
+<DT>    void *VertexData(const R3MeshVertex *vertex) const;
+</DL>
+<DT> <H4> Returns the user data stored with a vertex: </H4>
+<DL>
+<DT>  
+</DL>
+<DT> <H4> EDGE PROPERTIES: </H4>
+<DL>
+<DT>    RNLength EdgeLength(const R3MeshEdge *edge) const;
+</DL>
+<DT> <H4> Returns the length of the edge: </H4>
+<DL>
+<DT>    R3Point EdgeMidpoint(const R3MeshEdge *edge) const;
+</DL>
+<DT> <H4> Returns the midpoint of the edge: </H4>
+<DL>
+<DT>    RNAngle EdgeInteriorAngle(const R3MeshEdge *edge) const;
+</DL>
+<DT> <H4> Returns interior angle between adjacent faces in range 0 to 2*PI (returns 0 if boundary edge): </H4>
+<DL>
+<DT>    R3Vector EdgeNormal(const R3MeshEdge *edge) const;
+</DL>
+<DT> <H4> Returns the normal of the surface at the edge: </H4>
+<DL>
+<DT>    RNScalar EdgeAspect(const R3MeshEdge *edge) const;
+</DL>
+<DT> <H4> Returns ratio of "distance between vertices across faces" over edge length: </H4>
+<DL>
+<DT>    R3Vector EdgeVector(const R3MeshEdge *edge) const;
+</DL>
+<DT> <H4> Returns a vector along the edge (v2 - v1): </H4>
+<DL>
+<DT>    R3Vector EdgeDirection(const R3MeshEdge *edge) const;
+</DL>
+<DT> <H4> Returns a normalized vector along edge (v2 - v1)/||v2 - v1||: </H4>
+<DL>
+<DT>    R3Span EdgeSpan(const R3MeshEdge *edge) const;
+</DL>
+<DT> <H4> Returns the span covering the edge: </H4>
+<DL>
+<DT>    R3Line EdgeLine(const R3MeshEdge *edge) const;
+</DL>
+<DT> <H4> Returns the line supporting the edge: </H4>
+<DL>
+<DT>    R3Box EdgeBBox(const R3MeshEdge *edge) const;
+</DL>
+<DT> <H4> Returns the bounding box of the edge: </H4>
+<DL>
+<DT>    int EdgeID(const R3MeshEdge *edge) const;
+</DL>
+<DT> <H4> Returns the ID stored with a edge: </H4>
+<DL>
+<DT>    RNFlags EdgeFlags(const R3MeshEdge *edge) const;
+</DL>
+<DT> <H4> Returns the flags stored with the edge: </H4>
+<DL>
+<DT>    RNScalar EdgeValue(const R3MeshEdge *edge) const;
+</DL>
+<DT> <H4> Returns the value stored with a edge: </H4>
+<DL>
+<DT>    RNMark EdgeMark(const R3MeshEdge *edge) const;
+</DL>
+<DT> <H4> Returns the mark stored with the edge: </H4>
+<DL>
+<DT>    void *EdgeData(const R3MeshEdge *edge) const;
+</DL>
+<DT> <H4> Returns the user data stored with the edge: </H4>
+<DL>
+<DT>
+</DL>
+<DT> <H4> FACE PROPERTIES: </H4>
+<DL>
+<DT>    const R3Vector& FaceNormal(const R3MeshFace *face) const;
+</DL>
+<DT> <H4> Returns the normal of the face: </H4>
+<DL>
+<DT>    const R3Plane& FacePlane(const R3MeshFace *face) const;
+</DL>
+<DT> <H4> Returns the plane equation of the face: </H4>
+<DL>
+<DT>    R3Point FaceCentroid(const R3MeshFace *face) const;
+</DL>
+<DT> <H4> Returns the centroid of the face: </H4>
+<DL>
+<DT>    R3Point FacePoint(const R3MeshFace *face, RNMagnitude barycentrics[3]) const;
+</DL>
+<DT> <H4> Returns the point on the face with the given barycentric coordinates: </H4>
+<DL>
+<DT>    R3Point FaceBarycentric(const R3MeshFace *face, const R3Point& point) const;
+</DL>
+<DT> <H4> Returns the barycentric coordinates of point on face: </H4>
+<DL>
+<DT>    const R3Box& FaceBBox(const R3MeshFace *face) const;
+</DL>
+<DT> <H4> Returns the bounding box of the face: </H4>
+<DL>
+<DT>    RNArea FaceArea(const R3MeshFace *face) const;
+</DL>
+<DT> <H4> Returns the area of the face: </H4>
+<DL>
+<DT>    RNScalar FaceAspect(const R3MeshFace *face) const;
+</DL>
+<DT> <H4> Returns the ratio of the circumradius to twice its inradius: </H4>
+<DL>
+<DT>    int FaceMaterial(const R3MeshFace *face) const;
+</DL>
+<DT> <H4> Returns the material ID associated with a face: </H4>
+<DL>
+<DT>    int FaceSegment(const R3MeshFace *face) const;
+</DL>
+<DT> <H4> Returns the segment ID associated with a face: </H4>
+<DL>
+<DT>    int FaceID(const R3MeshFace *face) const;
+</DL>
+<DT> <H4> Returns the ID stored with a face: </H4>
+<DL>
+<DT>    RNFlags FaceFlags(const R3MeshFace *face) const;
+</DL>
+<DT> <H4> Returns the flags stored with a face: </H4>
+<DL>
+<DT>    RNScalar FaceValue(const R3MeshFace *face) const;
+</DL>
+<DT> <H4> Returns the value stored with a face: </H4>
+<DL>
+<DT>    RNMark FaceMark(const R3MeshFace *face) const;
+</DL>
+<DT> <H4> Returns the mark stored with a face: </H4>
+<DL>
+<DT>    void *FaceData(const R3MeshFace *face) const;
+</DL>
+<DT> <H4> Returns the user data stored with a face: </H4>
+<DL>
+<DT>  
+</DL>
+<DT> <H4> MESH PROPOERTY SETTING FUNCTIONS: </H4>
+<DL>
+<DT>    void SetName(const char *name);
+</DL>
+<DT> <H4> Set mesh name: </H4>
+<DL>
+<DT>
+</DL>
+<DT> <H4> VERTEX PROPOERTY SETTING FUNCTIONS: </H4>
+<DL>
+<DT>    void SetVertexPosition(R3MeshVertex *vertex, const R3Point& position);
+</DL>
+<DT> <H4> Set new position for vertex: </H4>
+<DL>
+<DT>    void SetVertexNormal(R3MeshVertex *vertex, const R3Vector& normal);
+</DL>
+<DT> <H4> Set new normal for vertex: </H4>
+<DL>
+<DT>    void SetVertexColor(R3MeshVertex *vertex, const RNRgb& color);
+</DL>
+<DT> <H4> Set new color for vertex: </H4>
+<DL>
+<DT>    void SetVertexValue(R3MeshVertex *vertex, RNScalar value);
+</DL>
+<DT> <H4> Set the value stored with a vertex: </H4>
+<DL>
+<DT>    void SetVertexMark(R3MeshVertex *vertex, RNMark mark);
+</DL>
+<DT> <H4> Set the mark stored with a vertex: </H4>
+<DL>
+<DT>    void SetVertexData(R3MeshVertex *vertex, void *data);
+</DL>
+<DT> <H4> Set the data stored with a vertex: </H4>
+<DL>
+<DT>    void SetVertexFlags(R3MeshVertex *vertex, RNFlags flags);
+</DL>
+<DT> <H4> Set the flags stored with a vertex: </H4>
+<DL>
+<DT>  
+</DL>
+<DT> <H4> EDGE PROPOERTY SETTING FUNCTIONS: </H4>
+<DL>
+<DT>    void SetEdgeMark(R3MeshEdge *edge, RNMark mark);
+</DL>
+<DT> <H4> Set the mark stored with a edge: </H4>
+<DL>
+<DT>    void SetEdgeValue(R3MeshEdge *edge, RNScalar value);
+</DL>
+<DT> <H4> Set the value stored with a edge: </H4>
+<DL>
+<DT>    void SetEdgeData(R3MeshEdge *edge, void *data);
+</DL>
+<DT> <H4> Set the data stored with a edge: </H4>
+<DL>
+<DT>    void SetEdgeFlags(R3MeshEdge *edge, RNFlags flags);
+</DL>
+<DT> <H4> Set the flags stored with a edge: </H4>
+<DL>
+<DT>  
+</DL>
+<DT> <H4> FACE PROPOERTY SETTING FUNCTIONS: </H4>
+<DL>
+<DT>    void SetFacePlane(R3MeshFace *face, const R3Plane& plane);
+</DL>
+<DT> <H4> Set the plane equation for a face: </H4>
+<DL>
+<DT>    void SetFaceMaterial(R3MeshFace *face, int material);
+</DL>
+<DT> <H4> Set the material associated with a face: </H4>
+<DL>
+<DT>    void SetFaceSegment(R3MeshFace *face, int segment);
+</DL>
+<DT> <H4> Set the segment associated with a face: </H4>
+<DL>
+<DT>    void SetFaceMark(R3MeshFace *face, RNMark mark);
+</DL>
+<DT> <H4> Set the mark stored with a face: </H4>
+<DL>
+<DT>    void SetFaceValue(R3MeshFace *face, RNScalar value);
+</DL>
+<DT> <H4> Set the value stored with a face: </H4>
+<DL>
+<DT>    void SetFaceData(R3MeshFace *face, void *data);
+</DL>
+<DT> <H4> Set the data stored with a face: </H4>
+<DL>
+<DT>    void SetFaceFlags(R3MeshFace *face, RNFlags flags);
+</DL>
+<DT> <H4> Set the flags stored with a face: </H4>
+<DL>
+<DT>  
+</DL>
+<DT> <H4> VERTEX TRAVERSAL FUNCTIONS: </H4>
+<DL>
+<DT>    R3MeshVertex *VertexOnVertex(const R3MeshVertex *vertex) const;
+</DL>
+<DT> <H4> Returns any vertex adjacent to vertex: </H4>
+<DL>
+<DT>    R3MeshVertex *VertexOnVertex(const R3MeshVertex *vertex, int k) const;
+</DL>
+<DT> <H4> Returns kth vertex adjacent to vertex (neighbor vertices are not sorted!): </H4>
+<DL>
+<DT>    R3MeshEdge *EdgeOnVertex(const R3MeshVertex *vertex) const;
+</DL>
+<DT> <H4> Returns any edge connected to vertex: </H4>
+<DL>
+<DT>    R3MeshEdge *EdgeOnVertex(const R3MeshVertex *vertex, int k) const;
+</DL>
+<DT> <H4> Returns kth edge connected to vertex (edges are not sorted!): </H4>
+<DL>
+<DT>    R3MeshEdge *EdgeBetweenVertices(const R3MeshVertex *vertex1, const R3MeshVertex *vertex2) const;
+</DL>
+<DT> <H4> Returns edge spanning between two vertices (or NULL if none): </H4>
+<DL>
+<DT>    R3MeshEdge *EdgeOnVertex(const R3MeshVertex *vertex, const R3MeshEdge *edge, RNDirection dir = RN_CCW) const;
+</DL>
+<DT> <H4> Returns edge on vertex in dir with respect to edge: </H4>
+<DL>
+<DT>    R3MeshEdge *EdgeOnVertex(const R3MeshVertex *vertex, const R3MeshFace *face, RNDirection dir = RN_CCW) const;
+</DL>
+<DT> <H4> Returns edge on vertex in dir with respect to face: </H4>
+<DL>
+<DT>    R3MeshEdge *EdgeAcrossVertex(const R3MeshVertex *vertex, const R3MeshEdge *edge, const R3MeshFace *face) const;
+</DL>
+<DT> <H4> Returns edge on the other side of a vertex from an edge on the same face: </H4>
+<DL>
+<DT>    R3MeshFace *FaceOnVertex(const R3MeshVertex *vertex) const;
+</DL>
+<DT> <H4> Returns any face connected to vertex: </H4>
+<DL>
+<DT>    R3MeshFace *FaceBetweenVertices(const R3MeshVertex *vertex1, const R3MeshVertex *vertex2, RNDirection dir = RN_CCW) const;
+</DL>
+<DT> <H4> Returns face between two vertices (in dir with respect to v1) or NULL if there is none: </H4>
+<DL>
+<DT>    R3MeshFace *FaceOnVertex(const R3MeshVertex *vertex, const R3MeshEdge *edge, RNDirection dir = RN_CCW) const;
+</DL>
+<DT> <H4> Returns face on vertex in dir with respect to edge: </H4>
+<DL>
+<DT>    R3MeshFace *FaceOnVertex(const R3MeshVertex *vertex, const R3MeshFace *face, RNDirection dir = RN_CCW) const;
+</DL>
+<DT> <H4> Returns face on vertex in dir with respect to face: </H4>
+<DL>
+<DT>  
+</DL>
+<DT> <H4> EDGE TRAVERSAL FUNCTIONS: </H4>
+<DL>
+<DT>    R3MeshVertex *VertexOnEdge(const R3MeshEdge *edge) const;
+</DL>
+<DT> <H4> Returns any vertex on edge: </H4>
+<DL>
+<DT>    R3MeshVertex *VertexOnEdge(const R3MeshEdge *edge, int k) const;
+</DL>
+<DT> <H4> Returns kth vertex on edge: </H4>
+<DL>
+<DT>    R3MeshVertex *VertexAcrossEdge(const R3MeshEdge *edge, const R3MeshVertex *vertex) const;
+</DL>
+<DT> <H4> Returns vertex across edge: </H4>
+<DL>
+<DT>    R3MeshVertex *VertexBetweenEdges(const R3MeshEdge *edge1, const R3MeshEdge *edge2) const;
+</DL>
+<DT> <H4> Returns vertex between two edges (or NULL if there is none): </H4>
+<DL>
+<DT>    R3MeshVertex *VertexOnEdge(const R3MeshEdge *edge, const R3MeshFace *face, RNDirection dir = RN_CCW) const;
+</DL>
+<DT> <H4> Returns vertex of edge in dir with respect to face: </H4>
+<DL>
+<DT>    R3MeshEdge *EdgeOnEdge(const R3MeshEdge *edge) const;
+</DL>
+<DT> <H4> Returns any edge on edge: </H4>
+<DL>
+<DT>    R3MeshEdge *EdgeOnEdge(const R3MeshEdge *edge, const R3MeshVertex *vertex, RNDirection dir = RN_CCW) const;
+</DL>
+<DT> <H4> Returns edge on edge in dir with respect to vertex: </H4>
+<DL>
+<DT>    R3MeshFace *FaceOnEdge(const R3MeshEdge *edge) const;
+</DL>
+<DT> <H4> Returns any face on edge: </H4>
+<DL>
+<DT>    R3MeshFace *FaceOnEdge(const R3MeshEdge *edge, int k) const;
+</DL>
+<DT> <H4> Returns kth face on edge: </H4>
+<DL>
+<DT>    R3MeshFace *FaceOnEdge(const R3MeshEdge *edge, const R3MeshVertex *vertex, RNDirection dir = RN_CCW) const;
+</DL>
+<DT> <H4> Returns face on edge in dir with respect to vertex: </H4>
+<DL>
+<DT>    R3MeshFace *FaceBetweenEdges(const R3MeshEdge *edge1, const R3MeshEdge *edge2) const;
+</DL>
+<DT> <H4> Returns the face between two edges (or NULL if there is none): </H4>
+<DL>
+<DT>    R3MeshFace *FaceAcrossEdge(const R3MeshEdge *edge, const R3MeshFace *face) const;
+</DL>
+<DT> <H4> Returns face across edge: </H4>
+<DL>
+<DT>  
+</DL>
+<DT> <H4> FACE TRAVERSAL FUNCTIONS: </H4>
+<DL>
+<DT>    R3MeshVertex *VertexOnFace(const R3MeshFace *face) const;
+</DL>
+<DT> <H4> Returns any vertex on face: </H4>
+<DL>
+<DT>    R3MeshVertex *VertexOnFace(const R3MeshFace *face, int k) const;
+</DL>
+<DT> <H4> Returns kth vertex on face: </H4>
+<DL>
+<DT>    R3MeshVertex *VertexOnFace(const R3MeshFace *face, const R3MeshVertex *vertex, RNDirection dir = RN_CCW) const;
+</DL>
+<DT> <H4> Returns vertex on face in dir with respect to vertex: </H4>
+<DL>
+<DT>    R3MeshVertex *VertexOnFace(const R3MeshFace *face, const R3MeshEdge *edge, RNDirection dir = RN_CCW) const;
+</DL>
+<DT> <H4> Returns vertex on face in dir with respect to edge: </H4>
+<DL>
+<DT>    R3MeshVertex *VertexAcrossFace(const R3MeshFace *face, const R3MeshEdge *edge) const;
+</DL>
+<DT> <H4> Returns the vertex across a triangle from an edge (the edge is the base and the vertex is the apex): </H4>
+<DL>
+<DT>    R3MeshVertex *VertexBetweenFaces(const R3MeshFace *face1, const R3MeshFace *face2, RNDirection dir = RN_CCW) const;
+</DL>
+<DT> <H4> Returns the vertex between two faces (in dir with respect to face1) or NULL if there is none: </H4>
+<DL>
+<DT>    R3MeshEdge *EdgeOnFace(const R3MeshFace *face) const;
+</DL>
+<DT> <H4> Returns any edge connected to face: </H4>
+<DL>
+<DT>    R3MeshEdge *EdgeOnFace(const R3MeshFace *face, int k) const;
+</DL>
+<DT> <H4> Returns kth edge connected to face: </H4>
+<DL>
+<DT>    R3MeshEdge *EdgeOnFace(const R3MeshFace *face, const R3MeshVertex *vertex, RNDirection dir = RN_CCW) const;
+</DL>
+<DT> <H4> Returns edge on face in dir with respect to vertex: </H4>
+<DL>
+<DT>    R3MeshEdge *EdgeOnFace(const R3MeshFace *face, const R3MeshEdge *edge, RNDirection dir = RN_CCW) const;
+</DL>
+<DT> <H4> Return edge on face in dir with respect to edge: </H4>
+<DL>
+<DT>    R3MeshEdge *EdgeAcrossFace(const R3MeshFace *face, const R3MeshVertex *vertex) const;
+</DL>
+<DT> <H4> Returns the edge across a triangle from a vertex (the edge is the base and the vertex is the apex): </H4>
+<DL>
+<DT>    R3MeshEdge *EdgeBetweenFaces(const R3MeshFace *face1, const R3MeshFace *face2) const;
+</DL>
+<DT> <H4> Returns the edge between two faces (or NULL if there is none): </H4>
+<DL>
+<DT>    R3MeshFace *FaceOnFace(const R3MeshFace *face) const;
+</DL>
+<DT> <H4> Returns any face connected to face: </H4>
+<DL>
+<DT>    R3MeshFace *FaceOnFace(const R3MeshFace *face, int k) const;
+</DL>
+<DT> <H4> Returns kth face connected to face: </H4>
+<DL>
+<DT>  
+</DL>
+<DT> <H4> TOPOLOGY QUERY FUNCTIONS: </H4>
+<DL>
+<DT>    RNBoolean IsVertexOnEdge(const R3MeshVertex *vertex, const R3MeshEdge *edge) const;
+</DL>
+<DT> <H4> Returns whether vertex lies on edge: </H4>
+<DL>
+<DT>    RNBoolean IsVertexOnFace(const R3MeshVertex *vertex, const R3MeshFace *face) const;
+</DL>
+<DT> <H4> Returns whether vertex lies on face: </H4>
+<DL>
+<DT>    RNBoolean IsVertexOnBoundary(const R3MeshVertex *vertex) const;
+</DL>
+<DT> <H4> Returns whether vertex lies on mesh boundary: </H4>
+<DL>
+<DT>    RNBoolean IsVertexOnMesh(const R3MeshVertex *vertex) const;
+</DL>
+<DT> <H4> Returns whether vertex is part of mesh: </H4>
+<DL>
+<DT>    RNBoolean IsEdgeOnFace(const R3MeshEdge *edge, const R3MeshFace *face) const;
+</DL>
+<DT> <H4> Returns whether edge lies on face: </H4>
+<DL>
+<DT>    RNBoolean IsEdgeOnBoundary(const R3MeshEdge *edge) const;
+</DL>
+<DT> <H4> Returns whether edge lies on mesh boundary: </H4>
+<DL>
+<DT>    RNBoolean IsEdgeOnMesh(const R3MeshEdge *edge) const;
+</DL>
+<DT> <H4> Returns whether edge is part of mesh: </H4>
+<DL>
+<DT>    RNBoolean IsFaceOnBoundary(const R3MeshFace *face) const;
+</DL>
+<DT> <H4> Returns whether face has any edge on mesh boundary: </H4>
+<DL>
+<DT>    RNBoolean IsFaceOnMesh(const R3MeshFace *face) const;
+</DL>
+<DT> <H4> Returns whether face is part of mesh: </H4>
+<DL>
+<DT>    void FindConnectedVertices(R3MeshVertex *seed, RNArray<R3MeshVertex *>& vertices);
+</DL>
+<DT> <H4> Fill array with vertices in same connected component as seed: </H4>
+<DL>
+<DT>    void FindConnectedFaces(R3MeshFace *seed, RNArray<R3MeshFace *>& faces);
+</DL>
+<DT> <H4> Fill array with faces in same connected component as seed: </H4>
+<DL>
+<DT>  
+</DL>
+<DT> <H4> TOPOLOGY MANIPULATION FUNCTIONS: </H4>
+<DL>
+<DT>    virtual void Empty(void);
+</DL>
+<DT> <H4> Delete all vertices, edges, faces: </H4>
+<DL>
+<DT>    virtual R3MeshVertex *CreateVertex(const R3Point& position, R3MeshVertex *vertex = NULL);
+</DL>
+<DT> <H4> Create a new vertex at a position (compute normal): </H4>
+<DL>
+<DT>    virtual R3MeshVertex *CreateVertex(const R3Point& position, const R3Vector& normal, R3MeshVertex *vertex = NULL);
+</DL>
+<DT> <H4> Create a new vertex at a position with a given normal: </H4>
+<DL>
+<DT>    virtual R3MeshVertex *CreateVertex(const R3Point& position, const R3Vector& normal, const RNRgb& color, R3MeshVertex *vertex = NULL);
+</DL>
+<DT> <H4> Create a new vertex at a position with a given normal and color: </H4>
+<DL>
+<DT>    virtual R3MeshEdge *CreateEdge(R3MeshVertex *v1, R3MeshVertex *v2, R3MeshEdge *edge = NULL);
+</DL>
+<DT> <H4> Create a new edge between two vertices: </H4>
+<DL>
+<DT>    virtual R3MeshFace *CreateFace(R3MeshVertex *v1, R3MeshVertex *v2, R3MeshVertex *v3, R3MeshFace *face = NULL);
+</DL>
+<DT> <H4> Create a face with vertices (v1, v2, v3): </H4>
+<DL>
+<DT>    virtual R3MeshFace *CreateFace(R3MeshEdge *e1, R3MeshEdge *e2, R3MeshEdge *e3, R3MeshFace *face = NULL);
+</DL>
+<DT> <H4> Create a face with edges (e1, e2, e3): </H4>
+<DL>
+<DT>    virtual R3MeshFace *CreateFace(R3MeshVertex *v1, R3MeshVertex *v2, R3MeshVertex *v3, 
+<DT>                                   R3MeshEdge *e1, R3MeshEdge *e2, R3MeshEdge *e3, R3MeshFace *face = NULL);
+</DL>
+<DT> <H4> Create a face with vertices (v1, v2, v3) and edges (e1, e2, e3): </H4>
+<DL>
+<DT>    virtual void DeleteVertex(R3MeshVertex *v);
+</DL>
+<DT> <H4> Delete a vertex and all edges/faces attached to it: </H4>
+<DL>
+<DT>    virtual void DeleteEdge(R3MeshEdge *e);
+</DL>
+<DT> <H4> Delete an edge (attached vertices are unaffected, attached faces are deleted): </H4>
+<DL>
+<DT>    virtual void DeleteFace(R3MeshFace *f);
+</DL>
+<DT> <H4> Delete a face (attached vertices and edges are unaffected): </H4>
+<DL>
+<DT>    virtual void DeleteUnusedVertices(void);
+</DL>
+<DT> <H4> Delete vertices not attached to any edge: </H4>
+<DL>
+<DT>    virtual void DeleteUnusedEdges(void);
+</DL>
+<DT> <H4> Delete edges not attached to any face: </H4>
+<DL>
+<DT>    virtual R3MeshVertex *MergeVertex(R3MeshVertex *v1, R3MeshVertex *v2);
+</DL>
+<DT> <H4> Merge vertex v2 into vertex v1 (v2 is deleted): </H4>
+<DL>
+<DT>    virtual void MergeCoincidentVertices(RNLength epsilon = -1.0);
+</DL>
+<DT> <H4> Merge all vertices within epsilon of each other (negative epsilon says "select epsilon automatically"): </H4>
+<DL>
+<DT>    virtual R3MeshVertex *CollapseEdge(R3MeshEdge *edge, const R3Point& point);
+</DL>
+<DT> <H4> Collapses an edge into a vertex at point: </H4>
+<DL>
+<DT>    virtual R3MeshVertex *CollapseFace(R3MeshFace *face, const R3Point& point);
+</DL>
+<DT> <H4> Collapses a face into a vertex at point: </H4>
+<DL>
+<DT>    virtual R3MeshVertex *CollapseEdge(R3MeshEdge *edge);
+</DL>
+<DT> <H4> Collapses an edge into a vertex at point: </H4>
+<DL>
+<DT>    virtual R3MeshVertex *CollapseFace(R3MeshFace *face);
+</DL>
+<DT> <H4> Collapses a face into a vertex at point: </H4>
+<DL>
+<DT>    virtual R3MeshVertex *SplitEdge(R3MeshEdge *edge, const R3Point& point, R3MeshEdge **e0 = NULL, R3MeshEdge **e1 = NULL);
+</DL>
+<DT> <H4> Creates a vertex at point, and inserts it into an edge, returns new vertex and edges (in e0-e1): </H4>
+<DL>
+<DT>    virtual R3MeshVertex *SplitEdge(R3MeshEdge *edge, const R3Plane& plane);
+</DL>
+<DT> <H4> Creates a vertex at intersection with plane, and inserts it into an edge: </H4>
+<DL>
+<DT>    virtual R3MeshVertex *SubdivideEdge(R3MeshEdge *edge);
+</DL>
+<DT> <H4> Splits edge at midpoint: </H4>
+<DL>
+<DT>    virtual int SwapEdge(R3MeshEdge *edge);
+</DL>
+<DT> <H4> Swap edge to use vertices across from adjacent faces: </H4>
+<DL>
+<DT>    virtual void FlipEdge(R3MeshEdge *edge);
+</DL>
+<DT> <H4> Reverse direction of edge (not important for most applications): </H4>
+<DL>
+<DT>    virtual void FlipFace(R3MeshFace *face);
+</DL>
+<DT> <H4> Reverses orientation of face: </H4>
+<DL>
+<DT>    virtual R3MeshVertex *SplitFace(R3MeshFace *face, const R3Point& point, 
+<DT>      R3MeshFace **f0 = NULL, R3MeshFace **f1 = NULL, R3MeshFace **f2 = NULL);
+</DL>
+<DT> <H4> Creates a new vertex at point, removes face, and builds new faces between edges and new vertices, returns new vertex and faces (in f0-f2): </H4>
+<DL>
+<DT>    virtual R3MeshFace *SubdivideFace(R3MeshFace *face);
+</DL>
+<DT> <H4> Splits face into four by subdividing each edge at midpoint (returns middle face): </H4>
+<DL>
+<DT>    void CollapseShortEdges(RNLength min_edge_length);
+</DL>
+<DT> <H4> Collapse edges shorter than min_edge_length: </H4>
+<DL>
+<DT>    void SubdivideLongEdges(RNLength max_edge_length);
+</DL>
+<DT> <H4> Subdivide edges longer than max_edge_length: </H4>
+<DL>
+<DT>    void SubdivideFaces(void);
+</DL>
+<DT> <H4> Subdivide all faces, replacing each triangle by four with vertices at edge midpoints: </H4>
+<DL>
+<DT>    void SwapEdges(RNAngle min_angle_improvement = 0.1);
+</DL>
+<DT> <H4> Swap edges to improve increase interior angles of faces: </H4>
+<DL>
+<DT>    void FillHole(R3MeshEdge *boundary_edge);
+</DL>
+<DT> <H4> Fill hole bounded by the given edge: </H4>
+<DL>
+<DT>    void FillHoles(void);
+</DL>
+<DT> <H4> Fill all holes in mesh: </H4>
+<DL>
+<DT>
+</DL>
+<DT> <H4> GEOMETRY MANIPULATION FUNCTIONS: </H4>
+<DL>
+<DT>    virtual void Smooth(void);
+</DL>
+<DT> <H4> Smooth mesh: </H4>
+<DL>
+<DT>    virtual void Sharpen(void);
+</DL>
+<DT> <H4> Sharpen mesh: </H4>
+<DL>
+<DT>    virtual void AddRandomNoise(RNScalar factor);
+</DL>
+<DT> <H4> Add noise to vertex positions (factor is relative to average edge length at each vertex): </H4>
+<DL>
+<DT>    virtual void Inflate(RNScalar factor);
+</DL>
+<DT> <H4> Move every vertex along normal vector by factor times average edge length at vertex: </H4>
+<DL>
+<DT>    virtual void Transform(const R3Transformation& transformation);
+</DL>
+<DT> <H4> Transform mesh: </H4>
+<DL>
+<DT> 
+</DL>
+<DT> <H4> DRAW FUNCTIONS: </H4>
+<DL>
+<DT>    virtual void Draw(void) const;
+</DL>
+<DT> <H4> Draws the faces: </H4>
+<DL>
+<DT>    virtual void DrawVertices(void) const;
+</DL>
+<DT> <H4> Draws the vertices: </H4>
+<DL>
+<DT>    virtual void DrawEdges(void) const;
+</DL>
+<DT> <H4> Draws the edges: </H4>
+<DL>
+<DT>    virtual void DrawFaces(void) const;
+</DL>
+<DT> <H4> Draws the faces: </H4>
+<DL>
+<DT>    virtual void DrawVertexIDs(void) const;
+</DL>
+<DT> <H4> Draws the vertex IDs into color buffer: </H4>
+<DL>
+<DT>    virtual void DrawEdgeIDs(void) const;
+</DL>
+<DT> <H4> Draws the edge IDs into color buffer: </H4>
+<DL>
+<DT>    virtual void DrawFaceIDs(void) const;
+</DL>
+<DT> <H4> Draws the face IDs into color buffer: </H4>
+<DL>
+<DT>    virtual void DrawVertex(R3MeshVertex *vertex) const;
+</DL>
+<DT> <H4> Draws one vertex: </H4>
+<DL>
+<DT>    virtual void DrawEdge(R3MeshEdge *edge) const;
+</DL>
+<DT> <H4> Draws one edge: </H4>
+<DL>
+<DT>    virtual void DrawFace(R3MeshFace *face) const;
+</DL>
+<DT> <H4> Draws one face: </H4>
+<DL>
+<DT>
+</DL>
+<DT> <H4> INTERSECTION FUNCTIONS: </H4>
+<DL>
+<DT>    virtual R3MeshType Intersection(const R3Ray& ray, R3MeshIntersection *intersection = NULL) const;
+</DL>
+<DT> <H4> Returns first intersection along ray: </H4>
+<DL>
+<DT>    virtual R3MeshType Intersection(const R3Ray& ray, R3MeshFace *face, R3MeshIntersection *intersection = NULL) const;
+</DL>
+<DT> <H4> Returns intersection with face along ray: </H4>
+<DL>
+<DT>  
+</DL>
+<DT> <H4> CLOSEST POINT FUNCTIONS: </H4>
+<DL>
+<DT>    R3Point ClosestPoint(const R3Point& point, R3MeshIntersection *closest_point = NULL) const;
+</DL>
+<DT> <H4> Returns closest point on mesh: </H4>
+<DL>
+<DT>    R3Point ClosestPointOnEdge(const R3MeshEdge *edge, const R3Point& point, R3MeshIntersection *closest_point = NULL) const;
+</DL>
+<DT> <H4> Returns closest point on edge: </H4>
+<DL>
+<DT>    R3Point ClosestPointOnFace(const R3MeshFace *face, const R3Point& point, R3MeshIntersection *closest_point = NULL) const;
+</DL>
+<DT> <H4> Returns closest point on face: </H4>
+<DL>
+<DT>
+</DL>
+<DT> <H4> SURFACE DISTANCE FUNCTIONS: </H4>
+<DL>
+<DT>    RNLength *GeodesicDistances(const R3MeshVertex *source_vertex, RNLength max_distance = 0) const;
+</DL>
+<DT> <H4> Returns array of geodesic distances from source vertex to all other vertices (return array is indexed by VertexID).: </H4>
+<DL>
+<DT>    RNLength DijkstraDistance(const R3MeshVertex *source_vertex, const R3MeshVertex *destination_vertex, RNArray<R3MeshEdge *> *edges = NULL) const;
+</DL>
+<DT> <H4> Returns approximate geodesic distance from source_vertex to destination_vertex.: </H4>
+<DL>
+</DL>
+<DT> <H4> If "edges" is non-NULL (it should have been created as an empty RNArray<R3MeshEdge *>),: </H4>
+<DL>
+</DL>
+<DT> <H4> then it will be filled in with the edges in the shortest path from the destination_vertex back to the source_vertex: </H4>
+<DL>
+<DT>    RNLength *DijkstraDistances(const R3MeshVertex *source_vertex, RNLength max_distance = 0, R3MeshEdge **edges = NULL) const;
+</DL>
+<DT> <H4> Returns array of approximate geodesic distances from source vertex to all other vertices (return array is indexed by VertexID).: </H4>
+<DL>
+<DT>    RNLength *DijkstraDistances(const RNArray<R3MeshVertex *>& source_vertices, RNLength max_distance = 0, R3MeshEdge **edges = NULL) const;
+</DL>
+<DT> <H4> Returns array of approximate geodesic distances from closest source vertex to all other vertices (return array is indexed by VertexID).: </H4>
+<DL>
+</DL>
+<DT> <H4> If max_distance is non-zero, then accurate distances will be computed only up to that threshold: </H4>
+<DL>
+</DL>
+<DT> <H4> If "edges" is non-NULL (it should have already been allocated with size NVertices),: </H4>
+<DL>
+</DL>
+<DT> <H4> then it will be filled in with the edge from each vertex (indexed by VertexID) to its ancestor in the: </H4>
+<DL>
+</DL>
+<DT> <H4> shortest spanning tree back to the source_vertex: </H4>
+<DL>
+<DT>    RNLength *DijkstraDistances(const R3MeshVertex *source_vertex, RNLength max_distance, RNArray<R3MeshVertex *>& vertices, R3MeshEdge **edges = NULL) const;
+</DL>
+<DT> <H4> Returns array of approximate geodesic distances from source vertex to other vertices within max_distance (return array is indexed by VertexID).: </H4>
+<DL>
+</DL>
+<DT> <H4> The "vertices" RNArray is filled with vertices withing the max_distance threshold, and only those vertices have a valid distance in the return array: </H4>
+<DL>
+<DT>    RNLength *DijkstraDistances(const RNArray<R3MeshVertex *>& source_vertices, RNLength max_distance, RNArray<R3MeshVertex *>& vertices, R3MeshEdge **edges = NULL) const;
+</DL>
+<DT> <H4> Returns array of approximate geodesic distances from closest source vertex to other vertices within max_distance (return array is indexed by VertexID).: </H4>
+<DL>
+</DL>
+<DT> <H4> The "vertices" RNArray is filled with vertices withing the max_distance threshold, and only those vertices have a valid distance in the return array: </H4>
+<DL>
+</DL>
+<DT> <H4> If "edges" is non-NULL (it should have already been allocated with size NVertices),: </H4>
+<DL>
+</DL>
+<DT> <H4> then it will be filled in with the edge from each vertex (indexed by VertexID) to its ancestor in the: </H4>
+<DL>
+</DL>
+<DT> <H4> shortest spanning tree back to the source_vertex: </H4>
+<DL>
+<DT>    RNLength TracePath(const R3MeshVertex *source_vertex, const R3Vector& source_direction, RNLength max_distance,
+<DT>      R3Point *position = NULL, R3MeshFace **face = NULL, R3MeshIntersection *intersections = NULL, int *nintersections = NULL) const;
+</DL>
+<DT> <H4> Traces a path from the source_vertex starting in the source_direction along the mesh surface for max_distance.: </H4>
+<DL>
+</DL>
+<DT> <H4> The position and its face found at the end of the path are returned if the given addresses are non-NULL: </H4>
+<DL>
+</DL>
+<DT> <H4> Also, the sequence and number of edge intersections is filled into intersections and nintersections: </H4>
+<DL>
+</DL>
+<DT> <H4> (sufficient memory must be allocated for intersections by the caller if this feature is used): </H4>
+<DL>
+<DT>
+</DL>
+<DT> <H4> POINT SAMPLING FUNCTIONS: </H4>
+<DL>
+<DT>    R3Point RandomPointOnFace(const R3MeshFace *face) const;
+</DL>
+<DT> <H4> Returns random point on face: </H4>
+<DL>
+<DT>
+</DL>
+<DT> <H4> I/O FUNCTIONS: </H4>
+<DL>
+<DT>    virtual int ReadFile(const char *filename);
+</DL>
+<DT> <H4> Loads data structure from a file, returns 0 if error: </H4>
+<DL>
+<DT>    virtual int ReadObjFile(const char *filename);
+</DL>
+<DT> <H4> Loads data structure from Wavefront file (.obj), returns 0 if error: </H4>
+<DL>
+<DT>    virtual int ReadOffFile(const char *filename);
+</DL>
+<DT> <H4> Loads data structure from OFF (.off) file, returns 0 if error: </H4>
+<DL>
+<DT>    virtual int ReadRayFile(const char *filename);
+</DL>
+<DT> <H4> Loads data structure from ray file (.ray), returns 0 if error: </H4>
+<DL>
+<DT>    virtual int ReadPlyFile(const char *filename);
+</DL>
+<DT> <H4> Loads data structure from ply file (.ply), returns 0 if error: </H4>
+<DL>
+<DT>    virtual int ReadCattFile(const char *filename);
+</DL>
+<DT> <H4> Loads data structure from a Catt acoustic file (.cat), returns 0 if error: </H4>
+<DL>
+<DT>    virtual int ReadIfsFile(const char *filename);
+</DL>
+<DT> <H4> Loads data structure from ifs file (.ifs), returns 0 if error: </H4>
+<DL>
+<DT>    virtual int ReadSTLFile(const char *filename);
+</DL>
+<DT> <H4> Loads data structure from STL file (.stl), returns 0 if error: </H4>
+<DL>
+<DT>    virtual int ReadVRMLFile(const char *filename);
+</DL>
+<DT> <H4> Loads data structure from VRML file (.wrl), returns 0 if error: </H4>
+<DL>
+<DT>    virtual int WriteFile(const char *filename);
+</DL>
+<DT> <H4> Writes a file, returns number of faces written (0 is error): </H4>
+<DL>
+<DT>    virtual int WriteRayFile(const char *filename);
+</DL>
+<DT> <H4> Writes a ray file, returns number of faces written (0 is error): </H4>
+<DL>
+<DT>    virtual int WritePlyFile(const char *filename, RNBoolean binary = TRUE);
+</DL>
+<DT> <H4> Writes a PLY file, returns number of faces written (0 is error): </H4>
+<DL>
+<DT>    virtual int WriteObjFile(const char *filename);
+</DL>
+<DT> <H4> Writes a Wavefront OBJ file, returns number of faces written (0 is error): </H4>
+<DL>
+<DT>    virtual int WriteOffFile(const char *filename);
+</DL>
+<DT> <H4> Writes a OFF (.off) file, returns number of faces written (0 is error): </H4>
+<DL>
+<DT>    virtual int WriteCattFile(const char *filename);
+</DL>
+<DT> <H4> Writes a Catt Acoustics (.cat) file, returns number of faces written (0 is error): </H4>
+<DL>
+<DT>    virtual int WriteIfsFile(const char *filename);
+</DL>
+<DT> <H4> Writes a IFS (.ifs) file, returns number of faces written (0 is error): </H4>
+<DL>
+<DT>    virtual int WriteSTLFile(const char *filename);
+</DL>
+<DT> <H4> Writes a STL (.stl) file, returns number of faces written (0 is error): </H4>
+<DL>
+<DT>
+</DL>
+<DT> <H4> DEBUG FUNCTIONS: </H4>
+<DL>
+<DT>    virtual RNBoolean IsValid(void) const;
+</DL>
+<DT> <H4> Returns whether data structure is valid: </H4>
+<DL>
+<DT>    virtual RNBoolean IsValid(R3MeshVertex *vertex) const;
+</DL>
+<DT> <H4> Returns whether vertex data structure is valid: </H4>
+<DL>
+<DT>    virtual RNBoolean IsValid(R3MeshEdge *edge) const;
+</DL>
+<DT> <H4> Returns whether edge data structure is valid: </H4>
+<DL>
+<DT>    virtual RNBoolean IsValid(R3MeshFace *face) const;
+</DL>
+<DT> <H4> Returns whether face data structure is valid: </H4>
+<DL>
+<DT>    void SetData(void *data);
+</DL>
+<DT> <H4> Set the user data stored with mesh: </H4>
+<DL>
+<DT>  
+</DL>
+</DL> </DL>
+</DL>
+
+
+
+<P>
+</DL>
+<DT> <H4> Constructors/destructors: </H4>
+<DL>
+<DT>  R3MeshProperty(R3Mesh *mesh, const char *name = NULL, const RNScalar *vertex_values = NULL);
+<DT>  R3MeshProperty(const R3MeshProperty& property);
+<DT>  ~R3MeshProperty(void);
+<DT>
+</DL>
+<DT> <H4> Property info functions: </H4>
+<DL>
+<DT>  R3Mesh *Mesh(void) const;
+<DT>  const char *Name(void) const;
+<DT>
+</DL>
+<DT> <H4> Value access functions: </H4>
+<DL>
+<DT>  int NVertexValues(void) const;
+<DT>  RNScalar VertexValue(R3MeshVertex *vertex) const;
+<DT>  RNScalar VertexValue(int vertex_index) const;
+<DT>
+</DL>
+<DT> <H4> Vertex property functions: </H4>
+<DL>
+<DT>  RNScalar Gaussian(R3MeshVertex *vertex, RNLength sigma) const;
+<DT>  RNScalar Laplacian(R3MeshVertex *vertex) const;
+<DT>  RNBoolean IsLocalMaximum(R3MeshVertex *vertex) const;
+<DT>  RNBoolean IsLocalMaximum(int vertex_index) const;
+<DT>  RNBoolean IsLocalMinimum(R3MeshVertex *vertex) const;
+<DT>  RNBoolean IsLocalMinimum(int vertex_index) const;
+<DT>  RNBoolean IsLocalExtremum(R3MeshVertex *vertex) const;
+<DT>  RNBoolean IsLocalExtremum(int vertex_index) const;
+<DT>
+</DL>
+<DT> <H4> Statistics functions: </H4>
+<DL>
+<DT>  RNScalar Mean(void) const;
+<DT>  RNScalar Variance(void) const;
+<DT>  RNScalar StandardDeviation(void) const;
+<DT>  RNScalar Minimum(void) const;
+<DT>  RNScalar Maximum(void) const;
+<DT>  RNScalar Entropy(void) const;
+<DT>  RNScalar Median(void) const;
+<DT>  RNScalar Percentile(RNScalar percentile) const;
+<DT>  int LocalMaximumCount(void) const;
+<DT>  int LocalMinimumCount(void) const;
+<DT>  int NonZeroCount(void) const;
+<DT>  RNScalar L1Norm(void) const;
+<DT>  RNScalar L2Norm(void) const;
+<DT>
+</DL>
+<DT> <H4> Manipulation functions: </H4>
+<DL>
+<DT>  void Abs(void);
+<DT>  void Sqrt(void);
+<DT>  void Square(void);
+<DT>  void Negate(void);
+<DT>  void Invert(void);
+<DT>  void Clear(RNScalar value = 0);
+<DT>  void Copy(const R3MeshProperty& property);
+<DT>  void Mask(const R3MeshProperty& property);
+<DT>  void Substitute(RNScalar current, RNScalar replacement);
+<DT>  void Add(RNScalar value);
+<DT>  void Add(const R3MeshProperty& property);
+<DT>  void Subtract(RNScalar value);
+<DT>  void Subtract(const R3MeshProperty& property);
+<DT>  void Multiply(RNScalar value);
+<DT>  void Multiply(const R3MeshProperty& property);
+<DT>  void Divide(RNScalar value);
+<DT>  void Divide(const R3MeshProperty& property);
+<DT>  void Pow(RNScalar exponent);
+<DT>  void Pow(const R3MeshProperty& property);
+<DT>  void DistanceTransform(void);
+<DT>  void NonExtremumSuppression(RNScalar radius = 0, RNBoolean keep_local_minima = TRUE, RNBoolean keep_local_maxima = TRUE);
+<DT>  void NonMaximumSuppression(RNScalar radius = 0);
+<DT>  void NonMinimumSuppression(RNScalar radius = 0);
+<DT>  void Threshold(RNScalar threshold, RNScalar low, RNScalar high);
+<DT>  void AddVertexValue(R3MeshVertex *vertex, RNScalar value);
+<DT>  void AddVertexValue(int vertex_index, RNScalar value);
+<DT>  void SetVertexValue(R3MeshVertex *vertex, RNScalar value);
+<DT>  void SetVertexValue(int vertex_index, RNScalar value);
+<DT>  void SetName(const char *name);
+<DT>
+</DL>
+<DT> <H4> More property manipulation functions: </H4>
+<DL>
+<DT>  void Normalize(void);
+<DT>  void Percentilize(void);
+<DT>  void Laplace(void);
+<DT>  void Dilate(RNScalar radius);
+<DT>  void Erode(RNScalar radius);
+<DT>  void Blur(RNScalar sigma);
+<DT>  void DoG(RNScalar sigma);
+<DT>  void Strength(RNScalar sigma);
+<DT>  void Prominence(RNScalar sigma);
+<DT>
+</DL>
+<DT> <H4> Arithmetic functions: </H4>
+<DL>
+<DT>  RNScalar Dot(const R3MeshProperty& property) const;
+<DT>
+</DL>
+<DT> <H4> Arithmetic operators: </H4>
+<DL>
+<DT>  R3MeshProperty& operator=(const R3MeshProperty& property);
+<DT>  R3MeshProperty& operator+=(RNScalar scale);
+<DT>  R3MeshProperty& operator+=(const R3MeshProperty& property);
+<DT>  R3MeshProperty& operator-=(RNScalar scale);
+<DT>  R3MeshProperty& operator-=(const R3MeshProperty& property);
+<DT>  R3MeshProperty& operator*=(RNScalar scale);
+<DT>  R3MeshProperty& operator*=(const R3MeshProperty& property);
+<DT>  R3MeshProperty& operator/=(RNScalar scale);
+<DT>  R3MeshProperty& operator/=(const R3MeshProperty& property);
+<DT>
+</DL>
+<DT> <H4> Input/output functions: </H4>
+<DL>
+<DT>  int Read(const char *filename);
+<DT>  int ReadValues(const char *filename);
+<DT>  int ReadARFF(const char *filename);
+<DT>  int ReadPoints(const char *filename);
+<DT>  int Write(const char *filename) const;
+<DT>  int WriteValues(const char *filename) const;
+<DT>  int WriteARFF(const char *filename) const;
+<DT>
+</DL>
+<DT> <H4> Internal functions: </H4>
+<DL>
+<DT>  void ResetStatistics(void);
+<DT>
+<DT>  R3Mesh *mesh;
+<DT>  char name[1024];
+<DT>  int nvalues;
+<DT>  RNScalar *values;
+<DT>  RNScalar mean;
+<DT>  RNScalar stddev;
+<DT>  RNScalar minimum;
+<DT>  RNScalar maximum;
+<DT>  RNScalar median;
+<DT>  RNScalar l2norm;
+</DL>
+</DL> </DL>
+</DL>
+
+
+
+<P>
+</DL>
+<DT> <H4> Constructor/destructor: </H4>
+<DL>
+<DT>  R3MeshPropertySet(R3Mesh *mesh);
+<DT>  ~R3MeshPropertySet(void);
+<DT>
+</DL>
+<DT> <H4> Property set info: </H4>
+<DL>
+<DT>  R3Mesh *Mesh(void) const;
+<DT>
+</DL>
+<DT> <H4> Property access functions: </H4>
+<DL>
+<DT>  int NProperties(void) const;
+<DT>  R3MeshProperty *Property(int k) const;
+<DT>  R3MeshProperty *Property(const char *name) const;
+<DT>  int PropertyIndex(R3MeshProperty *property) const;
+<DT>  int PropertyIndex(const char *property_name) const;
+<DT>  R3MeshProperty *operator[](int k) const;
+<DT>
+</DL>
+<DT> <H4> Property manipulation functions: </H4>
+<DL>
+<DT>  void Empty(void);
+<DT>  void SortByName(void);
+<DT>  void Insert(R3MeshProperty *property);
+<DT>  void Insert(R3MeshPropertySet *set);
+<DT>  void Remove(R3MeshProperty *property);
+<DT>  void Remove(R3MeshPropertySet *set);
+<DT>  void Remove(const char *name);
+<DT>  void Remove(int k);
+<DT>
+</DL>
+<DT> <H4> Input/output functions: </H4>
+<DL>
+<DT>  int Read(const char *filename);
+<DT>  int ReadARFF(const char *filename);
+<DT>  int ReadToronto(const char *filename);
+<DT>  int ReadProperty(const char *filename);
+<DT>  int Write(const char *filename) const;
+<DT>  int WriteARFF(const char *filename) const;
+<DT>  int WriteValues(const char *filename) const;
+<DT>
+<DT>  R3Mesh *mesh;
+<DT>  RNArray<R3MeshProperty *> properties;
+</DL>
+</DL> </DL>
+</DL>
+
+
+
+<P>
+<HR> <H2> <A NAME="R3MeshSearchTree" HREF="../pkgs/R3Shapes/R3MeshSearchTree.h">R3MeshSearchTree</A> </H2> 
+
+<DL> <DL>
+<DT> <H3>Base Classes:</H3> 
+<DL>
+<DT> <H4>Public Base Classes:</H4> 
+<DL>
+<DT>	None
+</DL> </DL>
+<P>
+<DT> <H3>Member Functions:</H3>
+<DL>
+<DT> <H4> Constructor/destructors: </H4>
+<DL>
+<DT>  R3MeshSearchTree(R3Mesh *mesh);
+<DT>  ~R3MeshSearchTree(void);
+<DT>
+</DL>
+<DT> <H4> Property functions: </H4>
+<DL>
+<DT>  R3Mesh *Mesh(void) const;
+<DT>  const R3Box& BBox(void) const;
+<DT>
+</DL>
+<DT> <H4> Insert/delete functions: </H4>
+<DL>
+<DT>  void InsertFace(R3MeshFace *face);
+<DT>  void Empty(void);
+<DT>
+</DL>
+<DT> <H4> Find mesh feature closest to a query point: </H4>
+<DL>
+<DT>  void FindClosest(const R3Point& query, R3MeshIntersection& closest,
+<DT>    RNScalar min_distance = 0, RNScalar max_distance = RN_INFINITY,
+<DT>    int (*IsCompatible)(const R3Point&, const R3Vector&, R3Mesh *, R3MeshFace *, void *) = NULL, 
+<DT>    void *compatible_data = NULL);
+<DT>
+</DL>
+<DT> <H4> Find mesh feature closest to a query point and normal: </H4>
+<DL>
+<DT>  void FindClosest(const R3Point& query, const R3Vector& normal, R3MeshIntersection& closest,
+<DT>    RNScalar min_distance = 0, RNScalar max_distance = RN_INFINITY, 
+<DT>    int (*IsCompatible)(const R3Point&, const R3Vector&, R3Mesh *, R3MeshFace *, void *) = NULL, 
+<DT>    void *compatible_data = NULL);
+<DT>
+</DL>
+<DT> <H4> Find all mesh features with distance from a query point: </H4>
+<DL>
+<DT>  void FindAll(const R3Point& query, RNArray<R3MeshIntersection *>& hits,
+<DT>    RNScalar min_distance = 0, RNScalar max_distance = RN_INFINITY,
+<DT>    int (*IsCompatible)(const R3Point&, const R3Vector&, R3Mesh *, R3MeshFace *, void *) = NULL, 
+<DT>    void *compatible_data = NULL);
+<DT>
+</DL>
+<DT> <H4> Find all mesh features with distance from a query point and normal: </H4>
+<DL>
+<DT>  void FindAll(const R3Point& query, const R3Vector& normal, RNArray<R3MeshIntersection *>& hits,
+<DT>    RNScalar min_distance = 0, RNScalar max_distance = RN_INFINITY,
+<DT>    int (*IsCompatible)(const R3Point&, const R3Vector&, R3Mesh *, R3MeshFace *, void *) = NULL, 
+<DT>    void *compatible_data = NULL);
+<DT>
+</DL>
+<DT> <H4> Find first ray intersection: </H4>
+<DL>
+<DT>  void FindIntersection(const R3Ray& ray, R3MeshIntersection& closest,
+<DT>    RNScalar min_t = 0, RNScalar max_t = RN_INFINITY,
+<DT>    int (*IsCompatible)(const R3Point&, const R3Vector&, R3Mesh *, R3MeshFace *, void *) = NULL, 
+<DT>    void *compatible_data = NULL);
+<DT>
+</DL>
+<DT> <H4> Visualization/debugging functions: </H4>
+<DL>
+<DT>  int NNodes(void) const;
+<DT>  void Outline(void) const;
+<DT>  void Print(void) const;
+<DT>
+</DL>
+<DT> <H4> Internal manipulations functions: </H4>
+<DL>
+<DT>  void Empty(R3MeshSearchTreeNode *node);
+<DT>
+</DL>
+<DT> <H4> Internal insert functions: </H4>
+<DL>
+<DT>  void InsertFace(R3MeshSearchTreeFace *face, R3MeshSearchTreeNode *node, const R3Box& node_box, int depth);
+<DT>
+</DL>
+<DT> <H4> Internal closest point search functions: </H4>
+<DL>
+<DT>  void FindClosest(const R3Point& query, const R3Vector& normal, R3MeshIntersection& closest, 
+<DT>    RNScalar min_distance_squared, RNScalar& max_distance_squared, 
+<DT>    int (*IsCompatible)(const R3Point&, const R3Vector&, R3Mesh *, R3MeshFace *, void *), void *compatible_data,
+<DT>    R3MeshSearchTreeNode *node, const R3Box& node_box) const;
+<DT>  void FindClosest(const R3Point& query, const R3Vector& normal, R3MeshIntersection& closest, 
+<DT>    RNScalar min_distance_squared, RNScalar& max_distance_squared, 
+<DT>    int (*IsCompatible)(const R3Point&, const R3Vector&, R3Mesh *, R3MeshFace *, void *), void *compatible_data,
+<DT>    R3MeshFace *face) const;
+<DT>
+</DL>
+<DT> <H4> Internal all point search functions: </H4>
+<DL>
+<DT>  void FindAll(const R3Point& query, const R3Vector& normal, RNArray<R3MeshIntersection *>& hits,
+<DT>    RNScalar min_distance_squared, RNScalar max_distance_squared, 
+<DT>    int (*IsCompatible)(const R3Point&, const R3Vector&, R3Mesh *, R3MeshFace *, void *), void *compatible_data,
+<DT>    R3MeshSearchTreeNode *node, const R3Box& node_box) const;
+<DT>  void FindAll(const R3Point& query, const R3Vector& normal, RNArray<R3MeshIntersection *>& hits,
+<DT>    RNScalar min_distance_squared, RNScalar max_distance_squared, 
+<DT>    int (*IsCompatible)(const R3Point&, const R3Vector&, R3Mesh *, R3MeshFace *, void *), void *compatible_data,
+<DT>    R3MeshFace *face) const;
+<DT>
+</DL>
+<DT> <H4> Internal ray intersection search functions: </H4>
+<DL>
+<DT>  void FindIntersection(const R3Ray& ray, R3MeshIntersection& closest, 
+<DT>    RNScalar min_t, RNScalar& max_t, 
+<DT>    int (*IsCompatible)(const R3Point&, const R3Vector&, R3Mesh *, R3MeshFace *, void *), void *compatible_data,
+<DT>    R3MeshSearchTreeNode *node, const R3Box& node_box) const;
+<DT>  void FindIntersection(const R3Ray& ray, R3MeshIntersection& closest, 
+<DT>    RNScalar min_t, RNScalar& max_t, 
+<DT>    int (*IsCompatible)(const R3Point&, const R3Vector&, R3Mesh *, R3MeshFace *, void *), void *compatible_data,
+<DT>    R3MeshFace *face) const;
+<DT>
+</DL>
+<DT> <H4> Internal visualization and debugging functions: </H4>
+<DL>
+<DT>  void Outline(R3MeshSearchTreeNode *node, const R3Box& node_box) const;
+<DT>  int Print(R3MeshSearchTreeNode *node, int depth) const;
+<DT>
+</DL>
+<DT> <H4> Internal utility functions: </H4>
+<DL>
+<DT>  RNScalar DistanceSquared(const R3Point& query, const R3Box& box, RNScalar max_distance_squared) const;
+<DT>  RNScalar DistanceSquared(const R3Point& query, const R3Point& point) const;
+<DT>
+</DL>
+<DT> <H4> Internal data: </H4>
+<DL>
+<DT>  R3Mesh *mesh;
+<DT>  R3MeshSearchTreeNode *root;
+<DT>  int nnodes;
+<DT>  RNMark mark;
+</DL>
+</DL> </DL>
+</DL>
+
+
+
+<P>
+<HR> <H2> <A NAME="R3OrientedBox" HREF="../pkgs/R3Shapes/R3OrientedBox.h">R3OrientedBox</A> </H2> 
+
+<DL> <DL>
+<DT> <H3>Base Classes:</H3> 
+<DL>
+<DT> <H4>Public Base Classes:</H4> 
+<DL>
+<DT>    <A HREF="#R3Solid">R3Solid</A>
+</DL> </DL>
+<P>
+<DT> <H3>Member Functions:</H3>
+<DL>
+<DT> <H4> Constructor functions: </H4>
+<DL>
+<DT>	R3OrientedBox(void);
+<DT>        R3OrientedBox(const R3OrientedBox& box);
+<DT>        R3OrientedBox(const R3Point& center, const R3Vector& axis0, const R3Vector& axis1, const R3Vector& axis2);
+<DT>        R3OrientedBox(const R3Point& center, const R3Vector& axis0, const  R3Vector& axis1, RNScalar radius0, RNScalar radius1, RNScalar radius2); 
+<DT>
+</DL>
+<DT> <H4> OrientedBox propetry functions/operators: </H4>
+<DL>
+<DT>        const R3Point& Center(void) const;
+<DT>        const R3Triad& Axes(void) const;
+<DT>        const R3CoordSystem& CoordSystem(void) const;
+<DT>        const RNLength MinRadius(void) const;
+<DT>        const RNLength MaxRadius(void) const;
+<DT>        const RNLength DiagonalRadius(void) const;
+<DT>        const R3Vector& Axis(RNDimension dim) const;
+<DT>        const RNLength Radius(RNDimension dim) const;
+<DT>        const R3Point Corner(RNOctant octant) const;
+<DT>        const R3Point Corner(RNDirection dir0, RNDirection dir1, RNDirection dir2) const;
+<DT>        const R3Plane Plane(RNSide side) const;
+<DT>	const R3Plane Plane(RNDirection dir, RNDimension dim) const;
+<DT>	const RNBoolean IsEmpty(void) const;
+<DT>	const RNBoolean IsFinite(void) const;
+<DT>        
+</DL>
+<DT> <H4> Shape propetry functions/operators: </H4>
+<DL>
+<DT>	virtual const RNBoolean IsPoint(void) const;
+<DT>	virtual const RNBoolean IsLinear(void) const ;
+<DT>	virtual const RNBoolean IsPlanar(void) const ;
+<DT>	virtual const RNBoolean IsConvex(void) const ;
+<DT>        virtual const RNInterval NFacets(void) const;
+<DT>	virtual const RNArea Area(void) const;
+<DT>	virtual const RNVolume Volume(void) const;
+<DT>	virtual const R3Point Centroid(void) const;
+<DT>	virtual const R3Point ClosestPoint(const R3Point& point) const;
+<DT>	virtual const R3Point FurthestPoint(const R3Point& point) const;
+<DT>	virtual const R3Shape& BShape(void) const;
+<DT>	virtual const R3Box BBox(void) const;
+<DT>	virtual const R3Sphere BSphere(void) const;
+<DT>
+</DL>
+<DT> <H4> Manipulation functions/operators: </H4>
+<DL>
+<DT>        virtual void Empty(void);
+<DT>        virtual void Translate(const R3Vector& vector);
+<DT>        virtual void Reposition(const R3Point& center);
+<DT>        virtual void Resize(RNLength radius0, RNLength radius1, RNLength radius2);
+<DT>        virtual void Reorient(const R3Vector& axis0, const R3Vector& axis1);
+<DT>	virtual void Transform(const R3Transformation& transformation);
+<DT>        virtual void Reset(const R3Point& center, const R3Vector& axis0, const  R3Vector& axis1, RNScalar radius0, RNScalar radius1, RNScalar radius2); 
+<DT>
+</DL>
+<DT> <H4> Draw functions/operators: </H4>
+<DL>
+<DT>        virtual void Draw(const R3DrawFlags draw_flags = R3_DEFAULT_DRAW_FLAGS) const;
+<DT>
+</DL>
+<DT> <H4> Relationship functions/operators: </H4>
+<DL>
+<DT>	RNBoolean operator==(const R3OrientedBox& box) const;
+<DT>	RNBoolean operator!=(const R3OrientedBox& box) const;
+<DT>
+</DL>
+<DT> <H4> Standard shape definitions: </H4>
+<DL>
+<DT>	RN_CLASS_TYPE_DECLARATIONS(R3OrientedBox);
+<DT>        R3_SHAPE_RELATIONSHIP_DECLARATIONS(R3OrientedBox);
+<DT>
+</DL>
+</DL> </DL>
+</DL>
+
+
+
+<P>
+<HR> <H2> <A NAME="R3PlanarGrid" HREF="../pkgs/R3Shapes/R3PlanarGrid.h">R3PlanarGrid</A> </H2> 
+
+<DL> <DL>
+<DT> <H3>Base Classes:</H3> 
+<DL>
+<DT> <H4>Public Base Classes:</H4> 
+<DL>
+<DT>	None
+</DL> </DL>
+<P>
+<DT> <H3>Member Functions:</H3>
+<DL>
+<DT> <H4> Constructor/destructor: </H4>
+<DL>
+<DT>  R3PlanarGrid(void);
+<DT>  R3PlanarGrid(const R3Plane& plane, const R3Box& world_bbox, RNLength spacing);
+<DT>  R3PlanarGrid(const R3Plane& plane, const R3Box& world_bbox, const R3Point& origin, const R3Vector& yaxis, RNLength spacing);
+<DT>  R3PlanarGrid(const R3Plane& plane, const R3Point& origin, const R3Vector& yaxis, 
+<DT>    RNLength xradius, RNLength yradius, RNLength offplane_radius, RNLength spacing);
+<DT>  ~R3PlanarGrid(void);
+<DT>
+</DL>
+<DT> <H4> Property functions: </H4>
+<DL>
+<DT>  int NEntries() const;
+<DT>  int XResolution(void) const;
+<DT>  int YResolution(void) const;
+<DT>  int Resolution(RNDimension dim) const;
+<DT>  RNScalar Sum(void) const;
+<DT>  RNScalar Mean(void) const;
+<DT>  RNScalar Median(void) const;
+<DT>  RNScalar Maximum(void) const;
+<DT>  RNScalar Minimum(void) const;
+<DT>  RNInterval Range(void) const;
+<DT>  RNScalar L1Norm(void) const;
+<DT>  RNScalar L2Norm(void) const;
+<DT>  RNScalar Area(void) const;
+<DT>  int Cardinality(void) const;
+<DT>  R2Box GridBox(void) const;
+<DT>  const R3Box& WorldBox(void) const;
+<DT>  const R3Plane& Plane(void) const;
+<DT>
+</DL>
+<DT> <H4> Grid value access functions: </H4>
+<DL>
+<DT>  const R2Grid& Grid(void) const;
+<DT>  RNScalar GridValue(int index) const;
+<DT>  RNScalar GridValue(int i, int j) const;
+<DT>  RNScalar GridValue(RNCoord x, RNCoord y) const;
+<DT>  RNScalar GridValue(const R2Point& grid_point) const;
+<DT>  RNScalar WorldValue(RNCoord x, RNCoord y, RNCoord z) const;
+<DT>  RNScalar WorldValue(const R3Point& world_point) const;
+<DT>  RNScalar& operator()(int i, int j);
+<DT>
+</DL>
+<DT> <H4> Transformation functions: </H4>
+<DL>
+<DT>  R3Affine WorldToGridTransformation(void) const;
+<DT>  R3Affine GridToWorldTransformation(void) const;
+<DT>  RNScalar WorldToGridScaleFactor(void) const;
+<DT>  RNScalar GridToWorldScaleFactor(void) const;
+<DT>
+</DL>
+<DT> <H4> Grid manipulation functions: </H4>
+<DL>
+<DT>  void Abs(void);
+<DT>  void Sqrt(void);
+<DT>  void Square(void);
+<DT>  void Negate(void);
+<DT>  void Invert(void);
+<DT>  void Normalize(void);
+<DT>  void Laplacian(void);
+<DT>  void Laplacian(int dim);
+<DT>  void Sobel(void);
+<DT>  void DetectEdges(void);
+<DT>  void FillHoles(void);
+<DT>  void GradientAngle(void);
+<DT>  void GradientMagnitude(void);
+<DT>  void Gradient(RNDimension dim);
+<DT>  void Hessian(RNDimension dim1, RNDimension dim2);
+<DT>  void Clear(RNScalar value = 0);
+<DT>  void Dilate(RNScalar grid_distance);
+<DT>  void Erode(RNScalar grid_distance);
+<DT>  void Blur(RNScalar grid_sigma = 2);
+<DT>  void BilateralFilter(RNLength grid_sigma = 2, RNScalar value_sigma = -1);
+<DT>  void AnisotropicDiffusion(RNLength grid_sigma = 2, RNScalar gradient_sigma = -1);
+<DT>  void PercentileFilter(RNLength grid_radius, RNScalar percentile);
+<DT>  void MinFilter(RNLength grid_radius);
+<DT>  void MaxFilter(RNLength grid_radius);
+<DT>  void MedianFilter(RNLength grid_radius);
+<DT>  void MaskNonMinima(RNLength grid_radius = 0);
+<DT>  void MaskNonMaxima(RNLength grid_radius = 0);
+<DT>  void Convolve(const RNScalar filter[3][3]);
+<DT>  void Substitute(RNScalar old_value, RNScalar new_value);
+<DT>  void Add(RNScalar value);
+<DT>  void Add(const R3PlanarGrid& grid);
+<DT>  void Subtract(RNScalar value);
+<DT>  void Subtract(const R3PlanarGrid& grid);
+<DT>  void Multiply(RNScalar value);
+<DT>  void Multiply(const R3PlanarGrid& grid);
+<DT>  void Divide(RNScalar value);
+<DT>  void Divide(const R3PlanarGrid& grid);
+<DT>  void Pow(RNScalar exponent);
+<DT>  void Mask(const R3PlanarGrid& grid);
+<DT>  void Threshold(RNScalar threshold, RNScalar low, RNScalar high);
+<DT>  void Threshold(const R3PlanarGrid& threshold, RNScalar low, RNScalar high);
+<DT>  void SignedDistanceTransform(void);
+<DT>  void SquaredDistanceTransform(void);
+<DT>  void Voronoi(R3PlanarGrid *squared_distance_grid = NULL);
+<DT>  void PointSymmetryTransform(int radius = -1);
+<DT>  void Gauss(RNLength sigma = sqrt(8.0), RNBoolean square = TRUE);
+<DT>  void Resample(int xres, int yres);
+<DT>  void SetGridValue(int index, RNScalar value);
+<DT>  void SetGridValue(int i, int j, RNScalar value);
+<DT>  void AddGridValue(int i, int j, RNScalar value);
+<DT>  void Reset(const R3Plane& plane, const R3Box& world_bbox, RNLength spacing);
+<DT>  void Reset(const R3Plane& plane, const R3Box& world_bbox, const R3Point& origin, const R3Vector& yaxis, RNLength spacing);
+<DT>  void Reset(const R3Plane& plane, const R3Point& origin, const R3Vector& yaxis, 
+<DT>    RNLength xradius, RNLength yradius, RNLength offplane_radius, RNLength spacing);
+<DT>
+</DL>
+<DT> <H4> Rasterization functions: </H4>
+<DL>
+<DT>  void RasterizeGridPoint(RNCoord x, RNCoord y, RNScalar value);
+<DT>  void RasterizeWorldPoint(RNCoord x, RNCoord y, RNCoord z, RNScalar value);
+<DT>  void RasterizeGridPoint(const R2Point& point, RNScalar value);
+<DT>  void RasterizeWorldPoint(const R3Point& point, RNScalar value);
+<DT>  void RasterizeGridSpan(const R2Point& p1, const R2Point& p2, RNScalar value);
+<DT>  void RasterizeGridSpan(const R2Point& p1, const R2Point& p2, RNScalar value1, RNScalar value2);
+<DT>  void RasterizeWorldSpan(const R3Point& p1, const R3Point& p2, RNScalar value);
+<DT>  void RasterizeWorldSpan(const R3Point& p1, const R3Point& p2, RNScalar value1, RNScalar value2);
+<DT>  void RasterizeGridTriangle(const R2Point& p1, const R2Point& p2, const R2Point& p3, RNScalar value);
+<DT>  void RasterizeGridTriangle(const R2Point& p1, const R2Point& p2, const R2Point& p3, RNScalar value1, RNScalar value2, RNScalar value3);
+<DT>  void RasterizeWorldTriangle(const R3Point& p1, const R3Point& p2, const R3Point& p3, RNScalar value);
+<DT>  void RasterizeWorldTriangle(const R3Point& p1, const R3Point& p2, const R3Point& p3, RNScalar value1, RNScalar value2, RNScalar value3);
+<DT>  void RasterizeGridCircle(const R2Point& center, RNLength radius, RNScalar value);
+<DT>  void RasterizeWorldCircle(const R3Point& center, RNLength radius, RNScalar value);
+<DT>  void RasterizeGridPolygon(const R2Polygon& polygon, RNScalar value);
+<DT>
+</DL>
+<DT> <H4> Transformation utility functions: </H4>
+<DL>
+<DT>  R3Point WorldPosition(const R2Point& grid_point) const;
+<DT>  R2Point GridPosition(const R3Point& world_point) const;
+<DT>  R3Point WorldPosition(RNCoord x, RNCoord y) const;
+<DT>  R2Point GridPosition(RNCoord x, RNCoord y, RNCoord z) const;
+<DT>
+</DL>
+<DT> <H4> Reading/writing: </H4>
+<DL>
+<DT>  int ReadFile(const char *filename);
+<DT>  int ReadGridFile(const char *filename);
+<DT>  int ReadGrid(FILE *fp = NULL);
+<DT>  int WriteFile(const char *filename) const;
+<DT>  int WriteGridFile(const char *filename) const;
+<DT>  int WriteGrid(FILE *fp = NULL) const;
+<DT>
+</DL>
+<DT> <H4> Draw functions: </H4>
+<DL>
+<DT>  void Draw(void) const;
+<DT>
+</DL>
+<DT> <H4> Utility functions: </H4>
+<DL>
+<DT>  void ConnectedComponentLabelFilter(RNScalar isolevel);
+<DT>  void ConnectedComponentSizeFilter(RNScalar isolevel);
+<DT>  void ConnectedComponentCentroidFilter(RNScalar isolevel);
+<DT>  void ConnectedComponentFilter(RNScalar isolevel, RNArea min_grid_area, RNArea max_grid_area, 
+<DT>    RNScalar under_isolevel_value = 0, RNScalar too_small_value = 0, RNScalar too_large_value = 0);
+<DT>  int ConnectedComponents(RNScalar isolevel = 0, int max_components = 0, int *seeds = NULL, int *sizes = NULL, int *grid_components = NULL);
+<DT>
+<DT>  R3Plane plane;
+<DT>  R3Affine transformation; // 3D world to 2D plane
+<DT>  R2Grid grid;
+<DT>  R3Box bbox;
+<DT>  int texture_id;
+</DL>
+</DL> </DL>
+</DL>
+
+
+
+<P>
+<HR> <H2> <A NAME="R3Plane" HREF="../pkgs/R3Shapes/R3Plane.h">R3Plane</A> </H2> 
+
+<DL> <DL>
+<DT> <H3>Base Classes:</H3> 
+<DL>
+<DT> <H4>Public Base Classes:</H4> 
+<DL>
+<DT>	None
+</DL> </DL>
+<P>
+<DT> <H3>Member Functions:</H3>
+<DL>
+<DT> <H4> Constructor functions: </H4>
+<DL>
+<DT>	R3Plane(void);
+<DT>	R3Plane(const R3Plane& plane);
+<DT>	R3Plane(RNScalar a, RNScalar b, RNScalar c, RNScalar d);
+<DT>	R3Plane(const RNScalar array[4]);
+<DT>	R3Plane(const R3Vector& normal, RNScalar d);
+<DT>	R3Plane(const R3Point& point, const R3Vector& normal);
+<DT>	R3Plane(const R3Point& point, const R3Line& line);
+<DT>	R3Plane(const R3Point& point, const R3Vector& vector1, const R3Vector& vector2);
+<DT>	R3Plane(const R3Point& point1, const R3Point& point2, const R3Point& point3);
+<DT>	R3Plane(const RNArray<R3Point *>& points, RNBoolean polygon_vertices = TRUE);
+<DT>	R3Plane(R3Point *points, int npoints, RNBoolean polygon_vertices = TRUE);
+<DT>
+</DL>
+<DT> <H4> Property functions/operators: </H4>
+<DL>
+<DT>	const RNScalar A(void) const;
+<DT>	const RNScalar B(void) const;
+<DT>	const RNScalar C(void) const;
+<DT>	const RNScalar D(void) const;
+<DT>	const RNScalar operator[](int i) const;
+<DT>	const R3Point Point(void) const;
+<DT>	const R3Vector& Normal(void) const;
+<DT>	const RNBoolean IsZero(void) const;
+<DT>	const RNBoolean operator==(const R3Plane& plane) const;
+<DT>	const RNBoolean operator!=(const R3Plane& plane) const;
+<DT>
+</DL>
+<DT> <H4> Manipulation functions/operators: </H4>
+<DL>
+<DT>	void Flip(void);
+<DT>	void Mirror(const R3Plane& plane);
+<DT>	void Translate(const R3Vector& vector);
+<DT>	void Reposition(const R3Point& point);
+<DT>	void Align(const R3Vector& normal);
+<DT>        void Transform(const R3Transformation& transformation);
+<DT>	void InverseTransform(const R3Transformation& transformation);
+<DT>	void Reset(const R3Point& point, const R3Vector& normal);
+<DT>
+</DL>
+<DT> <H4> Draw functions/operators: </H4>
+<DL>
+<DT>        void Draw(void) const;
+<DT>
+</DL>
+<DT> <H4> Arithmetic functions/operators: </H4>
+<DL>
+<DT>	R3Plane operator-(void) const;
+<DT>	
+</DL>
+<DT> <H4> Undocumented functions/operators: </H4>
+<DL>
+<DT>  	RNScalar& operator[](int i);
+<DT>
+</DL>
+</DL> </DL>
+</DL>
+
+
+
+<P>
+<HR> <H2> <A NAME="R3Point" HREF="../pkgs/R3Shapes/R3Point.h">R3Point</A> </H2> 
+
+<DL> <DL>
+<DT> <H3>Base Classes:</H3> 
+<DL>
+<DT> <H4>Public Base Classes:</H4> 
+<DL>
+<DT>	None
+</DL> </DL>
+<P>
+<DT> <H3>Member Functions:</H3>
+<DL>
+<DT> <H4> Constructor/destructor functions: </H4>
+<DL>
+<DT>	R3Point(void);
+<DT>	R3Point(const R3Point& point);
+<DT>	R3Point(RNCoord x, RNCoord y, RNCoord z);
+<DT>	R3Point(const RNCoord array[3]);
+<DT>
+</DL>
+<DT> <H4> Property functions/operators: </H4>
+<DL>
+<DT>	const RNCoord X(void) const;
+<DT>	const RNCoord Y(void) const;
+<DT>	const RNCoord Z(void) const;
+<DT>	const RNCoord Coord(RNDimension dim) const;
+<DT>	const RNCoord operator[](RNDimension dim) const;
+<DT>	const RNCoord *Coords(void) const;
+<DT>	const RNBoolean IsZero(void) const;
+<DT>	const RNBoolean IsFinite(void) const;
+<DT>	const R3Vector Vector(void) const;
+<DT>	const R3Box BBox(void) const;
+<DT>	const R3Sphere BSphere(void) const;
+<DT>
+</DL>
+<DT> <H4> Relationship functions/operators: </H4>
+<DL>
+<DT>	const RNBoolean Collinear(const R3Point& point1, const R3Point& point2) const;
+<DT>	const RNBoolean operator==(const R3Point& point) const;
+<DT>	const RNBoolean operator!=(const R3Point& point) const;
+<DT>
+</DL>
+<DT> <H4> Manipulation functions/operators: </H4>
+<DL>
+<DT>	void SetX(RNCoord x);
+<DT>	void SetY(RNCoord y);
+<DT>	void SetZ(RNCoord z);
+<DT>	void SetCoord(RNDimension dim, RNCoord coord);
+<DT>        void Translate(const R3Vector& vector);
+<DT>	void Project(const R3Line& line);
+<DT>	void Project(const R3Plane& plane);
+<DT>	void Mirror(const R3Plane& plane);
+<DT>	void XRotate(RNAngle radians);
+<DT>	void YRotate(RNAngle radians);
+<DT>	void ZRotate(RNAngle radians);
+<DT>	void Rotate(const R3Vector& xyz_radians);
+<DT>	void Rotate(const R3Quaternion& quaternion);
+<DT>	void Rotate(RNAxis axis, RNAngle radians);
+<DT>	void Rotate(const R3Vector& axis, RNAngle theta);
+<DT>	void Rotate(const R3Line& axis, RNAngle theta);
+<DT>	void Transform(const R3Transformation& transformation);
+<DT>	void InverseTransform(const R3Transformation& transformation);
+<DT>	void Reset(RNCoord x, RNCoord y, RNCoord z);
+<DT>
+</DL>
+<DT> <H4> Draw functions/operators: </H4>
+<DL>
+<DT>        void Draw(void) const;
+<DT>
+</DL>
+<DT> <H4> Assignment operators: </H4>
+<DL>
+<DT>	R3Point& operator=(const R3Point& point);
+<DT>	R3Point& operator+=(const R3Point& point);
+<DT>	R3Point& operator+=(const R3Vector& vector);
+<DT>	R3Point& operator-=(const R3Vector& vector);
+<DT>	R3Point& operator*=(const RNScalar a);
+<DT>	R3Point& operator/=(const RNScalar a);
+<DT>
+</DL>
+<DT> <H4> Arithmetic operators: </H4>
+<DL>
+<DT>	friend R3Point operator-(const R3Point& point);
+<DT>	friend R3Point operator+(const R3Point& point1, const R3Point& point2);
+<DT>	friend R3Point operator+(const R3Point& point, const R3Vector& vector);
+<DT>	friend R3Point operator+(const R3Vector& vector, const R3Point& point);
+<DT>	friend R3Vector operator-(const R3Point& point1, const R3Point& point2);
+<DT>	friend R3Point operator-(const R3Point& point, const R3Vector& vector);
+<DT>	friend R3Point operator*(const R3Point& point, const RNScalar a);
+<DT>	friend R3Point operator*(const RNScalar a, const R3Point& point);
+<DT>	friend R3Point operator/(const R3Point& point, const RNScalar a);
+<DT>
+</DL>
+<DT> <H4> Undocumented functions/operators: </H4>
+<DL>
+<DT>  	RNCoord& operator[](RNDimension dim);
+<DT>
+</DL>
+</DL> </DL>
+</DL>
+
+
+
+<P>
+<HR> <H2> <A NAME="R3Quaternion" HREF="../pkgs/R3Shapes/R3Quaternion.h">R3Quaternion</A> </H2> 
+
+<DL> <DL>
+<DT> <H3>Base Classes:</H3> 
+<DL>
+<DT> <H4>Public Base Classes:</H4> 
+<DL>
+<DT>    <A HREF="#R3Base">R3Base</A>
+</DL> </DL>
+<P>
+<DT> <H3>Member Functions:</H3>
+<DL>
+<DT> <H4> Constructor functions: </H4>
+<DL>
+<DT>	R3Quaternion(void);
+<DT>        R3Quaternion(const R3Quaternion& quaternion);
+<DT>	R3Quaternion(RNScalar a, RNScalar b, RNScalar c, RNScalar d);
+<DT>        R3Quaternion(const R3Quaternion& quaternion1, const R3Quaternion& quaternion2, RNScalar t);
+<DT>        R3Quaternion(const R3Vector& axis, RNAngle theta);
+<DT>        R3Quaternion(const R4Matrix& matrix, int dummy);
+<DT>        R3Quaternion(int dimension, RNAngle theta);
+<DT>        R3Quaternion(RNAngle pitch, RNAngle yaw, RNAngle roll);
+<DT>	R3Quaternion(const RNScalar array[4]);
+<DT>  
+</DL>
+<DT> <H4> Property functions/operators: </H4>
+<DL>
+<DT>	const RNScalar A(void) const;
+<DT>	const RNScalar B(void) const;
+<DT>	const RNScalar C(void) const;
+<DT>	const RNScalar D(void) const;
+<DT>	const RNScalar operator[](int i) const;
+<DT>	const RNBoolean IsZero(void) const;
+<DT>        const R3Vector Axis(void) const;
+<DT>        const RNAngle Angle(void) const;
+<DT>        const R4Matrix Matrix(void) const;
+<DT>        const R3Quaternion Inverse(void) const;
+<DT>
+</DL>
+<DT> <H4> Relationship functions/operators: </H4>
+<DL>
+<DT>	const RNBoolean operator==(const R3Quaternion& quaternion) const;
+<DT>	const RNBoolean operator!=(const R3Quaternion& quaternion) const;
+<DT>
+</DL>
+<DT> <H4> Manipulation functions/operators: </H4>
+<DL>
+<DT>        void Flip(void);
+<DT>        void Multiply(const R3Quaternion& quaternion);
+<DT>	void XRotate(RNAngle radians);
+<DT>	void YRotate(RNAngle radians);
+<DT>	void ZRotate(RNAngle radians);
+<DT>	void Rotate(const R3Vector& xyz_radians);
+<DT>	void Rotate(int dimension, RNAngle radians);
+<DT>	void Rotate(const R3Vector& axis, RNAngle radians);
+<DT>        void Rotate(const R3Quaternion& quaternion);
+<DT>        void Rotate(const R4Matrix& matrix);
+<DT>	void Reset(RNScalar a, RNScalar b, RNScalar c, RNScalar d);
+<DT>
+</DL>
+<DT> <H4> Assignment operators: </H4>
+<DL>
+<DT>	R3Quaternion& operator=(const R3Quaternion& quaternion);
+<DT>	R3Quaternion& operator*=(const R3Quaternion& quaternion);
+<DT>
+</DL>
+<DT> <H4> Arithmetic operators: </H4>
+<DL>
+<DT>	friend R3Quaternion operator*(const R3Quaternion& quaternion1, const R3Quaternion& quaternion2);
+<DT>	friend R3Point operator*(const R3Quaternion& quaternion, const R3Point& point);
+<DT>	friend R3Vector operator*(const R3Quaternion& quaternion, const R3Vector& vector);
+<DT>	friend R3Quaternion R3QuaternionSlerp(const R3Quaternion& quaternion1, const R3Quaternion& quaternion2, RNScalar t);
+<DT>
+</DL>
+<DT> <H4> Undocumented functions/operators: </H4>
+<DL>
+<DT>  	RNScalar& operator[](int i);
+<DT>
+</DL>
+</DL> </DL>
+</DL>
+
+
+
+<P>
+<HR> <H2> <A NAME="R3Ray" HREF="../pkgs/R3Shapes/R3Ray.h">R3Ray</A> </H2> 
+
+<DL> <DL>
+<DT> <H3>Base Classes:</H3> 
+<DL>
+<DT> <H4>Public Base Classes:</H4> 
+<DL>
+<DT>	None
+</DL> </DL>
+<P>
+<DT> <H3>Member Functions:</H3>
+<DL>
+<DT> <H4> Constructor functions: </H4>
+<DL>
+<DT>	R3Ray(void);
+<DT>	R3Ray(const R3Ray& ray);
+<DT>	R3Ray(const R3Point& point, const R3Vector& vector, RNBoolean normalized = FALSE);
+<DT>	R3Ray(const R3Point& point1, const R3Point& point2);
+<DT>	R3Ray(RNCoord x1, RNCoord y1, RNCoord z1, RNCoord x2, RNCoord y2, RNCoord z2);
+<DT>
+</DL>
+<DT> <H4> Property functions/operators: </H4>
+<DL>
+<DT>        const R3Point& Start(void) const;
+<DT>        const R3Vector& Vector(void) const;
+<DT>        const R3Line& Line(void) const;
+<DT>	const R3Point Point(RNScalar t) const;
+<DT>	const RNScalar T(const R3Point& point) const;
+<DT>	const RNBoolean IsZero(void) const;
+<DT>	const RNBoolean operator==(const R3Ray& ray) const;
+<DT>	const RNBoolean operator!=(const R3Ray& ray) const;
+<DT>
+</DL>
+<DT> <H4> Manipulation functions/operators: </H4>
+<DL>
+<DT>	void Flip(void);
+<DT>	void Mirror(const R3Plane& plane);
+<DT>        void Translate(const R3Vector& vector);
+<DT>        void Reposition(const R3Point& point);
+<DT>        void Align(const R3Vector& vector, RNBoolean normalized = FALSE);
+<DT>        void Transform(const R3Transformation& transformation);
+<DT>	void InverseTransform(const R3Transformation& transformation);
+<DT>	void Reset(const R3Point& point, const R3Vector& vector, RNBoolean normalized = FALSE);
+<DT>
+</DL>
+<DT> <H4> Draw functions/operators: </H4>
+<DL>
+<DT>        void Draw(void) const;
+<DT>
+</DL>
+<DT> <H4> Arithmetic functions/operators: </H4>
+<DL>
+<DT>	R3Ray operator-(void) const;
+<DT>	
+</DL>
+</DL> </DL>
+</DL>
+
+
+
+<P>
+<HR> <H2> <A NAME="R3Shape" HREF="../pkgs/R3Shapes/R3Shape.h">R3Shape</A> </H2> 
+
+<DL> <DL>
+<DT> <H3>Base Classes:</H3> 
+<DL>
+<DT> <H4>Public Base Classes:</H4> 
+<DL>
+<DT>    <A HREF="#R3Base">R3Base</A>
+</DL> </DL>
+<P>
+<DT> <H3>Member Functions:</H3>
+<DL>
+<DT> <H4> Constructors/destructors: </H4>
+<DL>
+</DL>
+</DL> </DL>
+</DL>
+
+
+
+<P>
+</DL>
+</DL> </DL>
+</DL>
+
+
+
+<P>
+</DL>
+</DL> </DL>
+</DL>
+
+
+
+<P>
+<HR> <H2> <A NAME="R3Solid" HREF="../pkgs/R3Shapes/R3Solid.h">R3Solid</A> </H2> 
+
+<DL> <DL>
+<DT> <H3>Base Classes:</H3> 
+<DL>
+<DT> <H4>Public Base Classes:</H4> 
+<DL>
+<DT>    <A HREF="#R3Shape">R3Shape</A>
+</DL> </DL>
+<P>
+<DT> <H3>Member Functions:</H3>
+<DL>
+<DT> <H4> Constructors/destructors ???: </H4>
+<DL>
+<DT>	R3Solid(void);
+<DT>	~R3Solid(void);
+<DT>
+</DL>
+<DT> <H4> Shape property functions/operators: </H4>
+<DL>
+<DT>	const RNBoolean IsSolid(void) const;
+</DL>
+</DL> </DL>
+</DL>
+
+
+
+<P>
+<HR> <H2> <A NAME="R3Span" HREF="../pkgs/R3Shapes/R3Span.h">R3Span</A> </H2> 
+
+<DL> <DL>
+<DT> <H3>Base Classes:</H3> 
+<DL>
+<DT> <H4>Public Base Classes:</H4> 
+<DL>
+<DT>	None
+</DL> </DL>
+<P>
+<DT> <H3>Member Functions:</H3>
+<DL>
+<DT> <H4> Constructor functions: </H4>
+<DL>
+<DT>	R3Span(void);
+<DT>	R3Span(const R3Span& span);
+<DT>	R3Span(const R3Point& point, const R3Vector& vector);
+<DT>	R3Span(const R3Point& point1, const R3Point& point2);
+<DT>	R3Span(RNCoord x1, RNCoord y1, RNCoord z1, RNCoord x2, RNCoord y2, RNCoord z2);
+<DT>
+</DL>
+<DT> <H4> Property functions/operators: </H4>
+<DL>
+<DT>        const R3Point& Start(void) const;
+<DT>        const R3Point& End(void) const;
+<DT>        const R3Vector& Vector(void) const;
+<DT>        const R3Point Point(int k) const;
+<DT>	const R3Point Point(RNScalar t) const;
+<DT>        const R3Point& operator[](int k) const;
+<DT>        const R3Ray& Ray(void) const;
+<DT>        const R3Line& Line(void) const;
+<DT>        const R3Point Midpoint(void) const;
+<DT>        const R3Point Centroid(void) const;
+<DT>        const R3Box BBox(void) const;
+<DT>        const R3Sphere BSphere(void) const;
+<DT>        const RNLength Length(void) const;
+<DT>	const RNScalar T(const R3Point& point) const;
+<DT>        const RNBoolean IsPoint(void) const;
+<DT>	const RNBoolean operator==(const R3Span& span) const;
+<DT>	const RNBoolean operator!=(const R3Span& span) const;
+<DT>
+</DL>
+<DT> <H4> Manipulation functions/operators: </H4>
+<DL>
+<DT>	void Flip(void);
+<DT>	void Mirror(const R3Plane& plane);
+<DT>        void Translate(const R3Vector& vector);
+<DT>        void Reposition(int k, const R3Point& point);
+<DT>        void Align(const R3Vector& vector);
+<DT>        void Transform(const R3Transformation& transformation);
+<DT>        void InverseTransform(const R3Transformation& transformation);
+<DT>        void Reset(const R3Point& point1, const R3Point& point2);
+<DT>	RNClassID Clip(const R3Plane& plane);
+<DT>
+</DL>
+<DT> <H4> Draw functions/operators: </H4>
+<DL>
+<DT>        void Draw(void) const;
+<DT>
+</DL>
+<DT> <H4> Arithmetic functions/operators: </H4>
+<DL>
+<DT>	R3Span operator-(void) const;
+<DT>
+</DL>
+</DL> </DL>
+</DL>
+
+
+
+<P>
+<HR> <H2> <A NAME="R3Sphere" HREF="../pkgs/R3Shapes/R3Sphere.h">R3Sphere</A> </H2> 
+
+<DL> <DL>
+<DT> <H3>Base Classes:</H3> 
+<DL>
+<DT> <H4>Public Base Classes:</H4> 
+<DL>
+<DT>    <A HREF="#R3Solid">R3Solid</A>
+</DL> </DL>
+<P>
+<DT> <H3>Member Functions:</H3>
+<DL>
+<DT> <H4> Constructor functions: </H4>
+<DL>
+<DT>	R3Sphere(void);
+<DT>        R3Sphere(const R3Sphere& sphere);
+<DT>        R3Sphere(const R3Point& center, RNLength radius);
+<DT>
+</DL>
+<DT> <H4> Sphere property functions/operators: </H4>
+<DL>
+<DT>        const R3Point& Center(void) const;
+<DT>        const RNLength Radius(void) const;
+<DT>	const RNBoolean IsEmpty(void) const;
+<DT>	const RNBoolean IsFinite(void) const;
+<DT>
+</DL>
+<DT> <H4> Shape property functions/operators: </H4>
+<DL>
+<DT>	virtual const RNBoolean IsPoint(void) const;
+<DT>	virtual const RNBoolean IsLinear(void) const ;
+<DT>	virtual const RNBoolean IsPlanar(void) const ;
+<DT>	virtual const RNBoolean IsConvex(void) const ;
+<DT>        virtual const RNInterval NFacets(void) const;
+<DT>	virtual const RNArea Area(void) const;
+<DT>	virtual const RNVolume Volume(void) const;
+<DT>	virtual const R3Point Centroid(void) const;
+<DT>	virtual const R3Point ClosestPoint(const R3Point& point) const;
+<DT>	virtual const R3Point FurthestPoint(const R3Point& point) const;
+<DT>	virtual const R3Shape& BShape(void) const;
+<DT>	virtual const R3Box BBox(void) const;
+<DT>	virtual const R3Sphere BSphere(void) const;
+<DT>
+</DL>
+<DT> <H4> Manipulation functions/operators: </H4>
+<DL>
+<DT>        virtual void Empty(void);
+<DT>        virtual void Translate(const R3Vector& vector);
+<DT>        virtual void Reposition(const R3Point& center);
+<DT>        virtual void Resize(RNLength radius);
+<DT>	virtual void Transform(const R3Transformation& transformation);
+<DT>
+</DL>
+<DT> <H4> Draw functions/operators: </H4>
+<DL>
+<DT>        virtual void Draw(const R3DrawFlags draw_flags = R3_DEFAULT_DRAW_FLAGS) const;
+<DT>
+</DL>
+<DT> <H4> Standard shape definitions: </H4>
+<DL>
+<DT>	RN_CLASS_TYPE_DECLARATIONS(R3Sphere);
+<DT>        R3_SHAPE_RELATIONSHIP_DECLARATIONS(R3Sphere);
+<DT>
+<DT>
+</DL>
+</DL> </DL>
+</DL>
+
+
+
+<P>
+<HR> <H2> <A NAME="R3Surface" HREF="../pkgs/R3Shapes/R3Surface.h">R3Surface</A> </H2> 
+
+<DL> <DL>
+<DT> <H3>Base Classes:</H3> 
+<DL>
+<DT> <H4>Public Base Classes:</H4> 
+<DL>
+<DT>    <A HREF="#R3Shape">R3Shape</A>
+</DL> </DL>
+<P>
+<DT> <H3>Member Functions:</H3>
+<DL>
+<DT> <H4> Constructors/destructors ???: </H4>
+<DL>
+<DT>	R3Surface(void);
+<DT>	~R3Surface(void);
+<DT>
+</DL>
+<DT> <H4> Shape property functions/operators: </H4>
+<DL>
+<DT>	const RNBoolean IsSurface(void) const;
+</DL>
+</DL> </DL>
+</DL>
+
+
+
+<P>
+<HR> <H2> <A NAME="R3Triad" HREF="../pkgs/R3Shapes/R3Triad.h">R3Triad</A> </H2> 
+
+<DL> <DL>
+<DT> <H3>Base Classes:</H3> 
+<DL>
+<DT> <H4>Public Base Classes:</H4> 
+<DL>
+<DT>    <A HREF="#R3Base">R3Base</A>
+</DL> </DL>
+<P>
+<DT> <H3>Member Functions:</H3>
+<DL>
+<DT> <H4> Constructor functions: </H4>
+<DL>
+<DT>	R3Triad(void);
+<DT>	R3Triad(const R3Triad& triad);
+<DT>	R3Triad(const R3Vector& xaxis, const R3Vector& yaxis, const R3Vector& zaxis);
+<DT>	R3Triad(const R3Vector& towards, const R3Vector& up);
+<DT>
+</DL>
+<DT> <H4> Property functions/operators: </H4>
+<DL>
+<DT>        const R4Matrix Matrix(void) const;
+<DT>        const R4Matrix InverseMatrix(void) const;
+<DT>	const R3Vector& Axis(RNDimension dim) const;
+<DT>	const R3Vector& operator[](RNDimension dim) const;
+<DT>	const RNBoolean operator==(const R3Triad& triad) const;
+<DT>	const RNBoolean operator!=(const R3Triad& triad) const;
+<DT>
+</DL>
+<DT> <H4> Manipulation functions/operators: </H4>
+<DL>
+<DT>        void Normalize(void);
+<DT>	void Rotate(RNAxis axis, RNAngle radians);
+<DT>	void Rotate(const R3Vector& vector, RNAngle radians);
+<DT>	void Rotate(const R3Vector& from, const R3Vector& to);
+<DT>	void Mirror(const R3Plane& plane);
+<DT>        void Transform(const R3Transformation& transformation);
+<DT>        void InverseTransform(const R3Transformation& transformation);
+<DT>	R3Triad& operator=(const R3Triad& triad);
+<DT>
+</DL>
+<DT> <H4> Draw functions/operators: </H4>
+<DL>
+<DT>        void Draw(void) const;
+<DT>        void Outline(void) const;
+<DT>
+</DL>
+</DL> </DL>
+</DL>
+
+
+
+<P>
+<HR> <H2> <A NAME="R3TriangleVertex" HREF="../pkgs/R3Shapes/R3TriangleVertex.h">R3TriangleVertex</A> </H2> 
+
+<DL> <DL>
+<DT> <H3>Base Classes:</H3> 
+<DL>
+<DT> <H4>Public Base Classes:</H4> 
+<DL>
+<DT>	None
+</DL> </DL>
+<P>
+<DT> <H3>Member Functions:</H3>
+<DL>
+<DT> <H4> Constructors: </H4>
+<DL>
+<DT>	R3TriangleVertex(void);
+<DT>        R3TriangleVertex(const R3TriangleVertex& vertex);
+<DT>        R3TriangleVertex(const R3Point& position);
+<DT>        R3TriangleVertex(const R3Point& position, const R3Vector& normal);
+<DT>        R3TriangleVertex(const R3Point& position, const R2Point& texcoords);
+<DT>        R3TriangleVertex(const R3Point& position, const R3Vector& normal, const R2Point& texcoords);
+<DT>
+</DL>
+<DT> <H4> Property functions/operators: </H4>
+<DL>
+<DT>	const R3Point& Position(void) const;
+<DT>	const R3Vector& Normal(void) const;
+<DT>	const R2Point& TextureCoords(void) const;
+<DT>        const RNFlags Flags(void) const;
+<DT>        const RNMark Mark(void) const;
+<DT>
+</DL>
+<DT> <H4> Manipulation functions/operators: </H4>
+<DL>
+<DT>        void Mirror(const R3Plane& plane);
+<DT>        void Transform(const R3Transformation& transformation);
+<DT>	void SetPosition(const R3Point& position);
+<DT>	void SetNormal(const R3Vector& normal);
+<DT>	void SetTextureCoords(const R2Point& texcoords);
+<DT>        void SetMark(RNMark mark);
+<DT>
+<DT>        R3Point position;
+<DT>	R3Vector normal;
+<DT>	R2Point texcoords;
+<DT>        RNFlags flags;
+<DT>        RNMark mark;
+</DL>
+</DL> </DL>
+</DL>
+
+
+
+<P>
+<HR> <H2> <A NAME="R3Triangle" HREF="../pkgs/R3Shapes/R3Triangle.h">R3Triangle</A> </H2> 
+
+<DL> <DL>
+<DT> <H3>Base Classes:</H3> 
+<DL>
+<DT> <H4>Public Base Classes:</H4> 
+<DL>
+<DT>    <A HREF="#R3Surface">R3Surface</A>
+</DL> </DL>
+<P>
+<DT> <H3>Member Functions:</H3>
+<DL>
+<DT> <H4> Constructor functions: </H4>
+<DL>
+<DT>        R3Triangle(void);
+<DT>        R3Triangle(const R3Triangle& triangle);
+<DT>        R3Triangle(R3TriangleVertex *v0, R3TriangleVertex *v1, R3TriangleVertex *v2);
+<DT>        R3Triangle(R3TriangleVertex *vertices[3]);
+<DT>
+</DL>
+<DT> <H4> Vertex access functions/operators: </H4>
+<DL>
+<DT>	R3TriangleVertex *Vertex(int index) const;
+<DT>	R3TriangleVertex *V0(void) const;
+<DT>	R3TriangleVertex *V1(void) const;
+<DT>	R3TriangleVertex *V2(void) const;
+<DT>
+</DL>
+<DT> <H4> Triangle property functions/operators: </H4>
+<DL>
+<DT>	const R3Plane& Plane(void) const;
+<DT>	const R3Vector& Normal(void) const;
+<DT>        const R3Box& Box(void) const;
+<DT>        const RNFlags Flags(void) const;
+<DT>        const RNMark Mark(void) const;
+<DT>	const RNBoolean IsFinite(void) const;
+<DT>	const RNBoolean IsDegenerate(void) const;
+<DT>
+</DL>
+<DT> <H4> Shape property functions/operators: </H4>
+<DL>
+<DT>	virtual const RNBoolean IsPoint(void) const;
+<DT>	virtual const RNBoolean IsLinear(void) const;
+<DT>	virtual const RNBoolean IsPlanar(void) const;
+<DT>	virtual const RNBoolean IsConvex(void) const;
+<DT>        virtual const RNInterval NFacets(void) const;
+<DT>        virtual const RNLength Length(void) const;
+<DT>        virtual const RNArea Area(void) const;
+<DT>        virtual const R3Point Centroid(void) const;
+<DT>        virtual const R3Point ClosestPoint(const R3Point& point) const;
+<DT>        virtual const R3Point FurthestPoint(const R3Point& point) const;
+<DT>        virtual const R3Shape& BShape(void) const;
+<DT>        virtual const R3Box BBox(void) const;
+<DT>        virtual const R3Sphere BSphere(void) const;
+<DT>
+</DL>
+<DT> <H4> Manipulation functions/operators: </H4>
+<DL>
+<DT>	virtual void Flip(void);
+<DT>	virtual void Transform(const R3Transformation& transformation);
+<DT>	virtual void Mirror(const R3Plane& plane);
+<DT>	virtual void Reset(R3TriangleVertex *v1, R3TriangleVertex *v2, R3TriangleVertex *v3);
+<DT>	virtual void Reset(R3TriangleVertex *vertices[3]);
+<DT>        virtual void SetMark(RNMark mark);
+<DT>	virtual void Update(void);  
+<DT>
+</DL>
+<DT> <H4> Draw functions/operators: </H4>
+<DL>
+<DT>        virtual void Draw(const R3DrawFlags draw_flags = R3_DEFAULT_DRAW_FLAGS) const;
+<DT>
+</DL>
+<DT> <H4> Arithmetic functions/operators: </H4>
+<DL>
+<DT>	R3Triangle operator-(void) const;
+<DT>	
+</DL>
+<DT> <H4> Standard shape definitions: </H4>
+<DL>
+<DT>	RN_CLASS_TYPE_DECLARATIONS(R3Triangle);
+<DT>        R3_SHAPE_RELATIONSHIP_DECLARATIONS(R3Triangle);
+<DT>
+</DL>
+</DL> </DL>
+</DL>
+
+
+
+<P>
+<HR> <H2> <A NAME="R3TriangleArray" HREF="../pkgs/R3Shapes/R3TriangleArray.h">R3TriangleArray</A> </H2> 
+
+<DL> <DL>
+<DT> <H3>Base Classes:</H3> 
+<DL>
+<DT> <H4>Public Base Classes:</H4> 
+<DL>
+<DT>    <A HREF="#R3Surface">R3Surface</A>
+</DL> </DL>
+<P>
+<DT> <H3>Member Functions:</H3>
+<DL>
+<DT> <H4> Constructor functions: </H4>
+<DL>
+<DT>        R3TriangleArray(void);
+<DT>        R3TriangleArray(const R3TriangleArray& array);
+<DT>        R3TriangleArray(const RNArray<R3TriangleVertex *>& vertices, const RNArray<R3Triangle *>& triangles);
+<DT>
+</DL>
+<DT> <H4> Triangle array properties: </H4>
+<DL>
+<DT>        const R3Box& Box(void) const;
+<DT>
+</DL>
+<DT> <H4> Vertex access functions/operators: </H4>
+<DL>
+<DT>        int NVertices(void) const;
+<DT>	R3TriangleVertex *Vertex(int index) const;
+<DT>
+</DL>
+<DT> <H4> Triangle access functions/operators: </H4>
+<DL>
+<DT>        int NTriangles(void) const;
+<DT>	R3Triangle *Triangle(int index) const;
+<DT>
+</DL>
+<DT> <H4> Shape property functions/operators: </H4>
+<DL>
+<DT>	virtual const RNBoolean IsPoint(void) const;
+<DT>	virtual const RNBoolean IsLinear(void) const;
+<DT>	virtual const RNBoolean IsPlanar(void) const;
+<DT>	virtual const RNBoolean IsConvex(void) const;
+<DT>        virtual const RNInterval NFacets(void) const;
+<DT>        virtual const RNLength Length(void) const;
+<DT>        virtual const RNArea Area(void) const;
+<DT>        virtual const R3Point Centroid(void) const;
+<DT>        virtual const R3Point ClosestPoint(const R3Point& point) const;
+<DT>        virtual const R3Point FurthestPoint(const R3Point& point) const;
+<DT>        virtual const R3Shape& BShape(void) const;
+<DT>        virtual const R3Box BBox(void) const;
+<DT>        virtual const R3Sphere BSphere(void) const;
+<DT>
+</DL>
+<DT> <H4> Manipulation functions/operators: </H4>
+<DL>
+<DT>	virtual void Flip(void);
+<DT>	virtual void Mirror(const R3Plane& plane);
+<DT>	virtual void Transform(const R3Transformation& transformation);
+<DT>	virtual void MoveVertex(R3TriangleVertex *vertex, const R3Point& position);
+<DT>	virtual void Update(void);  
+<DT>
+</DL>
+<DT> <H4> Draw functions/operators: </H4>
+<DL>
+<DT>        virtual void Draw(const R3DrawFlags draw_flags = R3_DEFAULT_DRAW_FLAGS) const;
+<DT>
+</DL>
+<DT> <H4> Standard shape definitions: </H4>
+<DL>
+<DT>	RN_CLASS_TYPE_DECLARATIONS(R3TriangleArray);
+<DT>        R3_SHAPE_RELATIONSHIP_DECLARATIONS(R3TriangleArray);
+<DT>
+</DL>
+</DL> </DL>
+</DL>
+
+
+
+<P>
+<HR> <H2> <A NAME="R3Vector" HREF="../pkgs/R3Shapes/R3Vector.h">R3Vector</A> </H2> 
+
+<DL> <DL>
+<DT> <H3>Base Classes:</H3> 
+<DL>
+<DT> <H4>Public Base Classes:</H4> 
+<DL>
+<DT>    <A HREF="#R3Base">R3Base</A>
+</DL> </DL>
+<P>
+<DT> <H3>Member Functions:</H3>
+<DL>
+<DT> <H4> Constructor functions: </H4>
+<DL>
+<DT>	R3Vector(void);
+<DT>        R3Vector(const R3Vector& vector);
+<DT>	R3Vector(RNCoord x, RNCoord y, RNCoord z);
+<DT>	R3Vector(const RNCoord array[3]);
+<DT>	R3Vector(RNAngle pitch, RNAngle yaw);
+<DT>
+</DL>
+<DT> <H4> Property functions/operators: </H4>
+<DL>
+<DT>	const RNCoord X(void) const;
+<DT>	const RNCoord Y(void) const;
+<DT>	const RNCoord Z(void) const;
+<DT>	const RNCoord Coord(RNDimension dim) const;
+<DT>	const RNCoord operator[](RNDimension dim) const;
+<DT>	const RNCoord *Coords(void) const;
+<DT>	const RNBoolean IsZero(void) const;
+<DT>	const RNBoolean IsFinite(void) const;
+<DT>	const RNBoolean IsNormalized(void) const;
+<DT>	const RNLength Length(void) const;
+<DT>	const R3Point Point(void) const;
+<DT>	const RNSextant Sextant(void) const;
+<DT>	const RNOctant Octant(void) const;
+<DT>	const RNDimension MinDimension(void) const;
+<DT>	const RNDimension MaxDimension(void) const;
+<DT>
+</DL>
+<DT> <H4> Relationship functions/operators: </H4>
+<DL>
+<DT>	const RNBoolean operator==(const R3Vector& vector) const;
+<DT>	const RNBoolean operator!=(const R3Vector& vector) const;
+<DT>	const RNScalar Dot(const R3Vector& vector) const;
+<DT>
+</DL>
+<DT> <H4> Manipulation functions/operators: </H4>
+<DL>
+<DT>	void SetX(RNCoord x);
+<DT>	void SetY(RNCoord y);
+<DT>	void SetZ(RNCoord z);
+<DT>	void SetCoord(RNDimension dim, RNCoord coord);
+<DT>	void Flip(void);
+<DT>	void Normalize(void);
+<DT>	void Cross(const R3Vector& vector);
+<DT>	void XRotate(RNAngle radians);
+<DT>	void YRotate(RNAngle radians);
+<DT>	void ZRotate(RNAngle radians);
+<DT>	void Rotate(const R3Vector& xyz_radians);
+<DT>	void Rotate(const R3Quaternion& quaternion);
+<DT>	void Rotate(RNAxis axis, RNAngle radians);
+<DT>	void Rotate(const R3Vector& axis, RNAngle theta);
+<DT>	void Project(const R3Vector& vector);
+<DT>	void Project(const R3Plane& plane);
+<DT>	void Mirror(const R3Plane& plane);
+<DT>	void Transform(const R3Transformation& transformation);
+<DT>	void InverseTransform(const R3Transformation& transformation);
+<DT>	void Reset(RNCoord x, RNCoord y, RNCoord z);
+<DT>
+</DL>
+<DT> <H4> Draw functions/operators: </H4>
+<DL>
+<DT>        void Draw(void) const;
+<DT>        void Outline(void) const;
+<DT>
+</DL>
+<DT> <H4> Assignment operators: </H4>
+<DL>
+<DT>	R3Vector& operator=(const R3Vector& vector);
+<DT>	R3Vector& operator+=(const R3Vector& vector);
+<DT>	R3Vector& operator-=(const R3Vector& vector);
+<DT>	R3Vector& operator*=(const RNScalar a);
+<DT>        R3Vector& operator*=(const R3Vector& vector);
+<DT>	R3Vector& operator/=(const RNScalar a);
+<DT>	R3Vector& operator/=(const R3Vector& vector);
+<DT>
+</DL>
+<DT> <H4> Arithmetic operators: </H4>
+<DL>
+<DT>	friend R3Vector operator+(const R3Vector& vector);
+<DT>	friend R3Vector operator-(const R3Vector& vector);
+<DT>	friend R3Vector operator+(const R3Vector& vector1, const R3Vector& vector2);
+<DT>	friend R3Vector operator-(const R3Vector& vector1, const R3Vector& vector2);
+<DT>	friend R3Vector operator*(const R3Vector& vector1, const R3Vector& vector2);
+<DT>	friend R3Vector operator*(const R3Vector& vector, const RNScalar a);
+<DT>	friend R3Vector operator*(const RNScalar a, const R3Vector& vector);
+<DT>	friend R3Vector operator/(const R3Vector& vector1, const R3Vector& vector2);
+<DT>	friend R3Vector operator/(const R3Vector& vector, const RNScalar a);
+<DT>	friend R3Vector operator%(const R3Vector& vector1, const R3Vector& vector2);
+<DT>
+</DL>
+<DT> <H4> Undocumented functions/operators: </H4>
+<DL>
+<DT>  	RNCoord& operator[](RNDimension dim);
+<DT>
+</DL>
+</DL> </DL>
+</DL>
+
+
+
+<P>
+<HR> <H2> <A NAME="R3Transformation" HREF="../pkgs/R3Shapes/R3Transformation.h">R3Transformation</A> </H2> 
+
+<DL> <DL>
+<DT> <H3>Base Classes:</H3> 
+<DL>
+<DT> <H4>Public Base Classes:</H4> 
+<DL>
+<DT>    <A HREF="#R3Base">R3Base</A>
+</DL> </DL>
+<P>
+<DT> <H3>Member Functions:</H3>
+<DL>
+<DT> <H4> Destructor function: </H4>
+<DL>
+<DT>        virtual ~R3Transformation(void);
+<DT>
+</DL>
+<DT> <H4> Property functions/operators: </H4>
+<DL>
+<DT>	virtual const RNBoolean IsMirrored(void) const;
+<DT>	virtual const RNBoolean IsLinear(void) const;
+<DT>	virtual const RNBoolean IsAffine(void) const;
+<DT>	virtual const RNBoolean IsIsotropic(void) const;
+<DT>
+</DL>
+<DT> <H4> Application functions/operators: </H4>
+<DL>
+<DT>	virtual void Apply(R3Vector& vector) const = 0;
+<DT>	virtual void Apply(R3Point& point) const = 0;
+<DT>	virtual void Apply(R3Transformation& transformation) const = 0;
+<DT>	virtual void Apply(R3Affine& affine) const = 0;
+<DT>	virtual void ApplyInverse(R3Vector& vector) const = 0;
+<DT>	virtual void ApplyInverse(R3Point& point) const = 0;
+<DT>	virtual void ApplyInverse(R3Transformation& transformation) const = 0;
+<DT>	virtual void ApplyInverse(R3Affine& affine) const = 0;
+<DT>	virtual void ApplyInverseTranspose(R3Vector& vector) const = 0;
+<DT>	virtual void ApplyTranspose(R3Vector& vector) const = 0;
+<DT>
+</DL>
+<DT> <H4> Manipulation functions/operators: </H4>
+<DL>
+<DT>	virtual void Reset(const R3Transformation& transformation) = 0;
+<DT>	virtual void Transform(const R3Transformation& transformation) = 0;
+<DT>	virtual void InverseTransform(const R3Transformation& transformation) = 0;
+<DT>
+</DL>
+<DT> <H4> Draw functions/operators: </H4>
+<DL>
+<DT>        virtual void Load(void) const = 0;
+<DT>        virtual void Draw(void) const = 0;
+<DT>        virtual void Push(void) const = 0;
+<DT>        virtual void Pop(void) const = 0;
+<DT>
+</DL>
+<DT> <H4> Do not use these ???: </H4>
+<DL>
+<DT>	virtual const RNScalar ScaleFactor(void) const;
+</DL>
+</DL> </DL>
+</DL>
+
+
+
+<P>
+<HR> <H2> <A NAME="R4Matrix" HREF="../pkgs/R3Shapes/R4Matrix.h">R4Matrix</A> </H2> 
+
+<DL> <DL>
+<DT> <H3>Base Classes:</H3> 
+<DL>
+<DT> <H4>Public Base Classes:</H4> 
+<DL>
+<DT>    <A HREF="#R3Base">R3Base</A>
+</DL> </DL>
+<P>
+<DT> <H3>Member Functions:</H3>
+<DL>
+<DT> <H4> Constructor functions: </H4>
+<DL>
+<DT>	R4Matrix(void);
+<DT>        R4Matrix(const R4Matrix& matrix);
+<DT>	R4Matrix(RNScalar a00, RNScalar a01, RNScalar a02, RNScalar a03,
+<DT>   	         RNScalar a10, RNScalar a11, RNScalar a12, RNScalar a13,
+<DT>                 RNScalar a20, RNScalar a21, RNScalar a22, RNScalar a23,
+<DT>                 RNScalar a30, RNScalar a31, RNScalar a32, RNScalar a33);
+<DT>	R4Matrix(const RNScalar* array);
+<DT>
+</DL>
+<DT> <H4> Property functions/operators: </H4>
+<DL>
+<DT>	const RNBoolean IsZero(void) const;
+<DT>	const RNBoolean IsIdentity(void) const;
+<DT>        const RNBoolean IsIsotropic(void) const;
+<DT>        const RNBoolean HasTranslation(void) const;
+<DT>        const RNBoolean HasScale(void) const;
+<DT>        const RNBoolean HasRotation(void) const;
+<DT>        const RNBoolean HasMirror(void) const;
+<DT>  	const RNScalar *operator[](int i) const;
+<DT>        const RNScalar Determinant(void) const;
+<DT>	const R4Matrix Transpose(void) const;
+<DT>	const R4Matrix Inverse(void) const;
+<DT>	const RNBoolean operator==(const R4Matrix& matrix) const;
+<DT>	const RNBoolean operator!=(const R4Matrix& matrix) const;
+<DT>
+</DL>
+<DT> <H4> Draw functions/operators: </H4>
+<DL>
+<DT>        void Load(void) const;
+<DT>        void Draw(void) const;
+<DT>        void Push(void) const;
+<DT>        void Pop(void) const;
+<DT>
+</DL>
+<DT> <H4> Manipulation functions/operators: </H4>
+<DL>
+<DT>	void Flip(void);
+<DT>	void Invert(void);
+<DT>	void XTranslate(RNScalar offset);
+<DT>	void YTranslate(RNScalar offset);
+<DT>	void ZTranslate(RNScalar offset);
+<DT>	void Translate(RNScalar offset);
+<DT>	void Translate(RNAxis axis, RNScalar offset);
+<DT>	void Translate(const R3Vector& offset);
+<DT>	void XScale(RNScalar scale);
+<DT>	void YScale(RNScalar scale);
+<DT>	void ZScale(RNScalar scale);
+<DT>	void Scale(RNScalar scale);
+<DT>	void Scale(RNAxis axis, RNScalar scale);
+<DT>	void Scale(const R3Vector& scale);
+<DT>	void XRotate(RNAngle radians);
+<DT>	void YRotate(RNAngle radians);
+<DT>	void ZRotate(RNAngle radians);
+<DT>	void Rotate(const R3Vector& xyz_radians);
+<DT>	void Rotate(RNAxis axis, RNAngle radians);
+<DT>	void Rotate(const R3Vector& vector, RNAngle radians);
+<DT>	void Rotate(const R3Vector& from, const R3Vector& to);
+<DT>	void Rotate(const R3Quaternion& quaternion);
+<DT>	void Transform(const R4Matrix& matrix);
+<DT>	void Multiply(const R4Matrix& matrix);
+<DT>	void Add(const R4Matrix& matrix);
+<DT>	void Subtract(const R4Matrix& matrix);
+<DT>
+</DL>
+<DT> <H4> Assignment operators: </H4>
+<DL>
+<DT>	R4Matrix& operator=(const R4Matrix& matrix);
+<DT>	R4Matrix& operator+=(const R4Matrix& matrix);
+<DT>	R4Matrix& operator-=(const R4Matrix& matrix);
+<DT>	R4Matrix& operator*=(RNScalar a);
+<DT>	R4Matrix& operator*=(const R4Matrix& matrix);
+<DT>	R4Matrix& operator/=(RNScalar a);
+<DT>
+</DL>
+<DT> <H4> Arithmetic operators: </H4>
+<DL>
+<DT>	friend R4Matrix operator-(const R4Matrix& matrix);
+<DT>	friend R4Matrix operator+(const R4Matrix& matrix1, const R4Matrix& matrix2);
+<DT>	friend R4Matrix operator-(const R4Matrix& matrix1, const R4Matrix& matrix2);
+<DT>	friend R4Matrix operator*(RNScalar a, const R4Matrix& matrix);
+<DT>	friend R4Matrix operator*(const R4Matrix& matrix, RNScalar a);
+<DT>	friend R4Matrix operator*(const R4Matrix& matrix1, const R4Matrix& matrix2);
+<DT>	friend R4Matrix operator/(const R4Matrix& matrix, RNScalar scale);
+<DT>	friend R3Vector operator*(const R4Matrix& matrix, const R3Vector& vector);
+<DT>	friend R3Point operator*(const R4Matrix& matrix, const R3Point& point);
+<DT>
+</DL>
+<DT> <H4> Undocumented functions/operators: </H4>
+<DL>
+<DT>  	RNScalar *operator[](int i);
+<DT>
+</DL>
+</DL> </DL>
+</DL>
+
+
+
+<P>
+
+
+
+<HR>
+Click <A HREF="pkgs.html">this</A> to go back to list of GAPS packages.
+<P>
+</BODY>
+<ADDRESS>funk@cs.princeton.edu</ADDRESS>
+
+</HTML>
+
+
+

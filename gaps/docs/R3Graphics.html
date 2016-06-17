@@ -1,0 +1,1187 @@
+<HTML>
+<HEAD>
+<TITLE> R3Graphics Package </TITLE>
+</HEAD>
+<BODY>
+<H1> R3Graphics Package </H1>
+
+
+
+<HR><H2>Description:</H2>
+
+The R3Graphics package supports classes for basic computer graphics:
+3D viewing, camera control, surface material properties, lighting, and scene graphs.
+<P>
+
+
+<HR><H2>List of Classes:</H2>
+
+<DL>
+<DT> Camera and viewport control:
+<DL>
+<DT> <A HREF="#R2Viewport">R2Viewport</A> - 2D screen viewport.
+<DT> <A HREF="#R3Camera">R3Camera</A> - 3D camera (view frustum).
+<DT> <A HREF="#R3Viewer">R3Viewer</A> - Mapping from 3D camera to 2D viewport.
+  <DT> &nbsp;
+</DL>
+
+<DT> Surface material properties:
+<DL>
+  <DT> <A HREF="#R3Brdf">R3Brdf</A> - 3D bidirection reflectance distribution function.
+  <DT> <A HREF="#R2Texture">R2Texture</A> - 2D surface texture.
+  <DT> <A HREF="#R3Material">R3Material</A> - 3D material properties (brdf, texture, and texture transformation).
+  <DT> <A HREF="#R3Model">R3Model</A> - a set of 3D triangles with material properties.
+  <DT> &nbsp;
+</DL>
+
+<DT> Lights:
+<DL>
+  <DT> <A HREF="#R3Light">R3Light</A> - Light abstract class.
+  <DT> <A HREF="#R3DirectionalLight">R3DirectionalLight</A> - Directional light.
+  <DT> <A HREF="#R3PointLight">R3PointLight</A> - Point light.
+  <DT> <A HREF="#R3SpotLight">R3SpotLight</A> - Spot light.
+  <DT> &nbsp;
+</DL>
+
+<DT> Scene graphs:
+<DL>
+  <DT> <A HREF="#R3Scene">R3Scene</A> - scene graph.
+  <DT> <A HREF="#R3SceneNode">R3SceneNode</A> - scene graph node.
+  <DT> &nbsp;
+</DL>
+</DL>
+<P>
+
+
+
+
+
+<HR> <H2> <A NAME="R2Texture" HREF="../pkgs/R3Graphics/R2Texture.h">R2Texture</A> </H2> 
+
+<DL> <DL>
+<DT> <H3>Base Classes:</H3> 
+<DL>
+<DT> <H4>Public Base Classes:</H4> 
+<DL>
+<DT>	None
+</DL> </DL>
+<P>
+<DT> <H3>Member Functions:</H3>
+<DL>
+<DT> <H4> Constructor functions: </H4>
+<DL>
+<DT>  R2Texture(void);
+<DT>  R2Texture(const R2Texture& texture);
+<DT>  R2Texture(const R2Image *image,
+<DT>            R2TextureWrap s_wrap = R2_REPEAT_TEXTURE_WRAP,
+<DT>            R2TextureWrap t_wrap = R2_REPEAT_TEXTURE_WRAP,
+<DT>            R2TextureFilter min_filter = R2_LINEAR_TEXTURE_FILTER,
+<DT>            R2TextureFilter mag_filter = R2_LINEAR_TEXTURE_FILTER,
+<DT>            R2TextureBlend blend = R2_MODULATE_TEXTURE_BLEND);
+<DT>  R2Texture(const char *filename,
+<DT>            R2TextureWrap s_wrap = R2_CLAMP_TEXTURE_WRAP,
+<DT>            R2TextureWrap t_wrap = R2_CLAMP_TEXTURE_WRAP,
+<DT>            R2TextureFilter min_filter = R2_LINEAR_TEXTURE_FILTER,
+<DT>            R2TextureFilter mag_filter = R2_LINEAR_TEXTURE_FILTER,
+<DT>            R2TextureBlend blend = R2_MODULATE_TEXTURE_BLEND);
+<DT>  ~R2Texture(void);
+<DT>
+</DL>
+<DT> <H4> Property functions/operators: </H4>
+<DL>
+<DT>  const R2Image *Image(void) const;
+<DT>  const R2TextureWrap SWrap(void) const;
+<DT>  const R2TextureWrap TWrap(void) const;
+<DT>  const R2TextureFilter MinFilter(void) const;
+<DT>  const R2TextureFilter MagFilter(void) const;
+<DT>  const R2TextureBlend Blend(void) const;
+<DT>  const RNBoolean IsTransparent(void) const;
+<DT>  const RNBoolean IsLoaded(void) const;
+<DT>  const RNFlags Flags(void) const;
+<DT>  const int ID(void) const;
+<DT>
+</DL>
+<DT> <H4> Manipulation functions/operations: </H4>
+<DL>
+<DT>  void SetImage(const R2Image *image);
+<DT>
+</DL>
+<DT> <H4> Draw functions/operations: </H4>
+<DL>
+<DT>  void Load(void) const;
+<DT>  void Unload(void) const;
+<DT>  void Draw(RNBoolean force = FALSE) const;
+<DT>
+</DL>
+</DL> </DL>
+</DL>
+
+
+
+<P>
+<HR> <H2> <A NAME="R2Viewport" HREF="../pkgs/R3Graphics/R2Viewport.h">R2Viewport</A> </H2> 
+
+<DL> <DL>
+<DT> <H3>Base Classes:</H3> 
+<DL>
+<DT> <H4>Public Base Classes:</H4> 
+<DL>
+<DT>	None
+</DL> </DL>
+<P>
+<DT> <H3>Member Functions:</H3>
+<DL>
+<DT> <H4> Constructor functions: </H4>
+<DL>
+<DT>	R2Viewport(void);
+<DT>        R2Viewport(int xmin, int ymin, int width, int height);
+<DT>
+</DL>
+<DT> <H4> Property functions/operators: </H4>
+<DL>
+<DT>  	const int XMin(void) const;
+<DT>  	const int YMin(void) const;
+<DT>  	const int XMax(void) const;
+<DT>  	const int YMax(void) const;
+<DT>
+</DL>
+<DT> <H4> Property functions/operators: </H4>
+<DL>
+<DT>  	const int Width(void) const;
+<DT>  	const int Height(void) const;
+<DT>  	const int XCenter(void) const;
+<DT>  	const int YCenter(void) const;
+<DT>	const int Area(void) const;
+<DT>        const R2Box BBox(void) const;
+<DT>	const RNBoolean operator==(const R2Viewport& viewport) const;
+<DT>	const RNBoolean operator!=(const R2Viewport& viewport) const;
+<DT>
+</DL>
+<DT> <H4> Manipulation functions/operators: </H4>
+<DL>
+<DT>	void Move(int xmin, int ymin);
+<DT>	void Resize(int width, int height);
+<DT>        void Resize(int xmin, int ymin, int width, int height);
+<DT>
+</DL>
+<DT> <H4> Draw functions: </H4>
+<DL>
+<DT>        void Load(void) const;
+<DT>	
+</DL>
+</DL> </DL>
+</DL>
+
+
+
+<P>
+<HR> <H2> <A NAME="R3AreaLight" HREF="../pkgs/R3Graphics/R3AreaLight.h">R3AreaLight</A> </H2> 
+
+<DL> <DL>
+<DT> <H3>Base Classes:</H3> 
+<DL>
+<DT> <H4>Public Base Classes:</H4> 
+<DL>
+<DT>    <A HREF="#R3Light">R3Light</A>
+</DL> </DL>
+<P>
+<DT> <H3>Member Functions:</H3>
+<DL>
+<DT> <H4> Constructor functions: </H4>
+<DL>
+<DT>	R3AreaLight(void);
+<DT>        R3AreaLight(const R3AreaLight& light);
+<DT>        R3AreaLight(const R3Point& position, RNLength radius, const R3Vector& direction, const RNRgb& color, 
+<DT>            RNScalar intensity = 1.0, RNBoolean active = TRUE,
+<DT>            RNScalar ca = 0, RNScalar la = 0, RNScalar qa = 1);
+<DT>
+</DL>
+<DT> <H4> Property functions/operators: </H4>
+<DL>
+<DT>  	const R3Point& Position(void) const;
+<DT>  	const R3Vector& Direction(void) const;
+<DT>        const RNLength Radius(void) const;
+<DT>        const RNScalar ConstantAttenuation(void) const;
+<DT>        const RNScalar LinearAttenuation(void) const;
+<DT>        const RNScalar QuadraticAttenuation(void) const;
+<DT>
+</DL>
+<DT> <H4> Manipulation functions/operations: </H4>
+<DL>
+<DT>  	virtual void SetPosition(const R3Point& position);
+<DT>  	virtual void SetDirection(const R3Vector& direction);
+<DT>  	virtual void SetRadius(RNLength radius);
+<DT>        virtual void SetConstantAttenuation(RNScalar ca); 
+<DT>        virtual void SetLinearAttenuation(RNScalar la); 
+<DT>        virtual void SetQuadraticAttenuation(RNScalar qa); 
+<DT>
+</DL>
+<DT> <H4> Reflection evaluation functions: </H4>
+<DL>
+<DT>	virtual RNRgb Reflection(const R3Brdf& brdf, const R3Point& eye, 
+<DT>	    const R3Point& point, const R3Vector& normal) const;
+<DT>	virtual RNRgb DiffuseReflection(const R3Brdf& brdf, 
+<DT>	    const R3Point& point, const R3Vector& normal) const;
+<DT>	virtual RNRgb SpecularReflection(const R3Brdf& brdf, const R3Point& eye, 
+<DT>	    const R3Point& point, const R3Vector& normal) const;
+<DT>
+</DL>
+<DT> <H4> Draw functions/operations: </H4>
+<DL>
+<DT>        virtual void Draw(int i) const;
+<DT>
+</DL>
+<DT> <H4> Class type definitions: </H4>
+<DL>
+<DT>	RN_CLASS_TYPE_DECLARATIONS(R3AreaLight);
+<DT>
+</DL>
+</DL> </DL>
+</DL>
+
+
+
+<P>
+<HR> <H2> <A NAME="R3Brdf" HREF="../pkgs/R3Graphics/R3Brdf.h">R3Brdf</A> </H2> 
+
+<DL> <DL>
+<DT> <H3>Base Classes:</H3> 
+<DL>
+<DT> <H4>Public Base Classes:</H4> 
+<DL>
+<DT>	None
+</DL> </DL>
+<P>
+<DT> <H3>Member Functions:</H3>
+<DL>
+<DT> <H4> Constructor functions: </H4>
+<DL>
+<DT>	R3Brdf(void);
+<DT>        R3Brdf(const R3Brdf& brdf);
+<DT>        R3Brdf(const RNRgb& rgb, 
+<DT>               RNScalar shininess = 0.0,
+<DT>               RNScalar opacity = 1.0,
+<DT>               RNScalar indexofrefraction = 1.0);
+<DT>        R3Brdf(RNScalar red, RNScalar green, RNScalar blue,
+<DT>               RNScalar shininess = 0.0,
+<DT>               RNScalar opacity = 1.0,
+<DT>               RNScalar indexofrefraction = 1.0);
+<DT>        R3Brdf(const RNRgb& ambient,
+<DT>               const RNRgb& diffuse,
+<DT>               const RNRgb& specular,
+<DT>               const RNRgb& emission,
+<DT>               RNScalar shininess = 0.0,
+<DT>               RNScalar opacity = 1.0,
+<DT>               RNScalar indexofrefraction = 1.0);
+<DT>        R3Brdf(const RNRgb& ambient,
+<DT>               const RNRgb& diffuse,
+<DT>               const RNRgb& specular,
+<DT>               const RNRgb& transmission,
+<DT>               const RNRgb& emission,
+<DT>               RNScalar shininess = 0.0,
+<DT>               RNScalar indexofrefraction = 1.0);
+<DT>
+</DL>
+<DT> <H4> Property functions/operators: </H4>
+<DL>
+<DT>  	const RNRgb& Ambient(void) const;
+<DT>  	const RNRgb& Diffuse(void) const;
+<DT>  	const RNRgb& Specular(void) const;
+<DT>  	const RNRgb& Transmission(void) const;
+<DT>  	const RNRgb& Emission(void) const;
+<DT>        const RNScalar Shininess(void) const;
+<DT>        const RNScalar Opacity(void) const;
+<DT>        const RNScalar IndexOfRefraction(void) const;
+<DT>	const int IsAmbient(void) const;
+<DT>	const int IsDiffuse(void) const;
+<DT>	const int IsSpecular(void) const;
+<DT>	const int IsTransparent(void) const;
+<DT>	const int IsEmissive(void) const;
+<DT>	const int IsShiny(void) const;
+<DT>	const RNFlags Flags(void) const;
+<DT>	const int ID(void) const;
+<DT>
+</DL>
+<DT> <H4> Manipulation functions/operations: </H4>
+<DL>
+<DT>  	void SetAmbient(const RNRgb& rgb);
+<DT>  	void SetDiffuse(const RNRgb& rgb);
+<DT>  	void SetSpecular(const RNRgb& rgb);
+<DT>  	void SetTransmission(const RNRgb& rgb);
+<DT>  	void SetEmission(const RNRgb& rgb);
+<DT>        void SetShininess(RNScalar shininess);
+<DT>        void SetOpacity(RNScalar opacity);
+<DT>        void SetIndexOfRefraction(RNScalar indexofrefraction);
+<DT>
+</DL>
+<DT> <H4> Draw functions/operations: </H4>
+<DL>
+<DT>        void Load(void) const;
+<DT>        void Unload(void) const;
+<DT>        void Draw(RNBoolean force = FALSE) const;
+<DT>
+</DL>
+</DL> </DL>
+</DL>
+
+
+
+<P>
+<HR> <H2> <A NAME="R3Camera" HREF="../pkgs/R3Graphics/R3Camera.h">R3Camera</A> </H2> 
+
+<DL> <DL>
+<DT> <H3>Base Classes:</H3> 
+<DL>
+<DT> <H4>Public Base Classes:</H4> 
+<DL>
+<DT>	None
+</DL> </DL>
+<P>
+<DT> <H3>Member Functions:</H3>
+<DL>
+<DT> <H4> Constructor functions: </H4>
+<DL>
+<DT>	R3Camera(void);
+<DT>	R3Camera(const R3CoordSystem &cs,
+<DT>		  RNAngle xfov, RNAngle yfov, RNLength neardist, RNLength fardist);
+<DT>	R3Camera(const R3Point& origin, const R3Triad& triad,
+<DT>		  RNAngle xfov, RNAngle yfov, RNLength neardist, RNLength fardist);
+<DT>	R3Camera(const R3Point& origin, const R3Vector& towards, const R3Vector& up,
+<DT>		  RNAngle xfov, RNAngle yfov, RNLength neardist, RNLength fardist);
+<DT>	R3Camera(const R3Point& origin, RNAngle pitch, RNAngle yaw, RNAngle roll,
+<DT>		  RNAngle xfov, RNAngle yfov, RNLength neardist, RNLength fardist);
+<DT>
+</DL>
+<DT> <H4> Property functions/operators: </H4>
+<DL>
+<DT>        const R3Point& Origin(void) const;        
+<DT>        const R3Vector Towards(void) const;        
+<DT>        const R3Vector& Backwards(void) const;        
+<DT>        const R3Vector& Up(void) const;        
+<DT>        const R3Vector Down(void) const;        
+<DT>        const R3Vector& Right(void) const;        
+<DT>        const R3Vector Left(void) const;        
+<DT>	const RNAngle Pitch(void) const;
+<DT>	const RNAngle Yaw(void) const;
+<DT>	const RNAngle Roll(void) const;
+<DT>        const RNAngle XFOV(void) const;
+<DT>        const RNAngle YFOV(void) const;
+<DT>        const RNLength Near(void) const;
+<DT>        const RNLength Far(void) const;
+<DT>	const R3Triad& Triad(void) const;
+<DT>	const R3CoordSystem& CoordSystem(void) const;
+<DT>	const R3Halfspace Halfspace(RNDirection dir, RNDimension dim) const;
+<DT>	const R4Matrix Perspective(void) const;
+<DT>	const RNBoolean operator==(const R3Camera& camera) const;
+<DT>	const RNBoolean operator!=(const R3Camera& camera) const;
+<DT>
+</DL>
+<DT> <H4> Manipulation functions/operators: </H4>
+<DL>
+<DT>        void Reset(const R3Point& origin, const R3Vector& towards, const R3Vector& up);
+<DT>        void Reposition(const R3Point& origin);
+<DT>        void Reorient(const R3Vector& towards, const R3Vector& up);
+<DT>        void Reorient(RNAngle pitch, RNAngle yaw, RNAngle roll);
+<DT>        void Mirror(const R3Plane& plane);
+<DT>        void SetCoordSystem(const R3CoordSystem& cs);        
+<DT>        void SetOrigin(const R3Point& origin);        
+<DT>        void SetTowards(const R3Vector& towards);
+<DT>        void SetBackwards(const R3Vector& backwards);
+<DT>	void SetUp(const R3Vector& up);
+<DT>        void SetDown(const R3Vector& down);
+<DT>        void SetRight(const R3Vector& right);
+<DT>        void SetLeft(const R3Vector& left);
+<DT>        void SetPitch(RNAngle pitch);
+<DT>        void SetYaw(RNAngle pitch);
+<DT>        void SetRoll(RNAngle pitch);
+<DT>        void SetFOV(RNAngle xfov, RNAngle yfov);
+<DT>        void SetXFOV(RNAngle xfov);
+<DT>        void SetYFOV(RNAngle yfov);
+<DT>        void SetNear(RNLength neardist);
+<DT>        void SetFar(RNLength fardist);
+<DT>
+</DL>
+<DT> <H4> More manipulation functions/operators: </H4>
+<DL>
+<DT>        void Translate(const R3Vector& translation);
+<DT>        void Rotate(const R3Vector& axis, RNAngle dtheta);
+<DT>        void RotatePitch(RNAngle dpitch);
+<DT>        void RotateYaw(RNAngle dyaw);
+<DT>        void RotateRoll(RNAngle droll);
+<DT>	void Transform(const R3Transformation& transformation);
+<DT>
+</DL>
+<DT> <H4> Draw functions/operators: </H4>
+<DL>
+<DT>        void Load(RNBoolean select_mode = FALSE) const;
+<DT>        void Draw(void) const;
+<DT>        void Outline(void) const;
+<DT>
+</DL>
+</DL> </DL>
+</DL>
+
+
+
+<P>
+<HR> <H2> <A NAME="R3DirectionalLight" HREF="../pkgs/R3Graphics/R3DirectionalLight.h">R3DirectionalLight</A> </H2> 
+
+<DL> <DL>
+<DT> <H3>Base Classes:</H3> 
+<DL>
+<DT> <H4>Public Base Classes:</H4> 
+<DL>
+<DT>    <A HREF="#R3Light">R3Light</A>
+</DL> </DL>
+<P>
+<DT> <H3>Member Functions:</H3>
+<DL>
+<DT> <H4> Constructor functions: </H4>
+<DL>
+<DT>	R3DirectionalLight(void);
+<DT>        R3DirectionalLight(const R3DirectionalLight& light);
+<DT>        R3DirectionalLight(const R3Vector& direction, const RNRgb& color, 
+<DT>            RNScalar intensity = 1.0, RNBoolean active = TRUE);
+<DT>
+</DL>
+<DT> <H4> Property functions/operators: </H4>
+<DL>
+<DT>  	const R3Vector& Direction(void) const;
+<DT>
+</DL>
+<DT> <H4> Manipulation functions/operations: </H4>
+<DL>
+<DT>  	virtual void SetDirection(const R3Vector& direction);
+<DT>
+</DL>
+<DT> <H4> Reflection evaluation functions: </H4>
+<DL>
+<DT>	virtual RNRgb Reflection(const R3Brdf& brdf, const R3Point& eye, 
+<DT>	    const R3Point& point, const R3Vector& normal) const;
+<DT>	virtual RNRgb DiffuseReflection(const R3Brdf& brdf, 
+<DT>	    const R3Point& point, const R3Vector& normal) const;
+<DT>	virtual RNRgb SpecularReflection(const R3Brdf& brdf, const R3Point& eye, 
+<DT>	    const R3Point& point, const R3Vector& normal) const;
+<DT>
+</DL>
+<DT> <H4> Draw functions/operations: </H4>
+<DL>
+<DT>        virtual void Draw(int i) const;
+<DT>
+</DL>
+<DT> <H4> Class type definitions: </H4>
+<DL>
+<DT>	RN_CLASS_TYPE_DECLARATIONS(R3DirectionalLight);
+<DT>
+</DL>
+</DL> </DL>
+</DL>
+
+
+
+<P>
+</DL>
+<DT> <H4> Constructor: </H4>
+<DL>
+<DT>  R3Frustum(void);
+<DT>  R3Frustum(const R3Camera& camera);
+<DT>  R3Frustum(const R3Point& viewpoint, const R3Vector& towards, 
+<DT>    const R3Vector& up, RNAngle xfov, RNAngle yfov, 
+<DT>    RNLength neardist, RNLength fardist);
+<DT>
+</DL>
+<DT> <H4> Property functions: </H4>
+<DL>
+<DT>  const R3Camera& Camera(void) const;
+<DT>  const R3Halfspace& Halfspace(int dir, int dim) const;
+<DT>
+</DL>
+<DT> <H4> Manipulation functions: </H4>
+<DL>
+<DT>  void SetCamera(const R3Camera& camera);
+<DT>
+</DL>
+<DT> <H4> Intersection/containment functions: </H4>
+<DL>
+<DT>  RNBoolean Intersects(const R3Point& point) const;
+<DT>  RNBoolean Intersects(const R3Span& span) const;
+<DT>  RNBoolean Intersects(const R3Box& box) const;
+<DT>  RNBoolean Contains(const R3Point& point) const;
+<DT>  RNBoolean Contains(const R3Span& span) const;
+<DT>  RNBoolean Contains(const R3Box& box) const;
+<DT>
+</DL>
+<DT> <H4> Draw function: </H4>
+<DL>
+<DT>  void Draw(void) const;
+<DT>
+<DT>  R3Camera camera;
+<DT>  R3Halfspace halfspaces[2][3];
+</DL>
+</DL> </DL>
+</DL>
+
+
+
+<P>
+<HR> <H2> <A NAME="R3Light" HREF="../pkgs/R3Graphics/R3Light.h">R3Light</A> </H2> 
+
+<DL> <DL>
+<DT> <H3>Base Classes:</H3> 
+<DL>
+<DT> <H4>Public Base Classes:</H4> 
+<DL>
+<DT>	None
+</DL> </DL>
+<P>
+<DT> <H3>Member Functions:</H3>
+<DL>
+<DT> <H4> Constructor functions: </H4>
+<DL>
+<DT>	R3Light(void);
+<DT>	R3Light(const R3Light& light);
+<DT>        R3Light(const RNRgb& color, RNScalar intensity = 1.0, RNBoolean active = TRUE);
+<DT>        virtual ~R3Light(void);
+<DT>
+</DL>
+<DT> <H4> Property functions/operations: </H4>
+<DL>
+<DT>	const RNBoolean IsActive(void) const;
+<DT>  	const RNScalar Intensity(void) const;
+<DT>  	const RNRgb& Color(void) const;
+<DT>
+</DL>
+<DT> <H4> Manipulation functions/operations: </H4>
+<DL>
+<DT>	virtual void SetActive(RNBoolean active);
+<DT>  	virtual void SetIntensity(RNScalar intensity);
+<DT>  	virtual void SetColor(const RNRgb& color);
+<DT>
+</DL>
+<DT> <H4> Reflection evaluation functions: </H4>
+<DL>
+<DT>	virtual RNRgb Reflection(const R3Brdf& brdf, const R3Point& eye, 
+<DT>	    const R3Point& point, const R3Vector& normal) const = 0;
+<DT>	virtual RNRgb DiffuseReflection(const R3Brdf& brdf, 
+<DT>	    const R3Point& point, const R3Vector& normal) const = 0;
+<DT>	virtual RNRgb SpecularReflection(const R3Brdf& brdf, const R3Point& eye, 
+<DT>	    const R3Point& point, const R3Vector& normal) const = 0;
+<DT>
+</DL>
+<DT> <H4> Draw functions/operations: </H4>
+<DL>
+<DT>        virtual void Draw(int i) const = 0;
+<DT>
+</DL>
+<DT> <H4> Class type definitions: </H4>
+<DL>
+<DT>	RN_CLASS_TYPE_DECLARATIONS(R3Light);
+<DT>
+</DL>
+</DL> </DL>
+</DL>
+
+
+
+<P>
+<HR> <H2> <A NAME="R3Material" HREF="../pkgs/R3Graphics/R3Material.h">R3Material</A> </H2> 
+
+<DL> <DL>
+<DT> <H3>Base Classes:</H3> 
+<DL>
+<DT> <H4>Public Base Classes:</H4> 
+<DL>
+<DT>    <A HREF="#R3Attribute">R3Attribute</A>
+</DL> </DL>
+<P>
+<DT> <H3>Member Functions:</H3>
+<DL>
+<DT> <H4> Constructor functions: </H4>
+<DL>
+<DT>	R3Material(const char *name = NULL);
+<DT>        R3Material(const R3Material& material);
+<DT>        R3Material(const R3Brdf *brdf, const char *name = NULL);
+<DT>        R3Material(const R2Texture *texture, const char *name = NULL);
+<DT>        R3Material(const R3Brdf *brdf, const R2Texture *texture, const char *name = NULL);
+<DT>	~R3Material(void);
+<DT>
+</DL>
+<DT> <H4> Material property functions/operations: </H4>
+<DL>
+<DT>        const char *Name(void) const;
+<DT>        const R3Brdf *Brdf(void) const;
+<DT>        const R2Texture *Texture(void) const;
+<DT>	const RNFlags& Flags(void) const;
+<DT>	const RNBoolean IsReflective(void) const;
+<DT>	const RNBoolean IsAmbient(void) const;
+<DT>	const RNBoolean IsDiffuse(void) const;
+<DT>	const RNBoolean IsSpecular(void) const;
+<DT>	const RNBoolean IsEmissive(void) const;
+<DT>	const RNBoolean IsShiny(void) const;
+<DT>	const RNBoolean IsTextured(void) const;
+<DT>	const RNBoolean IsTransparent(void) const;
+<DT>
+</DL>
+<DT> <H4> Manipulation functions/operations: </H4>
+<DL>
+<DT>	R3Material& operator=(const R3Material& material);
+<DT>        void SetBrdf(const R3Brdf *brdf);
+<DT>        void SetTexture(const R2Texture *texture);
+<DT>        void SetName(const char *name);
+<DT>
+</DL>
+<DT> <H4> Draw functions/operations: </H4>
+<DL>
+<DT>        void Load(void) const;
+<DT>        void Unload(void) const;
+<DT>        void Draw(RNBoolean force = FALSE) const;
+<DT>
+</DL>
+<DT> <H4> Update functions: </H4>
+<DL>
+<DT>        void Update(void); 
+<DT>
+</DL>
+</DL> </DL>
+</DL>
+
+
+
+<P>
+<HR> <H2> <A NAME="R3Model" HREF="../pkgs/R3Graphics/R3Model.h">R3Model</A> </H2> 
+
+<DL> <DL>
+<DT> <H3>Base Classes:</H3> 
+<DL>
+<DT> <H4>Public Base Classes:</H4> 
+<DL>
+<DT>	None
+</DL> </DL>
+<P>
+<DT> <H3>Member Functions:</H3>
+<DL>
+<DT> <H4> Constructor functions: </H4>
+<DL>
+<DT>  R3Model(void);
+<DT>  R3Model(R3TriangleArray *triangles, 
+<DT>    const RNArray<R3Material *>& materials,
+<DT>    const RNArray<R3Material *>& triangle_materials,
+<DT>    const RNArray<RNArray<R3Triangle *> *>& material_triangles);
+<DT>  ~R3Model(void);
+<DT>
+</DL>
+<DT> <H4> Properties: </H4>
+<DL>
+<DT>  R3Box BBox(void) const;
+<DT>  R3Point Centroid(void) const;
+<DT>
+</DL>
+<DT> <H4> Access functions: </H4>
+<DL>
+<DT>  int NVertices(void) const;
+<DT>  R3TriangleVertex *Vertex(int k) const;
+<DT>  int NTriangles(void) const;
+<DT>  R3Triangle *Triangle(int k) const;
+<DT>  int NMaterials(void) const;
+<DT>  R3Material *Material(int k) const;
+<DT>
+</DL>
+<DT> <H4> Triangle property functions: </H4>
+<DL>
+<DT>  R3Material *TriangleMaterial(int triangle_index) const;
+<DT>
+</DL>
+<DT> <H4> Ray intersection functions: </H4>
+<DL>
+<DT>  RNBoolean Intersects(const R3Ray& ray, 
+<DT>    R3Point *hit_point = NULL, R3Vector *hit_normal = NULL, 
+<DT>    RNScalar *hit_t = NULL, int *hit_triangle_index = NULL) const;
+<DT>
+</DL>
+<DT> <H4> Draw functions: </H4>
+<DL>
+<DT>  void Draw(const R3DrawFlags draw_flags = R3_DEFAULT_DRAW_FLAGS) const;
+<DT>
+</DL>
+<DT> <H4> I/O functions: </H4>
+<DL>
+<DT>  int ReadFile(const char *filename);
+<DT>  int ReadObjFile(const char *filename);
+<DT>  int WriteFile(const char *filename) const;
+<DT>  int WriteObjFile(const char *filename) const;
+<DT>
+</DL>
+</DL> </DL>
+</DL>
+
+
+
+<P>
+<HR> <H2> <A NAME="R3PointLight" HREF="../pkgs/R3Graphics/R3PointLight.h">R3PointLight</A> </H2> 
+
+<DL> <DL>
+<DT> <H3>Base Classes:</H3> 
+<DL>
+<DT> <H4>Public Base Classes:</H4> 
+<DL>
+<DT>    <A HREF="#R3Light">R3Light</A>
+</DL> </DL>
+<P>
+<DT> <H3>Member Functions:</H3>
+<DL>
+<DT> <H4> Constructor functions: </H4>
+<DL>
+<DT>	R3PointLight(void);
+<DT>        R3PointLight(const R3PointLight& light);
+<DT>        R3PointLight(const R3Point& position, const RNRgb& color, 
+<DT>            RNScalar intensity = 1.0, RNBoolean active = TRUE,
+<DT>            RNScalar ca = 0, RNScalar la = 0, RNScalar qa = 1);
+<DT>
+</DL>
+<DT> <H4> Property functions/operators: </H4>
+<DL>
+<DT>  	const R3Point& Position(void) const;
+<DT>        const RNScalar ConstantAttenuation(void) const;
+<DT>        const RNScalar LinearAttenuation(void) const;
+<DT>        const RNScalar QuadraticAttenuation(void) const;
+<DT>
+</DL>
+<DT> <H4> Manipulation functions/operations: </H4>
+<DL>
+<DT>  	virtual void SetPosition(const R3Point& position);
+<DT>        virtual void SetConstantAttenuation(RNScalar ca); 
+<DT>        virtual void SetLinearAttenuation(RNScalar la); 
+<DT>        virtual void SetQuadraticAttenuation(RNScalar qa); 
+<DT>
+</DL>
+<DT> <H4> Geometry evaluation functions: </H4>
+<DL>
+<DT>	virtual RNScalar IntensityAtPoint(const R3Point& point) const;
+<DT>	virtual R3Vector DirectionFromPoint(const R3Point& point) const;
+<DT>	virtual RNScalar RadiusOfInfluence(RNScalar intensity) const;
+<DT>	virtual R3Sphere SphereOfInfluence(RNScalar intensity) const;
+<DT>
+</DL>
+<DT> <H4> Reflection evaluation functions: </H4>
+<DL>
+<DT>	virtual RNRgb Reflection(const R3Brdf& brdf, const R3Point& eye, 
+<DT>	    const R3Point& point, const R3Vector& normal) const;
+<DT>	virtual RNRgb DiffuseReflection(const R3Brdf& brdf, 
+<DT>	    const R3Point& point, const R3Vector& normal) const;
+<DT>	virtual RNRgb SpecularReflection(const R3Brdf& brdf, const R3Point& eye, 
+<DT>	    const R3Point& point, const R3Vector& normal) const;
+<DT>
+</DL>
+<DT> <H4> Draw functions/operations: </H4>
+<DL>
+<DT>        virtual void Draw(int i) const;
+<DT>
+</DL>
+<DT> <H4> Class type definitions: </H4>
+<DL>
+<DT>	RN_CLASS_TYPE_DECLARATIONS(R3PointLight);
+<DT>
+</DL>
+</DL> </DL>
+</DL>
+
+
+
+<P>
+<HR> <H2> <A NAME="R3Scene" HREF="../pkgs/R3Graphics/R3Scene.h">R3Scene</A> </H2> 
+
+<DL> <DL>
+<DT> <H3>Base Classes:</H3> 
+<DL>
+<DT> <H4>Public Base Classes:</H4> 
+<DL>
+<DT>	None
+</DL> </DL>
+<P>
+<DT> <H3>Member Functions:</H3>
+<DL>
+<DT> <H4> Constructor functions: </H4>
+<DL>
+<DT>  R3Scene(void);
+<DT>  ~R3Scene(void);
+<DT>
+</DL>
+<DT> <H4> Property functions: </H4>
+<DL>
+<DT>  const R3Box& BBox(void) const;
+<DT>  R3Point Centroid(void) const;
+<DT>
+</DL>
+<DT> <H4> Access functions: </H4>
+<DL>
+<DT>  int NNodes(void) const;
+<DT>  R3SceneNode *Node(int k) const;
+<DT>  R3SceneNode *Root(void) const;
+<DT>  int NLights(void) const;
+<DT>  R3Light *Light(int k) const;
+<DT>  const R3Camera& Camera(void) const;
+<DT>  const R2Viewport& Viewport(void) const;
+<DT>  const R3Viewer& Viewer(void) const;
+<DT>  const RNRgb& Ambient(void) const;
+<DT>  const RNRgb& Background(void) const;
+<DT>
+</DL>
+<DT> <H4> Manipulation functions: </H4>
+<DL>
+<DT>  void InsertNode(R3SceneNode *node);
+<DT>  void RemoveNode(R3SceneNode *node);
+<DT>  void InsertLight(R3Light *light);
+<DT>  void RemoveLight(R3Light *light);
+<DT>  void SetCamera(const R3Camera& viewer);
+<DT>  void SetViewport(const R2Viewport& viewport);
+<DT>  void SetViewer(const R3Viewer& viewer);
+<DT>  void SetAmbient(const RNRgb& ambient);
+<DT>  void SetBackground(const RNRgb& background);
+<DT>
+</DL>
+<DT> <H4> Ray intersection functions: </H4>
+<DL>
+<DT>  RNBoolean Intersects(const R3Ray& ray, 
+<DT>    R3SceneNode **hit_node = NULL, R3SceneElement **hit_element = NULL, R3Shape **hit_shape = NULL,
+<DT>    R3Point *hit_point = NULL, R3Vector *hit_normal = NULL, RNScalar *hit_t = NULL) const;
+<DT>
+</DL>
+<DT> <H4> I/O functions: </H4>
+<DL>
+<DT>  int ReadFile(const char *filename);
+<DT>  int ReadObjFile(const char *filename);
+<DT>  int ReadMeshFile(const char *filename);
+<DT>  int ReadPrincetonFile(const char *filename);
+<DT>  int ReadParseFile(const char *filename);
+<DT>  int ReadSupportHierarchyFile(const char *filename);
+<DT>  int ReadGrammarHierarchyFile(const char *filename);
+<DT>  int ReadRectangleFile(const char *filename);
+<DT>  int WriteFile(const char *filename) const;
+<DT>  int WriteObjFile(const char *filename) const;
+<DT>  int WritePrincetonFile(const char *filename) const;
+<DT>  int WriteParseFile(const char *filename) const;
+<DT>  int WriteSupportHierarchyFile(const char *filename) const;
+<DT>  int WriteGrammarHierarchyFile(const char *filename) const;
+<DT>
+</DL>
+<DT> <H4> Draw functions: </H4>
+<DL>
+<DT>  void Draw(const R3DrawFlags draw_flags = R3_DEFAULT_DRAW_FLAGS,
+<DT>    RNBoolean set_camera = TRUE, RNBoolean set_lights = TRUE) const;
+<DT>
+</DL>
+</DL> </DL>
+</DL>
+
+
+
+<P>
+<HR> <H2> <A NAME="R3SceneElement" HREF="../pkgs/R3Graphics/R3SceneElement.h">R3SceneElement</A> </H2> 
+
+<DL> <DL>
+<DT> <H3>Base Classes:</H3> 
+<DL>
+<DT> <H4>Public Base Classes:</H4> 
+<DL>
+<DT>	None
+</DL> </DL>
+<P>
+<DT> <H3>Member Functions:</H3>
+<DL>
+<DT> <H4> Constructor functions: </H4>
+<DL>
+<DT>  R3SceneElement(R3Material *material = NULL);
+<DT>  ~R3SceneElement(void);
+<DT>
+</DL>
+<DT> <H4> Properties: </H4>
+<DL>
+<DT>  const R3Box& BBox(void) const;
+<DT>  R3Point Centroid(void) const;
+<DT>
+</DL>
+<DT> <H4> Access functions: </H4>
+<DL>
+<DT>  R3Material *Material(void) const;
+<DT>  int NShapes(void) const;
+<DT>  R3Shape *Shape(int k) const;
+<DT>  R3SceneNode *Node(void) const;
+<DT>
+</DL>
+<DT> <H4> Manipulation function: </H4>
+<DL>
+<DT>  void SetMaterial(R3Material *material);
+<DT>  void InsertShape(R3Shape *shape);
+<DT>  void RemoveShape(R3Shape *shape);
+<DT>
+</DL>
+<DT> <H4> Ray intersection functions: </H4>
+<DL>
+<DT>  RNBoolean Intersects(const R3Ray& ray, R3Shape **hit_shape = NULL,
+<DT>    R3Point *hit_point = NULL, R3Vector *hit_normal = NULL, RNScalar *hit_t = NULL) const;
+<DT>
+</DL>
+<DT> <H4> Draw functions: </H4>
+<DL>
+<DT>  void Draw(const R3DrawFlags draw_flags = R3_DEFAULT_DRAW_FLAGS) const;
+<DT>
+</DL>
+<DT> <H4> Internal update functions: </H4>
+<DL>
+<DT>  void InvalidateBBox(void);
+<DT>  void UpdateBBox(void);
+<DT>
+</DL>
+</DL> </DL>
+</DL>
+
+
+
+<P>
+<HR> <H2> <A NAME="R3SceneNode" HREF="../pkgs/R3Graphics/R3SceneNode.h">R3SceneNode</A> </H2> 
+
+<DL> <DL>
+<DT> <H3>Base Classes:</H3> 
+<DL>
+<DT> <H4>Public Base Classes:</H4> 
+<DL>
+<DT>	None
+</DL> </DL>
+<P>
+<DT> <H3>Member Functions:</H3>
+<DL>
+<DT> <H4> Constructor functions: </H4>
+<DL>
+<DT>  R3SceneNode(R3Scene *scene);
+<DT>  ~R3SceneNode(void);
+<DT>
+</DL>
+<DT> <H4> Access functions: </H4>
+<DL>
+<DT>  R3Scene *Scene(void) const;
+<DT>  int SceneIndex(void) const;
+<DT>  R3SceneNode *Parent(void) const;
+<DT>  int ParentIndex(void) const;
+<DT>  int NChildren(void) const;
+<DT>  R3SceneNode *Child(int k) const;
+<DT>  int NElements(void) const;
+<DT>  R3SceneElement *Element(int k) const;
+<DT>  const R3Affine& Transformation(void) const;
+<DT>  const R3Box& BBox(void) const;
+<DT>  R3Point Centroid(void) const;
+<DT>  const char *Name(void) const;
+<DT>  void *Data(void) const;
+<DT>
+</DL>
+<DT> <H4> Manipulation functions: </H4>
+<DL>
+<DT>  void InsertChild(R3SceneNode *node);
+<DT>  void RemoveChild(R3SceneNode *node);
+<DT>  void InsertElement(R3SceneElement *element);
+<DT>  void RemoveElement(R3SceneElement *element);
+<DT>  void SetTransformation(const R3Affine& transformation);
+<DT>  void SetName(const char *name);
+<DT>  void SetData(void *data);
+<DT>
+</DL>
+<DT> <H4> Ray intersection functions: </H4>
+<DL>
+<DT>  RNBoolean Intersects(const R3Ray& ray, 
+<DT>    R3SceneNode **hit_node = NULL, R3SceneElement **hit_element = NULL, R3Shape **hit_shape = NULL,
+<DT>    R3Point *hit_point = NULL, R3Vector *hit_normal = NULL, RNScalar *hit_t = NULL) const;
+<DT>
+</DL>
+<DT> <H4> Draw functions: </H4>
+<DL>
+<DT>  void Draw(const R3DrawFlags draw_flags = R3_DEFAULT_DRAW_FLAGS) const;
+<DT>
+</DL>
+<DT> <H4> Internal update functions: </H4>
+<DL>
+<DT>  void InvalidateBBox(void);
+<DT>  void UpdateBBox(void);
+<DT>
+</DL>
+</DL> </DL>
+</DL>
+
+
+
+<P>
+<HR> <H2> <A NAME="R3SpotLight" HREF="../pkgs/R3Graphics/R3SpotLight.h">R3SpotLight</A> </H2> 
+
+<DL> <DL>
+<DT> <H3>Base Classes:</H3> 
+<DL>
+<DT> <H4>Public Base Classes:</H4> 
+<DL>
+<DT>    <A HREF="#R3PointLight">R3PointLight</A>
+</DL> </DL>
+<P>
+<DT> <H3>Member Functions:</H3>
+<DL>
+<DT> <H4> Constructor functions: </H4>
+<DL>
+<DT>	R3SpotLight(void);
+<DT>        R3SpotLight(const R3SpotLight& light);
+<DT>        R3SpotLight(const R3Point& position, const R3Vector& direction,
+<DT>	    const RNRgb& color, RNScalar dropoffrate = 0.0, RNAngle cutoffangle = 0.785398,
+<DT>            RNScalar intensity = 1.0, RNBoolean active = TRUE,
+<DT>            RNScalar ca = 0, RNScalar la = 0, RNScalar qa = 1);
+<DT>
+</DL>
+<DT> <H4> Property functions/operators: </H4>
+<DL>
+<DT>  	const R3Vector& Direction(void) const;
+<DT>  	const RNScalar DropOffRate(void) const;
+<DT>  	const RNAngle CutOffAngle(void) const;
+<DT>
+</DL>
+<DT> <H4> Manipulation functions/operations: </H4>
+<DL>
+<DT>  	virtual void SetDirection(const R3Vector& direction);
+<DT>  	virtual void SetDropOffRate(RNScalar dropoffrate);
+<DT>  	virtual void SetCutOffAngle(RNAngle cutoffangle);
+<DT>
+</DL>
+<DT> <H4> Evaluation functions: </H4>
+<DL>
+<DT>	virtual RNScalar IntensityAtPoint(const R3Point& point) const;
+<DT>
+</DL>
+<DT> <H4> Draw functions/operations: </H4>
+<DL>
+<DT>        virtual void Draw(int i) const;
+<DT>
+</DL>
+<DT> <H4> Class type definitions: </H4>
+<DL>
+<DT>	RN_CLASS_TYPE_DECLARATIONS(R3SpotLight);
+<DT>
+</DL>
+</DL> </DL>
+</DL>
+
+
+
+<P>
+<HR> <H2> <A NAME="R3Viewer" HREF="../pkgs/R3Graphics/R3Viewer.h">R3Viewer</A> </H2> 
+
+<DL> <DL>
+<DT> <H3>Base Classes:</H3> 
+<DL>
+<DT> <H4>Public Base Classes:</H4> 
+<DL>
+<DT>	None
+</DL> </DL>
+<P>
+<DT> <H3>Member Functions:</H3>
+<DL>
+<DT> <H4> Constructor functions: </H4>
+<DL>
+<DT>	R3Viewer(void);
+<DT>        R3Viewer(const R3Viewer& viewer);
+<DT>        R3Viewer(const R3Camera& camera, const R2Viewport& viewport);
+<DT>        virtual ~R3Viewer(void);
+<DT>
+</DL>
+<DT> <H4> Viewer property functions/operators: </H4>
+<DL>
+<DT>        const R3Camera& Camera(void) const;
+<DT>        const R2Viewport& Viewport(void) const;
+<DT>
+</DL>
+<DT> <H4> Camera manipulation functions/operators: </H4>
+<DL>
+<DT>        void SetCamera(const R3Camera& camera);
+<DT>        void RepositionCamera(const R3Point& eyepoint);
+<DT>        void TranslateCamera(const R3Vector& translation);
+<DT>        void ReorientCamera(const R3Vector& towards, const R3Vector& up);
+<DT>        void RotateCamera(const R3Vector& axis, RNAngle dtheta);
+<DT>        void RotateCameraPitch(RNAngle dpitch);
+<DT>        void RotateCameraYaw(RNAngle dyaw);
+<DT>        void RotateCameraRoll(RNAngle droll);
+<DT>        void MirrorCamera(const R3Plane& plane);
+<DT>	void ResetCamera(const R3Point& eyepoint, const R3Vector& towards, const R3Vector& up);
+<DT>
+</DL>
+<DT> <H4> Viewport manipulation functions/operators: </H4>
+<DL>
+<DT>        void SetViewport(const R2Viewport& viewport);
+<DT>	void MoveViewport(int xmin, int ymin);
+<DT>	void ResizeViewport(int width, int height);
+<DT>        void ResizeViewport(int xmin, int ymin, int width, int height);
+<DT>
+</DL>
+<DT> <H4> World manipulation functions/operators: </H4>
+<DL>
+<DT>        void TranslateWorld(const R3Vector& translation);
+<DT>        void ScaleWorld(const R3Point& origin, RNScalar factor);
+<DT>        void RotateWorld(const R3Point& origin, const R3Vector& normal, RNAngle dtheta);
+<DT>        void RotateWorldPitch(const R3Point& origin, RNAngle dpitch);
+<DT>        void RotateWorldYaw(const R3Point& origin, RNAngle dyaw);
+<DT>        void RotateWorldRoll(const R3Point& origin, RNAngle droll);
+<DT>
+</DL>
+<DT> <H4> Camera-in-hand user interface utility functions: </H4>
+<DL>
+<DT>	virtual void TranslateCamera(RNScalar factor, int x, int y, int dx, int dy);
+<DT>	virtual void RotateCamera(RNScalar factor, int x, int y, int dx, int dy);
+<DT>	virtual void RotateCameraPitch(RNScalar factor, int x, int y, int dx, int dy);
+<DT>	virtual void RotateCameraYaw(RNScalar factor, int x, int y, int dx, int dy);
+<DT>	virtual void RotateCameraRoll(RNScalar factor, int x, int y, int dx, int dy);
+<DT>	virtual void FlyCamera(RNScalar pitch_factor, RNScalar yaw_factor, RNScalar roll_factor, 
+<DT>	    RNScalar step_factor, RNBoolean relax_yaw, RNBoolean relax_roll, int x, int y, int dx, int dy);
+<DT>	virtual void WalkCamera(RNScalar pitch_factor, RNScalar yaw_factor, RNScalar roll_factor, 
+<DT>	    RNScalar step_factor, RNBoolean relax_yaw, RNBoolean relax_roll, int x, int y, int dx, int dy);
+<DT>
+</DL>
+<DT> <H4> World-in-hand user interface utility functions: </H4>
+<DL>
+<DT>	virtual void TranslateWorld(RNScalar factor, const R3Point& origin, int x, int y, int dx, int dy);
+<DT>	virtual void ScaleWorld(RNScalar factor, const R3Point& origin, int x, int y, int dx, int dy);
+<DT>	virtual void RotateWorld(RNScalar factor, const R3Point& origin, int x, int y, int dx, int dy);
+<DT>	virtual void RotateWorldPitch(RNScalar factor, const R3Point& origin, int x, int y, int dx, int dy);
+<DT>	virtual void RotateWorldYaw(RNScalar factor, const R3Point& origin, int x, int y, int dx, int dy);
+<DT>	virtual void RotateWorldRoll(RNScalar factor, const R3Point& origin, int x, int y, int dx, int dy);
+<DT>
+</DL>
+<DT> <H4> Camera/viewport relationship functions/operators: </H4>
+<DL>
+<DT>	const R3Ray WorldRay(int x, int y) const;
+<DT>	const R2Point ViewportPoint(const R3Point& point) const;
+<DT>	const R2Box ViewportBBox(const R3Shape& shape) const;
+<DT>	const R2Circle ViewportBCircle(const R3Shape& shape) const;
+<DT>	const RNArea ViewportArea(const R3Shape& shape) const;
+<DT>
+</DL>
+<DT> <H4> Comparison operators: </H4>
+<DL>
+<DT>	const RNBoolean operator==(const R3Viewer& viewer) const;
+<DT>	const RNBoolean operator!=(const R3Viewer& viewer) const;
+<DT>
+</DL>
+<DT> <H4> Draw functions: </H4>
+<DL>
+<DT>        void Load(void) const;
+<DT>
+</DL>
+</DL> </DL>
+</DL>
+
+
+
+<P>
+
+
+
+<HR>
+Click <A HREF="pkgs.html">this</A> to go back to list of GAPS packages.
+<P>
+</BODY>
+<ADDRESS>funk@cs.princeton.edu</ADDRESS>
+
+</HTML>
+
+
+

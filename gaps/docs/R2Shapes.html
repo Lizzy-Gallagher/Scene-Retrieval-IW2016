@@ -1,0 +1,1801 @@
+<HTML>
+<HEAD>
+<TITLE> R2Shapes Package </TITLE>
+</HEAD>
+<BODY>
+<H1> R2Shapes Package </H1>
+
+
+
+<HR><H2>Description:</H2>
+
+The R2Shapes package supports basics 2D geometry classes.
+It contains classes representing 2D primitives 
+(such as vectors, points, etc.).  It also contains
+classes for 2D transformations (such as 3x3 matrices, etc.) and 
+higher level 2D shapes (such as polygons, boxes, circles, etc).  
+<P>
+For all pairs of 2D primitives (and many 2D shapes), functions are
+provided for computing the relationships between them.  For instance,
+there are functions to compute the distance between primitives
+(R2Distance), check for intersections (R2Intersects), check whether
+one primitive contains another (R2Contains), compute whether
+primitives are perpendicular (R2Perpendicular), and check whether
+primitives are parallel (R2Parallel).
+<P>
+
+<HR><H2>List of Classes:</H2>
+<DL>
+
+<DT> 2D Primitives:
+<DL>
+  <DT> <A HREF="#R2Vector">R2Vector</A> - 2D vector.
+  <DT> <A HREF="#R2Point">R2Point</A> - 2D point.
+  <DT> <A HREF="#R2Line">R2Line</A> - 2D infinite line.
+  <DT> <A HREF="#R2Ray">R2Ray</A> - 2D ray.
+  <DT> <A HREF="#R2Span">R2Span</A> - 2D line segment.
+  <DT> <A HREF="#R2Halfspace">R2Halfspace</A> - 2D halfspace.
+  <DT> &nbsp;
+</DL>
+
+<DT> 2D Shapes:
+<DL>
+  <DT> <A HREF="#R2Shape">R2Shape</A> - abstract 2D shape.
+  <DT> <A HREF="#R2Curve">R2Curve</A> - abstract 2D curve.
+  <DT> <A HREF="#R2Arc">R2Arc</A> - circular arc.
+  <DT> <A HREF="#R2Solid">R2Solid</A> - abstract 2D filled shape.
+  <DT> <A HREF="#R2Box">R2Box</A> - axis-aligned, 2D rectangle.
+  <DT> <A HREF="#R2Circle">R2Circle</A> - 2D circle.
+  <DT> <A HREF="#R2Grid">R2Grid</A> - regularly sampled 2D scalar grid.
+  <DT> &nbsp;
+</DL>
+
+<DT> 2D Transformations:
+<DL>
+  <DT> <A HREF="#R2Transformation">R2Transformation</A> - abstract 2D transformation.
+  <DT> <A HREF="#R2Affine">R2Affine</A> - 2D affine transformation.
+  <DT> <A HREF="#R3Matrix">R3Matrix</A> - 3x3 matrix.
+  <DT> &nbsp;
+</DL>
+</DL>
+<P>
+
+
+
+<HR><H2>List of Functions:</H2>
+
+<DL>
+<DT> 2D Relationships:
+<DL>
+  <DT> <A HREF="../pkgs/R2Shapes/R2Dist.h">R2Distance</A> - returns distance between two primitives.
+  <DT> <A HREF="../pkgs/R2Shapes/R2Isect.h">R2Intersects</A> - returns whether two primitives intersect.
+  <DT> <A HREF="../pkgs/R2Shapes/R2Cont.h">R2Contains</A> - returns whether one primitive contains another.
+  <DT> <A HREF="../pkgs/R2Shapes/R2Cont.h">R2Inside</A> - returns whether one primitive is contained by another.
+  <DT> <A HREF="../pkgs/R2Shapes/R2Parall.h">R2Parallel</A> - returns whether one primitive is parallel to another.
+  <DT> <A HREF="../pkgs/R2Shapes/R2Perp.h">R2Perpendicular</A> - returns whether one primitive is perpendicular to another.
+  <DT> &nbsp;
+</DL>
+</DL>
+<P>
+
+
+
+<HR><H2>Example:</H2>
+
+Click <A HREF="../apps/img2img/img2img.cpp">this</A> to see a sample program.
+<P>
+
+
+
+<HR> <H2> <A NAME="R2Affine" HREF="../pkgs/R2Shapes/R2Affine.h">R2Affine</A> </H2> 
+
+<DL> <DL>
+<DT> <H3>Base Classes:</H3> 
+<DL>
+<DT> <H4>Public Base Classes:</H4> 
+<DL>
+<DT>    <A HREF="#R2Transformation">R2Transformation</A>
+</DL> </DL>
+<P>
+<DT> <H3>Member Functions:</H3>
+<DL>
+<DT> <H4> Constructor functions: </H4>
+<DL>
+<DT>	R2Affine(void);
+<DT>	R2Affine(const R3Matrix& matrix, RNBoolean mirror = 0);
+<DT>
+</DL>
+<DT> <H4> Property functions/operators: </H4>
+<DL>
+<DT>        const R3Matrix& Matrix(void) const;
+<DT>        const R3Matrix InverseMatrix(void) const;
+<DT>        const RNBoolean IsMirrored(void) const;
+<DT>        const RNBoolean IsAffine(void) const;
+<DT>        const RNBoolean IsIsotropic(void) const;
+<DT>        const RNBoolean HasTranslation(void) const;
+<DT>        const RNBoolean HasScale(void) const;
+<DT>        const RNBoolean HasRotation(void) const;
+<DT>        const RNBoolean HasMirror(void) const;
+<DT>	const R2Affine Inverse(void) const;
+<DT>	const RNBoolean operator==(const R2Affine& affine) const;
+<DT>	const RNBoolean operator!=(const R2Affine& affine) const;
+<DT>
+</DL>
+<DT> <H4> Application functions/operators: </H4>
+<DL>
+<DT>	virtual void Apply(R2Vector& vector) const;
+<DT>	virtual void Apply(R2Point& point) const;
+<DT>	virtual void Apply(R2Transformation& transformation) const;
+<DT>	virtual void Apply(R2Affine& affine) const;
+<DT>	virtual void ApplyInverse(R2Vector& vector) const;
+<DT>	virtual void ApplyInverse(R2Point& point) const;
+<DT>	virtual void ApplyInverse(R2Transformation& transformation) const;
+<DT>	virtual void ApplyInverse(R2Affine& affine) const;
+<DT>
+</DL>
+<DT> <H4> Manipulation functions/operators: </H4>
+<DL>
+<DT>        void Invert(void);
+<DT>        void XMirror(void);
+<DT>        void YMirror(void);
+<DT>        void Mirror(void);
+<DT>	void XTranslate(RNScalar offset);
+<DT>	void YTranslate(RNScalar offset);
+<DT>	void Translate(RNScalar offset);
+<DT>	void Translate(RNAxis axis, RNScalar offset);
+<DT>	void Translate(const R2Vector& offset);
+<DT>	void XScale(RNScalar scale);
+<DT>	void YScale(RNScalar scale);
+<DT>	void Scale(RNScalar scale);
+<DT>	void Scale(RNAxis axis, RNScalar scale);
+<DT>	void Scale(const R2Vector& scale);
+<DT>	void Rotate(RNAngle radians);
+<DT>	void Transform(const R2Transformation& transformation);
+<DT>	void Transform(const R2Affine& affine);
+<DT>	void InverseTransform(const R2Transformation& transformation);
+<DT>	void InverseTransform(const R2Affine& affine);
+<DT>	void Reset(const R2Transformation& transformation);
+<DT>	void Reset(const R3Matrix& matrix, RNBoolean mirror = 0);
+<DT>
+</DL>
+<DT> <H4> Draw functions/operators: </H4>
+<DL>
+<DT>        virtual void Load(void) const;
+<DT>        virtual void Draw(void) const;
+<DT>        virtual void Push(void) const;
+<DT>        virtual void Pop(void) const;
+<DT>
+</DL>
+<DT> <H4> Do not use these ???: </H4>
+<DL>
+<DT>        const RNScalar ScaleFactor(void) const;
+<DT>
+</DL>
+</DL> </DL>
+</DL>
+
+
+
+<P>
+<HR> <H2> <A NAME="R2Arc" HREF="../pkgs/R2Shapes/R2Arc.h">R2Arc</A> </H2> 
+
+<DL> <DL>
+<DT> <H3>Base Classes:</H3> 
+<DL>
+<DT> <H4>Public Base Classes:</H4> 
+<DL>
+<DT>    <A HREF="#R2Curve">R2Curve</A>
+</DL> </DL>
+<P>
+<DT> <H3>Member Functions:</H3>
+<DL>
+<DT> <H4> Constructor functions: </H4>
+<DL>
+<DT>	R2Arc(void);
+<DT>        R2Arc(const R2Arc& arc);
+<DT>        R2Arc(const R2Point& center, RNLength radius, RNAngle start, RNAngle stop);
+<DT>
+</DL>
+<DT> <H4> Arc property functions/operators: </H4>
+<DL>
+<DT>        const R2Circle& Circle(void) const;
+<DT>        const R2Point& Center(void) const;
+<DT>        const RNLength Radius(void) const;
+<DT>        const RNAngle StartAngle(void) const;
+<DT>        const RNAngle StopAngle(void) const;
+<DT>        const RNAngle SweepAngle(void) const;
+<DT>        const R2Point Point(RNAngle angle) const;
+<DT>        const R2Point MidPoint(void) const;
+<DT>        const R2Point StartPoint(void) const;
+<DT>        const R2Point StopPoint(void) const;
+<DT>	const RNBoolean IsEmpty(void) const;
+<DT>	const RNBoolean IsFinite(void) const;
+<DT>
+</DL>
+<DT> <H4> Shape property functions/operators: </H4>
+<DL>
+<DT>	virtual const RNBoolean IsPoint(void) const;
+<DT>	virtual const RNBoolean IsLinear(void) const ;
+<DT>	virtual const RNBoolean IsConvex(void) const ;
+<DT>	virtual const R2Point Centroid(void) const;
+<DT>	virtual const R2Shape& BShape(void) const;
+<DT>	virtual const R2Box BBox(void) const;
+<DT>	virtual const R2Circle BCircle(void) const;
+<DT>
+</DL>
+<DT> <H4> Manipulation functions/operators: </H4>
+<DL>
+<DT>        virtual void Empty(void);
+<DT>	virtual void SetStartAngle(RNAngle theta);
+<DT>	virtual void SetStopAngle(RNAngle theta);
+<DT>        virtual void Translate(const R2Vector& vector);
+<DT>        virtual void Reposition(const R2Point& center);
+<DT>        virtual void Resize(RNLength radius);
+<DT>	virtual void Transform(const R2Transformation& transformation);
+<DT>
+</DL>
+<DT> <H4> Draw functions/operators: </H4>
+<DL>
+<DT>        virtual void Draw(const R2DrawFlags draw_flags = R2_DEFAULT_DRAW_FLAGS) const;
+<DT>
+</DL>
+</DL> </DL>
+</DL>
+
+
+
+<P>
+<HR> <H2> <A NAME="R2Box" HREF="../pkgs/R2Shapes/R2Box.h">R2Box</A> </H2> 
+
+<DL> <DL>
+<DT> <H3>Base Classes:</H3> 
+<DL>
+<DT> <H4>Public Base Classes:</H4> 
+<DL>
+<DT>    <A HREF="#R2Solid">R2Solid</A>
+</DL> </DL>
+<P>
+<DT> <H3>Member Functions:</H3>
+<DL>
+<DT> <H4> Constructor functions: </H4>
+<DL>
+<DT>	R2Box(void);
+<DT>        R2Box(const R2Box& box);
+<DT>	R2Box(const R2Point& min, const R2Point& max);
+<DT>	R2Box(const R2Point& center, RNLength xradius, RNLength yradius);
+<DT>	R2Box(RNCoord xmin, RNCoord ymin, RNCoord xmax, RNCoord ymax);
+<DT>
+</DL>
+<DT> <H4> Box property functions/operators: </H4>
+<DL>
+<DT>	const RNCoord XMin(void) const;
+<DT>	const RNCoord YMin(void) const;
+<DT>	const RNCoord XMax(void) const;
+<DT>	const RNCoord YMax(void) const;
+<DT>	const RNCoord Coord(RNDirection dir, RNDimension dim) const;
+<DT>	const R2Point& Min(void) const;
+<DT>	const R2Point& Max(void) const;
+<DT>	const R2Point Corner(RNQuadrant quadrant) const;
+<DT>	const R2Point Corner(RNDirection xdir, RNDirection ydir) const;
+<DT>	const R2Point Centroid(void) const;
+<DT>	const R2Point ClosestPoint(const R2Point& point) const;
+<DT>	const R2Box Quadrant(RNQuadrant octant) const;
+<DT>	const R2Box Quadrant(RNDirection xdir, RNDirection ydir) const;
+<DT>	const RNBoolean IsEmpty(void) const;
+<DT>	const RNBoolean IsFinite(void) const;
+<DT>        const int NDimensions(void) const;
+<DT>	const RNBoolean IsAxisNull(const RNAxis axis) const;
+<DT>	const RNLength XLength(void) const;
+<DT>	const RNLength YLength(void) const;
+<DT>	const RNLength AxisLength(const RNAxis axis) const;
+<DT>	const RNLength DiagonalLength(void) const;
+<DT>	const RNLength XRadius(void) const;
+<DT>	const RNLength YRadius(void) const;
+<DT>	const RNLength AxisRadius(const RNAxis axis) const;
+<DT>	const RNLength DiagonalRadius(void) const;
+<DT>	const RNCoord XCenter(void) const;
+<DT>	const RNCoord YCenter(void) const;
+<DT>	const RNCoord AxisCenter(const RNAxis axis) const;
+<DT>	const RNAxis ShortestAxis(void) const;
+<DT>	const RNAxis LongestAxis(void) const;
+<DT>	const RNLength ShortestAxisLength(void) const;
+<DT>	const RNLength LongestAxisLength(void) const;
+<DT>
+</DL>
+<DT> <H4> Shape property functions: </H4>
+<DL>
+<DT>	virtual const RNBoolean IsPoint(void) const;
+<DT>	virtual const RNBoolean IsLinear(void) const;
+<DT>	virtual const RNBoolean IsConvex(void) const;
+<DT>	virtual const RNArea Area(void) const;
+<DT>	virtual const R2Shape& BShape(void) const;
+<DT>	virtual const R2Box BBox(void) const;
+<DT>	virtual const R2Circle BCircle(void) const;
+<DT>
+</DL>
+<DT> <H4> Manipulation functions/operators: </H4>
+<DL>
+<DT>        virtual void Empty(void);
+<DT>        virtual void Inflate(RNScalar fraction);
+<DT>        virtual void Translate(const R2Vector& vector);
+<DT>	virtual void Union(const R2Point& point);
+<DT>	virtual void Union(const R2Box& box);
+<DT>	virtual void Union(const R2Circle& circle);
+<DT>	virtual void Intersect(const R2Box& box);
+<DT>	virtual void Transform(const R2Transformation& transformation);
+<DT>	virtual void Reset(const R2Point& min, const R2Point& max);
+<DT>
+</DL>
+<DT> <H4> Draw functions/operators: </H4>
+<DL>
+<DT>        virtual void Draw(const R2DrawFlags draw_flags = R2_DEFAULT_DRAW_FLAGS) const;
+<DT>
+</DL>
+<DT> <H4> Relationship functions/operators: </H4>
+<DL>
+<DT>	RNBoolean operator==(const R2Box& box) const;
+<DT>	RNBoolean operator!=(const R2Box& box) const;
+<DT>
+</DL>
+<DT> <H4> Undocumented functions/operators: </H4>
+<DL>
+<DT>	const R2Point& operator[](RNDirection dir) const;
+<DT>	R2Point& operator[](RNDirection dir);
+<DT>
+</DL>
+</DL> </DL>
+</DL>
+
+
+
+<P>
+<HR> <H2> <A NAME="R2Circle" HREF="../pkgs/R2Shapes/R2Circle.h">R2Circle</A> </H2> 
+
+<DL> <DL>
+<DT> <H3>Base Classes:</H3> 
+<DL>
+<DT> <H4>Public Base Classes:</H4> 
+<DL>
+<DT>    <A HREF="#R2Solid">R2Solid</A>
+</DL> </DL>
+<P>
+<DT> <H3>Member Functions:</H3>
+<DL>
+<DT> <H4> Constructor functions: </H4>
+<DL>
+<DT>	R2Circle(void);
+<DT>        R2Circle(const R2Circle& circle);
+<DT>        R2Circle(const R2Point& center, RNLength radius);
+<DT>
+</DL>
+<DT> <H4> Circle property functions/operators: </H4>
+<DL>
+<DT>        const R2Point& Center(void) const;
+<DT>        const RNLength Radius(void) const;
+<DT>	const RNBoolean IsEmpty(void) const;
+<DT>	const RNBoolean IsFinite(void) const;
+<DT>
+</DL>
+<DT> <H4> Shape property functions/operators: </H4>
+<DL>
+<DT>	virtual const RNBoolean IsPoint(void) const;
+<DT>	virtual const RNBoolean IsLinear(void) const ;
+<DT>	virtual const RNBoolean IsConvex(void) const ;
+<DT>	virtual const RNArea Area(void) const;
+<DT>	virtual const R2Point Centroid(void) const;
+<DT>	virtual const R2Shape& BShape(void) const;
+<DT>	virtual const R2Box BBox(void) const;
+<DT>	virtual const R2Circle BCircle(void) const;
+<DT>
+</DL>
+<DT> <H4> Manipulation functions/operators: </H4>
+<DL>
+<DT>        virtual void Empty(void);
+<DT>        virtual void Translate(const R2Vector& vector);
+<DT>        virtual void Reposition(const R2Point& center);
+<DT>        virtual void Resize(RNLength radius);
+<DT>	virtual void Transform(const R2Transformation& transformation);
+<DT>
+</DL>
+<DT> <H4> Draw functions/operators: </H4>
+<DL>
+<DT>        virtual void Draw(const R2DrawFlags draw_flags = R2_DEFAULT_DRAW_FLAGS) const;
+<DT>
+</DL>
+</DL> </DL>
+</DL>
+
+
+
+<P>
+<HR> <H2> <A NAME="R2CoordSystem" HREF="../pkgs/R2Shapes/R2CoordSystem.h">R2CoordSystem</A> </H2> 
+
+<DL> <DL>
+<DT> <H3>Base Classes:</H3> 
+<DL>
+<DT> <H4>Public Base Classes:</H4> 
+<DL>
+<DT>    <A HREF="#R2Base">R2Base</A>
+</DL> </DL>
+<P>
+<DT> <H3>Member Functions:</H3>
+<DL>
+<DT> <H4> Constructor functions: </H4>
+<DL>
+<DT>	R2CoordSystem(void);
+<DT>	R2CoordSystem(const R2CoordSystem& cs);
+<DT>	R2CoordSystem(const R2Point& origin, const R2Diad& axes);
+<DT>
+</DL>
+<DT> <H4> Property functions/operators: </H4>
+<DL>
+<DT>	const R2Point& Origin(void) const;
+<DT>	const R2Diad& Axes(void) const;
+<DT>        const R3Matrix Matrix(void) const;
+<DT>        const R3Matrix InverseMatrix(void) const;
+<DT>	const RNBoolean operator==(const R2CoordSystem& cs) const;
+<DT>	const RNBoolean operator!=(const R2CoordSystem& cs) const;
+<DT>
+</DL>
+<DT> <H4> Manipulation functions/operators: </H4>
+<DL>
+<DT>	void Translate(const R2Vector& offset);
+<DT>	void Rotate(RNAngle radians);
+<DT>	void Mirror(const R2Line& line);
+<DT>        void Transform(const R2Transformation& transformation);
+<DT>        void InverseTransform(const R2Transformation& transformation);
+<DT>        void SetOrigin(const R2Point& origin);
+<DT>        void SetAxes(const R2Diad& axes);
+<DT>
+</DL>
+<DT> <H4> Draw functions/operators: </H4>
+<DL>
+<DT>        void Draw(void) const;
+<DT>        void Outline(void) const;
+<DT>
+</DL>
+</DL> </DL>
+</DL>
+
+
+
+<P>
+<HR> <H2> <A NAME="R2Curve" HREF="../pkgs/R2Shapes/R2Curve.h">R2Curve</A> </H2> 
+
+<DL> <DL>
+<DT> <H3>Base Classes:</H3> 
+<DL>
+<DT> <H4>Public Base Classes:</H4> 
+<DL>
+<DT>    <A HREF="#R2Shape">R2Shape</A>
+</DL> </DL>
+<P>
+<DT> <H3>Member Functions:</H3>
+<DL>
+<DT> <H4> Constructors/destructors ???: </H4>
+<DL>
+<DT>	R2Curve(void);
+<DT>	~R2Curve(void);
+<DT>
+</DL>
+<DT> <H4> Shape property functions/operators: </H4>
+<DL>
+<DT>	const RNBoolean IsCurve(void) const;
+<DT>
+</DL>
+<DT> <H4> Curve property functions/operators: </H4>
+<DL>
+</DL>
+<DT> <H4> virtual const R2Point Start(void) const = 0;: </H4>
+<DL>
+</DL>
+<DT> <H4> virtual const R2Point End(void) const = 0;: </H4>
+<DL>
+</DL>
+</DL> </DL>
+</DL>
+
+
+
+<P>
+<HR> <H2> <A NAME="R2Diad" HREF="../pkgs/R2Shapes/R2Diad.h">R2Diad</A> </H2> 
+
+<DL> <DL>
+<DT> <H3>Base Classes:</H3> 
+<DL>
+<DT> <H4>Public Base Classes:</H4> 
+<DL>
+<DT>    <A HREF="#R2Base">R2Base</A>
+</DL> </DL>
+<P>
+<DT> <H3>Member Functions:</H3>
+<DL>
+<DT> <H4> Constructor functions: </H4>
+<DL>
+<DT>	R2Diad(void);
+<DT>	R2Diad(const R2Diad& diad);
+<DT>	R2Diad(const R2Vector& xaxis, const R2Vector& yaxis);
+<DT>
+</DL>
+<DT> <H4> Property functions/operators: </H4>
+<DL>
+<DT>        const R3Matrix Matrix(void) const;
+<DT>        const R3Matrix InverseMatrix(void) const;
+<DT>	const R2Vector& Axis(RNDimension dim) const;
+<DT>	const R2Vector& operator[](RNDimension dim) const;
+<DT>	const RNBoolean operator==(const R2Diad& diad) const;
+<DT>	const RNBoolean operator!=(const R2Diad& diad) const;
+<DT>
+</DL>
+<DT> <H4> Manipulation functions/operators: </H4>
+<DL>
+<DT>        void Normalize(void);
+<DT>	void Rotate(RNAngle radians);
+<DT>	void Mirror(const R2Line& line);
+<DT>        void Transform(const R2Transformation& transformation);
+<DT>        void InverseTransform(const R2Transformation& transformation);
+<DT>	R2Diad& operator=(const R2Diad& diad);
+<DT>
+</DL>
+<DT> <H4> Draw functions/operators: </H4>
+<DL>
+<DT>        void Draw(void) const;
+<DT>        void Outline(void) const;
+<DT>
+</DL>
+</DL> </DL>
+</DL>
+
+
+
+<P>
+<HR> <H2> <A NAME="R2Grid" HREF="../pkgs/R2Shapes/R2Grid.h">R2Grid</A> </H2> 
+
+<DL> <DL>
+<DT> <H3>Base Classes:</H3> 
+<DL>
+<DT> <H4>Public Base Classes:</H4> 
+<DL>
+<DT>	None
+</DL> </DL>
+<P>
+<DT> <H3>Member Functions:</H3>
+<DL>
+<DT> <H4> Constructors: </H4>
+<DL>
+<DT>  R2Grid(int xresolution = 0, int yresolution = 0);
+<DT>  R2Grid(int xresolution, int yresolution, const R2Box& bbox);
+<DT>  R2Grid(int xresolution, int yresolution, const R2Affine& world_to_grid);
+<DT>  R2Grid(const R2Grid& grid, int x1, int y1, int x2, int y2);
+<DT>  R2Grid(const R2Grid& grid);
+<DT>  R2Grid(const R2Image& image, int dummy);
+<DT>  ~R2Grid(void);
+<DT>
+</DL>
+<DT> <H4> Grid property functions: </H4>
+<DL>
+<DT>  int NEntries() const;
+<DT>  int XResolution(void) const;
+<DT>  int YResolution(void) const;
+<DT>  int Resolution(RNDimension dim) const;
+<DT>  RNScalar Sum(void) const;
+<DT>  RNScalar Mean(void) const;
+<DT>  RNScalar Median(void) const;
+<DT>  RNScalar Maximum(void) const;
+<DT>  RNScalar Minimum(void) const;
+<DT>  RNInterval Range(void) const;
+<DT>  RNScalar L1Norm(void) const;
+<DT>  RNScalar L2Norm(void) const;
+<DT>  RNScalar Area(void) const;
+<DT>  int Cardinality(void) const;
+<DT>  R2Box GridBox(void) const;
+<DT>  R2Box WorldBox(void) const;
+<DT>
+</DL>
+<DT> <H4> Transformation property functions: </H4>
+<DL>
+<DT>  const R2Affine& WorldToGridTransformation(void) const;
+<DT>  const R2Affine& GridToWorldTransformation(void) const;
+<DT>  RNScalar WorldToGridScaleFactor(void) const;
+<DT>  RNScalar GridToWorldScaleFactor(void) const;
+<DT>
+</DL>
+<DT> <H4> Grid value access functions: </H4>
+<DL>
+<DT>  RNScalar GridValue(int index) const;
+<DT>  RNScalar GridValue(int i, int j) const;
+<DT>  RNScalar GridValue(RNCoord x, RNCoord y) const;
+<DT>  RNScalar GridValue(const R2Point& grid_point) const;
+<DT>  RNScalar WorldValue(RNCoord x, RNCoord y) const;
+<DT>  RNScalar WorldValue(const R2Point& world_point) const;
+<DT>  RNScalar& operator()(int i, int j);
+<DT>  RNScalar& operator()(int i);
+<DT>
+</DL>
+<DT> <H4> Grid manipulation functions: </H4>
+<DL>
+<DT>  void Abs(void);
+<DT>  void Sqrt(void);
+<DT>  void Square(void);
+<DT>  void Negate(void);
+<DT>  void Invert(void);
+<DT>  void Transpose(void);
+<DT>  void Normalize(void);
+<DT>  void Laplacian(void);
+<DT>  void Laplacian(RNDimension dim);
+<DT>  void Sobel(void);
+<DT>  void GradientAngle(void);
+<DT>  void GradientMagnitude(void);
+<DT>  void Gradient(RNDimension dim);
+<DT>  void Hessian(RNDimension dim1, RNDimension dim2);
+<DT>  void Clear(RNScalar value = 0);
+<DT>  void DetectEdges(void);
+<DT>  void DetectCorners(void);
+<DT>  void FillHoles(void);
+<DT>  void FillHoles(int max_hole_size);
+<DT>  void Dilate(RNScalar grid_distance);
+<DT>  void Erode(RNScalar grid_distance);
+<DT>  void Blur(RNScalar grid_sigma = 2);
+<DT>  void Blur(RNDimension dim, RNScalar grid_sigma);
+<DT>  void HarrisCornerFilter(int grid_radius = 3, RNScalar kappa = 0.05);
+<DT>  void BilateralFilter(RNLength grid_sigma = 2, RNScalar value_sigma = -1);
+<DT>  void AnisotropicDiffusion(RNLength grid_sigma = 2, RNScalar gradient_sigma = -1);
+<DT>  void PercentileFilter(RNLength grid_radius, RNScalar percentile);
+<DT>  void MinFilter(RNLength grid_radius);
+<DT>  void MaxFilter(RNLength grid_radius);
+<DT>  void MedianFilter(RNLength grid_radius);
+<DT>  void MaskNonMinima(RNLength grid_radius = 0);
+<DT>  void MaskNonMaxima(RNLength grid_radius = 0);
+<DT>  void Convolve(const RNScalar filter[3][3]);
+<DT>  void Substitute(RNScalar old_value, RNScalar new_value);
+<DT>  void Add(RNScalar value);
+<DT>  void Add(const R2Grid& grid);
+<DT>  void Subtract(RNScalar value);
+<DT>  void Subtract(const R2Grid& grid);
+<DT>  void Multiply(RNScalar value);
+<DT>  void Multiply(const R2Grid& grid);
+<DT>  void Divide(RNScalar value);
+<DT>  void Divide(const R2Grid& grid);
+<DT>  void Pow(RNScalar exponent);
+<DT>  void Mask(const R2Grid& grid);
+<DT>  void Overlay(const R2Grid& grid);
+<DT>  void Threshold(RNScalar threshold, RNScalar low, RNScalar high);
+<DT>  void Threshold(const R2Grid& threshold, RNScalar low, RNScalar high);
+<DT>  void SignedDistanceTransform(void);
+<DT>  void SquaredDistanceTransform(void);
+<DT>  void Voronoi(R2Grid *squared_distance_grid = NULL);
+<DT>  void PointSymmetryTransform(int radius = -1);
+<DT>  void Gauss(RNLength sigma = sqrt(8.0), RNBoolean square = TRUE);
+<DT>  void Resample(int xres, int yres);
+<DT>  void PadWithZero(int xres, int yres);
+<DT>  void SetGridValue(int index, RNScalar value);
+<DT>  void SetGridValue(int i, int j, RNScalar value);
+<DT>  void AddGridValue(int i, int j, RNScalar value);
+<DT>
+</DL>
+<DT> <H4> Arithmetic operators: </H4>
+<DL>
+<DT>  R2Grid& operator=(const R2Grid& grid);
+<DT>  R2Grid& operator+=(RNScalar scale);
+<DT>  R2Grid& operator+=(const R2Grid& grid);
+<DT>  R2Grid& operator-=(RNScalar scale);
+<DT>  R2Grid& operator-=(const R2Grid& grid);
+<DT>  R2Grid& operator*=(RNScalar scale);
+<DT>  R2Grid& operator*=(const R2Grid& grid);
+<DT>  R2Grid& operator/=(RNScalar scale);
+<DT>  R2Grid& operator/=(const R2Grid& grid);
+<DT>
+</DL>
+<DT> <H4> Rasterization functions: </H4>
+<DL>
+<DT>  void RasterizeGridPoint(RNCoord x, RNCoord y, RNScalar value);
+<DT>  void RasterizeWorldPoint(RNCoord x, RNCoord y, RNScalar value);
+<DT>  void RasterizeGridPoint(const R2Point& point, RNScalar value);
+<DT>  void RasterizeWorldPoint(const R2Point& point, RNScalar value);
+<DT>  void RasterizeGridSpan(const R2Point& p1, const R2Point& p2, RNScalar value);
+<DT>  void RasterizeWorldSpan(const R2Point& p1, const R2Point& p2, RNScalar value);
+<DT>  void RasterizeGridSpan(const int p1[3], const int p2[3], RNScalar value1, RNScalar value2);
+<DT>  void RasterizeGridSpan(const R2Point& p1, const R2Point& p2, RNScalar value1, RNScalar value2);
+<DT>  void RasterizeWorldSpan(const R2Point& p1, const R2Point& p2, RNScalar value1, RNScalar value2);
+<DT>  void RasterizeGridBox(const int p1[3], const int p2[3], RNScalar value);
+<DT>  void RasterizeGridBox(const R2Point& p1, const R2Point& p2, RNScalar value);
+<DT>  void RasterizeWorldBox(const R2Point& p1, const R2Point& p2, RNScalar value);
+<DT>  void RasterizeGridTriangle(const R2Point& p1, const R2Point& p2, const R2Point& p3, RNScalar value);
+<DT>  void RasterizeWorldTriangle(const R2Point& p1, const R2Point& p2, const R2Point& p3, RNScalar value);
+<DT>  void RasterizeGridTriangle(const int p1[3], const int p2[3], const int p3[3], RNScalar value1, RNScalar value2, RNScalar value3);
+<DT>  void RasterizeGridTriangle(const R2Point& p1, const R2Point& p2, const R2Point& p3, RNScalar value1, RNScalar value2, RNScalar value3);
+<DT>  void RasterizeWorldTriangle(const R2Point& p1, const R2Point& p2, const R2Point& p3, RNScalar value1, RNScalar value2, RNScalar value3);
+<DT>  void RasterizeGridCircle(const R2Point& center, RNLength radius, RNScalar value);
+<DT>  void RasterizeWorldCircle(const R2Point& center, RNLength radius, RNScalar value);
+<DT>  void RasterizeGridPolygon(const R2Polygon& polygon, RNScalar value);
+<DT>  void RasterizeWorldPolygon(const R2Polygon& polygon, RNScalar value);
+<DT>
+</DL>
+<DT> <H4> Relationship functions: </H4>
+<DL>
+<DT>  RNScalar Dot(const R2Grid& grid) const;
+<DT>  RNScalar L1Distance(const R2Grid& grid) const;
+<DT>  RNScalar L2Distance(const R2Grid& grid) const;
+<DT>  RNScalar L2DistanceSquared(const R2Grid& grid) const;
+<DT>
+</DL>
+<DT> <H4> Transformation manipulation functions: </H4>
+<DL>
+<DT>  void SetWorldToGridTransformation(const R2Affine& affine);
+<DT>  void SetWorldToGridTransformation(const R2Box& world_box);
+<DT>  void SetWorldToGridTransformation(const R2Point& world_origin, const R2Vector& world_xaxis, RNLength world_radius);
+<DT>
+</DL>
+<DT> <H4> Transformation utility functions: </H4>
+<DL>
+<DT>  R2Point WorldPosition(const R2Point& grid_point) const;
+<DT>  R2Point GridPosition(const R2Point& world_point) const;
+<DT>  R2Point WorldPosition(RNCoord x, RNCoord y) const;
+<DT>  R2Point GridPosition(RNCoord x, RNCoord y) const;
+<DT>
+</DL>
+<DT> <H4> Reading/writing: </H4>
+<DL>
+<DT>  int ReadFile(const char *filename);
+<DT>  int ReadPFMFile(const char *filename);
+<DT>  int ReadRAWFile(const char *filename);
+<DT>  int ReadGridFile(const char *filename);
+<DT>  int ReadPNGFile(const char *filename);
+<DT>  int ReadImage(const char *filename);
+<DT>  int WriteFile(const char *filename) const;
+<DT>  int WritePFMFile(const char *filename) const;
+<DT>  int WriteRAWFile(const char *filename) const;
+<DT>  int WriteGridFile(const char *filename) const;
+<DT>  int WriteImage(const char *filename) const;
+<DT>  int ReadGrid(FILE *fp = NULL);
+<DT>  int WriteGrid(FILE *fp = NULL) const;
+<DT>  int Print(FILE *fp = NULL) const;
+<DT>  void Capture(void);
+<DT>
+</DL>
+<DT> <H4> Draw functions: </H4>
+<DL>
+<DT>  void Draw(void) const;
+<DT>  void DrawMesh(void) const;
+<DT>  void DrawImage(int x = 0, int y = 0) const;
+<DT>
+</DL>
+<DT> <H4> Utility functions: </H4>
+<DL>
+<DT>  RNScalar GridValue(RNCoord x, RNCoord y, RNLength sigma) const;
+<DT>  void ConnectedComponentLabelFilter(RNScalar isolevel);
+<DT>  void ConnectedComponentSizeFilter(RNScalar isolevel);
+<DT>  void ConnectedComponentCentroidFilter(RNScalar isolevel);
+<DT>  void ConnectedComponentFilter(RNScalar isolevel, RNArea min_grid_area, RNArea max_grid_area, 
+<DT>    RNScalar under_isolevel_value = 0, RNScalar too_small_value = 0, RNScalar too_large_value = 0);
+<DT>  int ConnectedComponents(RNScalar isolevel = 0, int max_components = 0, int *seeds = NULL, int *sizes = NULL, int *grid_components = NULL);
+<DT>  int GenerateIsoContour(RNScalar isolevel, R2Point *points, int max_points) const;
+<DT>
+</DL>
+<DT> <H4> Debugging functions: </H4>
+<DL>
+<DT>  const RNScalar *GridValues(void) const;
+<DT>  void IndicesToIndex(int i, int j, int& index) const;
+<DT>  void IndexToIndices(int index, int& i, int& j) const;
+<DT>
+</DL>
+<DT> <H4> Temporary (for backwards compatibility): </H4>
+<DL>
+</DL>
+</DL> </DL>
+</DL>
+
+
+
+<P>
+</DL>
+</DL> </DL>
+</DL>
+
+
+
+<P>
+</DL>
+</DL> </DL>
+</DL>
+
+
+
+<P>
+</DL>
+</DL> </DL>
+</DL>
+
+
+
+<P>
+</DL>
+</DL> </DL>
+</DL>
+
+
+
+<P>
+</DL>
+</DL> </DL>
+</DL>
+
+
+
+<P>
+</DL>
+</DL> </DL>
+</DL>
+
+
+
+<P>
+</DL>
+</DL> </DL>
+</DL>
+
+
+
+<P>
+</DL>
+</DL> </DL>
+</DL>
+
+
+
+<P>
+</DL>
+</DL> </DL>
+</DL>
+
+
+
+<P>
+<HR> <H2> <A NAME="R2Halfspace" HREF="../pkgs/R2Shapes/R2Halfspace.h">R2Halfspace</A> </H2> 
+
+<DL> <DL>
+<DT> <H3>Base Classes:</H3> 
+<DL>
+<DT> <H4>Public Base Classes:</H4> 
+<DL>
+<DT>	None
+</DL> </DL>
+<P>
+<DT> <H3>Member Functions:</H3>
+<DL>
+<DT> <H4> Constructor functions: </H4>
+<DL>
+<DT>	R2Halfspace(void);
+<DT>        R2Halfspace(const R2Halfspace& halfspace);
+<DT>	R2Halfspace(RNScalar a, RNScalar b, RNScalar c);
+<DT>	R2Halfspace(const RNScalar array[3]);
+<DT>	R2Halfspace(const R2Point& point, const R2Vector& normal);
+<DT>	R2Halfspace(const R2Point& point1, const R2Point& point2);
+<DT>	R2Halfspace(RNCoord x1, RNCoord y1, RNCoord x2, RNCoord y2);
+<DT>	R2Halfspace(const R2Line& line, int dummy);
+<DT>
+</DL>
+<DT> <H4> Property functions/operators: </H4>
+<DL>
+<DT>	const R2Line& Line(void) const;
+<DT>	const R2Vector& Normal(void) const;
+<DT>	const RNBoolean IsZero(void) const;
+<DT>	const RNBoolean operator==(const R2Halfspace& halfspace) const;
+<DT>	const RNBoolean operator!=(const R2Halfspace& halfspace) const;
+<DT>
+</DL>
+<DT> <H4> Manipulation functions/operators: </H4>
+<DL>
+<DT>	void Flip(void);
+<DT>	void Mirror(const R2Line& line);
+<DT>	void Translate(const R2Vector& vector);
+<DT>	void Reposition(const R2Point& point);
+<DT>	void Align(const R2Vector& vector);
+<DT>        void Transform(const R2Transformation& transformation);
+<DT>	void InverseTransform(const R2Transformation& transformation);
+<DT>	void Reset(const R2Line& line);
+<DT>
+</DL>
+<DT> <H4> Draw functions/operators: </H4>
+<DL>
+<DT>        void Draw(void) const;
+<DT>
+</DL>
+<DT> <H4> Arithmetic functions/operators: </H4>
+<DL>
+<DT>	R2Halfspace operator-(void) const;
+<DT>	
+</DL>
+</DL> </DL>
+</DL>
+
+
+
+<P>
+<HR> <H2> <A NAME="R2Image" HREF="../pkgs/R2Shapes/R2Image.h">R2Image</A> </H2> 
+
+<DL> <DL>
+<DT> <H3>Base Classes:</H3> 
+<DL>
+<DT> <H4>Public Base Classes:</H4> 
+<DL>
+<DT>	None
+</DL> </DL>
+<P>
+<DT> <H3>Member Functions:</H3>
+<DL>
+<DT> <H4> Constructors: </H4>
+<DL>
+<DT>  R2Image(void);
+<DT>  R2Image(const char *filename);
+<DT>  R2Image(int width, int height, int ncomponents = 3);
+<DT>  R2Image(int width, int height, int ncomponents, unsigned char *data);
+<DT>  R2Image(const R2Image& image);
+<DT>  ~R2Image(void);
+<DT>
+</DL>
+<DT> <H4> Accessors: </H4>
+<DL>
+<DT>  const unsigned char *Pixels(void) const;
+<DT>  const unsigned char *Pixels(int row) const;
+<DT>  const unsigned char *Pixel(int row, int column) const;
+<DT>  const RNRgb PixelRGB(int row, int column) const;
+<DT>  int Width(void) const;
+<DT>  int Height(void) const;
+<DT>  int Depth(void) const;
+<DT>  int NComponents(void) const;
+<DT>  int RowSize(void) const;
+<DT>  int Size(void) const;
+<DT>
+</DL>
+<DT> <H4> Manipulation: </H4>
+<DL>
+<DT>  void Add(const R2Image& image);
+<DT>  void Subtract(const R2Image& image);
+<DT>  void SetPixelRGB(int row, int column, const RNRgb& rgb);
+<DT>
+</DL>
+<DT> <H4> Reading/writing: </H4>
+<DL>
+<DT>  int Read(const char *filename);
+<DT>  int ReadBMP(const char *filename);
+<DT>  int ReadPPM(const char *filename);
+<DT>  int ReadPFM(const char *filename);
+<DT>  int ReadJPEG(const char *filename);
+<DT>  int ReadTIFF(const char *filename);
+<DT>  int ReadPNG(const char *filename);
+<DT>  int ReadRAW(const char *filename);
+<DT>  int ReadGRD(const char *filename);
+<DT>  int Write(const char *filename) const;
+<DT>  int WriteBMP(const char *filename) const;
+<DT>  int WritePPM(const char *filename, int ascii = 0) const;
+<DT>  int WriteRAW(const char *filename) const;
+<DT>  int WriteJPEG(const char *filename) const;
+<DT>  int WriteTIFF(const char *filename) const;
+<DT>  int WritePNG(const char *filename) const;
+<DT>  void Capture(void);
+<DT>
+</DL>
+<DT> <H4> Draw functions: </H4>
+<DL>
+<DT>  void Draw(int x = 0, int y = 0) const;
+<DT>
+</DL>
+</DL> </DL>
+</DL>
+
+
+
+<P>
+<HR> <H2> <A NAME="R2Kdtree" HREF="../pkgs/R2Shapes/R2Kdtree.h">R2Kdtree</A> </H2> 
+
+<DL> <DL>
+<DT> <H3>Base Classes:</H3> 
+<DL>
+<DT> <H4>Public Base Classes:</H4> 
+<DL>
+<DT>	None
+</DL> </DL>
+<P>
+<DT> <H3>Member Functions:</H3>
+<DL>
+<DT> <H4> Constructor/destructors: </H4>
+<DL>
+<DT>  R2Kdtree(const R2Box& bbox, int position_offset = 0);
+<DT>  R2Kdtree(const RNArray<PtrType>& points, int position_offset = 0);
+<DT>  R2Kdtree(const RNArray<PtrType>& points, R2Point (*position_callback)(PtrType, void *), void *data);
+<DT>  ~R2Kdtree(void);
+<DT>
+</DL>
+<DT> <H4> Property functions: </H4>
+<DL>
+<DT>  const R2Box& BBox(void) const;
+<DT>  int NNodes(void) const;
+<DT>
+</DL>
+<DT> <H4> Search for closest to a point: </H4>
+<DL>
+<DT>  PtrType FindClosest(PtrType point, RNLength min_distance = 0, RNLength max_distance = RN_INFINITY, RNLength *closest_distance = NULL) const;
+<DT>  PtrType FindClosest(const R2Point& position, RNLength min_distance = 0, RNLength max_distance = RN_INFINITY, RNLength *closest_distance = NULL) const;
+<DT>
+</DL>
+<DT> <H4> Search for all within some distance to a point: </H4>
+<DL>
+<DT>  int FindAll(PtrType point, RNLength min_distance, RNLength max_distance, RNArray<PtrType>& points) const;
+<DT>  int FindAll(const R2Point& position, RNLength min_distance, RNLength max_distance, RNArray<PtrType>& points) const;
+<DT>
+</DL>
+<DT> <H4> Internal search functions: </H4>
+<DL>
+<DT>  void FindClosest(R2KdtreeNode<PtrType> *node, const R2Box& node_box, const R2Point& position, 
+<DT>    RNLength min_distance_squared, RNLength max_distance_squared, 
+<DT>    PtrType& closest_point, RNLength& closest_distance_squared) const;
+<DT>  void FindAll(R2KdtreeNode<PtrType> *node, const R2Box& node_box, const R2Point& position, 
+<DT>    RNLength min_distance_squared, RNLength max_distance_squared, RNArray<PtrType>& points) const;
+<DT>
+</DL>
+<DT> <H4> Internal manipulation functions: </H4>
+<DL>
+<DT>  void InsertPoints(R2KdtreeNode<PtrType> *node, const R2Box& node_box, PtrType *points, int npoints);
+<DT>  int PartitionPoints(PtrType *points, int npoints, RNDimension dim, int imin, int imax);
+<DT>
+</DL>
+<DT> <H4> Internal visualization functions: </H4>
+<DL>
+<DT>  void Outline(R2KdtreeNode<PtrType> *node, const R2Box& bbox) const;
+<DT>  void Outline(void) const;
+<DT>
+</DL>
+<DT> <H4> Internal debugging functions: </H4>
+<DL>
+<DT>  void PrintDebugInfo(void) const;
+<DT>  int PrintBalance(R2KdtreeNode<PtrType> *node, int depth) const;
+<DT>
+</DL>
+<DT> <H4> Internal point extraction function: </H4>
+<DL>
+<DT>  const R2Point Position(PtrType point) const { 
+<DT>    if (position_offset >= 0) return *((R2Point *) ((unsigned char *) point + position_offset)); 
+<DT>    else if (position_callback) return (*position_callback)(point, position_callback_data);
+<DT>    else { fprintf(stderr, "Invalid position callback\n"); abort(); return R2null_point; }
+<DT>  } ;
+<DT>
+</DL>
+<DT> <H4> Internal data: </H4>
+<DL>
+<DT>  R2Box bbox;
+<DT>  int position_offset;
+<DT>  R2Point (*position_callback)(PtrType, void *);
+<DT>  void *position_callback_data;
+<DT>  R2KdtreeNode<PtrType> *root;
+<DT>  int nnodes;
+</DL>
+</DL> </DL>
+</DL>
+
+
+
+<P>
+<HR> <H2> <A NAME="R2Line" HREF="../pkgs/R2Shapes/R2Line.h">R2Line</A> </H2> 
+
+<DL> <DL>
+<DT> <H3>Base Classes:</H3> 
+<DL>
+<DT> <H4>Public Base Classes:</H4> 
+<DL>
+<DT>	None
+</DL> </DL>
+<P>
+<DT> <H3>Member Functions:</H3>
+<DL>
+<DT> <H4> Constructor functions: </H4>
+<DL>
+<DT>	R2Line(void);
+<DT>	R2Line(const R2Line& line);
+<DT>	R2Line(const RNScalar a, const RNScalar b, const RNScalar c);
+<DT>	R2Line(const RNScalar array[3]);
+<DT>	R2Line(const R2Point& point, const R2Vector& vector, RNBoolean normalized = FALSE);
+<DT>	R2Line(const R2Point& point1, const R2Point& point2);
+<DT>	R2Line(RNCoord x1, RNCoord y1, RNCoord x2, RNCoord y2);
+<DT>
+</DL>
+<DT> <H4> Property functions/operators: </H4>
+<DL>
+<DT>	const RNScalar A(void) const;
+<DT>	const RNScalar B(void) const;
+<DT>	const RNScalar C(void) const;
+<DT>	const RNScalar operator[](int i) const;
+<DT>        const R2Point Point(void) const;
+<DT>        const R2Vector& Vector(void) const;
+<DT>        const R2Vector& Normal(void) const;
+<DT>	const RNBoolean IsZero(void) const;
+<DT>	const RNBoolean operator==(const R2Line& line) const;
+<DT>	const RNBoolean operator!=(const R2Line& line) const;
+<DT>
+</DL>
+<DT> <H4> Manipulation functions/operators: </H4>
+<DL>
+<DT>	void Flip(void);
+<DT>	void Mirror(const R2Line& line);
+<DT>	void Project(const R2Line& line);
+<DT>        void Translate(const R2Vector& vector);
+<DT>        void Reposition(const R2Point& point);
+<DT>        void Align(const R2Vector& vector, RNBoolean normalized = FALSE);
+<DT>        void Transform(const R2Transformation& transformation);
+<DT>	void InverseTransform(const R2Transformation& transformation);
+<DT>	void Reset(const R2Point& point, const R2Vector& vector, RNBoolean normalized = FALSE);
+<DT>
+</DL>
+<DT> <H4> Draw functions/operators: </H4>
+<DL>
+<DT>        void Draw(void) const;
+<DT>
+</DL>
+<DT> <H4> Arithmetic functions/operators: </H4>
+<DL>
+<DT>	R2Line operator-(void) const;
+<DT>	
+</DL>
+</DL> </DL>
+</DL>
+
+
+
+<P>
+<HR> <H2> <A NAME="R2Point" HREF="../pkgs/R2Shapes/R2Point.h">R2Point</A> </H2> 
+
+<DL> <DL>
+<DT> <H3>Base Classes:</H3> 
+<DL>
+<DT> <H4>Public Base Classes:</H4> 
+<DL>
+<DT>	None
+</DL> </DL>
+<P>
+<DT> <H3>Member Functions:</H3>
+<DL>
+<DT> <H4> Constructor/destructor functions: </H4>
+<DL>
+<DT>	R2Point(void);
+<DT>	R2Point(const R2Point& point);
+<DT>	R2Point(RNCoord x, RNCoord y);
+<DT>	R2Point(const RNCoord array[2]);
+<DT>
+</DL>
+<DT> <H4> Property functions/operators: </H4>
+<DL>
+<DT>	const RNCoord X(void) const;
+<DT>	const RNCoord Y(void) const;
+<DT>	const RNCoord Coord(RNDimension dim) const;
+<DT>	const RNCoord operator[](RNDimension dim) const;
+<DT>	const RNCoord *Coords(void) const;
+<DT>	const RNBoolean IsZero(void) const;
+<DT>	const RNBoolean IsFinite(void) const;
+<DT>	const R2Vector Vector(void) const;
+<DT>
+</DL>
+<DT> <H4> Relationship functions/operators: </H4>
+<DL>
+<DT>	const RNBoolean Collinear(const R2Point& point1, const R2Point& point2) const;
+<DT>	const RNBoolean operator==(const R2Point& point) const;
+<DT>	const RNBoolean operator!=(const R2Point& point) const;
+<DT>
+</DL>
+<DT> <H4> Manipulation functions/operators: </H4>
+<DL>
+<DT>	void X(RNCoord x);
+<DT>	void Y(RNCoord y);
+<DT>	void SetCoord(RNDimension dim, RNCoord coord);
+<DT>        void Translate(const R2Vector& vector);
+<DT>	void Project(const R2Line& line);
+<DT>	void Mirror(const R2Line& line);
+<DT>	void Rotate(const R2Point& origin, RNAngle theta);
+<DT>	void Transform(const R2Transformation& transformation);
+<DT>	void InverseTransform(const R2Transformation& transformation);
+<DT>	void Reset(RNCoord x, RNCoord y);
+<DT>
+</DL>
+<DT> <H4> Draw functions/operators: </H4>
+<DL>
+<DT>        void Draw(void) const;
+<DT>
+</DL>
+<DT> <H4> Assignment operators: </H4>
+<DL>
+<DT>	R2Point& operator=(const R2Point& point);
+<DT>	R2Point& operator+=(const R2Point& point);
+<DT>	R2Point& operator+=(const R2Vector& vector);
+<DT>	R2Point& operator-=(const R2Vector& vector);
+<DT>	R2Point& operator*=(const RNScalar a);
+<DT>	R2Point& operator*=(const R3Matrix& m);
+<DT>	R2Point& operator/=(const RNScalar a);
+<DT>
+</DL>
+<DT> <H4> Arithmetic operators: </H4>
+<DL>
+<DT>	friend R2Point operator+(const R2Point& point);
+<DT>	friend R2Point operator-(const R2Point& point);
+<DT>	friend R2Point operator+(const R2Point& point1, const R2Point& point2) ;
+<DT>	friend R2Point operator+(const R2Point& point, const R2Vector& vector) ;
+<DT>	friend R2Point operator+(const R2Vector& vector, const R2Point& point) ;
+<DT>	friend R2Vector operator-(const R2Point& point1, const R2Point& point2);
+<DT>	friend R2Point operator-(const R2Point& point, const R2Vector& vector);
+<DT>	friend R2Point operator*(const R2Point& point, const RNScalar a);
+<DT>	friend R2Point operator*(const RNScalar a, const R2Point& point);
+<DT>	friend R2Point operator*(const R2Point& point, const R3Matrix& m);
+<DT>	friend R2Point operator/(const R2Point& point, const RNScalar a);
+<DT>
+</DL>
+<DT> <H4> Undocumented functions/operators: </H4>
+<DL>
+<DT>  	RNCoord& operator[](RNDimension dim);
+<DT>
+</DL>
+</DL> </DL>
+</DL>
+
+
+
+<P>
+<HR> <H2> <A NAME="R2Polygon" HREF="../pkgs/R2Shapes/R2Polygon.h">R2Polygon</A> </H2> 
+
+<DL> <DL>
+<DT> <H3>Base Classes:</H3> 
+<DL>
+<DT> <H4>Public Base Classes:</H4> 
+<DL>
+<DT>    <A HREF="#R2Solid">R2Solid</A>
+</DL> </DL>
+<P>
+<DT> <H3>Member Functions:</H3>
+<DL>
+<DT> <H4> Constructor functions: </H4>
+<DL>
+<DT>	R2Polygon(void);
+<DT>        R2Polygon(const R2Polygon& polygon);
+<DT>        R2Polygon(const R2Point *points, int npoints, RNBoolean clockwise = FALSE);
+<DT>        ~R2Polygon(void);
+<DT>
+</DL>
+<DT> <H4> Polygon property functions/operators: </H4>
+<DL>
+<DT>        const int NPoints(void) const;
+<DT>        const R2Point& Point(int k) const;
+<DT>	const RNBoolean IsEmpty(void) const;
+<DT>	const RNBoolean IsFinite(void) const;
+<DT>	const RNBoolean IsClockwise(void) const;
+<DT>        const R2Point& operator[](int k) const;
+<DT>        const R2Point ClosestPoint(const R2Point& point) const;
+<DT>
+</DL>
+<DT> <H4> Shape property functions/operators: </H4>
+<DL>
+<DT>	virtual const RNBoolean IsPoint(void) const;
+<DT>	virtual const RNBoolean IsLinear(void) const ;
+<DT>	virtual const RNBoolean IsConvex(void) const ;
+<DT>	virtual const RNArea Area(void) const;
+<DT>	virtual const RNScalar Convexity(void) const;
+<DT>	virtual const RNLength Perimeter(void) const;
+<DT>	virtual const R2Point Centroid(void) const;
+<DT>	virtual const R2Shape& BShape(void) const;
+<DT>	virtual const R2Box BBox(void) const;
+<DT>	virtual const R2Circle BCircle(void) const;
+<DT>	virtual const R2Polygon ConvexHull(void) const;
+<DT>
+</DL>
+<DT> <H4> Point properties: </H4>
+<DL>
+<DT>        R2Vector Normal(int k, RNLength radius = 0) const;
+<DT>        R2Line Tangent(int k, RNLength radius = 0) const;
+<DT>        RNAngle InteriorAngle(int k, RNLength radius = 0) const;
+<DT>        RNScalar Curvature(int k, RNLength radius = 0) const;
+<DT>
+</DL>
+<DT> <H4> Manipulation functions/operators: </H4>
+<DL>
+<DT>        virtual void Empty(void);
+<DT>        virtual void Clip(const R2Line& line);
+<DT>        virtual void Clip(const R2Box& box);
+<DT>	virtual void Transform(const R2Transformation& transformation);
+<DT>
+</DL>
+<DT> <H4> Draw functions/operators: </H4>
+<DL>
+<DT>        virtual void Draw(const R2DrawFlags draw_flags = R2_DEFAULT_DRAW_FLAGS) const;
+<DT>        virtual void Print(FILE *fp = stdout) const;
+<DT>
+</DL>
+<DT> <H4> Input/output functions: </H4>
+<DL>
+<DT>        virtual int ReadTheraFile(const char *filename);
+<DT>
+</DL>
+</DL> </DL>
+</DL>
+
+
+
+<P>
+<HR> <H2> <A NAME="R2Ray" HREF="../pkgs/R2Shapes/R2Ray.h">R2Ray</A> </H2> 
+
+<DL> <DL>
+<DT> <H3>Base Classes:</H3> 
+<DL>
+<DT> <H4>Public Base Classes:</H4> 
+<DL>
+<DT>	None
+</DL> </DL>
+<P>
+<DT> <H3>Member Functions:</H3>
+<DL>
+<DT> <H4> Constructor functions: </H4>
+<DL>
+<DT>	R2Ray(void);
+<DT>	R2Ray(const R2Ray& ray);
+<DT>	R2Ray(const R2Point& point, const R2Vector& vector, RNBoolean normalized = FALSE);
+<DT>	R2Ray(const R2Point& point1, const R2Point& point2);
+<DT>	R2Ray(RNCoord x1, RNCoord y1, RNCoord x2, RNCoord y2);
+<DT>
+</DL>
+<DT> <H4> Property functions/operators: </H4>
+<DL>
+<DT>        const R2Point& Start(void) const;
+<DT>        const R2Vector& Vector(void) const;
+<DT>        const R2Vector& Normal(void) const;
+<DT>        const R2Line& Line(void) const;
+<DT>	const R2Point Point(RNScalar t) const;
+<DT>	const RNScalar T(const R2Point& point) const;
+<DT>	const RNBoolean IsZero(void) const;
+<DT>	const RNBoolean operator==(const R2Ray& ray) const;
+<DT>	const RNBoolean operator!=(const R2Ray& ray) const;
+<DT>
+</DL>
+<DT> <H4> Manipulation functions/operators: </H4>
+<DL>
+<DT>	void Flip(void);
+<DT>	void Project(const R2Line& line);
+<DT>	void Mirror(const R2Line& line);
+<DT>        void Translate(const R2Vector& vector);
+<DT>        void Reposition(const R2Point& point);
+<DT>        void Align(const R2Vector& vector);
+<DT>        void Transform(const R2Transformation& transformation);
+<DT>	void InverseTransform(const R2Transformation& transformation);
+<DT>	void Reset(const R2Point& point, const R2Vector& vector, RNBoolean normalized = FALSE);
+<DT>
+</DL>
+<DT> <H4> Draw functions/operators: </H4>
+<DL>
+<DT>        void Draw(void) const;
+<DT>
+</DL>
+<DT> <H4> Arithmetic functions/operators: </H4>
+<DL>
+<DT>	R2Ray operator-(void) const;
+<DT>	
+</DL>
+</DL> </DL>
+</DL>
+
+
+
+<P>
+<HR> <H2> <A NAME="R2Shape" HREF="../pkgs/R2Shapes/R2Shape.h">R2Shape</A> </H2> 
+
+<DL> <DL>
+<DT> <H3>Base Classes:</H3> 
+<DL>
+<DT> <H4>Public Base Classes:</H4> 
+<DL>
+<DT>    <A HREF="#R2Base">R2Base</A>
+</DL> </DL>
+<P>
+<DT> <H3>Member Functions:</H3>
+<DL>
+<DT> <H4> Constructors/destructors: </H4>
+<DL>
+</DL>
+</DL> </DL>
+</DL>
+
+
+
+<P>
+</DL>
+</DL> </DL>
+</DL>
+
+
+
+<P>
+</DL>
+</DL> </DL>
+</DL>
+
+
+
+<P>
+</DL>
+</DL> </DL>
+</DL>
+
+
+
+<P>
+<HR> <H2> <A NAME="R2Solid" HREF="../pkgs/R2Shapes/R2Solid.h">R2Solid</A> </H2> 
+
+<DL> <DL>
+<DT> <H3>Base Classes:</H3> 
+<DL>
+<DT> <H4>Public Base Classes:</H4> 
+<DL>
+<DT>    <A HREF="#R2Shape">R2Shape</A>
+</DL> </DL>
+<P>
+<DT> <H3>Member Functions:</H3>
+<DL>
+<DT> <H4> Constructors/destructors ???: </H4>
+<DL>
+<DT>	R2Solid(void);
+<DT>	~R2Solid(void);
+<DT>
+</DL>
+<DT> <H4> Shape property functions/operators: </H4>
+<DL>
+<DT>	const RNBoolean IsSolid(void) const;
+</DL>
+</DL> </DL>
+</DL>
+
+
+
+<P>
+<HR> <H2> <A NAME="R2Span" HREF="../pkgs/R2Shapes/R2Span.h">R2Span</A> </H2> 
+
+<DL> <DL>
+<DT> <H3>Base Classes:</H3> 
+<DL>
+<DT> <H4>Public Base Classes:</H4> 
+<DL>
+<DT>	None
+</DL> </DL>
+<P>
+<DT> <H3>Member Functions:</H3>
+<DL>
+<DT> <H4> Constructor functions: </H4>
+<DL>
+<DT>	R2Span(void);
+<DT>	R2Span(const R2Span& span);
+<DT>	R2Span(const R2Point& point, const R2Vector& vector);
+<DT>	R2Span(const R2Point& point1, const R2Point& point2);
+<DT>	R2Span(RNCoord x1, RNCoord y1, RNCoord x2, RNCoord y2);
+<DT>
+</DL>
+<DT> <H4> Property functions/operators: </H4>
+<DL>
+<DT>        const R2Point& Start(void) const;
+<DT>        const R2Point& End(void) const;
+<DT>        const R2Vector& Vector(void) const;
+<DT>        const R2Vector& Normal(void) const;
+<DT>        const R2Point Point(int k) const;
+<DT>	const R2Point Point(RNScalar t) const;
+<DT>        const R2Point& operator[](int k) const;
+<DT>        const R2Ray& Ray(void) const;
+<DT>        const R2Line& Line(void) const;
+<DT>        const R2Point Midpoint(void) const;
+<DT>        const R2Point Centroid(void) const;
+<DT>        const RNLength Length(void) const;
+<DT>	const RNScalar T(const R2Point& point) const;
+<DT>        const RNBoolean IsPoint(void) const;
+<DT>	const RNBoolean operator==(const R2Span& span) const;
+<DT>	const RNBoolean operator!=(const R2Span& span) const;
+<DT>        const R2Box BBox(void) const;
+<DT>        const R2Circle BCircle(void) const;
+<DT>
+</DL>
+<DT> <H4> Manipulation functions/operators: </H4>
+<DL>
+<DT>	void Flip(void);
+<DT>	void Project(const R2Line& line);
+<DT>	void Mirror(const R2Line& line);
+<DT>        void Translate(const R2Vector& vector);
+<DT>        void Reposition(int k, const R2Point& point);
+<DT>        void Align(const R2Vector& vector);
+<DT>        void Transform(const R2Transformation& transformation);
+<DT>        void InverseTransform(const R2Transformation& transformation);
+<DT>        void Reset(const R2Point& point1, const R2Point& point2);
+<DT>	RNClassID Clip(const R2Line& line);
+<DT>
+</DL>
+<DT> <H4> Draw functions/operators: </H4>
+<DL>
+<DT>        void Draw(void) const;
+<DT>
+</DL>
+<DT> <H4> Arithmetic functions/operators: </H4>
+<DL>
+<DT>	R2Span operator-(void) const;
+<DT>	
+</DL>
+</DL> </DL>
+</DL>
+
+
+
+<P>
+<HR> <H2> <A NAME="R2Vector" HREF="../pkgs/R2Shapes/R2Vector.h">R2Vector</A> </H2> 
+
+<DL> <DL>
+<DT> <H3>Base Classes:</H3> 
+<DL>
+<DT> <H4>Public Base Classes:</H4> 
+<DL>
+<DT>	None
+</DL> </DL>
+<P>
+<DT> <H3>Member Functions:</H3>
+<DL>
+<DT> <H4> Constructor functions: </H4>
+<DL>
+<DT>	R2Vector(void);
+<DT>        R2Vector(const R2Vector& vector);
+<DT>	R2Vector(RNCoord x, RNCoord y);
+<DT>	R2Vector(const RNCoord array[2]);
+<DT>	R2Vector(RNAngle angle);
+<DT>
+</DL>
+<DT> <H4> Property functions/operators: </H4>
+<DL>
+<DT>	const RNCoord X(void) const;
+<DT>	const RNCoord Y(void) const;
+<DT>	const RNCoord Coord(RNDimension dim) const;
+<DT>	const RNCoord operator[](RNDimension dim) const;
+<DT>	const RNCoord *Coords(void) const;
+<DT>	const RNBoolean IsZero(void) const;
+<DT>	const RNBoolean IsFinite(void) const;
+<DT>	const RNBoolean IsNormalized(void) const;
+<DT>	const RNLength Length(void) const;
+<DT>        const RNAngle Angle(void) const;
+<DT>	const R2Point Point(void) const;
+<DT>	const RNQuadrant Quadrant(void) const;
+<DT>	const RNDimension MaxDimension(void) const;
+<DT>
+</DL>
+<DT> <H4> Relationship functions/operators: </H4>
+<DL>
+<DT>	const RNBoolean operator==(const R2Vector& vector) const;
+<DT>	const RNBoolean operator!=(const R2Vector& vector) const;
+<DT>	const RNScalar Dot(const R2Vector& vector) const;
+<DT>	const RNScalar Cross(const R2Vector& vector) const;
+<DT>
+</DL>
+<DT> <H4> Manipulation functions/operators: </H4>
+<DL>
+<DT>	void X(RNCoord x);
+<DT>	void Y(RNCoord y);
+<DT>	void SetCoord(RNDimension dim, RNCoord coord);
+<DT>	void Flip(void);
+<DT>	void Normalize(void);
+<DT>	void Scale(RNScalar a);
+<DT>	void Rotate(RNAngle theta);
+<DT>	void Project(const R2Vector& vector);
+<DT>	void Mirror(const R2Line& line);
+<DT>	void Transform(const R2Transformation& transformation);
+<DT>	void InverseTransform(const R2Transformation& transformation);
+<DT>	void Reset(RNCoord x, RNCoord y);
+<DT>
+</DL>
+<DT> <H4> Draw functions/operators: </H4>
+<DL>
+<DT>        void Draw(void) const;
+<DT>
+</DL>
+<DT> <H4> Assignment operators: </H4>
+<DL>
+<DT>	R2Vector& operator=(const R2Vector& vector);
+<DT>	R2Vector& operator+=(const R2Vector& vector);
+<DT>	R2Vector& operator-=(const R2Vector& vector);
+<DT>	R2Vector& operator*=(const RNScalar a);
+<DT>        R2Vector& operator*=(const R2Vector& vector);
+<DT>        R2Vector& operator*=(const R3Matrix& matrix);
+<DT>	R2Vector& operator/=(const RNScalar a);
+<DT>	R2Vector& operator/=(const R2Vector& vector);
+<DT>
+</DL>
+<DT> <H4> Arithmetic operators: </H4>
+<DL>
+<DT>	friend R2Vector operator+(const R2Vector& vector);
+<DT>	friend R2Vector operator-(const R2Vector& vector);
+<DT>	friend R2Vector operator+(const R2Vector& vector1, const R2Vector& vector2) ;
+<DT>	friend R2Vector operator-(const R2Vector& vector1, const R2Vector& vector2);
+<DT>	friend R2Vector operator*(const R2Vector& vector1, const R2Vector& vector2);
+<DT>	friend R2Vector operator*(const R2Vector& vector, const RNScalar a);
+<DT>	friend R2Vector operator*(const RNScalar a, const R2Vector& vector);
+<DT>	friend R2Vector operator*(const R2Vector& vector, const R3Matrix& m);
+<DT>	friend R2Vector operator/(const R2Vector& vector1, const R2Vector& vector2);
+<DT>	friend R2Vector operator/(const R2Vector& vector, const RNScalar a);
+<DT>	friend RNScalar operator%(const R2Vector& vector1, const R2Vector& vector2);
+<DT>
+</DL>
+<DT> <H4> Undocumented functions/operators: </H4>
+<DL>
+<DT>  	RNCoord& operator[](RNDimension dim);
+<DT>
+</DL>
+</DL> </DL>
+</DL>
+
+
+
+<P>
+<HR> <H2> <A NAME="R2Transformation" HREF="../pkgs/R2Shapes/R2Transformation.h">R2Transformation</A> </H2> 
+
+<DL> <DL>
+<DT> <H3>Base Classes:</H3> 
+<DL>
+<DT> <H4>Public Base Classes:</H4> 
+<DL>
+<DT>    <A HREF="#R2Base">R2Base</A>
+</DL> </DL>
+<P>
+<DT> <H3>Member Functions:</H3>
+<DL>
+<DT> <H4> Destructor function: </H4>
+<DL>
+<DT>        virtual ~R2Transformation(void);
+<DT>
+</DL>
+<DT> <H4> Property functions/operators: </H4>
+<DL>
+<DT>	virtual const RNBoolean IsMirrored(void) const;
+<DT>	virtual const RNBoolean IsLinear(void) const;
+<DT>	virtual const RNBoolean IsAffine(void) const;
+<DT>	virtual const RNBoolean IsIsotropic(void) const;
+<DT>
+</DL>
+<DT> <H4> Application functions/operators: </H4>
+<DL>
+<DT>	virtual void Apply(R2Vector& vector) const = 0;
+<DT>	virtual void Apply(R2Point& point) const = 0;
+<DT>	virtual void Apply(R2Transformation& transformation) const = 0;
+<DT>	virtual void Apply(R2Affine& affine) const = 0;
+<DT>	virtual void ApplyInverse(R2Vector& vector) const = 0;
+<DT>	virtual void ApplyInverse(R2Point& point) const = 0;
+<DT>	virtual void ApplyInverse(R2Transformation& transformation) const = 0;
+<DT>	virtual void ApplyInverse(R2Affine& affine) const = 0;
+<DT>
+</DL>
+<DT> <H4> Manipulation functions/operators: </H4>
+<DL>
+<DT>	virtual void Reset(const R2Transformation& transformation) = 0;
+<DT>	virtual void Transform(const R2Transformation& transformation) = 0;
+<DT>	virtual void InverseTransform(const R2Transformation& transformation) = 0;
+<DT>
+</DL>
+<DT> <H4> Draw functions/operators: </H4>
+<DL>
+<DT>        virtual void Load(void) const = 0;
+<DT>        virtual void Draw(void) const = 0;
+<DT>        virtual void Push(void) const = 0;
+<DT>        virtual void Pop(void) const = 0;
+</DL>
+</DL> </DL>
+</DL>
+
+
+
+<P>
+<HR> <H2> <A NAME="R3Matrix" HREF="../pkgs/R2Shapes/R3Matrix.h">R3Matrix</A> </H2> 
+
+<DL> <DL>
+<DT> <H3>Base Classes:</H3> 
+<DL>
+<DT> <H4>Public Base Classes:</H4> 
+<DL>
+<DT>    <A HREF="#R3Base">R3Base</A>
+</DL> </DL>
+<P>
+<DT> <H3>Member Functions:</H3>
+<DL>
+<DT> <H4> Constructor functions: </H4>
+<DL>
+<DT>	R3Matrix(void);
+<DT>        R3Matrix(const R3Matrix& matrix);
+<DT>	R3Matrix(RNScalar a00, RNScalar a01, RNScalar a02, 
+<DT>   	         RNScalar a10, RNScalar a11, RNScalar a12, 
+<DT>                 RNScalar a20, RNScalar a21, RNScalar a22);
+<DT>	R3Matrix(const RNScalar* array);
+<DT>
+</DL>
+<DT> <H4> Property functions/operators: </H4>
+<DL>
+<DT>	const int IsZero(void) const;
+<DT>	const int IsIdentity(void) const;
+<DT>        const RNBoolean IsIsotropic(void) const;
+<DT>        const RNBoolean HasTranslation(void) const;
+<DT>        const RNBoolean HasScale(void) const;
+<DT>        const RNBoolean HasRotation(void) const;
+<DT>        const RNBoolean HasMirror(void) const;
+<DT>  	const RNScalar *operator[](int i) const;
+<DT>        const RNScalar Determinant(void) const;
+<DT>	const R3Matrix Transpose(void) const;
+<DT>	const R3Matrix Inverse(void) const;
+<DT>	const RNBoolean operator==(const R3Matrix& matrix) const;
+<DT>	const RNBoolean operator!=(const R3Matrix& matrix) const;
+<DT>
+</DL>
+<DT> <H4> Manipulation functions/operators: </H4>
+<DL>
+<DT>	void Flip(void);
+<DT>	void Invert(void);
+<DT>	void XTranslate(RNScalar offset);
+<DT>	void YTranslate(RNScalar offset);
+<DT>	void Translate(RNScalar offset);
+<DT>	void Translate(RNAxis axis, RNScalar offset);
+<DT>	void Translate(const R2Vector& offset);
+<DT>	void XScale(RNScalar scale);
+<DT>	void YScale(RNScalar scale);
+<DT>	void Scale(RNScalar scale);
+<DT>	void Scale(RNAxis axis, RNScalar scale);
+<DT>	void Scale(const R2Vector& scale);
+<DT>	void Rotate(RNAngle radians);
+<DT>	void Transform(const R3Matrix& matrix);
+<DT>	void Multiply(const R3Matrix& matrix);
+<DT>	void Add(const R3Matrix& matrix);
+<DT>	void Subtract(const R3Matrix& matrix);
+<DT>
+</DL>
+<DT> <H4> Assignment operators: </H4>
+<DL>
+<DT>	R3Matrix& operator=(const R3Matrix& matrix);
+<DT>	R3Matrix& operator+=(const R3Matrix& matrix);
+<DT>	R3Matrix& operator-=(const R3Matrix& matrix);
+<DT>	R3Matrix& operator*=(RNScalar a);
+<DT>	R3Matrix& operator*=(const R3Matrix& matrix);
+<DT>	R3Matrix& operator/=(RNScalar a);
+<DT>
+</DL>
+<DT> <H4> Draw functions/operators: </H4>
+<DL>
+<DT>        void Load(void) const;
+<DT>        void Draw(void) const;
+<DT>        void Push(void) const;
+<DT>        void Pop(void) const;
+<DT>
+</DL>
+<DT> <H4> Arithmetic operators: </H4>
+<DL>
+<DT>	friend R3Matrix operator-(const R3Matrix& matrix);
+<DT>	friend R3Matrix operator+(const R3Matrix& matrix1, const R3Matrix& matrix2);
+<DT>	friend R3Matrix operator-(const R3Matrix& matrix1, const R3Matrix& matrix2);
+<DT>	friend R3Matrix operator*(RNScalar a, const R3Matrix& matrix);
+<DT>	friend R3Matrix operator*(const R3Matrix& matrix, RNScalar a);
+<DT>	friend R3Matrix operator*(const R3Matrix& matrix1, const R3Matrix& matrix2);
+<DT>	friend R3Matrix operator/(const R3Matrix& matrix, RNScalar scale);
+<DT>	friend R2Vector operator*(const R3Matrix& matrix, const R2Vector& vector);
+<DT>	friend R2Point operator*(const R3Matrix& matrix, const R2Point& point);
+<DT>
+</DL>
+<DT> <H4> Undocumented functions/operators: </H4>
+<DL>
+<DT>  	RNScalar *operator[](int i);
+<DT>
+</DL>
+</DL> </DL>
+</DL>
+
+
+
+<P>
+
+
+
+<HR>
+Click <A HREF="pkgs.html">this</A> to go back to list of GAPS packages.
+<P>
+</BODY>
+<ADDRESS>funk@cs.princeton.edu</ADDRESS>
+
+</HTML>
+
+
+
