@@ -302,13 +302,11 @@ FixPoint(R2Grid* grid, R2Point v)
     else if (x < 0)
         x = 0;
    
-    if (y >= resolution - 1)
+    if (y >= resolution)
         y = resolution - 1;
     else if (y < 0)
         y = 0;
 
-    //if (x != grid_v.X() || y != grid_v.Y())
-    //    fprintf(stderr, "Fixed a point\n");
 
     grid_v = grid->WorldPosition(x, y);
 
@@ -345,224 +343,11 @@ SanitizePoints(R2Grid* grid, R2Point v0, R2Point v1, R2Point v2)
 
 }
 
-class Stats
-{
-    public:
-        float xMax;
-        float xMin = FLT_MAX;
-        float yMax;
-        float yMin = FLT_MAX;
-};
-
-static Stats*
-UpdateStats(Stats* stats, R2Point v) 
-{
-    if (v.X() > stats->xMax)
-        stats->xMax = v.X();
-    if (v.X() < stats->xMin)
-        stats->xMin = v.X();
-    if (v.Y() < stats->yMin)
-        stats->yMin = v.Y();
-    if (v.Y() > stats->yMax)
-        stats->yMax = v.Y();
-
-    return stats;
-}
-
-static float threshold = 0.2;
-
-static Stats*
-UpdateStats(Stats* stats, R2Point v0, R2Point v1, R2Point v2) {
-    stats = UpdateStats(stats, v0);
-    stats = UpdateStats(stats, v1);
-    stats = UpdateStats(stats, v2);
-
-    return stats;
-}
-
-static bool
-IsCloseEnough(float v1, float v2) 
-{
-    if (fabs(v1 - v2) <= threshold)
-        return true;
-    
-    return false;
-}
-
-static bool 
-IsSameWall(Stats* stats, Stats* old_stats) {
-    bool match_xMax = IsCloseEnough(stats->xMax, old_stats->xMax);
-    bool match_xMin = IsCloseEnough(stats->xMin, old_stats->xMin);
-    bool match_yMax = IsCloseEnough(stats->yMax, old_stats->yMax);
-    bool match_yMin = IsCloseEnough(stats->yMin, old_stats->yMin);
-    
-    if (match_xMax && match_xMin)
-        fprintf(stderr, "\nMatched x's : (%f, %f) (%f, %f)\n", stats->xMax, old_stats->xMax,
-                stats->xMin, old_stats->xMin);
-    if (match_xMax && match_xMin)
-        fprintf(stderr, "\nMatched y's : (%f, %f) (%f, %f)\n", stats->yMax, old_stats->yMax,
-                stats->yMin, old_stats->yMin);
-    //if ((match_xMax && match_xMin) && NotTooFar( // Need to set a limit so parallel walls do not enter in
-
-    return (match_xMax && match_xMin) || (match_yMax && match_yMin);
-}
-
-class Wall
-{
-    public:
-        Stats* stats;
-        std::vector<R3Triangle*> triangles;
-};
-
-
-static R2Grid*
-DrawWall(R3SceneNode* wall, R2Grid *grid, R2Vector translation, RNAngle theta, bool do_mirror, R2Vector *dist_ptr = NULL)
-{
-    R2Grid* temp_grid = new R2Grid(resolution, resolution);
-
-    fprintf(stderr, "Drawing  Wall %s ...\n", wall->Name());
-
-    R2Vector centroid = R2Vector(wall->Centroid().X(), wall->Centroid().Y());
-    //R2Vector center_of_grid = R2Vector(resolution / 2.0, resolution / 2.0);
-
-    //R2Affine x_mirror 
-    R2Affine world_to_grid_transformation = R2identity_affine;
-    /*if (do_x_mirror) {
-        world_to_grid_transformation.Translate(center_of_grid);
-        world_to_grid_transformation.XMirror();
-        world_to_grid_transformation.Translate(-1.0 * center_of_grid);
-    }
-    if (dist_ptr != NULL) {
-        world_to_grid_transformation.Translate(*dist_ptr * pixels_to_meters);
-        world_to_grid_transformation.Translate(-1.0 * *dist_ptr);
-    }*/
-    world_to_grid_transformation.Translate(translation);
-    world_to_grid_transformation.Translate(centroid);
-    world_to_grid_transformation.Scale(pixels_to_meters);
-    world_to_grid_transformation.Rotate(-1.0 * theta);
-    world_to_grid_transformation.Translate(-1.0 * centroid);
-
-    temp_grid->SetWorldToGridTransformation(world_to_grid_transformation);
-    fprintf(stderr, "Number of Elements: %d", wall->NElements());
-    
-    //std::vector<std::vector<R3Triangle*>> walls;
-    std::vector<Wall*> walls;
-
-    // For all R3SceneElements in the R3SceneNode
-    for (int k = 0; k < wall->NElements(); k++) {
-        R3SceneElement* el = wall->Element(k);
-
-        // Start by assuming new wall
-        Wall* new_wall = new Wall();
-        new_wall->stats = new Stats();
-        new_wall->triangles = std::vector<R3Triangle*>();
-        
-        // For all R3Shapes in the R3SceneElements    
-        for (int l = 0; l < el->NShapes(); l++) {
-
-            //fprintf(stderr, "\t Number of Shapes: %d\n", el->NShapes());
-            R3Shape* shape = el->Shape(l);
-            R3TriangleArray* arr = (R3TriangleArray*) shape;
-           
-            // For all R3Triangles in the R3TriangleArray
-            for (int t = 0; t < arr->NTriangles(); t++) {
-                //fprintf(stderr, "Starting... ");
-                R3Triangle *triangle = arr->Triangle(t);
-                
-
-                // Create new points
-                R2Point v0 = R2Point(triangle->V0()->Position().X(), triangle->V0()->Position().Y());
-                R2Point v1 = R2Point(triangle->V1()->Position().X(), triangle->V1()->Position().Y());
-                R2Point v2 = R2Point(triangle->V2()->Position().X(), triangle->V2()->Position().Y());
-                UpdateStats(new_wall->stats, v0, v1, v2);
-
-                //fprintf(stderr, "\t\t(%f, %f) (%f, %f) (%f, %f)\n", v0.X(), v0.Y(), v1.X(), v1.Y(), v2.X(), v2.Y());
-
-                if (AllVerticesOutOfGrid(temp_grid, v0, v1, v2)) continue;
-                std::vector<R2Point> v = SanitizePoints(temp_grid, v0, v1, v2);
-
-                if (VertexOutOfGrid(temp_grid, v[0]) || VertexOutOfGrid(temp_grid, v[1]) || VertexOutOfGrid(temp_grid, v[2]))
-                    continue;
-               
-                new_wall->triangles.push_back(triangle); 
-                temp_grid->RasterizeWorldTriangle(v[0], v[1], v[2], 1);
-
-            }
-        }
-
-
-        bool isNewWall = true;
-        // Is this a new wall?
-        for (Wall* old_wall : walls) {
-            
-            Stats* old_stats = old_wall->stats;
-            std::vector<R3Triangle*> old_triangles = old_wall->triangles;
-
-            if (IsSameWall(new_wall->stats, old_stats)) {
-                fprintf(stderr, "\nFound same wall! \t ");
-                old_triangles.reserve(old_triangles.size() + new_wall->triangles.size());
-                old_triangles.insert(old_triangles.end(), new_wall->triangles.begin(), new_wall->triangles.end());
-                //fprintf(stderr, "new_wall->triangles.size(): %d old_triangles.size(): %d\n", new_wall->triangles.size(), old_triangles.size());
-                old_wall->triangles = old_triangles;
-                isNewWall = false;
-                break;
-            }
-        }
-
-        if (isNewWall) {
-            fprintf(stderr, "\t\tAdded new wall\n");
-            walls.push_back(new_wall);
-        }
-
-        char output_filename[1024];
-        sprintf(output_filename, "Segment_%d.png", k); 
-        temp_grid->Threshold(0, 0, 1);
-        temp_grid->WriteFile(output_filename);
-    }
-    fprintf(stderr, "Number of Walls: %lu\n", walls.size());
-
-    for (int w = 0; w < walls.size(); w++) {
-        Wall* wall = walls[w];
-        R2Grid* my_grid = new R2Grid(resolution, resolution);
-        my_grid->SetWorldToGridTransformation(world_to_grid_transformation);
-
-        for (int t = 0; t < wall->triangles.size(); t++) {
-            R3Triangle* triangle= wall->triangles[t];
-
-                // Create new points
-                R2Point v0 = R2Point(triangle->V0()->Position().X(), triangle->V0()->Position().Y());
-                R2Point v1 = R2Point(triangle->V1()->Position().X(), triangle->V1()->Position().Y());
-                R2Point v2 = R2Point(triangle->V2()->Position().X(), triangle->V2()->Position().Y());
-
-                if (AllVerticesOutOfGrid(temp_grid, v0, v1, v2)) continue;
-                std::vector<R2Point> v = SanitizePoints(temp_grid, v0, v1, v2);
-
-                if (VertexOutOfGrid(temp_grid, v[0]) || VertexOutOfGrid(temp_grid, v[1]) || VertexOutOfGrid(temp_grid, v[2]))
-                    continue;
-               
-                my_grid->RasterizeWorldTriangle(v[0], v[1], v[2], 1);
-
-        }    
-        char output_filename[1024];
-        sprintf(output_filename, "Wall_%d.png", w);
-        fprintf(stderr, "Num Triangles in wall %d: %lu", w, wall->triangles.size());
-        my_grid->Threshold(0, 0, 1);
-        my_grid->WriteFile(output_filename);
-    }
-
-    temp_grid->Threshold(0, 0, 1);
-    grid->Add(*temp_grid);
-    return grid;
-}
-
 static R2Grid*
 DrawObject(R3SceneNode* obj, R2Grid *grid, R2Vector translation, RNAngle theta, bool do_fX, bool do_fY, R2Vector *dist_ptr = NULL)
 {
-    R2Grid* temp_grid = new R2Grid(resolution, resolution);
-
-    /*P5DObject *p5d_obj = (P5DObject *) obj->Data();
-    fprintf(stderr, "Drawing  %s (%s)...\n", obj->Name(), p5d_obj->className);*/
-
+    R2Grid temp_grid = R2Grid(resolution, resolution);
+    //R2Grid* temp_grid = new R2Grid(resolution, resolution);
     R2Vector centroid = R2Vector(obj->Centroid().X(), obj->Centroid().Y());
     
     // Hold
@@ -582,7 +367,7 @@ DrawObject(R3SceneNode* obj, R2Grid *grid, R2Vector translation, RNAngle theta, 
     world_to_grid_transformation.Rotate(-1.0 * theta);
     world_to_grid_transformation.Translate(-1.0 * centroid);
 
-    temp_grid->SetWorldToGridTransformation(world_to_grid_transformation);
+    temp_grid.SetWorldToGridTransformation(world_to_grid_transformation);
     
     // For all R3SceneElements in the R3SceneNode
     for (int k = 0; k < obj->NElements(); k++) {
@@ -603,24 +388,24 @@ DrawObject(R3SceneNode* obj, R2Grid *grid, R2Vector translation, RNAngle theta, 
                 R2Point v1 = R2Point(triangle->V1()->Position().X(), triangle->V1()->Position().Y());
                 R2Point v2 = R2Point(triangle->V2()->Position().X(), triangle->V2()->Position().Y());
 
-                if (AllVerticesOutOfGrid(temp_grid, v0, v1, v2)) continue;
-                std::vector<R2Point> v = SanitizePoints(temp_grid, v0, v1, v2);
+                if (AllVerticesOutOfGrid(&temp_grid, v0, v1, v2)) continue;
+                std::vector<R2Point> v = SanitizePoints(&temp_grid, v0, v1, v2);
                 
-                v0 = temp_grid->GridPosition(v[0]);
-                v1 = temp_grid->GridPosition(v[1]);
-                v2 = temp_grid->GridPosition(v[2]);
+                v0 = temp_grid.GridPosition(v[0]);
+                v1 = temp_grid.GridPosition(v[1]);
+                v2 = temp_grid.GridPosition(v[2]);
 
-                if (VertexOutOfGrid(temp_grid, v[0]) || VertexOutOfGrid(temp_grid, v[1]) || VertexOutOfGrid(temp_grid, v[2]))
+                if (VertexOutOfGrid(&temp_grid, v[0]) || VertexOutOfGrid(&temp_grid, v[1]) || VertexOutOfGrid(&temp_grid, v[2]))
                     continue;
 
-                temp_grid->RasterizeWorldTriangle(v[0], v[1], v[2], 1);
+                temp_grid.RasterizeWorldTriangle(v[0], v[1], v[2], 1);
             }
         }
     }
 
     
-    temp_grid->Threshold(0, 0, 1);
-    grid->Add(*temp_grid);
+    temp_grid.Threshold(0, 0, 1);
+    grid->Add(temp_grid);
     return grid;
 }
 
@@ -646,14 +431,13 @@ WriteGrids(R3Scene *scene)
   std::vector<R3SceneNode*> wall_nodes;
   std::vector<R3SceneNode*> floor_nodes;
 
-  int obj_num = 0;
   for (int i = 0; i < scene->NNodes(); i++) {
     R3SceneNode* node = scene->Node(i);
 
     std::string name (node->Name());
     if (std::string::npos != name.find("Object")) // probably a better way with casting
     {
-        fprintf(stdout, "%d : %s\n", obj_num++, name.c_str());
+        //fprintf(stdout, "%d : %s\n", obj_num++, name.c_str());
         object_nodes.push_back(node);
     }
     if (std::string::npos != name.find("Room"))
@@ -678,12 +462,7 @@ WriteGrids(R3Scene *scene)
         grids[src_cat][dst_cat] = new R2Grid(resolution, resolution); 
     }
     
-    
-    for (int w = 0; w < wall_nodes.size(); w++) {
-        R3SceneNode* wall_node = wall_nodes[w];
-        grids[src_cat]["wall"] = new R2Grid(resolution, resolution);
-    }
-    
+    grids[src_cat]["wall"] = new R2Grid(resolution, resolution);
   }
 
   for (int i = 0; i < object_nodes.size(); i++) {
@@ -699,7 +478,6 @@ WriteGrids(R3Scene *scene)
     P5DObject *p5d_obj = (P5DObject *) src_obj->Data();
     RNAngle theta = p5d_obj->a;
     
-    RNAngle src_theta = 0.0;
     if (!strcmp(p5d_obj->className, "Door")) theta += RN_PI_OVER_TWO;
     else if (!strcmp(p5d_obj->className, "Window")) theta += RN_PI_OVER_TWO;
     
@@ -735,8 +513,6 @@ WriteGrids(R3Scene *scene)
     }
   }
 
-  fprintf(stderr, "Number of Walls: %lu\n", wall_nodes.size());
-
   for (auto it : grids) {
     std::string src_cat = it.first;
     std::map<std::string, R2Grid*> map = it.second;
@@ -750,16 +526,12 @@ WriteGrids(R3Scene *scene)
                 src_cat.c_str(), dst_cat.c_str());
         if (!WriteGrid(grid, output_filename)) return 0;
         
-        //fprintf(stdout, "\nStarting %s...\n", output_filename); 
-        //grid->Print();
     }
   }
 
   // Return success
   return 1;
 }
-
-
 
 
 static int 
