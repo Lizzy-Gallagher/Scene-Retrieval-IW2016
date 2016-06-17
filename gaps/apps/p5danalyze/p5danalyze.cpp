@@ -26,6 +26,8 @@ static int pixels_to_meters = 50;
 static int meters_of_context = 6;
 static int resolution = pixels_to_meters * (2 * meters_of_context);
 
+static double threshold = meters_of_context + 1;
+
 static P5DProject *
 ReadProject(const char *project_name)
 {
@@ -279,17 +281,6 @@ void LoadIdToCategoryMap(std::string csv_filename="object_names.csv")
     }
 }
 
-R2Box Get2DBoundingBox(R3SceneNode* node) 
-{
-    R3Box box = node->BBox();
-    return R2Box(box.XMin(), box.YMin(), box.XMax(), box.YMax());
-}
-
-std::vector<R2Point> GetCorners(R2Box box) 
-{
-    return std::vector<R2Point> { box.Min(), box.Max()};
-}
-
 static R2Point 
 FixPoint(R2Grid* grid, R2Point v)
 {
@@ -307,10 +298,7 @@ FixPoint(R2Grid* grid, R2Point v)
     else if (y < 0)
         y = 0;
 
-
-    grid_v = grid->WorldPosition(x, y);
-
-    return grid_v;
+    return grid->WorldPosition(x, y);
 }
 
 static bool
@@ -325,12 +313,6 @@ VertexOutOfGrid(R2Grid* grid, R2Point v)
     return false;
 }
 
-static bool
-AllVerticesOutOfGrid(R2Grid* grid, R2Point v0, R2Point v1, R2Point v2)
-{
-    return VertexOutOfGrid(grid, v0) || VertexOutOfGrid(grid, v1) || VertexOutOfGrid(grid, v1);
-}
-
 static std::vector<R2Point>
 SanitizePoints(R2Grid* grid, R2Point v0, R2Point v1, R2Point v2)
 { 
@@ -343,31 +325,49 @@ SanitizePoints(R2Grid* grid, R2Point v0, R2Point v1, R2Point v2)
 
 }
 
+static bool
+AllVerticesOutOfGrid(R2Grid* grid, R2Point v0, R2Point v1, R2Point v2)
+{
+    return VertexOutOfGrid(grid, v0) && VertexOutOfGrid(grid, v1) && VertexOutOfGrid(grid, v1);
+}
+
+static R2Affine
+PrepareWorldToGridXform(R3Point cen3, R2Vector translation, RNAngle theta, bool do_fX, bool do_fY, R2Vector* dist)
+{
+    R2Vector cen = R2Vector(cen3.X(), cen3.Y());
+    // Start with the identity matrix
+    R2Affine world_to_grid_xform = R2identity_affine;
+    
+    // Transform the distance from src_obj
+    if (dist != NULL) {
+        dist->Rotate(-1.0 * theta);
+        if (do_fX) dist->Mirror(R2posy_line);
+        if (do_fY) dist->Mirror(R2posx_line);
+        world_to_grid_xform.Translate(*dist * pixels_to_meters);
+        world_to_grid_xform.Translate(-1.0 * *dist);
+    }
+    
+    // Center
+    world_to_grid_xform.Translate(translation);
+
+    // Transform about the origin
+    world_to_grid_xform.Translate(cen);
+    if (do_fX) world_to_grid_xform.XMirror();
+    if (do_fY) world_to_grid_xform.YMirror();
+    world_to_grid_xform.Scale(pixels_to_meters);
+    world_to_grid_xform.Rotate(-1.0 * theta);
+    world_to_grid_xform.Translate(-1.0 * cen);
+
+    return world_to_grid_xform;
+}
+
 static R2Grid*
-DrawObject(R3SceneNode* obj, R2Grid *grid, R2Vector translation, RNAngle theta, bool do_fX, bool do_fY, R2Vector *dist_ptr = NULL)
+DrawObject(R3SceneNode* obj, R2Grid *grid, R2Vector translation, RNAngle theta, bool do_fX, bool do_fY, R2Vector *dist = NULL)
 {
     R2Grid temp_grid = R2Grid(resolution, resolution);
-    //R2Grid* temp_grid = new R2Grid(resolution, resolution);
-    R2Vector centroid = R2Vector(obj->Centroid().X(), obj->Centroid().Y());
     
-    // Hold
-    R2Affine world_to_grid_transformation = R2identity_affine;
-    if (dist_ptr != NULL) {
-        dist_ptr->Rotate(-1.0 * theta);
-        if (do_fX) dist_ptr->Mirror(R2posy_line);
-        if (do_fY) dist_ptr->Mirror(R2posx_line);
-        world_to_grid_transformation.Translate(*dist_ptr * pixels_to_meters);
-        world_to_grid_transformation.Translate(-1.0 * *dist_ptr);
-    }
-    world_to_grid_transformation.Translate(translation);
-    world_to_grid_transformation.Translate(centroid);
-    if (do_fX) world_to_grid_transformation.XMirror();
-    if (do_fY) world_to_grid_transformation.YMirror();
-    world_to_grid_transformation.Scale(pixels_to_meters);
-    world_to_grid_transformation.Rotate(-1.0 * theta);
-    world_to_grid_transformation.Translate(-1.0 * centroid);
-
-    temp_grid.SetWorldToGridTransformation(world_to_grid_transformation);
+    R2Affine world_to_grid_xform = PrepareWorldToGridXform(obj->Centroid(), translation, theta, do_fX, do_fY, dist);
+    temp_grid.SetWorldToGridTransformation(world_to_grid_xform);
     
     // For all R3SceneElements in the R3SceneNode
     for (int k = 0; k < obj->NElements(); k++) {
@@ -389,6 +389,8 @@ DrawObject(R3SceneNode* obj, R2Grid *grid, R2Vector translation, RNAngle theta, 
                 R2Point v2 = R2Point(triangle->V2()->Position().X(), triangle->V2()->Position().Y());
 
                 if (AllVerticesOutOfGrid(&temp_grid, v0, v1, v2)) continue;
+
+                // Move exterior verticies inside the grid
                 std::vector<R2Point> v = SanitizePoints(&temp_grid, v0, v1, v2);
                 
                 v0 = temp_grid.GridPosition(v[0]);
@@ -402,8 +404,8 @@ DrawObject(R3SceneNode* obj, R2Grid *grid, R2Vector translation, RNAngle theta, 
             }
         }
     }
-
     
+    // Color the shape with a single color
     temp_grid.Threshold(0, 0, 1);
     grid->Add(temp_grid);
     return grid;
@@ -422,8 +424,7 @@ WriteGrids(R3Scene *scene)
   // Create mapping of ids to object categories
   LoadIdToCategoryMap();
 
-  // Create mapping from category to images of that category
-  std::map<std::string, std::map<std::string, int>> cat_counts;
+  // Category->Category->Heatmap
   std::map<std::string, std::map<std::string, R2Grid*>> grids;
 
   std::vector<R3SceneNode*> object_nodes;
@@ -448,7 +449,7 @@ WriteGrids(R3Scene *scene)
         wall_nodes.push_back(node);    
   }
 
-  // Populate Map
+  // Populate category->category map
   for (int i = 0; i < object_nodes.size(); i++) {
     R3SceneNode* src_obj = object_nodes[i];
     std::string src_cat = GetObjectCategory(src_obj);
@@ -496,7 +497,10 @@ WriteGrids(R3Scene *scene)
 
         R3Vector dist3d = (dst_obj->Centroid() - src_obj->Centroid());
         R2Vector dist = R2Vector(dist3d.X(), dist3d.Y());
-        DrawObject(dst_obj, grid, translation, theta, do_fX, do_fY, &dist);
+
+        // Only draw object close enough
+        if (dist.Length() < threshold)
+            DrawObject(dst_obj, grid, translation, theta, do_fX, do_fY, &dist);
     }
 
     for (int w = 0; w < wall_nodes.size(); w++) {
@@ -513,6 +517,7 @@ WriteGrids(R3Scene *scene)
     }
   }
 
+  // Print all the grids
   for (auto it : grids) {
     std::string src_cat = it.first;
     std::map<std::string, R2Grid*> map = it.second;
