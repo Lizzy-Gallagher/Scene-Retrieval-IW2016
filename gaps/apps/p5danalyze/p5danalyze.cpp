@@ -23,15 +23,19 @@ static const char *output_grid_directory = NULL;
 static int print_verbose = 0;
 static int print_debug = 0;
 
+// Logging
+static std::map<std::string, int> num_of_object;
+static std::map<std::string, std::map<std::string, int>> num_of_pair;
+
 static std::map<std::string, std::string> id_to_category;
 static std::map<std::string, std::map<std::string, R2Grid*>> grids;
 static std::vector<std::string> project_ids;
 
-static int meters_of_context = 4;
-static int pixels_to_meters = 10;
+static int meters_of_context = 3;
+static int pixels_to_meters = 15;
 static int resolution = pixels_to_meters * (2 * meters_of_context);
 
-static double threshold = meters_of_context - 1;
+static double threshold = meters_of_context + 1;
 clock_t start, finish;
 
 
@@ -265,8 +269,8 @@ std::string GetObjectCategory(R3SceneNode* obj)
     // Lookup id in id_to_category_map
     auto cat_iter = id_to_category.find(id);
     if (cat_iter == id_to_category.end()) {
-        fprintf(stdout, "FAILURE. Unexpected object Id: %s\n", id.c_str());
-        exit(-1);
+        fprintf(stderr, "FAILURE. Unexpected object Id: %s\n", id.c_str());
+        return "";
     }
 
     std::string cat = cat_iter->second;
@@ -411,7 +415,7 @@ DrawObject(R3SceneNode* obj, R2Grid *grid, R2Vector translation, RNAngle theta, 
             }
         }
     }
-    
+
     // Color the shape with a single color
     temp_grid.Threshold(0, 0, 1);
     grid->Add(temp_grid);
@@ -422,9 +426,19 @@ DrawObject(R3SceneNode* obj, R2Grid *grid, R2Vector translation, RNAngle theta, 
 static int 
 WriteHeatMaps()
 {
+    std::ofstream stats_categories_file;
+    stats_categories_file.open("stats_categories.csv");
+    stats_categories_file << "category,count\n"; 
+
+    std::ofstream stats_pairs_file;
+    stats_pairs_file.open("stats_pairs.csv");
+    stats_pairs_file << "src_cat,dst_cat,count\n"; 
+
   for (auto it : grids) {
     std::string src_cat = it.first;
     std::map<std::string, R2Grid*> map = it.second;
+    stats_categories_file << src_cat.c_str() << "," << num_of_object[src_cat] << "\n";
+
 
     for (auto it2 : map) {
         std::string dst_cat = it2.first;
@@ -433,10 +447,14 @@ WriteHeatMaps()
         char output_filename[1024];
         sprintf(output_filename, "%s/%s___%s.grd", output_grid_directory, 
                 src_cat.c_str(), dst_cat.c_str());
+
+        stats_pairs_file << src_cat.c_str() << "," << dst_cat.c_str() << "," << num_of_pair[src_cat][dst_cat] << "\n"; 
         if (!WriteGrid(grid, output_filename)) return 0;
     }
   }
 
+  stats_categories_file.close();
+  stats_pairs_file.close();
   return 1;
 }
 
@@ -448,12 +466,16 @@ UpdateHeatmapCollection(R3Scene* scene, std::vector<R3SceneNode*> object_nodes)
   for (int i = 0; i < object_nodes.size(); i++) {
     R3SceneNode* src_obj = object_nodes[i];
     std::string src_cat = GetObjectCategory(src_obj);
-    
+    if (src_cat.size() == 0) continue; 
+
+    num_of_object[src_cat]++;
+
     for (int j = 0; j < object_nodes.size(); j++) {
         if (i == j) continue;
         
         R3SceneNode* dst_obj = object_nodes[j];
         std::string dst_cat = GetObjectCategory(dst_obj);
+        if (dst_cat.size() == 0) continue;
 
         if (grids[src_cat].count(dst_cat) == 0)
             grids[src_cat][dst_cat] = new R2Grid(resolution, resolution); 
@@ -487,14 +509,15 @@ UpdateGrids(R3Scene *scene)
     fprintf(stdout, "\t- Located Objects : %lu\n", object_nodes.size());
 
   // Category->Category->Heatmap
-  UpdateHeatmapCollection(scene, object_nodes);
+  if (!UpdateHeatmapCollection(scene, object_nodes)) return 0;
         
   fprintf(stdout, "\t- Updated Heatmaps\n");
 
   for (int i = 0; i < object_nodes.size(); i++) {
     R3SceneNode* src_obj = object_nodes[i];
     std::string src_cat = GetObjectCategory(src_obj);
-    
+    if (src_cat.size() == 0) continue;
+
     // Translation constants
     float a = 0.5 * (resolution - 1) - src_obj->Centroid().X();
     float b = 0.5 * (resolution - 1) - src_obj->Centroid().Y();
@@ -516,15 +539,18 @@ UpdateGrids(R3Scene *scene)
         
         R3SceneNode* dst_obj = object_nodes[j];
         std::string dst_cat = GetObjectCategory(dst_obj);
-        
+        if (dst_cat.size() == 0) continue;
+
         R2Grid *grid = grids[src_cat][dst_cat];
         
         R3Vector dist3d = (dst_obj->Centroid() - src_obj->Centroid());
         R2Vector dist = R2Vector(dist3d.X(), dist3d.Y());
 
         // Only draw object close enough
-        if (dist.Length() < threshold)
+        if (dist.Length() < threshold) {
             DrawObject(dst_obj, grid, translation, theta, do_fX, do_fY, &dist);
+            num_of_pair[src_cat][dst_cat]++;
+        }
     }
 
     // Draw walls
@@ -538,8 +564,10 @@ UpdateGrids(R3Scene *scene)
         R3Vector dist3d = (wall_node->Centroid() - src_obj->Centroid());
         R2Vector dist = R2Vector(dist3d.X(), dist3d.Y());
         
-        if (dist.Length() < threshold)
+        if (dist.Length() < threshold) {
             DrawObject(wall_node, grid, translation, theta, do_fX, do_fY, &dist);
+            num_of_pair[src_cat]["wall"]++;
+        }
     }
 
   }
@@ -626,7 +654,7 @@ int main(int argc, char **argv)
     int i = 0;
     for (std::string project_id : project_ids)
     {
-        if (i == 100) break;
+        if (i == 5) break;
         
         start = clock();
         fprintf(stdout, "Working on ... %s (%d) \n", project_id.c_str(), i); 
@@ -661,6 +689,7 @@ int main(int argc, char **argv)
 
     fprintf(stdout, "\n-- Failures: %d---\n", failures);
     fprintf(stdout, "\n--- Finished. ---\n");
+
     WriteHeatMaps();
 
     // Return success 

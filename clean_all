@@ -5,3 +5,7 @@ for i in imgs/*.png; do rm "$i"; done
 
 echo "Removing all grids..."
 for i in grids/*.grd; do rm "$i"; done
+
+echo "Removing stats files..."
+rm stats_categories.csv
+rm stats_pairs.csv
