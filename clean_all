@@ -1,4 +1,7 @@
 #!/bin/bash
 
-rm imgs/*
-rm grids/*.grd
+echo "Removing all images..."
+for i in imgs/*.png; do rm "$i"; done
+
+echo "Removing all grids..."
+for i in grids/*.grd; do rm "$i"; done

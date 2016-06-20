@@ -8,7 +8,7 @@ for f in grids/*.grd;
 do 
     #echo "Converting $f...";
     filename=$(basename $f .grd)
-    grids/pfm2pfm $f $filename.png
+    ./pfm2pfm $f imgs/$filename.png
 done
 
-mv *.png imgs/
+#mv *.png imgs/

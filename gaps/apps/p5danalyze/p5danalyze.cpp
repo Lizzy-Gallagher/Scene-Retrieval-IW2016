@@ -27,8 +27,8 @@ static std::map<std::string, std::string> id_to_category;
 static std::map<std::string, std::map<std::string, R2Grid*>> grids;
 static std::vector<std::string> project_ids;
 
-static int pixels_to_meters = 20;
 static int meters_of_context = 4;
+static int pixels_to_meters = 10;
 static int resolution = pixels_to_meters * (2 * meters_of_context);
 
 static double threshold = meters_of_context - 1;
@@ -54,7 +54,7 @@ ReadProject(const char *project_name)
 
   // Read project from file
   char filename[4096];
-  sprintf(filename, "%s/projects/%s/project.json", input_data_directory, project_name);
+  sprintf(filename, "%s/projects_clean/%s/project.json", input_data_directory, project_name);
   if (!project->ReadFile(filename)) {
     delete project;
     return NULL;
@@ -166,16 +166,16 @@ CreateScene(P5DProject *project)
         sprintf(node_name, "Wall_%d", j);
         wall_node->SetName(node_name);
 
-        if (!ReadObj(scene, wall_node, rm_name)) return 0;
-        room_node->InsertChild(wall_node);
+        if (ReadObj(scene, wall_node, rm_name))
+            room_node->InsertChild(wall_node);
 
         // Read floor
         sprintf(rm_name, "%s/roomfiles/%s/fr_%drm_%df.obj", input_data_directory, project->name, i+1, room->idx_index+1); //fr_1rm_1.obj
         R3SceneNode *rmfloor_node = new R3SceneNode(scene);
         sprintf(node_name, "Floor_%d", j);
         rmfloor_node->SetName(node_name);
-        if (!ReadObj(scene, rmfloor_node, rm_name)) return 0;
-        room_node->InsertChild(rmfloor_node);
+        if (!ReadObj(scene, rmfloor_node, rm_name))
+            room_node->InsertChild(rmfloor_node);
         
         // Read ceiling
         // sprintf(rm_name, "%s/roomfiles/%s/fr_%drm_%dc.obj", input_data_directory, project->name, i+1, room->idx_index+1); //fr_1rm_1.obj
@@ -407,18 +407,11 @@ DrawObject(R3SceneNode* obj, R2Grid *grid, R2Vector translation, RNAngle theta, 
                 v1 = temp_grid.GridPosition(v[1]);
                 v2 = temp_grid.GridPosition(v[2]);
 
-                //fprintf(stderr, "\t\t(%f, %f) (%f, %f) (%f, %f)\n",v0.X(), v0.Y(), v1.X(), v1.Y(), v2.X(), v2.Y());
-
-                //if (VertexOutOfGrid(&temp_grid, v[0]) || VertexOutOfGrid(&temp_grid, v[1]) || VertexOutOfGrid(&temp_grid, v[2]))
-                //    continue;
-
                 temp_grid.RasterizeWorldTriangle(v[0], v[1], v[2], 1);
             }
         }
     }
     
-    //fprintf(stderr, "\t\tFinished!\n");
-
     // Color the shape with a single color
     temp_grid.Threshold(0, 0, 1);
     grid->Add(temp_grid);
@@ -440,7 +433,6 @@ WriteHeatMaps()
         char output_filename[1024];
         sprintf(output_filename, "%s/%s___%s.grd", output_grid_directory, 
                 src_cat.c_str(), dst_cat.c_str());
-        //fprintf(stderr, "Writing : %s___%s.grd\n", src_cat.c_str(), dst_cat.c_str());
         if (!WriteGrid(grid, output_filename)) return 0;
     }
   }
@@ -492,12 +484,12 @@ UpdateGrids(R3Scene *scene)
         wall_nodes.push_back(node);     
   }
     
-    fprintf(stderr, "\t- Located Objects : %lu\n", object_nodes.size());
+    fprintf(stdout, "\t- Located Objects : %lu\n", object_nodes.size());
 
   // Category->Category->Heatmap
   UpdateHeatmapCollection(scene, object_nodes);
         
-  fprintf(stderr, "\t- Updated Heatmaps\n");
+  fprintf(stdout, "\t- Updated Heatmaps\n");
 
   for (int i = 0; i < object_nodes.size(); i++) {
     R3SceneNode* src_obj = object_nodes[i];
@@ -518,8 +510,6 @@ UpdateGrids(R3Scene *scene)
     bool do_fX = p5d_obj->fX;
     bool do_fY = p5d_obj->fY;
 
-    //fprintf(stderr, "\t- Drawing Object %d : %s : %s \n", i, src_obj->Name(), src_cat.c_str());    
-
     // Draw objects
     for (int j = 0; j < object_nodes.size(); j++) {
         if (i == j) continue;
@@ -529,8 +519,6 @@ UpdateGrids(R3Scene *scene)
         
         R2Grid *grid = grids[src_cat][dst_cat];
         
-        //DrawObject(src_obj, grid, translation, theta, do_fX, do_fY);
-
         R3Vector dist3d = (dst_obj->Centroid() - src_obj->Centroid());
         R2Vector dist = R2Vector(dist3d.X(), dist3d.Y());
 
@@ -638,10 +626,10 @@ int main(int argc, char **argv)
     int i = 0;
     for (std::string project_id : project_ids)
     {
-        if (i == 40) break;
+        if (i == 100) break;
         
         start = clock();
-        fprintf(stderr, "Working on ... %s (%d) \n", project_id.c_str(), i); 
+        fprintf(stdout, "Working on ... %s (%d) \n", project_id.c_str(), i); 
 
         // Read project
         P5DProject *project = ReadProject(project_id.c_str());
@@ -650,7 +638,7 @@ int main(int argc, char **argv)
             continue;
         }
 
-        fprintf(stderr, "\t- Read Project\n");
+        fprintf(stdout, "\t- Read Project\n");
 
         // Create scene
         R3Scene *scene = CreateScene(project);
@@ -659,7 +647,7 @@ int main(int argc, char **argv)
             continue;
         }
 
-        fprintf(stderr, "\t- Created Scene\n");
+        fprintf(stdout, "\t- Created Scene\n");
 
         // Write grids
         if (!UpdateGrids(scene)) /*exit(-1)*/ {
@@ -667,12 +655,12 @@ int main(int argc, char **argv)
             continue;
         }
 
-        fprintf(stderr, "\t- Completed in : %f sec\n", (double)(clock() - start) / CLOCKS_PER_SEC);
+        fprintf(stdout, "\t- Completed in : %f sec\n", (double)(clock() - start) / CLOCKS_PER_SEC);
         i++;
     }
 
-    fprintf(stderr, "\n-- Failures: %d---\n", failures);
-    fprintf(stderr, "\n--- Finished. ---\n");
+    fprintf(stdout, "\n-- Failures: %d---\n", failures);
+    fprintf(stdout, "\n--- Finished. ---\n");
     WriteHeatMaps();
 
     // Return success 
