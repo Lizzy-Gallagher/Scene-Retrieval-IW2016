@@ -12,21 +12,28 @@
 #include <string>
 #include  <map>
 
+#include <iostream>
+#include <fstream>
+#include <time.h>
+
 // Program variables
 
-static const char *input_project_name = NULL;
-//static const char *input_data_directory = "../..";
 static const char *input_data_directory = "data/";
 static const char *output_grid_directory = NULL;
 static int print_verbose = 0;
 static int print_debug = 0;
 
 static std::map<std::string, std::string> id_to_category;
-static int pixels_to_meters = 50;
-static int meters_of_context = 5;
+static std::map<std::string, std::map<std::string, R2Grid*>> grids;
+static std::vector<std::string> project_ids;
+
+static int pixels_to_meters = 20;
+static int meters_of_context = 4;
 static int resolution = pixels_to_meters * (2 * meters_of_context);
 
-static double threshold = meters_of_context + 1;
+static double threshold = meters_of_context - 1;
+clock_t start, finish;
+
 
 static P5DProject *
 ReadProject(const char *project_name)
@@ -271,7 +278,7 @@ std::string GetObjectCategory(R3SceneNode* obj)
     return cat;
 }
 
-void LoadIdToCategoryMap(std::string csv_filename="object_names.csv") 
+int LoadIdToCategoryMap(std::string csv_filename="object_names.csv") 
 {
     io::CSVReader<2, io::trim_chars<' '>, io::double_quote_escape<',','\"'> > in(csv_filename.c_str());
     in.read_header(io::ignore_extra_column, "id", "category");
@@ -279,6 +286,8 @@ void LoadIdToCategoryMap(std::string csv_filename="object_names.csv")
     while(in.read_row(id, category)) {
         id_to_category[id] = category;
     }
+
+    return 1;
 }
 
 static R2Point 
@@ -298,7 +307,7 @@ FixPoint(R2Grid* grid, R2Point v)
     else if (y < 0)
         y = 0;
 
-    return grid->WorldPosition(x, y);
+    return grid->WorldPosition(int(x), int(y));
 }
 
 static bool
@@ -306,8 +315,8 @@ VertexOutOfGrid(R2Grid* grid, R2Point v)
 {
     R2Point grid_v = grid->GridPosition(v);
 
-    if ((grid_v.X() >= resolution || grid_v.X() < 0) &&
-        (grid_v.Y() >= resolution || grid_v.Y() < 0))
+    if (grid_v.X() >= resolution || grid_v.X() < 0 ||
+        grid_v.Y() >= resolution || grid_v.Y() < 0)
         return true;
 
     return false;
@@ -328,13 +337,14 @@ SanitizePoints(R2Grid* grid, R2Point v0, R2Point v1, R2Point v2)
 static bool
 AllVerticesOutOfGrid(R2Grid* grid, R2Point v0, R2Point v1, R2Point v2)
 {
-    return VertexOutOfGrid(grid, v0) && VertexOutOfGrid(grid, v1) && VertexOutOfGrid(grid, v1);
+    return VertexOutOfGrid(grid, v0) && VertexOutOfGrid(grid, v1) && VertexOutOfGrid(grid, v2);
 }
 
 static R2Affine
 PrepareWorldToGridXform(R3Point cen3, R2Vector translation, RNAngle theta, bool do_fX, bool do_fY, R2Vector* dist)
 {
     R2Vector cen = R2Vector(cen3.X(), cen3.Y());
+    
     // Start with the identity matrix
     R2Affine world_to_grid_xform = R2identity_affine;
     
@@ -397,14 +407,18 @@ DrawObject(R3SceneNode* obj, R2Grid *grid, R2Vector translation, RNAngle theta, 
                 v1 = temp_grid.GridPosition(v[1]);
                 v2 = temp_grid.GridPosition(v[2]);
 
-                if (VertexOutOfGrid(&temp_grid, v[0]) || VertexOutOfGrid(&temp_grid, v[1]) || VertexOutOfGrid(&temp_grid, v[2]))
-                    continue;
+                //fprintf(stderr, "\t\t(%f, %f) (%f, %f) (%f, %f)\n",v0.X(), v0.Y(), v1.X(), v1.Y(), v2.X(), v2.Y());
+
+                //if (VertexOutOfGrid(&temp_grid, v[0]) || VertexOutOfGrid(&temp_grid, v[1]) || VertexOutOfGrid(&temp_grid, v[2]))
+                //    continue;
 
                 temp_grid.RasterizeWorldTriangle(v[0], v[1], v[2], 1);
             }
         }
     }
     
+    //fprintf(stderr, "\t\tFinished!\n");
+
     // Color the shape with a single color
     temp_grid.Threshold(0, 0, 1);
     grid->Add(temp_grid);
@@ -413,7 +427,7 @@ DrawObject(R3SceneNode* obj, R2Grid *grid, R2Vector translation, RNAngle theta, 
 
 // Take collection of grids and write them
 static int 
-WriteHeatMaps(std::map<std::string, std::map<std::string, R2Grid*>> grids)
+WriteHeatMaps()
 {
   for (auto it : grids) {
     std::string src_cat = it.first;
@@ -426,6 +440,7 @@ WriteHeatMaps(std::map<std::string, std::map<std::string, R2Grid*>> grids)
         char output_filename[1024];
         sprintf(output_filename, "%s/%s___%s.grd", output_grid_directory, 
                 src_cat.c_str(), dst_cat.c_str());
+        //fprintf(stderr, "Writing : %s___%s.grd\n", src_cat.c_str(), dst_cat.c_str());
         if (!WriteGrid(grid, output_filename)) return 0;
     }
   }
@@ -433,33 +448,10 @@ WriteHeatMaps(std::map<std::string, std::map<std::string, R2Grid*>> grids)
   return 1;
 }
 
-std::map<std::string, std::map<std::string, R2Grid*>> grids;
-
-std::vector<R3SceneNode*> object_nodes;
-std::vector<R3SceneNode*> wall_nodes;
-
 static int
-InitHeatmapCollection(R3Scene* scene)
+UpdateHeatmapCollection(R3Scene* scene, std::vector<R3SceneNode*> object_nodes)
 {
   
-  //std::vector<R3SceneNode*> room_nodes;
-  //std::vector<R3SceneNode*> floor_nodes;
-
-  for (int i = 0; i < scene->NNodes(); i++) {
-    R3SceneNode* node = scene->Node(i);
-
-    std::string name (node->Name());
-    if (std::string::npos != name.find("Object")) // probably a better way with casting
-        object_nodes.push_back(node);
-    if (std::string::npos != name.find("Wall"))
-        wall_nodes.push_back(node);     
-    /*if (std::string::npos != name.find("Room"))
-        room_nodes.push_back(node);
-    if (std::string::npos != name.find("Floor"))
-        floor_nodes.push_back(node);*/
-
-  }
-
   // Populate category->category map
   for (int i = 0; i < object_nodes.size(); i++) {
     R3SceneNode* src_obj = object_nodes[i];
@@ -471,28 +463,41 @@ InitHeatmapCollection(R3Scene* scene)
         R3SceneNode* dst_obj = object_nodes[j];
         std::string dst_cat = GetObjectCategory(dst_obj);
 
-        grids[src_cat][dst_cat] = new R2Grid(resolution, resolution); 
+        if (grids[src_cat].count(dst_cat) == 0)
+            grids[src_cat][dst_cat] = new R2Grid(resolution, resolution); 
     }
     
-    grids[src_cat]["wall"] = new R2Grid(resolution, resolution);
+    if (grids[src_cat]["wall"] == 0)
+        grids[src_cat]["wall"] = new R2Grid(resolution, resolution);
   }
  
   return 1;
 }
 
 static int
-WriteGrids(R3Scene *scene)
+UpdateGrids(R3Scene *scene)
 {
-  // Create the output directory
-  char cmd[1024];
-  sprintf(cmd, "mkdir -p %s", output_grid_directory);
-  system(cmd);
 
-  // Create mapping of ids to object categories
-  LoadIdToCategoryMap();
+  std::vector<R3SceneNode*> object_nodes;
+  std::vector<R3SceneNode*> wall_nodes;
+
+  // Find all objects and walls
+  for (int i = 0; i < scene->NNodes(); i++) {
+    R3SceneNode* node = scene->Node(i);
+
+    std::string name (node->Name());
+    if (std::string::npos != name.find("Object")) // probably a better way with casting
+        object_nodes.push_back(node);
+    if (std::string::npos != name.find("Wall"))
+        wall_nodes.push_back(node);     
+  }
+    
+    fprintf(stderr, "\t- Located Objects : %lu\n", object_nodes.size());
 
   // Category->Category->Heatmap
-  InitHeatmapCollection(scene);
+  UpdateHeatmapCollection(scene, object_nodes);
+        
+  fprintf(stderr, "\t- Updated Heatmaps\n");
 
   for (int i = 0; i < object_nodes.size(); i++) {
     R3SceneNode* src_obj = object_nodes[i];
@@ -513,6 +518,9 @@ WriteGrids(R3Scene *scene)
     bool do_fX = p5d_obj->fX;
     bool do_fY = p5d_obj->fY;
 
+    //fprintf(stderr, "\t- Drawing Object %d : %s : %s \n", i, src_obj->Name(), src_cat.c_str());    
+
+    // Draw objects
     for (int j = 0; j < object_nodes.size(); j++) {
         if (i == j) continue;
         
@@ -521,7 +529,7 @@ WriteGrids(R3Scene *scene)
         
         R2Grid *grid = grids[src_cat][dst_cat];
         
-        DrawObject(src_obj, grid, translation, theta, do_fX, do_fY);
+        //DrawObject(src_obj, grid, translation, theta, do_fX, do_fY);
 
         R3Vector dist3d = (dst_obj->Centroid() - src_obj->Centroid());
         R2Vector dist = R2Vector(dist3d.X(), dist3d.Y());
@@ -531,21 +539,22 @@ WriteGrids(R3Scene *scene)
             DrawObject(dst_obj, grid, translation, theta, do_fX, do_fY, &dist);
     }
 
+    // Draw walls
     for (int w = 0; w < wall_nodes.size(); w++) {
         R3SceneNode* wall_node = wall_nodes[w];
 
         R2Grid *grid = grids[src_cat]["wall"];
 
-        DrawObject(src_obj, grid, translation, theta, do_fX, do_fY);
+        //DrawObject(src_obj, grid, translation, theta, do_fX, do_fY);
 
         R3Vector dist3d = (wall_node->Centroid() - src_obj->Centroid());
         R2Vector dist = R2Vector(dist3d.X(), dist3d.Y());
-
-        DrawObject(wall_node, grid, translation, theta, do_fX, do_fY, &dist);
+        
+        if (dist.Length() < threshold)
+            DrawObject(wall_node, grid, translation, theta, do_fX, do_fY, &dist);
     }
-  }
 
-  if (!WriteHeatMaps(grids)) return 0;
+  }
 
   // Return success
   return 1;
@@ -569,16 +578,16 @@ ParseArgs(int argc, char **argv)
       argv++; argc--;
     }
     else {
-      if (!input_project_name) input_project_name = *argv;
-      else if (!output_grid_directory) output_grid_directory = *argv;
+      //if (!input_project_name) input_project_name = *argv;
+      /*else*/ if (!output_grid_directory) output_grid_directory = *argv;
       else { fprintf(stderr, "Invalid program argument: %s", *argv); exit(1); }
       argv++; argc--;
     }
   }
 
   // Check filenames
-  if (!input_project_name || !output_grid_directory) {
-    fprintf(stderr, "Usage: p5dview inputprojectfile outputgriddirectory\n");
+  if (/*!input_project_name ||*/  !output_grid_directory) {
+    fprintf(stderr, "Usage: p5dview outputgriddirectory\n");
     return 0;
   }
 
@@ -587,25 +596,87 @@ ParseArgs(int argc, char **argv)
 }
 
 
+static int
+LoadProjectIds(std::string filename = "list-of-projects.txt") 
+{
+    std::string id;
+    std::ifstream project_ids_file;
+    project_ids_file.open(filename);
+
+    if (project_ids_file.is_open())
+    {
+        while (getline(project_ids_file, id))
+        {
+            project_ids.push_back(id);
+        }
+        project_ids_file.close();
+    }
+    else return 0; // Cannot open file
+
+    return 1;
+}
+
 
 int main(int argc, char **argv)
 {
-  // Parse program arguments
-  if (!ParseArgs(argc, argv)) exit(-1);
+    // Create a vector of all project IDs
+    if (!LoadProjectIds()) exit(-1);
+    
+    // Create mapping of ids to object categories
+    if(!LoadIdToCategoryMap()) exit(-1);
 
-  // Read project
-  P5DProject *project = ReadProject(input_project_name);
-  if (!project) exit(-1);
+    // Parse program arguments
+    if (!ParseArgs(argc, argv)) exit(-1);
 
-  // Create scene
-  R3Scene *scene = CreateScene(project);
-  if (!scene) exit(-1);
+    // Create the output directory
+    char cmd[1024];
+    sprintf(cmd, "mkdir -p %s", output_grid_directory);
+    system(cmd);
 
-  // Write grids
-  if (!WriteGrids(scene)) exit(-1);
-  
-  // Return success 
-  return 0;
+
+    int failures = 0;
+    int i = 0;
+    for (std::string project_id : project_ids)
+    {
+        if (i == 40) break;
+        
+        start = clock();
+        fprintf(stderr, "Working on ... %s (%d) \n", project_id.c_str(), i); 
+
+        // Read project
+        P5DProject *project = ReadProject(project_id.c_str());
+        if (!project) /*exit(-1)*/ {
+            failures++;
+            continue;
+        }
+
+        fprintf(stderr, "\t- Read Project\n");
+
+        // Create scene
+        R3Scene *scene = CreateScene(project);
+        if (!scene) /*exit(-1)*/ {
+            failures++;
+            continue;
+        }
+
+        fprintf(stderr, "\t- Created Scene\n");
+
+        // Write grids
+        if (!UpdateGrids(scene)) /*exit(-1)*/ {
+            failures++;
+            continue;
+        }
+
+        fprintf(stderr, "\t- Completed in : %f sec\n", (double)(clock() - start) / CLOCKS_PER_SEC);
+        i++;
+    }
+
+    fprintf(stderr, "\n-- Failures: %d---\n", failures);
+    fprintf(stderr, "\n--- Finished. ---\n");
+    WriteHeatMaps();
+
+    // Return success 
+    return 0;
 }
 
 

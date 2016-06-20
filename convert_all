@@ -1,13 +1,14 @@
 #!/bin/bash
 
-rm imgs/*.png
+#rm imgs/*.png
+#rm grids/*.grd
 
+echo "Converting..."
 for f in grids/*.grd; 
 do 
-    echo "Converting $f...";
+    #echo "Converting $f...";
     filename=$(basename $f .grd)
     grids/pfm2pfm $f $filename.png
 done
 
 mv *.png imgs/
-rm grids/*.grd
