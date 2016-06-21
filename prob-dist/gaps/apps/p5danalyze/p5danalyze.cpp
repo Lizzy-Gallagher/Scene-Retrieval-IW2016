@@ -282,7 +282,7 @@ std::string GetObjectCategory(R3SceneNode* obj)
     return cat;
 }
 
-int LoadIdToCategoryMap(std::string csv_filename="object_names.csv") 
+int LoadIdToCategoryMap(std::string csv_filename="data/object_names.csv") 
 {
     io::CSVReader<2, io::trim_chars<' '>, io::double_quote_escape<',','\"'> > in(csv_filename.c_str());
     in.read_header(io::ignore_extra_column, "id", "category");
@@ -427,11 +427,11 @@ static int
 WriteHeatMaps()
 {
     std::ofstream stats_categories_file;
-    stats_categories_file.open("stats_categories.csv");
+    stats_categories_file.open("stats/categories.csv");
     stats_categories_file << "category,count\n"; 
 
     std::ofstream stats_pairs_file;
-    stats_pairs_file.open("stats_pairs.csv");
+    stats_pairs_file.open("stats/pairs.csv");
     stats_pairs_file << "src_cat,dst_cat,count\n"; 
 
   for (auto it : grids) {
@@ -587,6 +587,8 @@ ParseArgs(int argc, char **argv)
       if (!strcmp(*argv, "-v")) print_verbose = 1; 
       else if (!strcmp(*argv, "-debug")) print_debug = 1; 
       else if (!strcmp(*argv, "-data_directory")) { argc--; argv++; input_data_directory = *argv; }
+      else if (!strcmp(*argv, "-ptm")) { argc--; argv++; pixels_to_meters = atoi(*argv); }
+      else if (!strcmp(*argv, "-context")) { argc--; argv++; meters_of_context = atoi(*argv); }
       else { 
         fprintf(stderr, "Invalid program argument: %s", *argv); 
         exit(1); 
@@ -602,8 +604,9 @@ ParseArgs(int argc, char **argv)
   }
 
   // Check filenames
-  if (/*!input_project_name ||*/  !output_grid_directory) {
-    fprintf(stderr, "Usage: p5dview outputgriddirectory\n");
+  if (!output_grid_directory) {
+    fprintf(stderr, "Usage: p5dview outputgriddirectory [-debug] [-v]" 
+            "[data-directory dir] [-ptm num] [-context num]\n");
     return 0;
   }
 
@@ -613,7 +616,7 @@ ParseArgs(int argc, char **argv)
 
 
 static int
-LoadProjectIds(std::string filename = "list-of-projects.txt") 
+LoadProjectIds(std::string filename = "data/list-of-projects.txt") 
 {
     std::string id;
     std::ifstream project_ids_file;
@@ -654,7 +657,7 @@ int main(int argc, char **argv)
     int i = 0;
     for (std::string project_id : project_ids)
     {
-        if (i == 5) break;
+        if (i == 50) break;
         
         start = clock();
         fprintf(stdout, "Working on ... %s (%d) \n", project_id.c_str(), i); 
