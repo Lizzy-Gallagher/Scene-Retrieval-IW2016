@@ -4,7 +4,7 @@ echo "Cleaning up..."
 scripts/clean_all
 
 echo "Analyzing..."
-bin/p5danalyze grids/ -ptm 20 -context 4 2> ./err-log.txt
+bin/p5danalyze output/grids/ -ptm 20 -context 4 2> output/err-log.txt
 
 echo "Converting Grids..."
 scripts/convert_all
