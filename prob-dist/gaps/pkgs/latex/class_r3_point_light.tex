@@ -1,0 +1,74 @@
+\hypertarget{class_r3_point_light}{}\section{R3\+Point\+Light Class Reference}
+\label{class_r3_point_light}\index{R3\+Point\+Light@{R3\+Point\+Light}}
+Inheritance diagram for R3\+Point\+Light\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{class_r3_point_light}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\bfseries R3\+Point\+Light} (const \hyperlink{class_r3_point_light}{R3\+Point\+Light} \&light)\hypertarget{class_r3_point_light_a8c00c92ac2bc7675332659b5f7b021fb}{}\label{class_r3_point_light_a8c00c92ac2bc7675332659b5f7b021fb}
+
+\item 
+{\bfseries R3\+Point\+Light} (const \hyperlink{class_r3_point}{R3\+Point} \&position, const \hyperlink{class_r_n_rgb}{R\+N\+Rgb} \&color, R\+N\+Scalar intensity=1.\+0, R\+N\+Boolean active=T\+R\+UE, R\+N\+Scalar ca=0, R\+N\+Scalar la=0, R\+N\+Scalar qa=1)\hypertarget{class_r3_point_light_a843f6ecd1e8b072d27d53d28aea64ae0}{}\label{class_r3_point_light_a843f6ecd1e8b072d27d53d28aea64ae0}
+
+\item 
+const \hyperlink{class_r3_point}{R3\+Point} \& {\bfseries Position} (void) const \hypertarget{class_r3_point_light_a925bc8bff38aa48523fd290705144e6e}{}\label{class_r3_point_light_a925bc8bff38aa48523fd290705144e6e}
+
+\item 
+const R\+N\+Scalar {\bfseries Constant\+Attenuation} (void) const \hypertarget{class_r3_point_light_a5f8db531141372060935b04c1ae5d0c4}{}\label{class_r3_point_light_a5f8db531141372060935b04c1ae5d0c4}
+
+\item 
+const R\+N\+Scalar {\bfseries Linear\+Attenuation} (void) const \hypertarget{class_r3_point_light_a45e645b0d3fcc666f8fd52babed73203}{}\label{class_r3_point_light_a45e645b0d3fcc666f8fd52babed73203}
+
+\item 
+const R\+N\+Scalar {\bfseries Quadratic\+Attenuation} (void) const \hypertarget{class_r3_point_light_a77e2843354808cf08bf1acb8dac41f12}{}\label{class_r3_point_light_a77e2843354808cf08bf1acb8dac41f12}
+
+\item 
+virtual void {\bfseries Set\+Position} (const \hyperlink{class_r3_point}{R3\+Point} \&position)\hypertarget{class_r3_point_light_acfcc2477fe698f54c393e16006663eaa}{}\label{class_r3_point_light_acfcc2477fe698f54c393e16006663eaa}
+
+\item 
+virtual void {\bfseries Set\+Constant\+Attenuation} (R\+N\+Scalar ca)\hypertarget{class_r3_point_light_ac202e633a3c19aa721c6391a38fede38}{}\label{class_r3_point_light_ac202e633a3c19aa721c6391a38fede38}
+
+\item 
+virtual void {\bfseries Set\+Linear\+Attenuation} (R\+N\+Scalar la)\hypertarget{class_r3_point_light_ac6f28901991aadd32b56224734de5835}{}\label{class_r3_point_light_ac6f28901991aadd32b56224734de5835}
+
+\item 
+virtual void {\bfseries Set\+Quadratic\+Attenuation} (R\+N\+Scalar qa)\hypertarget{class_r3_point_light_a826edcfc0b868922de4921feee592629}{}\label{class_r3_point_light_a826edcfc0b868922de4921feee592629}
+
+\item 
+virtual R\+N\+Scalar {\bfseries Intensity\+At\+Point} (const \hyperlink{class_r3_point}{R3\+Point} \&point) const \hypertarget{class_r3_point_light_a6192631ce7d497e7bb9f47ff94d32279}{}\label{class_r3_point_light_a6192631ce7d497e7bb9f47ff94d32279}
+
+\item 
+virtual \hyperlink{class_r3_vector}{R3\+Vector} {\bfseries Direction\+From\+Point} (const \hyperlink{class_r3_point}{R3\+Point} \&point) const \hypertarget{class_r3_point_light_a3d6a7dd4d1ff4e3d3907fd267808d4bf}{}\label{class_r3_point_light_a3d6a7dd4d1ff4e3d3907fd267808d4bf}
+
+\item 
+virtual R\+N\+Scalar {\bfseries Radius\+Of\+Influence} (R\+N\+Scalar intensity) const \hypertarget{class_r3_point_light_a77f111accced801ce2f3ce09c0f8f3b3}{}\label{class_r3_point_light_a77f111accced801ce2f3ce09c0f8f3b3}
+
+\item 
+virtual \hyperlink{class_r3_sphere}{R3\+Sphere} {\bfseries Sphere\+Of\+Influence} (R\+N\+Scalar intensity) const \hypertarget{class_r3_point_light_a3a317c0744ebd5409c1a5215a733ef21}{}\label{class_r3_point_light_a3a317c0744ebd5409c1a5215a733ef21}
+
+\item 
+virtual \hyperlink{class_r_n_rgb}{R\+N\+Rgb} {\bfseries Reflection} (const \hyperlink{class_r3_brdf}{R3\+Brdf} \&brdf, const \hyperlink{class_r3_point}{R3\+Point} \&eye, const \hyperlink{class_r3_point}{R3\+Point} \&point, const \hyperlink{class_r3_vector}{R3\+Vector} \&normal) const \hypertarget{class_r3_point_light_a0f90f489b782654f053214f8fc410ac7}{}\label{class_r3_point_light_a0f90f489b782654f053214f8fc410ac7}
+
+\item 
+virtual \hyperlink{class_r_n_rgb}{R\+N\+Rgb} {\bfseries Diffuse\+Reflection} (const \hyperlink{class_r3_brdf}{R3\+Brdf} \&brdf, const \hyperlink{class_r3_point}{R3\+Point} \&point, const \hyperlink{class_r3_vector}{R3\+Vector} \&normal) const \hypertarget{class_r3_point_light_a801ded380a187411e60a2cfa1f81e401}{}\label{class_r3_point_light_a801ded380a187411e60a2cfa1f81e401}
+
+\item 
+virtual \hyperlink{class_r_n_rgb}{R\+N\+Rgb} {\bfseries Specular\+Reflection} (const \hyperlink{class_r3_brdf}{R3\+Brdf} \&brdf, const \hyperlink{class_r3_point}{R3\+Point} \&eye, const \hyperlink{class_r3_point}{R3\+Point} \&point, const \hyperlink{class_r3_vector}{R3\+Vector} \&normal) const \hypertarget{class_r3_point_light_a1161e3aee7a77b3b159a9d4a408bf624}{}\label{class_r3_point_light_a1161e3aee7a77b3b159a9d4a408bf624}
+
+\item 
+virtual void {\bfseries Draw} (int i) const \hypertarget{class_r3_point_light_a448f51b59539733cd8e0d3e69ae2ffaf}{}\label{class_r3_point_light_a448f51b59539733cd8e0d3e69ae2ffaf}
+
+\item 
+{\bfseries R\+N\+\_\+\+C\+L\+A\+S\+S\+\_\+\+T\+Y\+P\+E\+\_\+\+D\+E\+C\+L\+A\+R\+A\+T\+I\+O\+NS} (\hyperlink{class_r3_point_light}{R3\+Point\+Light})\hypertarget{class_r3_point_light_a6a253c888dfd0716716e71cec0b4f4e1}{}\label{class_r3_point_light_a6a253c888dfd0716716e71cec0b4f4e1}
+
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+R3\+Graphics/R3\+Point\+Light.\+h\item 
+R3\+Graphics/R3\+Point\+Light.\+cpp\end{DoxyCompactItemize}

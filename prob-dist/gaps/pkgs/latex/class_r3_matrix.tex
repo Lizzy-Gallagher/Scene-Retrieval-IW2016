@@ -1,0 +1,174 @@
+\hypertarget{class_r3_matrix}{}\section{R3\+Matrix Class Reference}
+\label{class_r3_matrix}\index{R3\+Matrix@{R3\+Matrix}}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\bfseries R3\+Matrix} (const \hyperlink{class_r3_matrix}{R3\+Matrix} \&matrix)\hypertarget{class_r3_matrix_a83409b13cc8ff8803d4a9b4b764fdfb4}{}\label{class_r3_matrix_a83409b13cc8ff8803d4a9b4b764fdfb4}
+
+\item 
+{\bfseries R3\+Matrix} (R\+N\+Scalar a00, R\+N\+Scalar a01, R\+N\+Scalar a02, R\+N\+Scalar a10, R\+N\+Scalar a11, R\+N\+Scalar a12, R\+N\+Scalar a20, R\+N\+Scalar a21, R\+N\+Scalar a22)\hypertarget{class_r3_matrix_a547e15cf503b2b1f44a1ed58fe8af21b}{}\label{class_r3_matrix_a547e15cf503b2b1f44a1ed58fe8af21b}
+
+\item 
+{\bfseries R3\+Matrix} (const R\+N\+Scalar $\ast$array)\hypertarget{class_r3_matrix_a058aafb47d11fb533092c056328414bf}{}\label{class_r3_matrix_a058aafb47d11fb533092c056328414bf}
+
+\item 
+const int {\bfseries Is\+Zero} (void) const \hypertarget{class_r3_matrix_ac31565aac506d671a9e624ba4051acb0}{}\label{class_r3_matrix_ac31565aac506d671a9e624ba4051acb0}
+
+\item 
+const int {\bfseries Is\+Identity} (void) const \hypertarget{class_r3_matrix_a88d77400a75a67798d56c30f453a394f}{}\label{class_r3_matrix_a88d77400a75a67798d56c30f453a394f}
+
+\item 
+const R\+N\+Boolean {\bfseries Is\+Isotropic} (void) const \hypertarget{class_r3_matrix_a6cfef6a3bf1b018bd6983573c5372504}{}\label{class_r3_matrix_a6cfef6a3bf1b018bd6983573c5372504}
+
+\item 
+const R\+N\+Boolean {\bfseries Has\+Translation} (void) const \hypertarget{class_r3_matrix_a678d70209a04dbc56d32b0df99312e3d}{}\label{class_r3_matrix_a678d70209a04dbc56d32b0df99312e3d}
+
+\item 
+const R\+N\+Boolean {\bfseries Has\+Scale} (void) const \hypertarget{class_r3_matrix_a428edf9f7a7bc5ecc8c6147a553e7846}{}\label{class_r3_matrix_a428edf9f7a7bc5ecc8c6147a553e7846}
+
+\item 
+const R\+N\+Boolean {\bfseries Has\+Rotation} (void) const \hypertarget{class_r3_matrix_acdaf3793d0ed307a667c6d2a998a090e}{}\label{class_r3_matrix_acdaf3793d0ed307a667c6d2a998a090e}
+
+\item 
+const R\+N\+Boolean {\bfseries Has\+Mirror} (void) const \hypertarget{class_r3_matrix_ac6bbc656edd59822526365612840fea2}{}\label{class_r3_matrix_ac6bbc656edd59822526365612840fea2}
+
+\item 
+const R\+N\+Scalar $\ast$ {\bfseries operator\mbox{[}$\,$\mbox{]}} (int i) const \hypertarget{class_r3_matrix_a0d978a68d81255531b62cd7f045b1920}{}\label{class_r3_matrix_a0d978a68d81255531b62cd7f045b1920}
+
+\item 
+const R\+N\+Scalar {\bfseries Determinant} (void) const \hypertarget{class_r3_matrix_a8ce7cf291f0cadafe08928873af0045f}{}\label{class_r3_matrix_a8ce7cf291f0cadafe08928873af0045f}
+
+\item 
+const \hyperlink{class_r3_matrix}{R3\+Matrix} {\bfseries Transpose} (void) const \hypertarget{class_r3_matrix_a90d380b728dcdc3fc7c4cfc03af2b5da}{}\label{class_r3_matrix_a90d380b728dcdc3fc7c4cfc03af2b5da}
+
+\item 
+const \hyperlink{class_r3_matrix}{R3\+Matrix} {\bfseries Inverse} (void) const \hypertarget{class_r3_matrix_a5d873d4dc9d6093034ad1838812722a7}{}\label{class_r3_matrix_a5d873d4dc9d6093034ad1838812722a7}
+
+\item 
+const R\+N\+Boolean {\bfseries operator==} (const \hyperlink{class_r3_matrix}{R3\+Matrix} \&matrix) const \hypertarget{class_r3_matrix_a262aaf12efdc03977d8042d21ea38319}{}\label{class_r3_matrix_a262aaf12efdc03977d8042d21ea38319}
+
+\item 
+const R\+N\+Boolean {\bfseries operator!=} (const \hyperlink{class_r3_matrix}{R3\+Matrix} \&matrix) const \hypertarget{class_r3_matrix_af8fae6c03a53fbe1e372f08eb8055206}{}\label{class_r3_matrix_af8fae6c03a53fbe1e372f08eb8055206}
+
+\item 
+void {\bfseries Flip} (void)\hypertarget{class_r3_matrix_adab13804223f47f3ddbd9a16f989100e}{}\label{class_r3_matrix_adab13804223f47f3ddbd9a16f989100e}
+
+\item 
+void {\bfseries Invert} (void)\hypertarget{class_r3_matrix_a15df9d3f499255462b9840ff1a71906f}{}\label{class_r3_matrix_a15df9d3f499255462b9840ff1a71906f}
+
+\item 
+void {\bfseries X\+Translate} (R\+N\+Scalar offset)\hypertarget{class_r3_matrix_aa63c6da972cf35c48b9929f2a812dc0c}{}\label{class_r3_matrix_aa63c6da972cf35c48b9929f2a812dc0c}
+
+\item 
+void {\bfseries Y\+Translate} (R\+N\+Scalar offset)\hypertarget{class_r3_matrix_a549255b7b1c092452bbc8a0cbf371f8b}{}\label{class_r3_matrix_a549255b7b1c092452bbc8a0cbf371f8b}
+
+\item 
+void {\bfseries Translate} (R\+N\+Scalar offset)\hypertarget{class_r3_matrix_a19af9c74b0d99ede124294c4ac5680b0}{}\label{class_r3_matrix_a19af9c74b0d99ede124294c4ac5680b0}
+
+\item 
+void {\bfseries Translate} (R\+N\+Axis axis, R\+N\+Scalar offset)\hypertarget{class_r3_matrix_af1185d947fa58276242861d7f76e0f2b}{}\label{class_r3_matrix_af1185d947fa58276242861d7f76e0f2b}
+
+\item 
+void {\bfseries Translate} (const \hyperlink{class_r2_vector}{R2\+Vector} \&offset)\hypertarget{class_r3_matrix_a64b7c57d19ff927939fd59f31b32c456}{}\label{class_r3_matrix_a64b7c57d19ff927939fd59f31b32c456}
+
+\item 
+void {\bfseries X\+Scale} (R\+N\+Scalar scale)\hypertarget{class_r3_matrix_ae99d1c9ffeb480f0523aaa1f9b1cb862}{}\label{class_r3_matrix_ae99d1c9ffeb480f0523aaa1f9b1cb862}
+
+\item 
+void {\bfseries Y\+Scale} (R\+N\+Scalar scale)\hypertarget{class_r3_matrix_a8b5559a983f040223a274bafc73b3419}{}\label{class_r3_matrix_a8b5559a983f040223a274bafc73b3419}
+
+\item 
+void {\bfseries Scale} (R\+N\+Scalar scale)\hypertarget{class_r3_matrix_a2a0f429c0c43232bf251d510453de12e}{}\label{class_r3_matrix_a2a0f429c0c43232bf251d510453de12e}
+
+\item 
+void {\bfseries Scale} (R\+N\+Axis axis, R\+N\+Scalar scale)\hypertarget{class_r3_matrix_a0d8b42302648658e76b04db2430a223b}{}\label{class_r3_matrix_a0d8b42302648658e76b04db2430a223b}
+
+\item 
+void {\bfseries Scale} (const \hyperlink{class_r2_vector}{R2\+Vector} \&scale)\hypertarget{class_r3_matrix_acd3cacba1c6608d033d78cf8d0c4442c}{}\label{class_r3_matrix_acd3cacba1c6608d033d78cf8d0c4442c}
+
+\item 
+void {\bfseries Rotate} (R\+N\+Angle radians)\hypertarget{class_r3_matrix_a0d551b8a34d36c70aa433be9097f8908}{}\label{class_r3_matrix_a0d551b8a34d36c70aa433be9097f8908}
+
+\item 
+void {\bfseries Transform} (const \hyperlink{class_r3_matrix}{R3\+Matrix} \&matrix)\hypertarget{class_r3_matrix_aa7e75ec6ea66778ba31ec5d9588cb065}{}\label{class_r3_matrix_aa7e75ec6ea66778ba31ec5d9588cb065}
+
+\item 
+void {\bfseries Multiply} (const \hyperlink{class_r3_matrix}{R3\+Matrix} \&matrix)\hypertarget{class_r3_matrix_a757cbb898a0d3d8d1ed628b101d0a1a4}{}\label{class_r3_matrix_a757cbb898a0d3d8d1ed628b101d0a1a4}
+
+\item 
+void {\bfseries Add} (const \hyperlink{class_r3_matrix}{R3\+Matrix} \&matrix)\hypertarget{class_r3_matrix_a03972a861819b531a0626e0b9f7ea302}{}\label{class_r3_matrix_a03972a861819b531a0626e0b9f7ea302}
+
+\item 
+void {\bfseries Subtract} (const \hyperlink{class_r3_matrix}{R3\+Matrix} \&matrix)\hypertarget{class_r3_matrix_a586c07bad57e82f870f71f41428dd68e}{}\label{class_r3_matrix_a586c07bad57e82f870f71f41428dd68e}
+
+\item 
+\hyperlink{class_r3_matrix}{R3\+Matrix} \& {\bfseries operator=} (const \hyperlink{class_r3_matrix}{R3\+Matrix} \&matrix)\hypertarget{class_r3_matrix_a1ec647a47d2a3bc1d85afa516686bfe7}{}\label{class_r3_matrix_a1ec647a47d2a3bc1d85afa516686bfe7}
+
+\item 
+\hyperlink{class_r3_matrix}{R3\+Matrix} \& {\bfseries operator+=} (const \hyperlink{class_r3_matrix}{R3\+Matrix} \&matrix)\hypertarget{class_r3_matrix_a41b6650421b24028befe341dcd7797eb}{}\label{class_r3_matrix_a41b6650421b24028befe341dcd7797eb}
+
+\item 
+\hyperlink{class_r3_matrix}{R3\+Matrix} \& {\bfseries operator-\/=} (const \hyperlink{class_r3_matrix}{R3\+Matrix} \&matrix)\hypertarget{class_r3_matrix_aeba9f9968b29c0c3f8f2a039787a0825}{}\label{class_r3_matrix_aeba9f9968b29c0c3f8f2a039787a0825}
+
+\item 
+\hyperlink{class_r3_matrix}{R3\+Matrix} \& {\bfseries operator$\ast$=} (R\+N\+Scalar a)\hypertarget{class_r3_matrix_a3a220a5f2496039afa439983161ef6b3}{}\label{class_r3_matrix_a3a220a5f2496039afa439983161ef6b3}
+
+\item 
+\hyperlink{class_r3_matrix}{R3\+Matrix} \& {\bfseries operator$\ast$=} (const \hyperlink{class_r3_matrix}{R3\+Matrix} \&matrix)\hypertarget{class_r3_matrix_aa064b337c2695b81b37dcf68e4c322bb}{}\label{class_r3_matrix_aa064b337c2695b81b37dcf68e4c322bb}
+
+\item 
+\hyperlink{class_r3_matrix}{R3\+Matrix} \& {\bfseries operator/=} (R\+N\+Scalar a)\hypertarget{class_r3_matrix_ac877b7363f710f1e1866d803745c5bc3}{}\label{class_r3_matrix_ac877b7363f710f1e1866d803745c5bc3}
+
+\item 
+void {\bfseries Load} (void) const \hypertarget{class_r3_matrix_afbe0e41d7986e4d542268dfccb1c395c}{}\label{class_r3_matrix_afbe0e41d7986e4d542268dfccb1c395c}
+
+\item 
+void {\bfseries Draw} (void) const \hypertarget{class_r3_matrix_a74913abd1299e8ddae761ede872a2bcf}{}\label{class_r3_matrix_a74913abd1299e8ddae761ede872a2bcf}
+
+\item 
+void {\bfseries Push} (void) const \hypertarget{class_r3_matrix_a357fbedfa27f5c17fb88aae74709fff5}{}\label{class_r3_matrix_a357fbedfa27f5c17fb88aae74709fff5}
+
+\item 
+void {\bfseries Pop} (void) const \hypertarget{class_r3_matrix_af9eaeaa5ed759eadfb048e455b9a3843}{}\label{class_r3_matrix_af9eaeaa5ed759eadfb048e455b9a3843}
+
+\item 
+R\+N\+Scalar $\ast$ {\bfseries operator\mbox{[}$\,$\mbox{]}} (int i)\hypertarget{class_r3_matrix_acae72956775433e302a862811db68f3a}{}\label{class_r3_matrix_acae72956775433e302a862811db68f3a}
+
+\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_r3_matrix}{R3\+Matrix} {\bfseries operator-\/} (const \hyperlink{class_r3_matrix}{R3\+Matrix} \&matrix)\hypertarget{class_r3_matrix_a84ffdd083fd8a0b8fa54cd9f07e2ca03}{}\label{class_r3_matrix_a84ffdd083fd8a0b8fa54cd9f07e2ca03}
+
+\item 
+\hyperlink{class_r3_matrix}{R3\+Matrix} {\bfseries operator+} (const \hyperlink{class_r3_matrix}{R3\+Matrix} \&matrix1, const \hyperlink{class_r3_matrix}{R3\+Matrix} \&matrix2)\hypertarget{class_r3_matrix_a19aeaeca6ace1ef0b2320ab13a4c6e3f}{}\label{class_r3_matrix_a19aeaeca6ace1ef0b2320ab13a4c6e3f}
+
+\item 
+\hyperlink{class_r3_matrix}{R3\+Matrix} {\bfseries operator-\/} (const \hyperlink{class_r3_matrix}{R3\+Matrix} \&matrix1, const \hyperlink{class_r3_matrix}{R3\+Matrix} \&matrix2)\hypertarget{class_r3_matrix_a5e61dc4eddde46530ee9f455c0e93df1}{}\label{class_r3_matrix_a5e61dc4eddde46530ee9f455c0e93df1}
+
+\item 
+\hyperlink{class_r3_matrix}{R3\+Matrix} {\bfseries operator$\ast$} (R\+N\+Scalar a, const \hyperlink{class_r3_matrix}{R3\+Matrix} \&matrix)\hypertarget{class_r3_matrix_a9e92b5ef243bbece37ed080f1fb49aa7}{}\label{class_r3_matrix_a9e92b5ef243bbece37ed080f1fb49aa7}
+
+\item 
+\hyperlink{class_r3_matrix}{R3\+Matrix} {\bfseries operator$\ast$} (const \hyperlink{class_r3_matrix}{R3\+Matrix} \&matrix, R\+N\+Scalar a)\hypertarget{class_r3_matrix_a119632e728a127685cfc4fc1d8fc22a2}{}\label{class_r3_matrix_a119632e728a127685cfc4fc1d8fc22a2}
+
+\item 
+\hyperlink{class_r3_matrix}{R3\+Matrix} {\bfseries operator$\ast$} (const \hyperlink{class_r3_matrix}{R3\+Matrix} \&matrix1, const \hyperlink{class_r3_matrix}{R3\+Matrix} \&matrix2)\hypertarget{class_r3_matrix_a59635f30234336a3d81f607d10f9e784}{}\label{class_r3_matrix_a59635f30234336a3d81f607d10f9e784}
+
+\item 
+\hyperlink{class_r3_matrix}{R3\+Matrix} {\bfseries operator/} (const \hyperlink{class_r3_matrix}{R3\+Matrix} \&matrix, R\+N\+Scalar scale)\hypertarget{class_r3_matrix_a7a5ffa9ddd6528043eda24063ada0dcb}{}\label{class_r3_matrix_a7a5ffa9ddd6528043eda24063ada0dcb}
+
+\item 
+\hyperlink{class_r2_vector}{R2\+Vector} {\bfseries operator$\ast$} (const \hyperlink{class_r3_matrix}{R3\+Matrix} \&matrix, const \hyperlink{class_r2_vector}{R2\+Vector} \&vector)\hypertarget{class_r3_matrix_a1c35b832022d76a7123918c7edbe351a}{}\label{class_r3_matrix_a1c35b832022d76a7123918c7edbe351a}
+
+\item 
+\hyperlink{class_r2_point}{R2\+Point} {\bfseries operator$\ast$} (const \hyperlink{class_r3_matrix}{R3\+Matrix} \&matrix, const \hyperlink{class_r2_point}{R2\+Point} \&point)\hypertarget{class_r3_matrix_acabce224f46c36b42787b46a1ccaa098}{}\label{class_r3_matrix_acabce224f46c36b42787b46a1ccaa098}
+
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+R2\+Shapes/R3\+Matrix.\+h\item 
+R2\+Shapes/R2\+Draw.\+cpp\item 
+R2\+Shapes/R3\+Matrix.\+cpp\end{DoxyCompactItemize}

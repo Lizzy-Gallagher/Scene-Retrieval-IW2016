@@ -1,0 +1,83 @@
+\hypertarget{class_r3_transformation}{}\section{R3\+Transformation Class Reference}
+\label{class_r3_transformation}\index{R3\+Transformation@{R3\+Transformation}}
+Inheritance diagram for R3\+Transformation\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_r3_transformation}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual const R\+N\+Boolean {\bfseries Is\+Mirrored} (void) const \hypertarget{class_r3_transformation_a02567b2778174d98cd617abb6ed7d9b4}{}\label{class_r3_transformation_a02567b2778174d98cd617abb6ed7d9b4}
+
+\item 
+virtual const R\+N\+Boolean {\bfseries Is\+Linear} (void) const \hypertarget{class_r3_transformation_a1e89e187e8b63f05a0ee6dfc835aa8ab}{}\label{class_r3_transformation_a1e89e187e8b63f05a0ee6dfc835aa8ab}
+
+\item 
+virtual const R\+N\+Boolean {\bfseries Is\+Affine} (void) const \hypertarget{class_r3_transformation_a85059c0b5b40a62ce97c92a957ffc844}{}\label{class_r3_transformation_a85059c0b5b40a62ce97c92a957ffc844}
+
+\item 
+virtual const R\+N\+Boolean {\bfseries Is\+Isotropic} (void) const \hypertarget{class_r3_transformation_af0690239eae5c267eff275d35acd4e44}{}\label{class_r3_transformation_af0690239eae5c267eff275d35acd4e44}
+
+\item 
+virtual void {\bfseries Apply} (\hyperlink{class_r3_vector}{R3\+Vector} \&vector) const  =0\hypertarget{class_r3_transformation_aca1a29ad882a1eebcd779df887a65eaa}{}\label{class_r3_transformation_aca1a29ad882a1eebcd779df887a65eaa}
+
+\item 
+virtual void {\bfseries Apply} (\hyperlink{class_r3_point}{R3\+Point} \&point) const  =0\hypertarget{class_r3_transformation_a53942ad60b39d77749be3c966db67a77}{}\label{class_r3_transformation_a53942ad60b39d77749be3c966db67a77}
+
+\item 
+virtual void {\bfseries Apply} (\hyperlink{class_r3_transformation}{R3\+Transformation} \&transformation) const  =0\hypertarget{class_r3_transformation_a47f7e751acd461363a7b31bfe6062199}{}\label{class_r3_transformation_a47f7e751acd461363a7b31bfe6062199}
+
+\item 
+virtual void {\bfseries Apply} (\hyperlink{class_r3_affine}{R3\+Affine} \&affine) const  =0\hypertarget{class_r3_transformation_a56e01a4f3d12f254192dacf340ced6cd}{}\label{class_r3_transformation_a56e01a4f3d12f254192dacf340ced6cd}
+
+\item 
+virtual void {\bfseries Apply\+Inverse} (\hyperlink{class_r3_vector}{R3\+Vector} \&vector) const  =0\hypertarget{class_r3_transformation_a0cc945f3871e62539e463ef01e62b2b3}{}\label{class_r3_transformation_a0cc945f3871e62539e463ef01e62b2b3}
+
+\item 
+virtual void {\bfseries Apply\+Inverse} (\hyperlink{class_r3_point}{R3\+Point} \&point) const  =0\hypertarget{class_r3_transformation_ae26c82f934acdee40328516e0cb16c93}{}\label{class_r3_transformation_ae26c82f934acdee40328516e0cb16c93}
+
+\item 
+virtual void {\bfseries Apply\+Inverse} (\hyperlink{class_r3_transformation}{R3\+Transformation} \&transformation) const  =0\hypertarget{class_r3_transformation_abaa5d37d45834188dd9d0de204db02f3}{}\label{class_r3_transformation_abaa5d37d45834188dd9d0de204db02f3}
+
+\item 
+virtual void {\bfseries Apply\+Inverse} (\hyperlink{class_r3_affine}{R3\+Affine} \&affine) const  =0\hypertarget{class_r3_transformation_a80f3a0b0766f00a2b1988338a2757437}{}\label{class_r3_transformation_a80f3a0b0766f00a2b1988338a2757437}
+
+\item 
+virtual void {\bfseries Apply\+Inverse\+Transpose} (\hyperlink{class_r3_vector}{R3\+Vector} \&vector) const  =0\hypertarget{class_r3_transformation_a3ba6f0db517b367f932e256695faf019}{}\label{class_r3_transformation_a3ba6f0db517b367f932e256695faf019}
+
+\item 
+virtual void {\bfseries Apply\+Transpose} (\hyperlink{class_r3_vector}{R3\+Vector} \&vector) const  =0\hypertarget{class_r3_transformation_aefbcc2e7065cb996096a0a530159124f}{}\label{class_r3_transformation_aefbcc2e7065cb996096a0a530159124f}
+
+\item 
+virtual void {\bfseries Reset} (const \hyperlink{class_r3_transformation}{R3\+Transformation} \&transformation)=0\hypertarget{class_r3_transformation_a0fbb6253fad9ebef1a2a2a8665c6aea1}{}\label{class_r3_transformation_a0fbb6253fad9ebef1a2a2a8665c6aea1}
+
+\item 
+virtual void {\bfseries Transform} (const \hyperlink{class_r3_transformation}{R3\+Transformation} \&transformation)=0\hypertarget{class_r3_transformation_a1da4e6e350f20020e84f326097823b85}{}\label{class_r3_transformation_a1da4e6e350f20020e84f326097823b85}
+
+\item 
+virtual void {\bfseries Inverse\+Transform} (const \hyperlink{class_r3_transformation}{R3\+Transformation} \&transformation)=0\hypertarget{class_r3_transformation_aaf8083034538d0c617b0f2f4a47cffd3}{}\label{class_r3_transformation_aaf8083034538d0c617b0f2f4a47cffd3}
+
+\item 
+virtual void {\bfseries Load} (void) const  =0\hypertarget{class_r3_transformation_a3d8367c81ba92b5a03c5e76323394790}{}\label{class_r3_transformation_a3d8367c81ba92b5a03c5e76323394790}
+
+\item 
+virtual void {\bfseries Draw} (void) const  =0\hypertarget{class_r3_transformation_a87bc7bb94a7b45041afbb3c245db3ed6}{}\label{class_r3_transformation_a87bc7bb94a7b45041afbb3c245db3ed6}
+
+\item 
+virtual void {\bfseries Push} (void) const  =0\hypertarget{class_r3_transformation_a12ebcb9129ffa19656406e5f21fcc2d7}{}\label{class_r3_transformation_a12ebcb9129ffa19656406e5f21fcc2d7}
+
+\item 
+virtual void {\bfseries Pop} (void) const  =0\hypertarget{class_r3_transformation_a65b18be6557b417d31c7e859499c82f0}{}\label{class_r3_transformation_a65b18be6557b417d31c7e859499c82f0}
+
+\item 
+virtual const R\+N\+Scalar {\bfseries Scale\+Factor} (void) const \hypertarget{class_r3_transformation_adb79cd60f0e893cde9f09a3e31c816cd}{}\label{class_r3_transformation_adb79cd60f0e893cde9f09a3e31c816cd}
+
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+R3\+Shapes/R3\+Xform.\+h\item 
+R3\+Shapes/R3\+Xform.\+cpp\end{DoxyCompactItemize}

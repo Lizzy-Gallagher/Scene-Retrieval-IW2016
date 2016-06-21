@@ -1,0 +1,111 @@
+\hypertarget{class_r2_polygon}{}\section{R2\+Polygon Class Reference}
+\label{class_r2_polygon}\index{R2\+Polygon@{R2\+Polygon}}
+Inheritance diagram for R2\+Polygon\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{class_r2_polygon}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\bfseries R2\+Polygon} (const \hyperlink{class_r2_polygon}{R2\+Polygon} \&polygon)\hypertarget{class_r2_polygon_a370f204b039439ddccbf6e2e5b9fdb05}{}\label{class_r2_polygon_a370f204b039439ddccbf6e2e5b9fdb05}
+
+\item 
+{\bfseries R2\+Polygon} (const \hyperlink{class_r2_point}{R2\+Point} $\ast$points, int npoints, R\+N\+Boolean clockwise=F\+A\+L\+SE)\hypertarget{class_r2_polygon_ad90b228efd5a474c3c5cd0bd3a9c6660}{}\label{class_r2_polygon_ad90b228efd5a474c3c5cd0bd3a9c6660}
+
+\item 
+const int {\bfseries N\+Points} (void) const \hypertarget{class_r2_polygon_af30b5cbd6e7b5fa3c2cddc7c3c408de1}{}\label{class_r2_polygon_af30b5cbd6e7b5fa3c2cddc7c3c408de1}
+
+\item 
+const \hyperlink{class_r2_point}{R2\+Point} \& {\bfseries Point} (int k) const \hypertarget{class_r2_polygon_aab02de73ccf42b6c807d361599e01ada}{}\label{class_r2_polygon_aab02de73ccf42b6c807d361599e01ada}
+
+\item 
+const R\+N\+Boolean {\bfseries Is\+Empty} (void) const \hypertarget{class_r2_polygon_ac2f8c62b0cee262073c7bb0876425f4e}{}\label{class_r2_polygon_ac2f8c62b0cee262073c7bb0876425f4e}
+
+\item 
+const R\+N\+Boolean {\bfseries Is\+Finite} (void) const \hypertarget{class_r2_polygon_a3a695d9f459f2835d06b9ef7533890d7}{}\label{class_r2_polygon_a3a695d9f459f2835d06b9ef7533890d7}
+
+\item 
+const R\+N\+Boolean {\bfseries Is\+Clockwise} (void) const \hypertarget{class_r2_polygon_abe8fb8eb0284c77b7be1dece9a496030}{}\label{class_r2_polygon_abe8fb8eb0284c77b7be1dece9a496030}
+
+\item 
+const \hyperlink{class_r2_point}{R2\+Point} \& {\bfseries operator\mbox{[}$\,$\mbox{]}} (int k) const \hypertarget{class_r2_polygon_a327eb82f86be3fd677763fc5c3e0a881}{}\label{class_r2_polygon_a327eb82f86be3fd677763fc5c3e0a881}
+
+\item 
+const \hyperlink{class_r2_point}{R2\+Point} {\bfseries Closest\+Point} (const \hyperlink{class_r2_point}{R2\+Point} \&point) const \hypertarget{class_r2_polygon_af8321ce008a2f25dcec4d1641b166b01}{}\label{class_r2_polygon_af8321ce008a2f25dcec4d1641b166b01}
+
+\item 
+virtual const R\+N\+Boolean {\bfseries Is\+Point} (void) const \hypertarget{class_r2_polygon_a732c50c0fa8884a6834c47c9afa9c1ac}{}\label{class_r2_polygon_a732c50c0fa8884a6834c47c9afa9c1ac}
+
+\item 
+virtual const R\+N\+Boolean {\bfseries Is\+Linear} (void) const \hypertarget{class_r2_polygon_a9bca214e8291c33baf5e85e7dae155eb}{}\label{class_r2_polygon_a9bca214e8291c33baf5e85e7dae155eb}
+
+\item 
+virtual const R\+N\+Boolean {\bfseries Is\+Convex} (void) const \hypertarget{class_r2_polygon_a24c5e5254f7b8f1e2f61c505b6a0e013}{}\label{class_r2_polygon_a24c5e5254f7b8f1e2f61c505b6a0e013}
+
+\item 
+virtual const R\+N\+Area {\bfseries Area} (void) const \hypertarget{class_r2_polygon_ac727e2269d73113b563b5d8cd669e46a}{}\label{class_r2_polygon_ac727e2269d73113b563b5d8cd669e46a}
+
+\item 
+virtual const R\+N\+Scalar {\bfseries Convexity} (void) const \hypertarget{class_r2_polygon_ae2d49b2b0d17f0ae735e3fb220f02577}{}\label{class_r2_polygon_ae2d49b2b0d17f0ae735e3fb220f02577}
+
+\item 
+virtual const R\+N\+Length {\bfseries Perimeter} (void) const \hypertarget{class_r2_polygon_aaeeb3eeeec230c305935c45238ff1499}{}\label{class_r2_polygon_aaeeb3eeeec230c305935c45238ff1499}
+
+\item 
+virtual const \hyperlink{class_r2_point}{R2\+Point} {\bfseries Centroid} (void) const \hypertarget{class_r2_polygon_a38e12370f03169739f562f21b492790e}{}\label{class_r2_polygon_a38e12370f03169739f562f21b492790e}
+
+\item 
+virtual const \hyperlink{class_r2_shape}{R2\+Shape} \& {\bfseries B\+Shape} (void) const \hypertarget{class_r2_polygon_aa6a4e6cb57e677742b0d3c7c7e7b0a9d}{}\label{class_r2_polygon_aa6a4e6cb57e677742b0d3c7c7e7b0a9d}
+
+\item 
+virtual const \hyperlink{class_r2_box}{R2\+Box} {\bfseries B\+Box} (void) const \hypertarget{class_r2_polygon_a1b7101aecb8206e16e10dcdf8922bbd8}{}\label{class_r2_polygon_a1b7101aecb8206e16e10dcdf8922bbd8}
+
+\item 
+virtual const \hyperlink{class_r2_circle}{R2\+Circle} {\bfseries B\+Circle} (void) const \hypertarget{class_r2_polygon_a0b46763c8d38b73aea3bc8bdf36e4891}{}\label{class_r2_polygon_a0b46763c8d38b73aea3bc8bdf36e4891}
+
+\item 
+virtual const \hyperlink{class_r2_polygon}{R2\+Polygon} {\bfseries Convex\+Hull} (void) const \hypertarget{class_r2_polygon_ac5957c925e61a5b8fafd17b0466ec67a}{}\label{class_r2_polygon_ac5957c925e61a5b8fafd17b0466ec67a}
+
+\item 
+\hyperlink{class_r2_vector}{R2\+Vector} {\bfseries Normal} (int k, R\+N\+Length radius=0) const \hypertarget{class_r2_polygon_a8bdda2e17a82a39fdb2221996b9e9597}{}\label{class_r2_polygon_a8bdda2e17a82a39fdb2221996b9e9597}
+
+\item 
+\hyperlink{class_r2_line}{R2\+Line} {\bfseries Tangent} (int k, R\+N\+Length radius=0) const \hypertarget{class_r2_polygon_a9185d9625f6ac10dc24f5ace5dd065c6}{}\label{class_r2_polygon_a9185d9625f6ac10dc24f5ace5dd065c6}
+
+\item 
+R\+N\+Angle {\bfseries Interior\+Angle} (int k, R\+N\+Length radius=0) const \hypertarget{class_r2_polygon_a66db59be3f747f216229d72d9d490fd8}{}\label{class_r2_polygon_a66db59be3f747f216229d72d9d490fd8}
+
+\item 
+R\+N\+Scalar {\bfseries Curvature} (int k, R\+N\+Length radius=0) const \hypertarget{class_r2_polygon_aa94089e8c8c5d09c5aecd84246a8e06d}{}\label{class_r2_polygon_aa94089e8c8c5d09c5aecd84246a8e06d}
+
+\item 
+virtual void {\bfseries Empty} (void)\hypertarget{class_r2_polygon_ab48ad97e382c682890b611c0185dc23b}{}\label{class_r2_polygon_ab48ad97e382c682890b611c0185dc23b}
+
+\item 
+virtual void {\bfseries Clip} (const \hyperlink{class_r2_line}{R2\+Line} \&line)\hypertarget{class_r2_polygon_ae6af365707687206ac4c895f1a81f84d}{}\label{class_r2_polygon_ae6af365707687206ac4c895f1a81f84d}
+
+\item 
+virtual void {\bfseries Clip} (const \hyperlink{class_r2_box}{R2\+Box} \&\hyperlink{structbox}{box})\hypertarget{class_r2_polygon_aaf0a2b241cf4f0fd3a48878adf9f69a6}{}\label{class_r2_polygon_aaf0a2b241cf4f0fd3a48878adf9f69a6}
+
+\item 
+virtual void {\bfseries Transform} (const \hyperlink{class_r2_transformation}{R2\+Transformation} \&transformation)\hypertarget{class_r2_polygon_a378acd8a6055e8c93c37fa7c2b0f7e04}{}\label{class_r2_polygon_a378acd8a6055e8c93c37fa7c2b0f7e04}
+
+\item 
+virtual void {\bfseries Draw} (const \hyperlink{class_r_n_flags}{R2\+Draw\+Flags} draw\+\_\+flags=R2\+\_\+\+D\+E\+F\+A\+U\+L\+T\+\_\+\+D\+R\+A\+W\+\_\+\+F\+L\+A\+GS) const \hypertarget{class_r2_polygon_a687ac6d5857ce5e16b089d7077fa4db5}{}\label{class_r2_polygon_a687ac6d5857ce5e16b089d7077fa4db5}
+
+\item 
+virtual void {\bfseries Print} (F\+I\+LE $\ast$fp=stdout) const \hypertarget{class_r2_polygon_a4b390493ed26c28fbe264386c297fbf6}{}\label{class_r2_polygon_a4b390493ed26c28fbe264386c297fbf6}
+
+\item 
+virtual int {\bfseries Read\+Thera\+File} (const char $\ast$filename)\hypertarget{class_r2_polygon_a063e7d5f9fa8a579a3d98ea636662e08}{}\label{class_r2_polygon_a063e7d5f9fa8a579a3d98ea636662e08}
+
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+R2\+Shapes/R2\+Polygon.\+h\item 
+R2\+Shapes/R2\+Draw.\+cpp\item 
+R2\+Shapes/R2\+Polygon.\+cpp\end{DoxyCompactItemize}

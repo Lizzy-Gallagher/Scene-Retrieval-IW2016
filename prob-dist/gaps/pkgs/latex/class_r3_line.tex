@@ -1,0 +1,75 @@
+\hypertarget{class_r3_line}{}\section{R3\+Line Class Reference}
+\label{class_r3_line}\index{R3\+Line@{R3\+Line}}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\bfseries R3\+Line} (const \hyperlink{class_r3_line}{R3\+Line} \&line)\hypertarget{class_r3_line_a6c4e21cb05b9d18fe2fb2e27e9f2c0f5}{}\label{class_r3_line_a6c4e21cb05b9d18fe2fb2e27e9f2c0f5}
+
+\item 
+{\bfseries R3\+Line} (const \hyperlink{class_r3_point}{R3\+Point} \&point, const \hyperlink{class_r3_vector}{R3\+Vector} \&vector, R\+N\+Boolean normalized=F\+A\+L\+SE)\hypertarget{class_r3_line_a11322e14233c2097c16b0ee04f0f0d6d}{}\label{class_r3_line_a11322e14233c2097c16b0ee04f0f0d6d}
+
+\item 
+{\bfseries R3\+Line} (const \hyperlink{class_r3_point}{R3\+Point} \&point1, const \hyperlink{class_r3_point}{R3\+Point} \&point2)\hypertarget{class_r3_line_a1c3121d6d0aab241b7d4422bed57b76d}{}\label{class_r3_line_a1c3121d6d0aab241b7d4422bed57b76d}
+
+\item 
+{\bfseries R3\+Line} (R\+N\+Coord x1, R\+N\+Coord y1, R\+N\+Coord z1, R\+N\+Coord x2, R\+N\+Coord y2, R\+N\+Coord z2)\hypertarget{class_r3_line_ae46d218409e58b60c0acede0b78bd9e2}{}\label{class_r3_line_ae46d218409e58b60c0acede0b78bd9e2}
+
+\item 
+{\bfseries R3\+Line} (const \hyperlink{class_r_n_array}{R\+N\+Array}$<$ \hyperlink{class_r3_point}{R3\+Point} $\ast$ $>$ \&points)\hypertarget{class_r3_line_a4a729fef4fdef20ff4d93e4afa8aade9}{}\label{class_r3_line_a4a729fef4fdef20ff4d93e4afa8aade9}
+
+\item 
+{\bfseries R3\+Line} (\hyperlink{class_r3_point}{R3\+Point} $\ast$points, int npoints)\hypertarget{class_r3_line_a1b6d30aeeb34ebdf0e720b9f3292b5be}{}\label{class_r3_line_a1b6d30aeeb34ebdf0e720b9f3292b5be}
+
+\item 
+const \hyperlink{class_r3_point}{R3\+Point} \& {\bfseries Point} (void) const \hypertarget{class_r3_line_a5a9252b71fdb385f5e61ee2769627ce7}{}\label{class_r3_line_a5a9252b71fdb385f5e61ee2769627ce7}
+
+\item 
+const \hyperlink{class_r3_vector}{R3\+Vector} \& {\bfseries Vector} (void) const \hypertarget{class_r3_line_a20b743a4d94e001acfc6622663c12165}{}\label{class_r3_line_a20b743a4d94e001acfc6622663c12165}
+
+\item 
+const R\+N\+Boolean {\bfseries Is\+Zero} (void) const \hypertarget{class_r3_line_a3b5c9a967f4adb299d5347280fb5b5b3}{}\label{class_r3_line_a3b5c9a967f4adb299d5347280fb5b5b3}
+
+\item 
+const R\+N\+Boolean {\bfseries operator==} (const \hyperlink{class_r3_line}{R3\+Line} \&line) const \hypertarget{class_r3_line_aef63e2697ea3b21f34499bd942694aa3}{}\label{class_r3_line_aef63e2697ea3b21f34499bd942694aa3}
+
+\item 
+const R\+N\+Boolean {\bfseries operator!=} (const \hyperlink{class_r3_line}{R3\+Line} \&line) const \hypertarget{class_r3_line_a2f21ac8a72d7138223ff10d1fd686a71}{}\label{class_r3_line_a2f21ac8a72d7138223ff10d1fd686a71}
+
+\item 
+void {\bfseries Flip} (void)\hypertarget{class_r3_line_a7afcac685ab61af341f88bc4894e89f5}{}\label{class_r3_line_a7afcac685ab61af341f88bc4894e89f5}
+
+\item 
+void {\bfseries Mirror} (const \hyperlink{class_r3_plane}{R3\+Plane} \&plane)\hypertarget{class_r3_line_a54683065aa06b7326365f26796d23f80}{}\label{class_r3_line_a54683065aa06b7326365f26796d23f80}
+
+\item 
+void {\bfseries Translate} (const \hyperlink{class_r3_vector}{R3\+Vector} \&vector)\hypertarget{class_r3_line_ae7e070736bfc965deb322e892b485c9f}{}\label{class_r3_line_ae7e070736bfc965deb322e892b485c9f}
+
+\item 
+void {\bfseries Reposition} (const \hyperlink{class_r3_point}{R3\+Point} \&point)\hypertarget{class_r3_line_a1e05001e880d5f6dbef08fd51df0caa8}{}\label{class_r3_line_a1e05001e880d5f6dbef08fd51df0caa8}
+
+\item 
+void {\bfseries Align} (const \hyperlink{class_r3_vector}{R3\+Vector} \&vector, R\+N\+Boolean normalized=F\+A\+L\+SE)\hypertarget{class_r3_line_aa77b45f257b933ca0f2aa9df6a2213b2}{}\label{class_r3_line_aa77b45f257b933ca0f2aa9df6a2213b2}
+
+\item 
+void {\bfseries Transform} (const \hyperlink{class_r3_transformation}{R3\+Transformation} \&transformation)\hypertarget{class_r3_line_a26164e52f532f2ec0fcc2ffe60b4df5f}{}\label{class_r3_line_a26164e52f532f2ec0fcc2ffe60b4df5f}
+
+\item 
+void {\bfseries Inverse\+Transform} (const \hyperlink{class_r3_transformation}{R3\+Transformation} \&transformation)\hypertarget{class_r3_line_adcc394f67441dab5d2202442d407531f}{}\label{class_r3_line_adcc394f67441dab5d2202442d407531f}
+
+\item 
+void {\bfseries Reset} (const \hyperlink{class_r3_point}{R3\+Point} \&point, const \hyperlink{class_r3_vector}{R3\+Vector} \&vector, R\+N\+Boolean normalized=F\+A\+L\+SE)\hypertarget{class_r3_line_a8d9fea53e35a2c344fd985d223e0f8cc}{}\label{class_r3_line_a8d9fea53e35a2c344fd985d223e0f8cc}
+
+\item 
+void {\bfseries Draw} (void) const \hypertarget{class_r3_line_ac3aada07f6f35c5839e97a8077feb2cd}{}\label{class_r3_line_ac3aada07f6f35c5839e97a8077feb2cd}
+
+\item 
+\hyperlink{class_r3_line}{R3\+Line} {\bfseries operator-\/} (void) const \hypertarget{class_r3_line_a02c3e798e6a72d80db686be9ed3e99ec}{}\label{class_r3_line_a02c3e798e6a72d80db686be9ed3e99ec}
+
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+R3\+Shapes/R3\+Line.\+h\item 
+R3\+Shapes/R3\+Draw.\+cpp\item 
+R3\+Shapes/R3\+Line.\+cpp\end{DoxyCompactItemize}

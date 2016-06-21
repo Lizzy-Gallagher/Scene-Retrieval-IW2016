@@ -1,0 +1,113 @@
+\hypertarget{class_r_n_polynomial_term}{}\section{R\+N\+Polynomial\+Term Class Reference}
+\label{class_r_n_polynomial_term}\index{R\+N\+Polynomial\+Term@{R\+N\+Polynomial\+Term}}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\bfseries R\+N\+Polynomial\+Term} (R\+N\+Scalar c=0.\+0, int nv=0, const int $\ast$v=N\+U\+LL, const R\+N\+Scalar $\ast$e=N\+U\+LL, R\+N\+Boolean already\+\_\+sorted=F\+A\+L\+SE, R\+N\+Boolean already\+\_\+unique=F\+A\+L\+SE)\hypertarget{class_r_n_polynomial_term_ae2007aaae34f0a08fd8c2f09cf7ae6cf}{}\label{class_r_n_polynomial_term_ae2007aaae34f0a08fd8c2f09cf7ae6cf}
+
+\item 
+{\bfseries R\+N\+Polynomial\+Term} (const \hyperlink{class_r_n_polynomial_term}{R\+N\+Polynomial\+Term} \&term)\hypertarget{class_r_n_polynomial_term_a15c1d07880989957dbf9f218e301f5f2}{}\label{class_r_n_polynomial_term_a15c1d07880989957dbf9f218e301f5f2}
+
+\item 
+R\+N\+Boolean {\bfseries Is\+Zero} (void) const \hypertarget{class_r_n_polynomial_term_af3401c01758d8db97830d565f0dba071}{}\label{class_r_n_polynomial_term_af3401c01758d8db97830d565f0dba071}
+
+\item 
+R\+N\+Boolean {\bfseries Is\+Constant} (void) const \hypertarget{class_r_n_polynomial_term_ae68a3196bb54b68ef5537eba66ca87b4}{}\label{class_r_n_polynomial_term_ae68a3196bb54b68ef5537eba66ca87b4}
+
+\item 
+R\+N\+Boolean {\bfseries Is\+Linear} (void) const \hypertarget{class_r_n_polynomial_term_af677f357910ebb64d34237ccfb4b354b}{}\label{class_r_n_polynomial_term_af677f357910ebb64d34237ccfb4b354b}
+
+\item 
+R\+N\+Boolean {\bfseries Is\+Quadratic} (void) const \hypertarget{class_r_n_polynomial_term_ae093dac52f1e1baee8a1afdbbe4ea732}{}\label{class_r_n_polynomial_term_ae093dac52f1e1baee8a1afdbbe4ea732}
+
+\item 
+R\+N\+Boolean {\bfseries Has\+Variable} (int v) const \hypertarget{class_r_n_polynomial_term_a5ed39e13e34819eb0ff0dae365497044}{}\label{class_r_n_polynomial_term_a5ed39e13e34819eb0ff0dae365497044}
+
+\item 
+int {\bfseries N\+Variables} (void) const \hypertarget{class_r_n_polynomial_term_ad0b86f42d98eb0d88bd56fc1c78e668b}{}\label{class_r_n_polynomial_term_ad0b86f42d98eb0d88bd56fc1c78e668b}
+
+\item 
+int {\bfseries N\+Partial\+Derivatives} (void) const \hypertarget{class_r_n_polynomial_term_ac166e007403d09c91f39575ff58d126b}{}\label{class_r_n_polynomial_term_ac166e007403d09c91f39575ff58d126b}
+
+\item 
+R\+N\+Scalar {\bfseries Degree} (void) const \hypertarget{class_r_n_polynomial_term_aa25033131ad6dbce496564b7d6966c40}{}\label{class_r_n_polynomial_term_aa25033131ad6dbce496564b7d6966c40}
+
+\item 
+R\+N\+Scalar {\bfseries Coefficient} (void) const \hypertarget{class_r_n_polynomial_term_a9a1e63b6a3339b9768d23ac0112e1453}{}\label{class_r_n_polynomial_term_a9a1e63b6a3339b9768d23ac0112e1453}
+
+\item 
+int {\bfseries Variable} (int k) const \hypertarget{class_r_n_polynomial_term_a5a881c03228606a5adc2d63550d91b6a}{}\label{class_r_n_polynomial_term_a5a881c03228606a5adc2d63550d91b6a}
+
+\item 
+R\+N\+Scalar {\bfseries Exponent} (int k) const \hypertarget{class_r_n_polynomial_term_ac5fedc8a0e4ff1defcea672e279de519}{}\label{class_r_n_polynomial_term_ac5fedc8a0e4ff1defcea672e279de519}
+
+\item 
+const int $\ast$ {\bfseries Variables} (void) const \hypertarget{class_r_n_polynomial_term_aacea5d597f14ee4b834ff96a796a57ab}{}\label{class_r_n_polynomial_term_aacea5d597f14ee4b834ff96a796a57ab}
+
+\item 
+const R\+N\+Scalar $\ast$ {\bfseries Exponents} (void) const \hypertarget{class_r_n_polynomial_term_a4fc2bbb9fc49ffc925d1977b40e0e57b}{}\label{class_r_n_polynomial_term_a4fc2bbb9fc49ffc925d1977b40e0e57b}
+
+\item 
+\hyperlink{class_r_n_polynomial}{R\+N\+Polynomial} $\ast$ {\bfseries Polynomial} (void) const \hypertarget{class_r_n_polynomial_term_a0ac9142f0dfbffe8182b67b52f55cf5c}{}\label{class_r_n_polynomial_term_a0ac9142f0dfbffe8182b67b52f55cf5c}
+
+\item 
+void {\bfseries Empty} (void)\hypertarget{class_r_n_polynomial_term_a79858fc5f7180d4b2c291b5c5a719875}{}\label{class_r_n_polynomial_term_a79858fc5f7180d4b2c291b5c5a719875}
+
+\item 
+void {\bfseries Negate} (void)\hypertarget{class_r_n_polynomial_term_a7125cd6e16985d274e2403e004b81973}{}\label{class_r_n_polynomial_term_a7125cd6e16985d274e2403e004b81973}
+
+\item 
+void {\bfseries Multiply} (R\+N\+Scalar factor)\hypertarget{class_r_n_polynomial_term_a9b61b8b107d41ac8bfa70848bb7d32a5}{}\label{class_r_n_polynomial_term_a9b61b8b107d41ac8bfa70848bb7d32a5}
+
+\item 
+void {\bfseries Divide} (R\+N\+Scalar factor)\hypertarget{class_r_n_polynomial_term_a717f4c6810c6ce64e8bc8c7136eb1c74}{}\label{class_r_n_polynomial_term_a717f4c6810c6ce64e8bc8c7136eb1c74}
+
+\item 
+void {\bfseries Set\+Coefficient} (R\+N\+Scalar c)\hypertarget{class_r_n_polynomial_term_aed4df9ddf8538246d2bc61f5ddfb36c4}{}\label{class_r_n_polynomial_term_aed4df9ddf8538246d2bc61f5ddfb36c4}
+
+\item 
+void {\bfseries Set\+Variable} (int k, int v)\hypertarget{class_r_n_polynomial_term_a2eaa98fb0fdbdcbd3b4b96a477f54f01}{}\label{class_r_n_polynomial_term_a2eaa98fb0fdbdcbd3b4b96a477f54f01}
+
+\item 
+void {\bfseries Set\+Exponent} (int k, R\+N\+Scalar e)\hypertarget{class_r_n_polynomial_term_a4a7c649ffd37f8c4d6b078d846af2a87}{}\label{class_r_n_polynomial_term_a4a7c649ffd37f8c4d6b078d846af2a87}
+
+\item 
+R\+N\+Scalar {\bfseries Evaluate} (const R\+N\+Scalar $\ast$x) const \hypertarget{class_r_n_polynomial_term_a4c9a1869e4e45c56dc9f47586abc6ef4}{}\label{class_r_n_polynomial_term_a4c9a1869e4e45c56dc9f47586abc6ef4}
+
+\item 
+R\+N\+Scalar {\bfseries Partial\+Derivative} (const R\+N\+Scalar $\ast$x, int variable) const \hypertarget{class_r_n_polynomial_term_aec4e21ce64ce0b6e5b49682957f5bfa9}{}\label{class_r_n_polynomial_term_aec4e21ce64ce0b6e5b49682957f5bfa9}
+
+\item 
+void {\bfseries Print} (F\+I\+LE $\ast$fp=stdout) const \hypertarget{class_r_n_polynomial_term_a8037d8ddb0a3788455c9c618c605fffa}{}\label{class_r_n_polynomial_term_a8037d8ddb0a3788455c9c618c605fffa}
+
+\item 
+R\+N\+Scalar {\bfseries Evaluate} (double const $\ast$const $\ast$x) const \hypertarget{class_r_n_polynomial_term_a89eecc15f042524ee5461f14af89c31c}{}\label{class_r_n_polynomial_term_a89eecc15f042524ee5461f14af89c31c}
+
+\item 
+R\+N\+Scalar {\bfseries Partial\+Derivative} (double const $\ast$const $\ast$x, int variable) const \hypertarget{class_r_n_polynomial_term_aa19525c02d5d120d46d98dd51eec74c5}{}\label{class_r_n_polynomial_term_aa19525c02d5d120d46d98dd51eec74c5}
+
+\item 
+R\+N\+Boolean {\bfseries Has\+Same\+Variables} (const \hyperlink{class_r_n_polynomial_term}{R\+N\+Polynomial\+Term} $\ast$query) const \hypertarget{class_r_n_polynomial_term_a8fa6085e75acc011aba221715c5434a1}{}\label{class_r_n_polynomial_term_a8fa6085e75acc011aba221715c5434a1}
+
+\item 
+R\+N\+Boolean {\bfseries Has\+Variables} (int n, const int $\ast$v, const R\+N\+Scalar $\ast$e) const \hypertarget{class_r_n_polynomial_term_a500c4b7c394c141bcc8f21877fe705f9}{}\label{class_r_n_polynomial_term_a500c4b7c394c141bcc8f21877fe705f9}
+
+\item 
+void {\bfseries Update\+Variable\+Range} (int \&min\+\_\+v, int \&max\+\_\+v) const \hypertarget{class_r_n_polynomial_term_a23e1a6f850423548705d6c5af3b324a4}{}\label{class_r_n_polynomial_term_a23e1a6f850423548705d6c5af3b324a4}
+
+\item 
+void {\bfseries Update\+Variable\+Index} (int max\+\_\+variables, int \&variable\+\_\+count, int $\ast$variable\+\_\+marks, int current\+\_\+mark, int $\ast$index\+\_\+to\+\_\+variable=N\+U\+LL, int $\ast$variable\+\_\+to\+\_\+index=N\+U\+LL, R\+N\+Boolean remap\+\_\+variables=F\+A\+L\+SE) const \hypertarget{class_r_n_polynomial_term_aac12e2a1d9bae2b7f05669810af5a5a7}{}\label{class_r_n_polynomial_term_aac12e2a1d9bae2b7f05669810af5a5a7}
+
+\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+class {\bfseries R\+N\+Polynomial}\hypertarget{class_r_n_polynomial_term_aa2266c2992445605f1b1fb3d82e395a8}{}\label{class_r_n_polynomial_term_aa2266c2992445605f1b1fb3d82e395a8}
+
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+R\+N\+Math/R\+N\+Polynomial.\+h\item 
+R\+N\+Math/R\+N\+Polynomial.\+cpp\end{DoxyCompactItemize}

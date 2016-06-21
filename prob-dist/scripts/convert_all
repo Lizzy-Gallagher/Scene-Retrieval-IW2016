@@ -1,0 +1,8 @@
+#!/bin/bash
+
+echo -e "\tConverting grids to images..."
+for f in grids/*.grd; 
+do 
+    filename=$(basename $f .grd)
+    bin/pfm2pfm $f imgs/$filename.png
+done

@@ -1,0 +1,159 @@
+\hypertarget{class_r2_affine}{}\section{R2\+Affine Class Reference}
+\label{class_r2_affine}\index{R2\+Affine@{R2\+Affine}}
+Inheritance diagram for R2\+Affine\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_r2_affine}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\bfseries R2\+Affine} (const \hyperlink{class_r3_matrix}{R3\+Matrix} \&matrix, R\+N\+Boolean mirror=0)\hypertarget{class_r2_affine_afbf6c50a11cb1fae9e9ee5cc3652d8dc}{}\label{class_r2_affine_afbf6c50a11cb1fae9e9ee5cc3652d8dc}
+
+\item 
+const \hyperlink{class_r3_matrix}{R3\+Matrix} \& {\bfseries Matrix} (void) const \hypertarget{class_r2_affine_ae8934f2dbaff8df4f9cfd64d5e12e2b9}{}\label{class_r2_affine_ae8934f2dbaff8df4f9cfd64d5e12e2b9}
+
+\item 
+const \hyperlink{class_r3_matrix}{R3\+Matrix} {\bfseries Inverse\+Matrix} (void) const \hypertarget{class_r2_affine_ab81f2dd63c4b1cf320dbfa795156d4ec}{}\label{class_r2_affine_ab81f2dd63c4b1cf320dbfa795156d4ec}
+
+\item 
+const R\+N\+Boolean {\bfseries Is\+Mirrored} (void) const \hypertarget{class_r2_affine_a9299c3d3aee30abca64615b2f00b20e8}{}\label{class_r2_affine_a9299c3d3aee30abca64615b2f00b20e8}
+
+\item 
+const R\+N\+Boolean {\bfseries Is\+Affine} (void) const \hypertarget{class_r2_affine_a4a3cd8795d3476823b91fe831bfcde9c}{}\label{class_r2_affine_a4a3cd8795d3476823b91fe831bfcde9c}
+
+\item 
+const R\+N\+Boolean {\bfseries Is\+Isotropic} (void) const \hypertarget{class_r2_affine_a1af45ac81d41147665302bca14709ef7}{}\label{class_r2_affine_a1af45ac81d41147665302bca14709ef7}
+
+\item 
+const R\+N\+Boolean {\bfseries Has\+Translation} (void) const \hypertarget{class_r2_affine_a0e7fd172a538348efff4723d871b940d}{}\label{class_r2_affine_a0e7fd172a538348efff4723d871b940d}
+
+\item 
+const R\+N\+Boolean {\bfseries Has\+Scale} (void) const \hypertarget{class_r2_affine_ae06342108d6e677f85f7383f5b9dbfe1}{}\label{class_r2_affine_ae06342108d6e677f85f7383f5b9dbfe1}
+
+\item 
+const R\+N\+Boolean {\bfseries Has\+Rotation} (void) const \hypertarget{class_r2_affine_aa1976a92645fd787afac2729ac07f80e}{}\label{class_r2_affine_aa1976a92645fd787afac2729ac07f80e}
+
+\item 
+const R\+N\+Boolean {\bfseries Has\+Mirror} (void) const \hypertarget{class_r2_affine_ae3fc6b83f474115c6fb194e620d48cf1}{}\label{class_r2_affine_ae3fc6b83f474115c6fb194e620d48cf1}
+
+\item 
+const \hyperlink{class_r2_affine}{R2\+Affine} {\bfseries Inverse} (void) const \hypertarget{class_r2_affine_a1ecb5db09accfc021951507fa8bc71c3}{}\label{class_r2_affine_a1ecb5db09accfc021951507fa8bc71c3}
+
+\item 
+const R\+N\+Boolean {\bfseries operator==} (const \hyperlink{class_r2_affine}{R2\+Affine} \&affine) const \hypertarget{class_r2_affine_ab912bab9a532e77a7adc31ca45b4ba5b}{}\label{class_r2_affine_ab912bab9a532e77a7adc31ca45b4ba5b}
+
+\item 
+const R\+N\+Boolean {\bfseries operator!=} (const \hyperlink{class_r2_affine}{R2\+Affine} \&affine) const \hypertarget{class_r2_affine_a9f5da2debf8d530d9cc84cf8346d7dbc}{}\label{class_r2_affine_a9f5da2debf8d530d9cc84cf8346d7dbc}
+
+\item 
+virtual void {\bfseries Apply} (\hyperlink{class_r2_vector}{R2\+Vector} \&vector) const \hypertarget{class_r2_affine_ae88be855940a4ee7c8570af96e6231a3}{}\label{class_r2_affine_ae88be855940a4ee7c8570af96e6231a3}
+
+\item 
+virtual void {\bfseries Apply} (\hyperlink{class_r2_point}{R2\+Point} \&point) const \hypertarget{class_r2_affine_a824715490a1e4c25e8de7e5e7febcea1}{}\label{class_r2_affine_a824715490a1e4c25e8de7e5e7febcea1}
+
+\item 
+virtual void {\bfseries Apply} (\hyperlink{class_r2_transformation}{R2\+Transformation} \&transformation) const \hypertarget{class_r2_affine_ac4f92a179bfeb1ccc70666ca613ea69e}{}\label{class_r2_affine_ac4f92a179bfeb1ccc70666ca613ea69e}
+
+\item 
+virtual void {\bfseries Apply} (\hyperlink{class_r2_affine}{R2\+Affine} \&affine) const \hypertarget{class_r2_affine_a67c5f12bc5ef56cf38706c9777b3b0cd}{}\label{class_r2_affine_a67c5f12bc5ef56cf38706c9777b3b0cd}
+
+\item 
+virtual void {\bfseries Apply\+Inverse} (\hyperlink{class_r2_vector}{R2\+Vector} \&vector) const \hypertarget{class_r2_affine_a85eb1d63c7bc8b5a1dd95ec880099a73}{}\label{class_r2_affine_a85eb1d63c7bc8b5a1dd95ec880099a73}
+
+\item 
+virtual void {\bfseries Apply\+Inverse} (\hyperlink{class_r2_point}{R2\+Point} \&point) const \hypertarget{class_r2_affine_a9c61614306572f4b48ccc26b677596e2}{}\label{class_r2_affine_a9c61614306572f4b48ccc26b677596e2}
+
+\item 
+virtual void {\bfseries Apply\+Inverse} (\hyperlink{class_r2_transformation}{R2\+Transformation} \&transformation) const \hypertarget{class_r2_affine_a5f8021caca86ddd9034ed7bedd89b2cd}{}\label{class_r2_affine_a5f8021caca86ddd9034ed7bedd89b2cd}
+
+\item 
+virtual void {\bfseries Apply\+Inverse} (\hyperlink{class_r2_affine}{R2\+Affine} \&affine) const \hypertarget{class_r2_affine_a06d1c85e5a4177c2827d79eda52df5ee}{}\label{class_r2_affine_a06d1c85e5a4177c2827d79eda52df5ee}
+
+\item 
+void {\bfseries Invert} (void)\hypertarget{class_r2_affine_a1c959561b4bc706af845eb8b6f4698e3}{}\label{class_r2_affine_a1c959561b4bc706af845eb8b6f4698e3}
+
+\item 
+void {\bfseries X\+Mirror} (void)\hypertarget{class_r2_affine_afc27d2ee78fe58acabd5ac058f037d65}{}\label{class_r2_affine_afc27d2ee78fe58acabd5ac058f037d65}
+
+\item 
+void {\bfseries Y\+Mirror} (void)\hypertarget{class_r2_affine_a6b501f99a429ec69b810a51aabc83192}{}\label{class_r2_affine_a6b501f99a429ec69b810a51aabc83192}
+
+\item 
+void {\bfseries Mirror} (void)\hypertarget{class_r2_affine_a0e879272c3e6a66b9697a5fa0c9fc7bf}{}\label{class_r2_affine_a0e879272c3e6a66b9697a5fa0c9fc7bf}
+
+\item 
+void {\bfseries X\+Translate} (R\+N\+Scalar offset)\hypertarget{class_r2_affine_ae1fdddcd927c8060e9304df4aebfec5a}{}\label{class_r2_affine_ae1fdddcd927c8060e9304df4aebfec5a}
+
+\item 
+void {\bfseries Y\+Translate} (R\+N\+Scalar offset)\hypertarget{class_r2_affine_af2d90c14c26e4aa4fbdb957e9ff587e5}{}\label{class_r2_affine_af2d90c14c26e4aa4fbdb957e9ff587e5}
+
+\item 
+void {\bfseries Translate} (R\+N\+Scalar offset)\hypertarget{class_r2_affine_a260110e1dc7228b0b9b2b5589c1a85b6}{}\label{class_r2_affine_a260110e1dc7228b0b9b2b5589c1a85b6}
+
+\item 
+void {\bfseries Translate} (R\+N\+Axis axis, R\+N\+Scalar offset)\hypertarget{class_r2_affine_a7beb5fd439b6d0effb5acac80bfcc8df}{}\label{class_r2_affine_a7beb5fd439b6d0effb5acac80bfcc8df}
+
+\item 
+void {\bfseries Translate} (const \hyperlink{class_r2_vector}{R2\+Vector} \&offset)\hypertarget{class_r2_affine_a689090e063e450da204aa3e6dc41e2cd}{}\label{class_r2_affine_a689090e063e450da204aa3e6dc41e2cd}
+
+\item 
+void {\bfseries X\+Scale} (R\+N\+Scalar scale)\hypertarget{class_r2_affine_a9f3886954ae9f0129be639b7b1906140}{}\label{class_r2_affine_a9f3886954ae9f0129be639b7b1906140}
+
+\item 
+void {\bfseries Y\+Scale} (R\+N\+Scalar scale)\hypertarget{class_r2_affine_a0d45f20d91b865d0af4c0efcc33d43ac}{}\label{class_r2_affine_a0d45f20d91b865d0af4c0efcc33d43ac}
+
+\item 
+void {\bfseries Scale} (R\+N\+Scalar scale)\hypertarget{class_r2_affine_a958c4f2955f734b5aece7b96694bf394}{}\label{class_r2_affine_a958c4f2955f734b5aece7b96694bf394}
+
+\item 
+void {\bfseries Scale} (R\+N\+Axis axis, R\+N\+Scalar scale)\hypertarget{class_r2_affine_a64a6f469fa92c4d38e65fd7f09475a80}{}\label{class_r2_affine_a64a6f469fa92c4d38e65fd7f09475a80}
+
+\item 
+void {\bfseries Scale} (const \hyperlink{class_r2_vector}{R2\+Vector} \&scale)\hypertarget{class_r2_affine_ae18b7a8a7ca203d4dbfe940c0c704833}{}\label{class_r2_affine_ae18b7a8a7ca203d4dbfe940c0c704833}
+
+\item 
+void {\bfseries Rotate} (R\+N\+Angle radians)\hypertarget{class_r2_affine_a667d5c45bcf9fe1a8b31c4aecf5ed929}{}\label{class_r2_affine_a667d5c45bcf9fe1a8b31c4aecf5ed929}
+
+\item 
+void {\bfseries Transform} (const \hyperlink{class_r2_transformation}{R2\+Transformation} \&transformation)\hypertarget{class_r2_affine_adfc10a572683a580a460f0e1b0072d82}{}\label{class_r2_affine_adfc10a572683a580a460f0e1b0072d82}
+
+\item 
+void {\bfseries Transform} (const \hyperlink{class_r2_affine}{R2\+Affine} \&affine)\hypertarget{class_r2_affine_a43899898abe9d4d95cd895decdc55495}{}\label{class_r2_affine_a43899898abe9d4d95cd895decdc55495}
+
+\item 
+void {\bfseries Inverse\+Transform} (const \hyperlink{class_r2_transformation}{R2\+Transformation} \&transformation)\hypertarget{class_r2_affine_a85e30d8df0dd0a1c7b9971cc0bed2e59}{}\label{class_r2_affine_a85e30d8df0dd0a1c7b9971cc0bed2e59}
+
+\item 
+void {\bfseries Inverse\+Transform} (const \hyperlink{class_r2_affine}{R2\+Affine} \&affine)\hypertarget{class_r2_affine_ae94abc9cbe6875f452e3f604aa95d8af}{}\label{class_r2_affine_ae94abc9cbe6875f452e3f604aa95d8af}
+
+\item 
+void {\bfseries Reset} (const \hyperlink{class_r2_transformation}{R2\+Transformation} \&transformation)\hypertarget{class_r2_affine_ac1efebf9997cc0b74d0c81ce71532d95}{}\label{class_r2_affine_ac1efebf9997cc0b74d0c81ce71532d95}
+
+\item 
+void {\bfseries Reset} (const \hyperlink{class_r3_matrix}{R3\+Matrix} \&matrix, R\+N\+Boolean mirror=0)\hypertarget{class_r2_affine_a921a4e00c19cb12a03cf68f10f59b4a5}{}\label{class_r2_affine_a921a4e00c19cb12a03cf68f10f59b4a5}
+
+\item 
+virtual void {\bfseries Load} (void) const \hypertarget{class_r2_affine_a19432114bc764f7e8f5d1760c4d64086}{}\label{class_r2_affine_a19432114bc764f7e8f5d1760c4d64086}
+
+\item 
+virtual void {\bfseries Draw} (void) const \hypertarget{class_r2_affine_a04ed63532964524b986fbdc3a1e94c48}{}\label{class_r2_affine_a04ed63532964524b986fbdc3a1e94c48}
+
+\item 
+virtual void {\bfseries Push} (void) const \hypertarget{class_r2_affine_ad3125cf5dd10887394ab1efdacc3028c}{}\label{class_r2_affine_ad3125cf5dd10887394ab1efdacc3028c}
+
+\item 
+virtual void {\bfseries Pop} (void) const \hypertarget{class_r2_affine_adcf72df4a772d2fa94065252af9c76d3}{}\label{class_r2_affine_adcf72df4a772d2fa94065252af9c76d3}
+
+\item 
+const R\+N\+Scalar {\bfseries Scale\+Factor} (void) const \hypertarget{class_r2_affine_af76ac8f0f85c269630fa577f33466bbb}{}\label{class_r2_affine_af76ac8f0f85c269630fa577f33466bbb}
+
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+R2\+Shapes/R2\+Affine.\+h\item 
+R2\+Shapes/R2\+Affine.\+cpp\item 
+R2\+Shapes/R2\+Draw.\+cpp\end{DoxyCompactItemize}

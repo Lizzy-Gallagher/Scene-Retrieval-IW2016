@@ -1,0 +1,233 @@
+\hypertarget{class_r3_surfel_block}{}\section{R3\+Surfel\+Block Class Reference}
+\label{class_r3_surfel_block}\index{R3\+Surfel\+Block@{R3\+Surfel\+Block}}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\bfseries R3\+Surfel\+Block} (const \hyperlink{class_r3_surfel_block}{R3\+Surfel\+Block} \&block)\hypertarget{class_r3_surfel_block_a5387f9b284b401a4b966341ccead0243}{}\label{class_r3_surfel_block_a5387f9b284b401a4b966341ccead0243}
+
+\item 
+{\bfseries R3\+Surfel\+Block} (const \hyperlink{class_r3_surfel_point_set}{R3\+Surfel\+Point\+Set} $\ast$set)\hypertarget{class_r3_surfel_block_a5a8f2a24191347abe823162334c63950}{}\label{class_r3_surfel_block_a5a8f2a24191347abe823162334c63950}
+
+\item 
+{\bfseries R3\+Surfel\+Block} (const \hyperlink{class_r3_surfel_point_set}{R3\+Surfel\+Point\+Set} $\ast$set, const \hyperlink{class_r3_point}{R3\+Point} \&origin)\hypertarget{class_r3_surfel_block_a4cce6c37c211426d20a58c0fb3ddd79c}{}\label{class_r3_surfel_block_a4cce6c37c211426d20a58c0fb3ddd79c}
+
+\item 
+{\bfseries R3\+Surfel\+Block} (const \hyperlink{class_r3_surfel}{R3\+Surfel} $\ast$surfels, int nsurfels, const \hyperlink{class_r3_point}{R3\+Point} \&origin=R3zero\+\_\+point)\hypertarget{class_r3_surfel_block_ac573bfed043129596e25a4062a4f34e2}{}\label{class_r3_surfel_block_ac573bfed043129596e25a4062a4f34e2}
+
+\item 
+{\bfseries R3\+Surfel\+Block} (const \hyperlink{class_r_n_array}{R\+N\+Array}$<$ const \hyperlink{class_r3_surfel}{R3\+Surfel} $\ast$ $>$ \&surfels, const \hyperlink{class_r3_point}{R3\+Point} \&origin=R3zero\+\_\+point)\hypertarget{class_r3_surfel_block_ab10dcad05fddbad64725fe91415c52cb}{}\label{class_r3_surfel_block_ab10dcad05fddbad64725fe91415c52cb}
+
+\item 
+{\bfseries R3\+Surfel\+Block} (const \hyperlink{class_r3_point}{R3\+Point} $\ast$points, int npoints)\hypertarget{class_r3_surfel_block_adfe769fa92c30780cae552a7df1683e0}{}\label{class_r3_surfel_block_adfe769fa92c30780cae552a7df1683e0}
+
+\item 
+{\bfseries R3\+Surfel\+Block} (const \hyperlink{class_r_n_array}{R\+N\+Array}$<$ \hyperlink{class_r3_point}{R3\+Point} $\ast$ $>$ \&points)\hypertarget{class_r3_surfel_block_af9a754d7c96230d74c685d5982a47f54}{}\label{class_r3_surfel_block_af9a754d7c96230d74c685d5982a47f54}
+
+\item 
+\hyperlink{class_r3_surfel_node}{R3\+Surfel\+Node} $\ast$ {\bfseries Node} (void) const \hypertarget{class_r3_surfel_block_aaf1c157e1b8f73799f976993bb8d6f0a}{}\label{class_r3_surfel_block_aaf1c157e1b8f73799f976993bb8d6f0a}
+
+\item 
+\hyperlink{class_r3_surfel_database}{R3\+Surfel\+Database} $\ast$ {\bfseries Database} (void) const \hypertarget{class_r3_surfel_block_a4d5a94cd5c42eedb972662a4637b8356}{}\label{class_r3_surfel_block_a4d5a94cd5c42eedb972662a4637b8356}
+
+\item 
+int {\bfseries Database\+Index} (void) const \hypertarget{class_r3_surfel_block_ae9bade9e96d0c4c193d3e0c94d319845}{}\label{class_r3_surfel_block_ae9bade9e96d0c4c193d3e0c94d319845}
+
+\item 
+int {\bfseries N\+Surfels} (void) const \hypertarget{class_r3_surfel_block_afdd9c9777775c10f01a1c7114f11c568}{}\label{class_r3_surfel_block_afdd9c9777775c10f01a1c7114f11c568}
+
+\item 
+const \hyperlink{class_r3_surfel}{R3\+Surfel} $\ast$ {\bfseries Surfels} (void) const \hypertarget{class_r3_surfel_block_a32113176fe15803d4bc2734fa15740d4}{}\label{class_r3_surfel_block_a32113176fe15803d4bc2734fa15740d4}
+
+\item 
+const \hyperlink{class_r3_surfel}{R3\+Surfel} $\ast$ {\bfseries Surfel} (int k) const \hypertarget{class_r3_surfel_block_a5a4e826b449d28554a8fc5b496bbe88e}{}\label{class_r3_surfel_block_a5a4e826b449d28554a8fc5b496bbe88e}
+
+\item 
+const \hyperlink{class_r3_surfel}{R3\+Surfel} $\ast$ {\bfseries operator\mbox{[}$\,$\mbox{]}} (int k) const \hypertarget{class_r3_surfel_block_a25be043d2ef1d900f273cee652394921}{}\label{class_r3_surfel_block_a25be043d2ef1d900f273cee652394921}
+
+\item 
+const \hyperlink{class_r3_point}{R3\+Point} \& {\bfseries Origin} (void) const \hypertarget{class_r3_surfel_block_a199efccaccae1bdd4af1e182fb07fbbe}{}\label{class_r3_surfel_block_a199efccaccae1bdd4af1e182fb07fbbe}
+
+\item 
+const \hyperlink{class_r3_box}{R3\+Box} \& {\bfseries B\+Box} (void) const \hypertarget{class_r3_surfel_block_a199ed33bd0e6ecbac0a6fa9db61edbbc}{}\label{class_r3_surfel_block_a199ed33bd0e6ecbac0a6fa9db61edbbc}
+
+\item 
+\hyperlink{class_r3_point}{R3\+Point} {\bfseries Centroid} (void) const \hypertarget{class_r3_surfel_block_ab939d981e8601c1c534276e904ed0bae}{}\label{class_r3_surfel_block_ab939d981e8601c1c534276e904ed0bae}
+
+\item 
+R\+N\+Scalar {\bfseries Resolution} (void) const \hypertarget{class_r3_surfel_block_a190abcd92713a2d43b79f4eec1330361}{}\label{class_r3_surfel_block_a190abcd92713a2d43b79f4eec1330361}
+
+\item 
+R\+N\+Length {\bfseries Average\+Radius} (void) const \hypertarget{class_r3_surfel_block_a882e924ab6699914917994f6adb3276d}{}\label{class_r3_surfel_block_a882e924ab6699914917994f6adb3276d}
+
+\item 
+R\+N\+Boolean {\bfseries Has\+Active} (void) const \hypertarget{class_r3_surfel_block_a3b42233c643f7be3dee410ad08a4c1a4}{}\label{class_r3_surfel_block_a3b42233c643f7be3dee410ad08a4c1a4}
+
+\item 
+R\+N\+Boolean {\bfseries Has\+Normals} (void) const \hypertarget{class_r3_surfel_block_a0992d009761f9d22cd52d8bf8052607a}{}\label{class_r3_surfel_block_a0992d009761f9d22cd52d8bf8052607a}
+
+\item 
+R\+N\+Boolean {\bfseries Has\+Aerial} (void) const \hypertarget{class_r3_surfel_block_ac782863b9d9e89cbfa1622d8b0788277}{}\label{class_r3_surfel_block_ac782863b9d9e89cbfa1622d8b0788277}
+
+\item 
+R\+N\+Boolean {\bfseries Has\+Terrestrial} (void) const \hypertarget{class_r3_surfel_block_a7c65e70144256dd3db6bddabdec5d5dc}{}\label{class_r3_surfel_block_a7c65e70144256dd3db6bddabdec5d5dc}
+
+\item 
+int {\bfseries Surfel\+Index} (const \hyperlink{class_r3_surfel}{R3\+Surfel} $\ast$surfel) const \hypertarget{class_r3_surfel_block_aa84b98e8ad7d8c2398ca2c69e2c4a0a2}{}\label{class_r3_surfel_block_aa84b98e8ad7d8c2398ca2c69e2c4a0a2}
+
+\item 
+\hyperlink{class_r3_point}{R3\+Point} {\bfseries Surfel\+Position} (int surfel\+\_\+index) const \hypertarget{class_r3_surfel_block_a703b908e0e2bf511cd15b7c81223b502}{}\label{class_r3_surfel_block_a703b908e0e2bf511cd15b7c81223b502}
+
+\item 
+\hyperlink{class_r3_vector}{R3\+Vector} {\bfseries Surfel\+Normal} (int surfel\+\_\+index) const \hypertarget{class_r3_surfel_block_aab40d9d3b578050f3c82bda7b578f250}{}\label{class_r3_surfel_block_aab40d9d3b578050f3c82bda7b578f250}
+
+\item 
+R\+N\+Length {\bfseries Surfel\+Radius} (int surfel\+\_\+index) const \hypertarget{class_r3_surfel_block_a1204c80f3b661cd34fcc8e767816a4f2}{}\label{class_r3_surfel_block_a1204c80f3b661cd34fcc8e767816a4f2}
+
+\item 
+\hyperlink{class_r_n_rgb}{R\+N\+Rgb} {\bfseries Surfel\+Color} (int surfel\+\_\+index) const \hypertarget{class_r3_surfel_block_a521258ac353eb0cddce79ef66ce5c7cc}{}\label{class_r3_surfel_block_a521258ac353eb0cddce79ef66ce5c7cc}
+
+\item 
+R\+N\+Boolean {\bfseries Is\+Surfel\+Active} (int surfel\+\_\+index) const \hypertarget{class_r3_surfel_block_aa2b190b6eee57a0f42c05c9da0428545}{}\label{class_r3_surfel_block_aa2b190b6eee57a0f42c05c9da0428545}
+
+\item 
+R\+N\+Boolean {\bfseries Is\+Surfel\+Marked} (int surfel\+\_\+index) const \hypertarget{class_r3_surfel_block_a06760bf48aa797f09f1ae62315d835f4}{}\label{class_r3_surfel_block_a06760bf48aa797f09f1ae62315d835f4}
+
+\item 
+R\+N\+Boolean {\bfseries Is\+Surfel\+Aerial} (int surfel\+\_\+index) const \hypertarget{class_r3_surfel_block_ac46e7a6e721f89b58b67236589c5b95e}{}\label{class_r3_surfel_block_ac46e7a6e721f89b58b67236589c5b95e}
+
+\item 
+R\+N\+Boolean {\bfseries Is\+Surfel\+Terrestrial} (int surfel\+\_\+index) const \hypertarget{class_r3_surfel_block_afa59a82c610bc5bfff416ed38d3a4d48}{}\label{class_r3_surfel_block_afa59a82c610bc5bfff416ed38d3a4d48}
+
+\item 
+void {\bfseries Set\+Origin} (const \hyperlink{class_r3_point}{R3\+Point} \&position)\hypertarget{class_r3_surfel_block_aee626ec4989522515de21f6e44f659ca}{}\label{class_r3_surfel_block_aee626ec4989522515de21f6e44f659ca}
+
+\item 
+void {\bfseries Set\+Marks} (R\+N\+Boolean mark=T\+R\+UE)\hypertarget{class_r3_surfel_block_ab4948fd628b685a9244116f99b20a15c}{}\label{class_r3_surfel_block_ab4948fd628b685a9244116f99b20a15c}
+
+\item 
+void {\bfseries Set\+Surfel\+Position} (int surfel\+\_\+index, const \hyperlink{class_r3_point}{R3\+Point} \&position)\hypertarget{class_r3_surfel_block_aed79ff3e1143bcef90b031c25ac37791}{}\label{class_r3_surfel_block_aed79ff3e1143bcef90b031c25ac37791}
+
+\item 
+void {\bfseries Set\+Surfel\+Normal} (int surfel\+\_\+index, const \hyperlink{class_r3_vector}{R3\+Vector} \&normal)\hypertarget{class_r3_surfel_block_ae3d27b89ae0ec6a7c860411d951de008}{}\label{class_r3_surfel_block_ae3d27b89ae0ec6a7c860411d951de008}
+
+\item 
+void {\bfseries Set\+Surfel\+Color} (int surfel\+\_\+index, const \hyperlink{class_r_n_rgb}{R\+N\+Rgb} \&color)\hypertarget{class_r3_surfel_block_afb836379d4e3d4156d6bb55c5b5447ce}{}\label{class_r3_surfel_block_afb836379d4e3d4156d6bb55c5b5447ce}
+
+\item 
+void {\bfseries Set\+Surfel\+Flags} (int surfel\+\_\+index, unsigned char flags)\hypertarget{class_r3_surfel_block_a8d4ac8fbb82b3db8a54a34d4ae010731}{}\label{class_r3_surfel_block_a8d4ac8fbb82b3db8a54a34d4ae010731}
+
+\item 
+void {\bfseries Set\+Surfel\+Active} (int surfel\+\_\+index, R\+N\+Boolean active=T\+R\+UE)\hypertarget{class_r3_surfel_block_a2a21b5b9fa562fdc9beac71622fc243e}{}\label{class_r3_surfel_block_a2a21b5b9fa562fdc9beac71622fc243e}
+
+\item 
+void {\bfseries Set\+Surfel\+Aerial} (int surfel\+\_\+index, R\+N\+Boolean aerial=T\+R\+UE)\hypertarget{class_r3_surfel_block_a155e7dccbcb896006ac651648978dd5e}{}\label{class_r3_surfel_block_a155e7dccbcb896006ac651648978dd5e}
+
+\item 
+void {\bfseries Set\+Surfel\+Silhouette\+Boundary} (int surfel\+\_\+index, R\+N\+Boolean boundary=T\+R\+UE)\hypertarget{class_r3_surfel_block_a5c9dfca143789752b57059a2d6758968}{}\label{class_r3_surfel_block_a5c9dfca143789752b57059a2d6758968}
+
+\item 
+void {\bfseries Set\+Surfel\+Shadow\+Boundary} (int surfel\+\_\+index, R\+N\+Boolean boundary=T\+R\+UE)\hypertarget{class_r3_surfel_block_a3a5fc80977ccf1dfab47fc8734257ba5}{}\label{class_r3_surfel_block_a3a5fc80977ccf1dfab47fc8734257ba5}
+
+\item 
+void {\bfseries Set\+Surfel\+Border\+Boundary} (int surfel\+\_\+index, R\+N\+Boolean boundary=T\+R\+UE)\hypertarget{class_r3_surfel_block_ac8faf3eb15bbfdc5b14751cb031e42e6}{}\label{class_r3_surfel_block_ac8faf3eb15bbfdc5b14751cb031e42e6}
+
+\item 
+void {\bfseries Set\+Surfel\+Mark} (int surfel\+\_\+index, R\+N\+Boolean mark=T\+R\+UE)\hypertarget{class_r3_surfel_block_a2d56720ff538d1c335545b3da99d82aa}{}\label{class_r3_surfel_block_a2d56720ff538d1c335545b3da99d82aa}
+
+\item 
+void {\bfseries Transform} (const \hyperlink{class_r3_affine}{R3\+Affine} \&transformation)\hypertarget{class_r3_surfel_block_a666c94adbe833e117c7f9ae521a4bb01}{}\label{class_r3_surfel_block_a666c94adbe833e117c7f9ae521a4bb01}
+
+\item 
+void {\bfseries Draw} (\hyperlink{class_r_n_flags}{R\+N\+Flags} flags=R3\+\_\+\+S\+U\+R\+F\+E\+L\+\_\+\+D\+E\+F\+A\+U\+L\+T\+\_\+\+D\+R\+A\+W\+\_\+\+F\+L\+A\+GS) const \hypertarget{class_r3_surfel_block_a4985800cd95ca5d7fc76e239eb3c7986}{}\label{class_r3_surfel_block_a4985800cd95ca5d7fc76e239eb3c7986}
+
+\item 
+void {\bfseries Print} (F\+I\+LE $\ast$fp=N\+U\+LL, const char $\ast$prefix=N\+U\+LL, const char $\ast$suffix=N\+U\+LL) const \hypertarget{class_r3_surfel_block_aec5bd6bb3959b5dbd546db1401779c56}{}\label{class_r3_surfel_block_aec5bd6bb3959b5dbd546db1401779c56}
+
+\item 
+int {\bfseries Read\+File} (const char $\ast$filename)\hypertarget{class_r3_surfel_block_a168b865888b3b95bb6907de331f78527}{}\label{class_r3_surfel_block_a168b865888b3b95bb6907de331f78527}
+
+\item 
+int {\bfseries Read\+X\+Y\+Z\+File} (const char $\ast$filename)\hypertarget{class_r3_surfel_block_ad3076fbef84b4be3682fb5408c211554}{}\label{class_r3_surfel_block_ad3076fbef84b4be3682fb5408c211554}
+
+\item 
+int {\bfseries Read\+Binary\+File} (const char $\ast$filename)\hypertarget{class_r3_surfel_block_af7db8a357a11a2cca4915a6b645fa56c}{}\label{class_r3_surfel_block_af7db8a357a11a2cca4915a6b645fa56c}
+
+\item 
+int {\bfseries Read\+U\+P\+C\+File} (const char $\ast$filename)\hypertarget{class_r3_surfel_block_a747ec18600e8fd6b4ef721b130ab7a6f}{}\label{class_r3_surfel_block_a747ec18600e8fd6b4ef721b130ab7a6f}
+
+\item 
+int {\bfseries Read\+O\+B\+J\+File} (const char $\ast$filename)\hypertarget{class_r3_surfel_block_a81a175f2051e7f461ca960ca95a6ee71}{}\label{class_r3_surfel_block_a81a175f2051e7f461ca960ca95a6ee71}
+
+\item 
+int {\bfseries Read\+X\+YZ} (F\+I\+LE $\ast$fp)\hypertarget{class_r3_surfel_block_af1df3a517d529a13f5a35be50d820a16}{}\label{class_r3_surfel_block_af1df3a517d529a13f5a35be50d820a16}
+
+\item 
+int {\bfseries Read\+Binary} (F\+I\+LE $\ast$fp)\hypertarget{class_r3_surfel_block_af6f23f900937c8b82a5f1b18b193744f}{}\label{class_r3_surfel_block_af6f23f900937c8b82a5f1b18b193744f}
+
+\item 
+int {\bfseries Read\+U\+PC} (F\+I\+LE $\ast$fp)\hypertarget{class_r3_surfel_block_a5027f4e066bd4a95b86ac245a85eefce}{}\label{class_r3_surfel_block_a5027f4e066bd4a95b86ac245a85eefce}
+
+\item 
+int {\bfseries Read\+O\+BJ} (F\+I\+LE $\ast$fp)\hypertarget{class_r3_surfel_block_a01fcf68db1a83d842ea69f76bce1c65a}{}\label{class_r3_surfel_block_a01fcf68db1a83d842ea69f76bce1c65a}
+
+\item 
+int {\bfseries Write\+File} (const char $\ast$filename) const \hypertarget{class_r3_surfel_block_ad327d8774893e93080212fb50c7c941a}{}\label{class_r3_surfel_block_ad327d8774893e93080212fb50c7c941a}
+
+\item 
+int {\bfseries Write\+X\+Y\+Z\+File} (const char $\ast$filename) const \hypertarget{class_r3_surfel_block_ad5e72fd198c2719649b0d280065a764c}{}\label{class_r3_surfel_block_ad5e72fd198c2719649b0d280065a764c}
+
+\item 
+int {\bfseries Write\+Binary\+File} (const char $\ast$filename) const \hypertarget{class_r3_surfel_block_a054f613a7422e1dd0828917ce1d55a3d}{}\label{class_r3_surfel_block_a054f613a7422e1dd0828917ce1d55a3d}
+
+\item 
+int {\bfseries Write\+X\+YZ} (F\+I\+LE $\ast$fp) const \hypertarget{class_r3_surfel_block_a40a96c3bd1cad78f86bf7da852e69853}{}\label{class_r3_surfel_block_a40a96c3bd1cad78f86bf7da852e69853}
+
+\item 
+int {\bfseries Write\+Binary} (F\+I\+LE $\ast$fp) const \hypertarget{class_r3_surfel_block_ae1e20bfcb9e14cc33f13ada232f77d2e}{}\label{class_r3_surfel_block_ae1e20bfcb9e14cc33f13ada232f77d2e}
+
+\item 
+R\+N\+Boolean {\bfseries Is\+Dirty} (void) const \hypertarget{class_r3_surfel_block_afc28c808d80e57830dccbba9c7618045}{}\label{class_r3_surfel_block_afc28c808d80e57830dccbba9c7618045}
+
+\item 
+void {\bfseries Set\+Dirty} (R\+N\+Boolean dirty=T\+R\+UE)\hypertarget{class_r3_surfel_block_afe603aa2f7d03e3e2a238073afafe3cf}{}\label{class_r3_surfel_block_afe603aa2f7d03e3e2a238073afafe3cf}
+
+\item 
+int {\bfseries Read\+Count} (void) const \hypertarget{class_r3_surfel_block_a46f9669d63791660bf215e6b095195ef}{}\label{class_r3_surfel_block_a46f9669d63791660bf215e6b095195ef}
+
+\item 
+void {\bfseries Update\+Properties} (void)\hypertarget{class_r3_surfel_block_ac1cf69bddff74d4770744eb7935f3ef8}{}\label{class_r3_surfel_block_ac1cf69bddff74d4770744eb7935f3ef8}
+
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void {\bfseries Update\+After\+Insert} (\hyperlink{class_r3_surfel_database}{R3\+Surfel\+Database} $\ast$database)\hypertarget{class_r3_surfel_block_a6a7cd565beeca3e02578a0727021c7f8}{}\label{class_r3_surfel_block_a6a7cd565beeca3e02578a0727021c7f8}
+
+\item 
+void {\bfseries Update\+Before\+Remove} (\hyperlink{class_r3_surfel_database}{R3\+Surfel\+Database} $\ast$database)\hypertarget{class_r3_surfel_block_ac9888f80d73b53d00b181f15a838ad78}{}\label{class_r3_surfel_block_ac9888f80d73b53d00b181f15a838ad78}
+
+\item 
+void {\bfseries Update\+After\+Insert} (\hyperlink{class_r3_surfel_node}{R3\+Surfel\+Node} $\ast$node)\hypertarget{class_r3_surfel_block_a15cdcea3c1a8ede1d7eb1bcfe129dcb8}{}\label{class_r3_surfel_block_a15cdcea3c1a8ede1d7eb1bcfe129dcb8}
+
+\item 
+void {\bfseries Update\+Before\+Remove} (\hyperlink{class_r3_surfel_node}{R3\+Surfel\+Node} $\ast$node)\hypertarget{class_r3_surfel_block_ac95b4ae0b7a6325032a8c854a8bab3d4}{}\label{class_r3_surfel_block_ac95b4ae0b7a6325032a8c854a8bab3d4}
+
+\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+class {\bfseries R3\+Surfel\+Database}\hypertarget{class_r3_surfel_block_add57db51766e3254511cc25e8bc076fe}{}\label{class_r3_surfel_block_add57db51766e3254511cc25e8bc076fe}
+
+\item 
+class {\bfseries R3\+Surfel\+Point\+Set}\hypertarget{class_r3_surfel_block_a0a1a5667fbb83b10655b17ca961c0a94}{}\label{class_r3_surfel_block_a0a1a5667fbb83b10655b17ca961c0a94}
+
+\item 
+class {\bfseries R3\+Surfel\+Node}\hypertarget{class_r3_surfel_block_ad9dff58c5073daa8391435943516b352}{}\label{class_r3_surfel_block_ad9dff58c5073daa8391435943516b352}
+
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+R3\+Surfels/R3\+Surfel\+Block.\+h\item 
+R3\+Surfels/R3\+Surfel\+Block.\+cpp\end{DoxyCompactItemize}

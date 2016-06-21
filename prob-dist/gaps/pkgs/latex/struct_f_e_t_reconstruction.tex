@@ -1,0 +1,299 @@
+\hypertarget{struct_f_e_t_reconstruction}{}\section{F\+E\+T\+Reconstruction Struct Reference}
+\label{struct_f_e_t_reconstruction}\index{F\+E\+T\+Reconstruction@{F\+E\+T\+Reconstruction}}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\bfseries F\+E\+T\+Reconstruction} (const \hyperlink{struct_f_e_t_reconstruction}{F\+E\+T\+Reconstruction} \&reconstruction)\hypertarget{struct_f_e_t_reconstruction_a7a38b2b91e590ef69766b621ffb56ffe}{}\label{struct_f_e_t_reconstruction_a7a38b2b91e590ef69766b621ffb56ffe}
+
+\item 
+int {\bfseries N\+Shapes} (void) const \hypertarget{struct_f_e_t_reconstruction_aa6a4ec3001aaee64cb7f915b79f75ab9}{}\label{struct_f_e_t_reconstruction_aa6a4ec3001aaee64cb7f915b79f75ab9}
+
+\item 
+\hyperlink{struct_f_e_t_shape}{F\+E\+T\+Shape} $\ast$ {\bfseries Shape} (int k) const \hypertarget{struct_f_e_t_reconstruction_a5623ece2b769927c2d5f8a7478a34ea3}{}\label{struct_f_e_t_reconstruction_a5623ece2b769927c2d5f8a7478a34ea3}
+
+\item 
+\hyperlink{struct_f_e_t_shape}{F\+E\+T\+Shape} $\ast$ {\bfseries Shape} (const char $\ast$name) const \hypertarget{struct_f_e_t_reconstruction_a55c0ae1d8f702f754be5d3a5e32632b3}{}\label{struct_f_e_t_reconstruction_a55c0ae1d8f702f754be5d3a5e32632b3}
+
+\item 
+\hyperlink{class_r3_point}{R3\+Point} {\bfseries Centroid} (void) const \hypertarget{struct_f_e_t_reconstruction_a485cfa0c46125406b065bdd5124d69f8}{}\label{struct_f_e_t_reconstruction_a485cfa0c46125406b065bdd5124d69f8}
+
+\item 
+const \hyperlink{class_r3_box}{R3\+Box} \& {\bfseries B\+Box} (void) const \hypertarget{struct_f_e_t_reconstruction_afe3df7eb8e98b70df9298354820d3b56}{}\label{struct_f_e_t_reconstruction_afe3df7eb8e98b70df9298354820d3b56}
+
+\item 
+R\+N\+Scalar {\bfseries Speckle} (void) const \hypertarget{struct_f_e_t_reconstruction_aca09d5f40ec4be8ffe25269ba07ab512}{}\label{struct_f_e_t_reconstruction_aca09d5f40ec4be8ffe25269ba07ab512}
+
+\item 
+R\+N\+Scalar {\bfseries R\+M\+SD} (void) const \hypertarget{struct_f_e_t_reconstruction_a5654bba9ff58dbae94b8c7ab6c72536f}{}\label{struct_f_e_t_reconstruction_a5654bba9ff58dbae94b8c7ab6c72536f}
+
+\item 
+R\+N\+Scalar {\bfseries Score} (R\+N\+Scalar sigma=R\+N\+\_\+\+U\+N\+K\+N\+O\+WN) const \hypertarget{struct_f_e_t_reconstruction_a26042eaf1eef39184d35991c0838cd79}{}\label{struct_f_e_t_reconstruction_a26042eaf1eef39184d35991c0838cd79}
+
+\item 
+R\+N\+Scalar {\bfseries Error} (void) const \hypertarget{struct_f_e_t_reconstruction_a411bfb2517daea7c9203807ca8393a29}{}\label{struct_f_e_t_reconstruction_a411bfb2517daea7c9203807ca8393a29}
+
+\item 
+R\+N\+Scalar {\bfseries Inlier\+Fraction} (R\+N\+Length error\+\_\+threshold=R\+N\+\_\+\+U\+N\+K\+N\+O\+WN) const \hypertarget{struct_f_e_t_reconstruction_ae046024eaf87b398b3e86e5b65a81b23}{}\label{struct_f_e_t_reconstruction_ae046024eaf87b398b3e86e5b65a81b23}
+
+\item 
+void {\bfseries Reset\+Transformations} (void)\hypertarget{struct_f_e_t_reconstruction_a9c23e5c281053c520029197166138307}{}\label{struct_f_e_t_reconstruction_a9c23e5c281053c520029197166138307}
+
+\item 
+void {\bfseries Perturb\+Transformations} (R\+N\+Length translation\+\_\+magnitude, R\+N\+Angle rotation\+\_\+magnitude)\hypertarget{struct_f_e_t_reconstruction_a14958dee9eacd851686ec54b4b56c7ef}{}\label{struct_f_e_t_reconstruction_a14958dee9eacd851686ec54b4b56c7ef}
+
+\item 
+void {\bfseries Optimize\+Transformations} (void)\hypertarget{struct_f_e_t_reconstruction_a321e6a9398162e96bbf41fcb044d78ae}{}\label{struct_f_e_t_reconstruction_a321e6a9398162e96bbf41fcb044d78ae}
+
+\item 
+int {\bfseries Read\+File} (const char $\ast$filename)\hypertarget{struct_f_e_t_reconstruction_a49395b37a185d4effe5662b7895eb12c}{}\label{struct_f_e_t_reconstruction_a49395b37a185d4effe5662b7895eb12c}
+
+\item 
+int {\bfseries Read\+Ascii\+File} (const char $\ast$filename)\hypertarget{struct_f_e_t_reconstruction_afae9f722623a9118e63f06bd4a375b77}{}\label{struct_f_e_t_reconstruction_afae9f722623a9118e63f06bd4a375b77}
+
+\item 
+int {\bfseries Read\+Binary\+File} (const char $\ast$filename)\hypertarget{struct_f_e_t_reconstruction_a992c67911a4a1daccbb731f2ac4cc539}{}\label{struct_f_e_t_reconstruction_a992c67911a4a1daccbb731f2ac4cc539}
+
+\item 
+int {\bfseries Read\+Ascii} (F\+I\+LE $\ast$fp)\hypertarget{struct_f_e_t_reconstruction_af0d455cc165a2c240f9fbe2f3cfaae5b}{}\label{struct_f_e_t_reconstruction_af0d455cc165a2c240f9fbe2f3cfaae5b}
+
+\item 
+int {\bfseries Read\+Binary} (F\+I\+LE $\ast$fp)\hypertarget{struct_f_e_t_reconstruction_a400fa875b5bdf428702edbdb9d85cda3}{}\label{struct_f_e_t_reconstruction_a400fa875b5bdf428702edbdb9d85cda3}
+
+\item 
+int {\bfseries Write\+File} (const char $\ast$filename) const \hypertarget{struct_f_e_t_reconstruction_ad76340270241b3bdfef496838c807ebf}{}\label{struct_f_e_t_reconstruction_ad76340270241b3bdfef496838c807ebf}
+
+\item 
+int {\bfseries Write\+Ascii\+File} (const char $\ast$filename) const \hypertarget{struct_f_e_t_reconstruction_a6d964745c0b8e1bb611e8fdb1112b829}{}\label{struct_f_e_t_reconstruction_a6d964745c0b8e1bb611e8fdb1112b829}
+
+\item 
+int {\bfseries Write\+Binary\+File} (const char $\ast$filename) const \hypertarget{struct_f_e_t_reconstruction_a0c600ec54c410479148b15f2e953e384}{}\label{struct_f_e_t_reconstruction_a0c600ec54c410479148b15f2e953e384}
+
+\item 
+int {\bfseries Write\+Ascii} (F\+I\+LE $\ast$fp) const \hypertarget{struct_f_e_t_reconstruction_acff24efc098ee7fd1ba6871d6550b2be}{}\label{struct_f_e_t_reconstruction_acff24efc098ee7fd1ba6871d6550b2be}
+
+\item 
+int {\bfseries Write\+Binary} (F\+I\+LE $\ast$fp) const \hypertarget{struct_f_e_t_reconstruction_a9c84a8bc5cf9a09ed4e0b57ad572b8db}{}\label{struct_f_e_t_reconstruction_a9c84a8bc5cf9a09ed4e0b57ad572b8db}
+
+\item 
+R\+N\+Length {\bfseries Average\+Feature\+Radius} (void) const \hypertarget{struct_f_e_t_reconstruction_a49d82ace6d11feb5c170905f016495c0}{}\label{struct_f_e_t_reconstruction_a49d82ace6d11feb5c170905f016495c0}
+
+\item 
+R\+N\+Scalar {\bfseries Affinity} (\hyperlink{struct_f_e_t_feature}{F\+E\+T\+Feature} $\ast$feature1, \hyperlink{struct_f_e_t_feature}{F\+E\+T\+Feature} $\ast$feature2) const \hypertarget{struct_f_e_t_reconstruction_af990d18d63ef7a5dea12fedd3c3bd121}{}\label{struct_f_e_t_reconstruction_af990d18d63ef7a5dea12fedd3c3bd121}
+
+\item 
+int {\bfseries N\+Matches} (void) const \hypertarget{struct_f_e_t_reconstruction_a74e96483443b737e3a0fc208e7d32db9}{}\label{struct_f_e_t_reconstruction_a74e96483443b737e3a0fc208e7d32db9}
+
+\item 
+\hyperlink{struct_f_e_t_match}{F\+E\+T\+Match} $\ast$ {\bfseries Match} (int k) const \hypertarget{struct_f_e_t_reconstruction_ae029fb43ab75f97ef96467d9c5d212de}{}\label{struct_f_e_t_reconstruction_ae029fb43ab75f97ef96467d9c5d212de}
+
+\item 
+int {\bfseries N\+Features} (void) const \hypertarget{struct_f_e_t_reconstruction_a4d8133dd3c9f418dee7bd9db1181a6cb}{}\label{struct_f_e_t_reconstruction_a4d8133dd3c9f418dee7bd9db1181a6cb}
+
+\item 
+\hyperlink{struct_f_e_t_feature}{F\+E\+T\+Feature} $\ast$ {\bfseries Feature} (int k) const \hypertarget{struct_f_e_t_reconstruction_a0a9ae0824b986b145ced37bcd52afd47}{}\label{struct_f_e_t_reconstruction_a0a9ae0824b986b145ced37bcd52afd47}
+
+\item 
+int {\bfseries N\+Correspondences} (void) const \hypertarget{struct_f_e_t_reconstruction_a69e765f40440302b52745e6c6cae50e8}{}\label{struct_f_e_t_reconstruction_a69e765f40440302b52745e6c6cae50e8}
+
+\item 
+\hyperlink{struct_f_e_t_correspondence}{F\+E\+T\+Correspondence} $\ast$ {\bfseries Correspondence} (int k) const \hypertarget{struct_f_e_t_reconstruction_ad5d7aac028516f2bf9a5091e8f61c342}{}\label{struct_f_e_t_reconstruction_ad5d7aac028516f2bf9a5091e8f61c342}
+
+\item 
+void {\bfseries Insert\+Shape} (\hyperlink{struct_f_e_t_shape}{F\+E\+T\+Shape} $\ast$shape)\hypertarget{struct_f_e_t_reconstruction_a6a2b396b70e354445b2dae7bdcf5f0a6}{}\label{struct_f_e_t_reconstruction_a6a2b396b70e354445b2dae7bdcf5f0a6}
+
+\item 
+void {\bfseries Remove\+Shape} (\hyperlink{struct_f_e_t_shape}{F\+E\+T\+Shape} $\ast$shape)\hypertarget{struct_f_e_t_reconstruction_abe391612ef2b22c3948f560c3ae47a23}{}\label{struct_f_e_t_reconstruction_abe391612ef2b22c3948f560c3ae47a23}
+
+\item 
+void {\bfseries Insert\+Match} (\hyperlink{struct_f_e_t_match}{F\+E\+T\+Match} $\ast$match)\hypertarget{struct_f_e_t_reconstruction_a7686f6e4ecdfea90c634c3de7e170318}{}\label{struct_f_e_t_reconstruction_a7686f6e4ecdfea90c634c3de7e170318}
+
+\item 
+void {\bfseries Remove\+Match} (\hyperlink{struct_f_e_t_match}{F\+E\+T\+Match} $\ast$match)\hypertarget{struct_f_e_t_reconstruction_a36de120dbdef4ead9d117583f73d262d}{}\label{struct_f_e_t_reconstruction_a36de120dbdef4ead9d117583f73d262d}
+
+\item 
+void {\bfseries Insert\+Feature} (\hyperlink{struct_f_e_t_feature}{F\+E\+T\+Feature} $\ast$feature)\hypertarget{struct_f_e_t_reconstruction_a880c21973c66e76af982df0d793d4848}{}\label{struct_f_e_t_reconstruction_a880c21973c66e76af982df0d793d4848}
+
+\item 
+void {\bfseries Remove\+Feature} (\hyperlink{struct_f_e_t_feature}{F\+E\+T\+Feature} $\ast$feature)\hypertarget{struct_f_e_t_reconstruction_a03816dbfc1147c4941dc5b44bf1e8901}{}\label{struct_f_e_t_reconstruction_a03816dbfc1147c4941dc5b44bf1e8901}
+
+\item 
+void {\bfseries Insert\+Correspondence} (\hyperlink{struct_f_e_t_correspondence}{F\+E\+T\+Correspondence} $\ast$correspondence)\hypertarget{struct_f_e_t_reconstruction_a8c7223834efb6dbd065c620d39f2ff9a}{}\label{struct_f_e_t_reconstruction_a8c7223834efb6dbd065c620d39f2ff9a}
+
+\item 
+void {\bfseries Remove\+Correspondence} (\hyperlink{struct_f_e_t_correspondence}{F\+E\+T\+Correspondence} $\ast$correspondence)\hypertarget{struct_f_e_t_reconstruction_afcc1d4320d45354b8abb51f9ad808f82}{}\label{struct_f_e_t_reconstruction_afcc1d4320d45354b8abb51f9ad808f82}
+
+\item 
+void {\bfseries Copy\+Contents} (const \hyperlink{struct_f_e_t_reconstruction}{F\+E\+T\+Reconstruction} \&reconstruction)\hypertarget{struct_f_e_t_reconstruction_a70a36d85d9e0ccd635e27e92959d1cf2}{}\label{struct_f_e_t_reconstruction_a70a36d85d9e0ccd635e27e92959d1cf2}
+
+\item 
+void {\bfseries Invalidate\+B\+Box} ()\hypertarget{struct_f_e_t_reconstruction_a663414d23000b20b80cd42f5f706df25}{}\label{struct_f_e_t_reconstruction_a663414d23000b20b80cd42f5f706df25}
+
+\item 
+void {\bfseries Update\+B\+Box} ()\hypertarget{struct_f_e_t_reconstruction_a09d157c474d6096644069d87a4d1a09a}{}\label{struct_f_e_t_reconstruction_a09d157c474d6096644069d87a4d1a09a}
+
+\item 
+void {\bfseries Optimize\+Transformations\+With\+Global\+Relaxation} (void)\hypertarget{struct_f_e_t_reconstruction_a77e175065d1b584ad9633212022eb431}{}\label{struct_f_e_t_reconstruction_a77e175065d1b584ad9633212022eb431}
+
+\item 
+void {\bfseries Optimize\+Transformations\+With\+R\+A\+N\+S\+AC} (void)\hypertarget{struct_f_e_t_reconstruction_a1b295790a8e273679981e6336f3f6e27}{}\label{struct_f_e_t_reconstruction_a1b295790a8e273679981e6336f3f6e27}
+
+\item 
+void {\bfseries Optimize\+Transformations\+With\+I\+CP} (int max\+\_\+iterations=64, int $\ast$result\+\_\+niterations=N\+U\+LL, R\+N\+Boolean $\ast$result\+\_\+converged=N\+U\+LL, R\+N\+Scalar $\ast$result\+\_\+compute\+\_\+time=N\+U\+LL, R\+N\+Scalar $\ast$iteration\+\_\+times=N\+U\+LL, R\+N\+Scalar $\ast$iteration\+\_\+errors=N\+U\+LL)\hypertarget{struct_f_e_t_reconstruction_ab241907058a09bf0b0106c8ea2af940b}{}\label{struct_f_e_t_reconstruction_ab241907058a09bf0b0106c8ea2af940b}
+
+\item 
+void {\bfseries Optimize\+Transformations\+With\+Closed\+Form\+Equations} (void)\hypertarget{struct_f_e_t_reconstruction_a58ed003be3b57577c97dbe112c724645}{}\label{struct_f_e_t_reconstruction_a58ed003be3b57577c97dbe112c724645}
+
+\item 
+void {\bfseries Optimize\+Transformations\+With\+Linear\+System\+Of\+Equations} (void)\hypertarget{struct_f_e_t_reconstruction_ad6512e04d2ae5a1305cf01a7e258b8fa}{}\label{struct_f_e_t_reconstruction_ad6512e04d2ae5a1305cf01a7e258b8fa}
+
+\item 
+void {\bfseries Add\+Point\+Point\+Correspondence\+Equations} (\hyperlink{class_r_n_system_of_equations}{R\+N\+System\+Of\+Equations} $\ast$system, \hyperlink{struct_f_e_t_shape}{F\+E\+T\+Shape} $\ast$shape1, \hyperlink{struct_f_e_t_shape}{F\+E\+T\+Shape} $\ast$shape2, const \hyperlink{class_r3_point}{R3\+Point} \&position1, const \hyperlink{class_r3_point}{R3\+Point} \&position2, R\+N\+Scalar w)\hypertarget{struct_f_e_t_reconstruction_a064ea1b8fcd38ba79ee7244687fb0ee2}{}\label{struct_f_e_t_reconstruction_a064ea1b8fcd38ba79ee7244687fb0ee2}
+
+\item 
+void {\bfseries Add\+Point\+Line\+Correspondence\+Equations} (\hyperlink{class_r_n_system_of_equations}{R\+N\+System\+Of\+Equations} $\ast$system, \hyperlink{struct_f_e_t_shape}{F\+E\+T\+Shape} $\ast$shape1, \hyperlink{struct_f_e_t_shape}{F\+E\+T\+Shape} $\ast$shape2, const \hyperlink{class_r3_point}{R3\+Point} \&position1, const \hyperlink{class_r3_point}{R3\+Point} \&position2, const \hyperlink{class_r3_vector}{R3\+Vector} \&direction2, R\+N\+Scalar w)\hypertarget{struct_f_e_t_reconstruction_a63d982da3f4c7df07bc309fd0bd307ab}{}\label{struct_f_e_t_reconstruction_a63d982da3f4c7df07bc309fd0bd307ab}
+
+\item 
+void {\bfseries Add\+Point\+Plane\+Correspondence\+Equations} (\hyperlink{class_r_n_system_of_equations}{R\+N\+System\+Of\+Equations} $\ast$system, \hyperlink{struct_f_e_t_shape}{F\+E\+T\+Shape} $\ast$shape1, \hyperlink{struct_f_e_t_shape}{F\+E\+T\+Shape} $\ast$shape2, const \hyperlink{class_r3_point}{R3\+Point} \&position1, const \hyperlink{class_r3_point}{R3\+Point} \&position2, const \hyperlink{class_r3_vector}{R3\+Vector} \&normal2, R\+N\+Scalar w)\hypertarget{struct_f_e_t_reconstruction_acb711236cb4c2f4ef5115c22c65a155f}{}\label{struct_f_e_t_reconstruction_acb711236cb4c2f4ef5115c22c65a155f}
+
+\item 
+void {\bfseries Add\+Parallel\+Vector\+Equations} (\hyperlink{class_r_n_system_of_equations}{R\+N\+System\+Of\+Equations} $\ast$system, \hyperlink{struct_f_e_t_shape}{F\+E\+T\+Shape} $\ast$shape1, \hyperlink{struct_f_e_t_shape}{F\+E\+T\+Shape} $\ast$shape2, const \hyperlink{class_r3_vector}{R3\+Vector} \&vector1, const \hyperlink{class_r3_vector}{R3\+Vector} \&vector2, R\+N\+Scalar w)\hypertarget{struct_f_e_t_reconstruction_aa9735859721cc79d0c1a375dbce60cb5}{}\label{struct_f_e_t_reconstruction_aa9735859721cc79d0c1a375dbce60cb5}
+
+\item 
+void {\bfseries Add\+Perpendicular\+Vector\+Equations} (\hyperlink{class_r_n_system_of_equations}{R\+N\+System\+Of\+Equations} $\ast$system, \hyperlink{struct_f_e_t_shape}{F\+E\+T\+Shape} $\ast$shape1, \hyperlink{struct_f_e_t_shape}{F\+E\+T\+Shape} $\ast$shape2, const \hyperlink{class_r3_vector}{R3\+Vector} \&vector1, const \hyperlink{class_r3_vector}{R3\+Vector} \&vector2, R\+N\+Scalar w)\hypertarget{struct_f_e_t_reconstruction_a87d5aec54faf6e958799bdab1bc41481}{}\label{struct_f_e_t_reconstruction_a87d5aec54faf6e958799bdab1bc41481}
+
+\item 
+void {\bfseries Add\+Pairwise\+Transformation\+Equations} (\hyperlink{class_r_n_system_of_equations}{R\+N\+System\+Of\+Equations} $\ast$system, \hyperlink{struct_f_e_t_shape}{F\+E\+T\+Shape} $\ast$shape1, \hyperlink{struct_f_e_t_shape}{F\+E\+T\+Shape} $\ast$shape2, const \hyperlink{class_r3_affine}{R3\+Affine} \&transformation, R\+N\+Scalar w)\hypertarget{struct_f_e_t_reconstruction_a228307ea59e871e44690954aef91dcab}{}\label{struct_f_e_t_reconstruction_a228307ea59e871e44690954aef91dcab}
+
+\item 
+void {\bfseries Add\+Inertia\+Equations} (\hyperlink{class_r_n_system_of_equations}{R\+N\+System\+Of\+Equations} $\ast$system, R\+N\+Scalar w)\hypertarget{struct_f_e_t_reconstruction_a45e427604577a2dfbdcc2c5d01559550}{}\label{struct_f_e_t_reconstruction_a45e427604577a2dfbdcc2c5d01559550}
+
+\item 
+void {\bfseries Add\+Trajectory\+Equations} (\hyperlink{class_r_n_system_of_equations}{R\+N\+System\+Of\+Equations} $\ast$system, R\+N\+Scalar w, R\+N\+Scalar sigma=0.\+25)\hypertarget{struct_f_e_t_reconstruction_aa2b86a304ff0f7b397e0731e0c46071a}{}\label{struct_f_e_t_reconstruction_aa2b86a304ff0f7b397e0731e0c46071a}
+
+\item 
+void {\bfseries Add\+Match\+Equations} (\hyperlink{class_r_n_system_of_equations}{R\+N\+System\+Of\+Equations} $\ast$system, R\+N\+Scalar w)\hypertarget{struct_f_e_t_reconstruction_aa791df337940f01a2895ade1b8437b86}{}\label{struct_f_e_t_reconstruction_aa791df337940f01a2895ade1b8437b86}
+
+\item 
+void {\bfseries Add\+Correspondence\+Equations} (\hyperlink{class_r_n_system_of_equations}{R\+N\+System\+Of\+Equations} $\ast$system, R\+N\+Scalar $\ast$w)\hypertarget{struct_f_e_t_reconstruction_ae9d9c03b0acb5ef3f047ef544a86360c}{}\label{struct_f_e_t_reconstruction_ae9d9c03b0acb5ef3f047ef544a86360c}
+
+\item 
+void {\bfseries Add\+Correspondence\+Equations} (\hyperlink{class_r_n_system_of_equations}{R\+N\+System\+Of\+Equations} $\ast$system, \hyperlink{struct_f_e_t_correspondence}{F\+E\+T\+Correspondence} $\ast$correspondence, R\+N\+Scalar w)\hypertarget{struct_f_e_t_reconstruction_abfba83b0c385b20934cc91f9f99b74b7}{}\label{struct_f_e_t_reconstruction_abfba83b0c385b20934cc91f9f99b74b7}
+
+\item 
+void {\bfseries Empty\+Correspondences} (void)\hypertarget{struct_f_e_t_reconstruction_a63120efc07943fe20129431bf3c66680}{}\label{struct_f_e_t_reconstruction_a63120efc07943fe20129431bf3c66680}
+
+\item 
+void {\bfseries Create\+Correspondences} (void)\hypertarget{struct_f_e_t_reconstruction_a179db1cc7528ea562f4af89aa443c6aa}{}\label{struct_f_e_t_reconstruction_a179db1cc7528ea562f4af89aa443c6aa}
+
+\item 
+void {\bfseries Create\+Correspondences} (\hyperlink{struct_f_e_t_shape}{F\+E\+T\+Shape} $\ast$shape1, \hyperlink{struct_f_e_t_shape}{F\+E\+T\+Shape} $\ast$shape2, R\+N\+Scalar max\+\_\+correspondences=R\+N\+\_\+\+U\+N\+K\+N\+O\+WN)\hypertarget{struct_f_e_t_reconstruction_affcb77bf4a67b4386bc0b865f9bd4fc6}{}\label{struct_f_e_t_reconstruction_affcb77bf4a67b4386bc0b865f9bd4fc6}
+
+\item 
+void {\bfseries Discard\+Outlier\+Correspondences} (R\+N\+Scalar max\+\_\+zscore=3, int max\+\_\+iterations=8, int min\+\_\+correspondences=5)\hypertarget{struct_f_e_t_reconstruction_a910675452ef738b946c9eb438a1b0129}{}\label{struct_f_e_t_reconstruction_a910675452ef738b946c9eb438a1b0129}
+
+\item 
+void {\bfseries Select\+Correspondences} (int max\+\_\+correspondences=-\/1)\hypertarget{struct_f_e_t_reconstruction_aaed34442f5b0311c1d4a97bb2f1da822}{}\label{struct_f_e_t_reconstruction_aaed34442f5b0311c1d4a97bb2f1da822}
+
+\item 
+void {\bfseries Truncate\+Correspondences} (int max\+\_\+correspondences=0)\hypertarget{struct_f_e_t_reconstruction_ad2167710f8bdae0c65260dd36f7d21a3}{}\label{struct_f_e_t_reconstruction_ad2167710f8bdae0c65260dd36f7d21a3}
+
+\item 
+void {\bfseries Empty\+Matches} (void)\hypertarget{struct_f_e_t_reconstruction_a2c480cb77bd0537aae683a50fa4ab1d0}{}\label{struct_f_e_t_reconstruction_a2c480cb77bd0537aae683a50fa4ab1d0}
+
+\item 
+void {\bfseries Create\+Matches} (void)\hypertarget{struct_f_e_t_reconstruction_a1553842107c32b9efb427c7d17a13b45}{}\label{struct_f_e_t_reconstruction_a1553842107c32b9efb427c7d17a13b45}
+
+\item 
+void {\bfseries Create\+Matches\+With\+I\+CP} (void)\hypertarget{struct_f_e_t_reconstruction_a714d51c593bb2385aeff213d88c79492}{}\label{struct_f_e_t_reconstruction_a714d51c593bb2385aeff213d88c79492}
+
+\item 
+void {\bfseries Create\+Matches\+With\+R\+A\+N\+S\+AC} (void)\hypertarget{struct_f_e_t_reconstruction_aeffc99d4584a118a091c93d2f5fc4b6f}{}\label{struct_f_e_t_reconstruction_aeffc99d4584a118a091c93d2f5fc4b6f}
+
+\item 
+void {\bfseries Initialize\+Feature\+Parameters} (void)\hypertarget{struct_f_e_t_reconstruction_ac2a350e5d192fd0fabf39fbc6c458d48}{}\label{struct_f_e_t_reconstruction_ac2a350e5d192fd0fabf39fbc6c458d48}
+
+\item 
+void {\bfseries Initialize\+Correspondence\+Parameters} (void)\hypertarget{struct_f_e_t_reconstruction_a0f166d0defaddcfc469ee130af3394fe}{}\label{struct_f_e_t_reconstruction_a0f166d0defaddcfc469ee130af3394fe}
+
+\item 
+void {\bfseries Initialize\+Optimization\+Parameters} (void)\hypertarget{struct_f_e_t_reconstruction_adeab63ac9654b4f83f34f8505d1cb17f}{}\label{struct_f_e_t_reconstruction_adeab63ac9654b4f83f34f8505d1cb17f}
+
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_r_n_array}{R\+N\+Array}$<$ \hyperlink{struct_f_e_t_shape}{F\+E\+T\+Shape} $\ast$ $>$ {\bfseries shapes}\hypertarget{struct_f_e_t_reconstruction_ac79db3dca56363a957b71ddf1e384167}{}\label{struct_f_e_t_reconstruction_ac79db3dca56363a957b71ddf1e384167}
+
+\item 
+\hyperlink{class_r_n_array}{R\+N\+Array}$<$ \hyperlink{struct_f_e_t_match}{F\+E\+T\+Match} $\ast$ $>$ {\bfseries matches}\hypertarget{struct_f_e_t_reconstruction_ad31b19983e59cd917ba9918b01406055}{}\label{struct_f_e_t_reconstruction_ad31b19983e59cd917ba9918b01406055}
+
+\item 
+\hyperlink{class_r_n_array}{R\+N\+Array}$<$ \hyperlink{struct_f_e_t_feature}{F\+E\+T\+Feature} $\ast$ $>$ {\bfseries features}\hypertarget{struct_f_e_t_reconstruction_ab473e2b3a56e7e7fa311c9994982eedb}{}\label{struct_f_e_t_reconstruction_ab473e2b3a56e7e7fa311c9994982eedb}
+
+\item 
+\hyperlink{class_r_n_array}{R\+N\+Array}$<$ \hyperlink{struct_f_e_t_correspondence}{F\+E\+T\+Correspondence} $\ast$ $>$ {\bfseries correspondences}\hypertarget{struct_f_e_t_reconstruction_a013c4dadf67ab826d8bfc170a9479666}{}\label{struct_f_e_t_reconstruction_a013c4dadf67ab826d8bfc170a9479666}
+
+\item 
+R\+N\+Length {\bfseries avg\+\_\+feature\+\_\+radius}\hypertarget{struct_f_e_t_reconstruction_a12ecb54140b9ad3e347dd875e4940bb6}{}\label{struct_f_e_t_reconstruction_a12ecb54140b9ad3e347dd875e4940bb6}
+
+\item 
+int {\bfseries max\+\_\+correspondences}\hypertarget{struct_f_e_t_reconstruction_ab40eb228a3236f6fec43e432ab927d28}{}\label{struct_f_e_t_reconstruction_ab40eb228a3236f6fec43e432ab927d28}
+
+\item 
+R\+N\+Length {\bfseries max\+\_\+euclidean\+\_\+distance}\hypertarget{struct_f_e_t_reconstruction_aa8649b4ed7ed2f4a5179556fa558734d}{}\label{struct_f_e_t_reconstruction_aa8649b4ed7ed2f4a5179556fa558734d}
+
+\item 
+R\+N\+Length {\bfseries max\+\_\+descriptor\+\_\+distances} \mbox{[}N\+U\+M\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+T\+Y\+P\+ES\mbox{]}\hypertarget{struct_f_e_t_reconstruction_acb1a95b2194382b2c10f02cf4df10e37}{}\label{struct_f_e_t_reconstruction_acb1a95b2194382b2c10f02cf4df10e37}
+
+\item 
+R\+N\+Angle {\bfseries max\+\_\+normal\+\_\+angle}\hypertarget{struct_f_e_t_reconstruction_a61622c47020e7a50e8119c6e617b0dcb}{}\label{struct_f_e_t_reconstruction_a61622c47020e7a50e8119c6e617b0dcb}
+
+\item 
+R\+N\+Scalar {\bfseries min\+\_\+distinction}\hypertarget{struct_f_e_t_reconstruction_a4ab61b8d1cde3ff846979f3ec07e6ee4}{}\label{struct_f_e_t_reconstruction_a4ab61b8d1cde3ff846979f3ec07e6ee4}
+
+\item 
+R\+N\+Scalar {\bfseries max\+\_\+distinction}\hypertarget{struct_f_e_t_reconstruction_a01ef6e8619830fc4d8c962f7addb9fcd}{}\label{struct_f_e_t_reconstruction_a01ef6e8619830fc4d8c962f7addb9fcd}
+
+\item 
+R\+N\+Scalar {\bfseries min\+\_\+curvature}\hypertarget{struct_f_e_t_reconstruction_a0f2220bced8871a0e80e047b48f0fd5e}{}\label{struct_f_e_t_reconstruction_a0f2220bced8871a0e80e047b48f0fd5e}
+
+\item 
+R\+N\+Scalar {\bfseries max\+\_\+curvature}\hypertarget{struct_f_e_t_reconstruction_a4f8cb7f8d7d70e7a9d7c795608c20847}{}\label{struct_f_e_t_reconstruction_a4f8cb7f8d7d70e7a9d7c795608c20847}
+
+\item 
+R\+N\+Scalar {\bfseries min\+\_\+salience}\hypertarget{struct_f_e_t_reconstruction_a764b6ca2450d76a2fbca5f9b13ec4d0f}{}\label{struct_f_e_t_reconstruction_a764b6ca2450d76a2fbca5f9b13ec4d0f}
+
+\item 
+R\+N\+Boolean {\bfseries discard\+\_\+boundaries}\hypertarget{struct_f_e_t_reconstruction_a23403c28fb0e30dca17bd1be0c6a4536}{}\label{struct_f_e_t_reconstruction_a23403c28fb0e30dca17bd1be0c6a4536}
+
+\item 
+R\+N\+Boolean {\bfseries discard\+\_\+not\+\_\+mutually\+\_\+closest}\hypertarget{struct_f_e_t_reconstruction_aba9dce274dc0c69d996513deb46cc9eb}{}\label{struct_f_e_t_reconstruction_aba9dce274dc0c69d996513deb46cc9eb}
+
+\item 
+R\+N\+Boolean {\bfseries discard\+\_\+outliers}\hypertarget{struct_f_e_t_reconstruction_ae75758ba4c2037039d1d13976995d732}{}\label{struct_f_e_t_reconstruction_ae75758ba4c2037039d1d13976995d732}
+
+\item 
+R\+N\+Scalar {\bfseries total\+\_\+match\+\_\+weight}\hypertarget{struct_f_e_t_reconstruction_a576429eb6f779741349082a33b11fd2d}{}\label{struct_f_e_t_reconstruction_a576429eb6f779741349082a33b11fd2d}
+
+\item 
+R\+N\+Scalar {\bfseries total\+\_\+correspondence\+\_\+weights} \mbox{[}N\+U\+M\+\_\+\+F\+E\+A\+T\+U\+R\+E\+\_\+\+T\+Y\+P\+ES\mbox{]}\hypertarget{struct_f_e_t_reconstruction_ae86cec25723d94578071c4e78cf331d3}{}\label{struct_f_e_t_reconstruction_ae86cec25723d94578071c4e78cf331d3}
+
+\item 
+R\+N\+Scalar {\bfseries total\+\_\+trajectory\+\_\+weight}\hypertarget{struct_f_e_t_reconstruction_ac71446e7d1186daeea2fdc50698adde9}{}\label{struct_f_e_t_reconstruction_ac71446e7d1186daeea2fdc50698adde9}
+
+\item 
+R\+N\+Scalar {\bfseries total\+\_\+inertia\+\_\+weight}\hypertarget{struct_f_e_t_reconstruction_ae9db6aa8cc9a0b20b286ad6bbce92263}{}\label{struct_f_e_t_reconstruction_ae9db6aa8cc9a0b20b286ad6bbce92263}
+
+\item 
+int {\bfseries solver}\hypertarget{struct_f_e_t_reconstruction_adb0109aae6e2e9f6f1939a7eb8255494}{}\label{struct_f_e_t_reconstruction_adb0109aae6e2e9f6f1939a7eb8255494}
+
+\item 
+\hyperlink{class_r3_box}{R3\+Box} {\bfseries bbox}\hypertarget{struct_f_e_t_reconstruction_a98e78a83c987048354293de07efcd6da}{}\label{struct_f_e_t_reconstruction_a98e78a83c987048354293de07efcd6da}
+
+\end{DoxyCompactItemize}
+
+
+The documentation for this struct was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+F\+E\+T/F\+E\+T\+Reconstruction.\+h\item 
+F\+E\+T/F\+E\+T\+Reconstruction.\+cpp\end{DoxyCompactItemize}

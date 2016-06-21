@@ -1,0 +1,101 @@
+\hypertarget{class_r3_mesh_search_tree}{}\section{R3\+Mesh\+Search\+Tree Class Reference}
+\label{class_r3_mesh_search_tree}\index{R3\+Mesh\+Search\+Tree@{R3\+Mesh\+Search\+Tree}}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\bfseries R3\+Mesh\+Search\+Tree} (\hyperlink{class_r3_mesh}{R3\+Mesh} $\ast$mesh)\hypertarget{class_r3_mesh_search_tree_a676e1e9e8eb4b11b56104e425bbba093}{}\label{class_r3_mesh_search_tree_a676e1e9e8eb4b11b56104e425bbba093}
+
+\item 
+\hyperlink{class_r3_mesh}{R3\+Mesh} $\ast$ {\bfseries Mesh} (void) const \hypertarget{class_r3_mesh_search_tree_a2358f7cb7db30ea3c61bdaac938c325b}{}\label{class_r3_mesh_search_tree_a2358f7cb7db30ea3c61bdaac938c325b}
+
+\item 
+const \hyperlink{class_r3_box}{R3\+Box} \& {\bfseries B\+Box} (void) const \hypertarget{class_r3_mesh_search_tree_a6fabf7a5602a532ef0af12ef41df5689}{}\label{class_r3_mesh_search_tree_a6fabf7a5602a532ef0af12ef41df5689}
+
+\item 
+void {\bfseries Insert\+Face} (\hyperlink{class_r3_mesh_face}{R3\+Mesh\+Face} $\ast$face)\hypertarget{class_r3_mesh_search_tree_ad4bb54af5a86e182cca6bd6646dd3ce1}{}\label{class_r3_mesh_search_tree_ad4bb54af5a86e182cca6bd6646dd3ce1}
+
+\item 
+void {\bfseries Empty} (void)\hypertarget{class_r3_mesh_search_tree_a4d55e2552421067d53cec4d462a90150}{}\label{class_r3_mesh_search_tree_a4d55e2552421067d53cec4d462a90150}
+
+\item 
+void {\bfseries Find\+Closest} (const \hyperlink{class_r3_point}{R3\+Point} \&query, \hyperlink{struct_r3_mesh_intersection}{R3\+Mesh\+Intersection} \&closest, R\+N\+Scalar min\+\_\+distance=0, R\+N\+Scalar max\+\_\+distance=R\+N\+\_\+\+I\+N\+F\+I\+N\+I\+TY, int($\ast$Is\+Compatible)(const \hyperlink{class_r3_point}{R3\+Point} \&, const \hyperlink{class_r3_vector}{R3\+Vector} \&, \hyperlink{class_r3_mesh}{R3\+Mesh} $\ast$, \hyperlink{class_r3_mesh_face}{R3\+Mesh\+Face} $\ast$, void $\ast$)=N\+U\+LL, void $\ast$compatible\+\_\+data=N\+U\+LL)\hypertarget{class_r3_mesh_search_tree_a7b8c20067931f2c9b2a1890c2b32b111}{}\label{class_r3_mesh_search_tree_a7b8c20067931f2c9b2a1890c2b32b111}
+
+\item 
+void {\bfseries Find\+Closest} (const \hyperlink{class_r3_point}{R3\+Point} \&query, const \hyperlink{class_r3_vector}{R3\+Vector} \&normal, \hyperlink{struct_r3_mesh_intersection}{R3\+Mesh\+Intersection} \&closest, R\+N\+Scalar min\+\_\+distance=0, R\+N\+Scalar max\+\_\+distance=R\+N\+\_\+\+I\+N\+F\+I\+N\+I\+TY, int($\ast$Is\+Compatible)(const \hyperlink{class_r3_point}{R3\+Point} \&, const \hyperlink{class_r3_vector}{R3\+Vector} \&, \hyperlink{class_r3_mesh}{R3\+Mesh} $\ast$, \hyperlink{class_r3_mesh_face}{R3\+Mesh\+Face} $\ast$, void $\ast$)=N\+U\+LL, void $\ast$compatible\+\_\+data=N\+U\+LL)\hypertarget{class_r3_mesh_search_tree_a183cab25b1ce9030845719af134e1261}{}\label{class_r3_mesh_search_tree_a183cab25b1ce9030845719af134e1261}
+
+\item 
+void {\bfseries Find\+All} (const \hyperlink{class_r3_point}{R3\+Point} \&query, \hyperlink{class_r_n_array}{R\+N\+Array}$<$ \hyperlink{struct_r3_mesh_intersection}{R3\+Mesh\+Intersection} $\ast$ $>$ \&hits, R\+N\+Scalar min\+\_\+distance=0, R\+N\+Scalar max\+\_\+distance=R\+N\+\_\+\+I\+N\+F\+I\+N\+I\+TY, int($\ast$Is\+Compatible)(const \hyperlink{class_r3_point}{R3\+Point} \&, const \hyperlink{class_r3_vector}{R3\+Vector} \&, \hyperlink{class_r3_mesh}{R3\+Mesh} $\ast$, \hyperlink{class_r3_mesh_face}{R3\+Mesh\+Face} $\ast$, void $\ast$)=N\+U\+LL, void $\ast$compatible\+\_\+data=N\+U\+LL)\hypertarget{class_r3_mesh_search_tree_abefbc9c7200c5a0411c626a67bcb153f}{}\label{class_r3_mesh_search_tree_abefbc9c7200c5a0411c626a67bcb153f}
+
+\item 
+void {\bfseries Find\+All} (const \hyperlink{class_r3_point}{R3\+Point} \&query, const \hyperlink{class_r3_vector}{R3\+Vector} \&normal, \hyperlink{class_r_n_array}{R\+N\+Array}$<$ \hyperlink{struct_r3_mesh_intersection}{R3\+Mesh\+Intersection} $\ast$ $>$ \&hits, R\+N\+Scalar min\+\_\+distance=0, R\+N\+Scalar max\+\_\+distance=R\+N\+\_\+\+I\+N\+F\+I\+N\+I\+TY, int($\ast$Is\+Compatible)(const \hyperlink{class_r3_point}{R3\+Point} \&, const \hyperlink{class_r3_vector}{R3\+Vector} \&, \hyperlink{class_r3_mesh}{R3\+Mesh} $\ast$, \hyperlink{class_r3_mesh_face}{R3\+Mesh\+Face} $\ast$, void $\ast$)=N\+U\+LL, void $\ast$compatible\+\_\+data=N\+U\+LL)\hypertarget{class_r3_mesh_search_tree_a5bf9e9269c5bfe155aaf0c6de60b6de2}{}\label{class_r3_mesh_search_tree_a5bf9e9269c5bfe155aaf0c6de60b6de2}
+
+\item 
+void {\bfseries Find\+Intersection} (const \hyperlink{class_r3_ray}{R3\+Ray} \&ray, \hyperlink{struct_r3_mesh_intersection}{R3\+Mesh\+Intersection} \&closest, R\+N\+Scalar min\+\_\+t=0, R\+N\+Scalar max\+\_\+t=R\+N\+\_\+\+I\+N\+F\+I\+N\+I\+TY, int($\ast$Is\+Compatible)(const \hyperlink{class_r3_point}{R3\+Point} \&, const \hyperlink{class_r3_vector}{R3\+Vector} \&, \hyperlink{class_r3_mesh}{R3\+Mesh} $\ast$, \hyperlink{class_r3_mesh_face}{R3\+Mesh\+Face} $\ast$, void $\ast$)=N\+U\+LL, void $\ast$compatible\+\_\+data=N\+U\+LL)\hypertarget{class_r3_mesh_search_tree_add003fc4adeb66ee17dd49ee40a0b628}{}\label{class_r3_mesh_search_tree_add003fc4adeb66ee17dd49ee40a0b628}
+
+\item 
+int {\bfseries N\+Nodes} (void) const \hypertarget{class_r3_mesh_search_tree_a088a80a3e33b50e92f269f82450b1127}{}\label{class_r3_mesh_search_tree_a088a80a3e33b50e92f269f82450b1127}
+
+\item 
+void {\bfseries Outline} (void) const \hypertarget{class_r3_mesh_search_tree_a7b19af042d37610142c4829c63a99d78}{}\label{class_r3_mesh_search_tree_a7b19af042d37610142c4829c63a99d78}
+
+\item 
+void {\bfseries Print} (void) const \hypertarget{class_r3_mesh_search_tree_a4a6d7cdfe6ac17433a75ef3f84512c73}{}\label{class_r3_mesh_search_tree_a4a6d7cdfe6ac17433a75ef3f84512c73}
+
+\item 
+void {\bfseries Empty} (\hyperlink{class_r3_mesh_search_tree_node}{R3\+Mesh\+Search\+Tree\+Node} $\ast$node)\hypertarget{class_r3_mesh_search_tree_ad600e4d169ac1be45a66f97997afb65a}{}\label{class_r3_mesh_search_tree_ad600e4d169ac1be45a66f97997afb65a}
+
+\item 
+void {\bfseries Insert\+Face} (\hyperlink{class_r3_mesh_search_tree_face}{R3\+Mesh\+Search\+Tree\+Face} $\ast$face, \hyperlink{class_r3_mesh_search_tree_node}{R3\+Mesh\+Search\+Tree\+Node} $\ast$node, const \hyperlink{class_r3_box}{R3\+Box} \&node\+\_\+box, int depth)\hypertarget{class_r3_mesh_search_tree_afefe018a9d4a2ce6f9b715319d1b1ea8}{}\label{class_r3_mesh_search_tree_afefe018a9d4a2ce6f9b715319d1b1ea8}
+
+\item 
+void {\bfseries Find\+Closest} (const \hyperlink{class_r3_point}{R3\+Point} \&query, const \hyperlink{class_r3_vector}{R3\+Vector} \&normal, \hyperlink{struct_r3_mesh_intersection}{R3\+Mesh\+Intersection} \&closest, R\+N\+Scalar min\+\_\+distance\+\_\+squared, R\+N\+Scalar \&max\+\_\+distance\+\_\+squared, int($\ast$Is\+Compatible)(const \hyperlink{class_r3_point}{R3\+Point} \&, const \hyperlink{class_r3_vector}{R3\+Vector} \&, \hyperlink{class_r3_mesh}{R3\+Mesh} $\ast$, \hyperlink{class_r3_mesh_face}{R3\+Mesh\+Face} $\ast$, void $\ast$), void $\ast$compatible\+\_\+data, \hyperlink{class_r3_mesh_search_tree_node}{R3\+Mesh\+Search\+Tree\+Node} $\ast$node, const \hyperlink{class_r3_box}{R3\+Box} \&node\+\_\+box) const \hypertarget{class_r3_mesh_search_tree_aec2b5de7093b6257b2d39001f2cd5cca}{}\label{class_r3_mesh_search_tree_aec2b5de7093b6257b2d39001f2cd5cca}
+
+\item 
+void {\bfseries Find\+Closest} (const \hyperlink{class_r3_point}{R3\+Point} \&query, const \hyperlink{class_r3_vector}{R3\+Vector} \&normal, \hyperlink{struct_r3_mesh_intersection}{R3\+Mesh\+Intersection} \&closest, R\+N\+Scalar min\+\_\+distance\+\_\+squared, R\+N\+Scalar \&max\+\_\+distance\+\_\+squared, int($\ast$Is\+Compatible)(const \hyperlink{class_r3_point}{R3\+Point} \&, const \hyperlink{class_r3_vector}{R3\+Vector} \&, \hyperlink{class_r3_mesh}{R3\+Mesh} $\ast$, \hyperlink{class_r3_mesh_face}{R3\+Mesh\+Face} $\ast$, void $\ast$), void $\ast$compatible\+\_\+data, \hyperlink{class_r3_mesh_face}{R3\+Mesh\+Face} $\ast$face) const \hypertarget{class_r3_mesh_search_tree_adf9bd5b7c68fc0a19686ffed21cf1b5d}{}\label{class_r3_mesh_search_tree_adf9bd5b7c68fc0a19686ffed21cf1b5d}
+
+\item 
+void {\bfseries Find\+All} (const \hyperlink{class_r3_point}{R3\+Point} \&query, const \hyperlink{class_r3_vector}{R3\+Vector} \&normal, \hyperlink{class_r_n_array}{R\+N\+Array}$<$ \hyperlink{struct_r3_mesh_intersection}{R3\+Mesh\+Intersection} $\ast$ $>$ \&hits, R\+N\+Scalar min\+\_\+distance\+\_\+squared, R\+N\+Scalar max\+\_\+distance\+\_\+squared, int($\ast$Is\+Compatible)(const \hyperlink{class_r3_point}{R3\+Point} \&, const \hyperlink{class_r3_vector}{R3\+Vector} \&, \hyperlink{class_r3_mesh}{R3\+Mesh} $\ast$, \hyperlink{class_r3_mesh_face}{R3\+Mesh\+Face} $\ast$, void $\ast$), void $\ast$compatible\+\_\+data, \hyperlink{class_r3_mesh_search_tree_node}{R3\+Mesh\+Search\+Tree\+Node} $\ast$node, const \hyperlink{class_r3_box}{R3\+Box} \&node\+\_\+box) const \hypertarget{class_r3_mesh_search_tree_ae5ca53a22589df7786f45479ba933f4b}{}\label{class_r3_mesh_search_tree_ae5ca53a22589df7786f45479ba933f4b}
+
+\item 
+void {\bfseries Find\+All} (const \hyperlink{class_r3_point}{R3\+Point} \&query, const \hyperlink{class_r3_vector}{R3\+Vector} \&normal, \hyperlink{class_r_n_array}{R\+N\+Array}$<$ \hyperlink{struct_r3_mesh_intersection}{R3\+Mesh\+Intersection} $\ast$ $>$ \&hits, R\+N\+Scalar min\+\_\+distance\+\_\+squared, R\+N\+Scalar max\+\_\+distance\+\_\+squared, int($\ast$Is\+Compatible)(const \hyperlink{class_r3_point}{R3\+Point} \&, const \hyperlink{class_r3_vector}{R3\+Vector} \&, \hyperlink{class_r3_mesh}{R3\+Mesh} $\ast$, \hyperlink{class_r3_mesh_face}{R3\+Mesh\+Face} $\ast$, void $\ast$), void $\ast$compatible\+\_\+data, \hyperlink{class_r3_mesh_face}{R3\+Mesh\+Face} $\ast$face) const \hypertarget{class_r3_mesh_search_tree_a1a4b6d8e662f2f7ca4390253f80dab45}{}\label{class_r3_mesh_search_tree_a1a4b6d8e662f2f7ca4390253f80dab45}
+
+\item 
+void {\bfseries Find\+Intersection} (const \hyperlink{class_r3_ray}{R3\+Ray} \&ray, \hyperlink{struct_r3_mesh_intersection}{R3\+Mesh\+Intersection} \&closest, R\+N\+Scalar min\+\_\+t, R\+N\+Scalar \&max\+\_\+t, int($\ast$Is\+Compatible)(const \hyperlink{class_r3_point}{R3\+Point} \&, const \hyperlink{class_r3_vector}{R3\+Vector} \&, \hyperlink{class_r3_mesh}{R3\+Mesh} $\ast$, \hyperlink{class_r3_mesh_face}{R3\+Mesh\+Face} $\ast$, void $\ast$), void $\ast$compatible\+\_\+data, \hyperlink{class_r3_mesh_search_tree_node}{R3\+Mesh\+Search\+Tree\+Node} $\ast$node, const \hyperlink{class_r3_box}{R3\+Box} \&node\+\_\+box) const \hypertarget{class_r3_mesh_search_tree_a1a17209cd9a1b8fe1bf9b89946a02f0e}{}\label{class_r3_mesh_search_tree_a1a17209cd9a1b8fe1bf9b89946a02f0e}
+
+\item 
+void {\bfseries Find\+Intersection} (const \hyperlink{class_r3_ray}{R3\+Ray} \&ray, \hyperlink{struct_r3_mesh_intersection}{R3\+Mesh\+Intersection} \&closest, R\+N\+Scalar min\+\_\+t, R\+N\+Scalar \&max\+\_\+t, int($\ast$Is\+Compatible)(const \hyperlink{class_r3_point}{R3\+Point} \&, const \hyperlink{class_r3_vector}{R3\+Vector} \&, \hyperlink{class_r3_mesh}{R3\+Mesh} $\ast$, \hyperlink{class_r3_mesh_face}{R3\+Mesh\+Face} $\ast$, void $\ast$), void $\ast$compatible\+\_\+data, \hyperlink{class_r3_mesh_face}{R3\+Mesh\+Face} $\ast$face) const \hypertarget{class_r3_mesh_search_tree_a3fe22a837208a1c9f1c8079f98a185bf}{}\label{class_r3_mesh_search_tree_a3fe22a837208a1c9f1c8079f98a185bf}
+
+\item 
+void {\bfseries Outline} (\hyperlink{class_r3_mesh_search_tree_node}{R3\+Mesh\+Search\+Tree\+Node} $\ast$node, const \hyperlink{class_r3_box}{R3\+Box} \&node\+\_\+box) const \hypertarget{class_r3_mesh_search_tree_affc1315d4099ec49850e9d4453aa7464}{}\label{class_r3_mesh_search_tree_affc1315d4099ec49850e9d4453aa7464}
+
+\item 
+int {\bfseries Print} (\hyperlink{class_r3_mesh_search_tree_node}{R3\+Mesh\+Search\+Tree\+Node} $\ast$node, int depth) const \hypertarget{class_r3_mesh_search_tree_a2364b21f876564c29ce0a5d9d330c9aa}{}\label{class_r3_mesh_search_tree_a2364b21f876564c29ce0a5d9d330c9aa}
+
+\item 
+R\+N\+Scalar {\bfseries Distance\+Squared} (const \hyperlink{class_r3_point}{R3\+Point} \&query, const \hyperlink{class_r3_box}{R3\+Box} \&\hyperlink{structbox}{box}, R\+N\+Scalar max\+\_\+distance\+\_\+squared) const \hypertarget{class_r3_mesh_search_tree_a4659ab2afbc906afd7464b316790d572}{}\label{class_r3_mesh_search_tree_a4659ab2afbc906afd7464b316790d572}
+
+\item 
+R\+N\+Scalar {\bfseries Distance\+Squared} (const \hyperlink{class_r3_point}{R3\+Point} \&query, const \hyperlink{class_r3_point}{R3\+Point} \&point) const \hypertarget{class_r3_mesh_search_tree_a680ded7146c76c1154f0ad9dfe3d8118}{}\label{class_r3_mesh_search_tree_a680ded7146c76c1154f0ad9dfe3d8118}
+
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_r3_mesh}{R3\+Mesh} $\ast$ {\bfseries mesh}\hypertarget{class_r3_mesh_search_tree_a85bca6b99c5c529ea74d7045d16acb7d}{}\label{class_r3_mesh_search_tree_a85bca6b99c5c529ea74d7045d16acb7d}
+
+\item 
+\hyperlink{class_r3_mesh_search_tree_node}{R3\+Mesh\+Search\+Tree\+Node} $\ast$ {\bfseries root}\hypertarget{class_r3_mesh_search_tree_a8ad99f6cc83f9700301ccde3359aed13}{}\label{class_r3_mesh_search_tree_a8ad99f6cc83f9700301ccde3359aed13}
+
+\item 
+int {\bfseries nnodes}\hypertarget{class_r3_mesh_search_tree_a0f4ce63f17ba752a09a797fded1d5935}{}\label{class_r3_mesh_search_tree_a0f4ce63f17ba752a09a797fded1d5935}
+
+\item 
+R\+N\+Mark {\bfseries mark}\hypertarget{class_r3_mesh_search_tree_abb22705e395ef21a8dd8c5eb17ad969b}{}\label{class_r3_mesh_search_tree_abb22705e395ef21a8dd8c5eb17ad969b}
+
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+R3\+Shapes/R3\+Mesh\+Search\+Tree.\+h\item 
+R3\+Shapes/R3\+Mesh\+Search\+Tree.\+cpp\end{DoxyCompactItemize}

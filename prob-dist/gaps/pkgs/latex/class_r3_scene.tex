@@ -1,0 +1,122 @@
+\hypertarget{class_r3_scene}{}\section{R3\+Scene Class Reference}
+\label{class_r3_scene}\index{R3\+Scene@{R3\+Scene}}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+const \hyperlink{class_r3_box}{R3\+Box} \& {\bfseries B\+Box} (void) const \hypertarget{class_r3_scene_aa06b8cab65814cf8ab0a978567d22c1a}{}\label{class_r3_scene_aa06b8cab65814cf8ab0a978567d22c1a}
+
+\item 
+\hyperlink{class_r3_point}{R3\+Point} {\bfseries Centroid} (void) const \hypertarget{class_r3_scene_a028fa5f4dd8c9caf02e5dd30a930d861}{}\label{class_r3_scene_a028fa5f4dd8c9caf02e5dd30a930d861}
+
+\item 
+int {\bfseries N\+Nodes} (void) const \hypertarget{class_r3_scene_a747b59acd24a85e2e47245b245afa24c}{}\label{class_r3_scene_a747b59acd24a85e2e47245b245afa24c}
+
+\item 
+\hyperlink{class_r3_scene_node}{R3\+Scene\+Node} $\ast$ {\bfseries Node} (int k) const \hypertarget{class_r3_scene_a194d1200076c2d67b1ba5bb8cdae77aa}{}\label{class_r3_scene_a194d1200076c2d67b1ba5bb8cdae77aa}
+
+\item 
+\hyperlink{class_r3_scene_node}{R3\+Scene\+Node} $\ast$ {\bfseries Root} (void) const \hypertarget{class_r3_scene_ae3065e7f7ca0837aa097bd1342f7b8ba}{}\label{class_r3_scene_ae3065e7f7ca0837aa097bd1342f7b8ba}
+
+\item 
+int {\bfseries N\+Lights} (void) const \hypertarget{class_r3_scene_aea2ac387c17c77f952e07b2760c92454}{}\label{class_r3_scene_aea2ac387c17c77f952e07b2760c92454}
+
+\item 
+\hyperlink{class_r3_light}{R3\+Light} $\ast$ {\bfseries Light} (int k) const \hypertarget{class_r3_scene_ade268a4566941d202a103a5e80e57d09}{}\label{class_r3_scene_ade268a4566941d202a103a5e80e57d09}
+
+\item 
+const \hyperlink{class_r3_camera}{R3\+Camera} \& {\bfseries Camera} (void) const \hypertarget{class_r3_scene_a9031c48830efa7685128d45f2d7a89e4}{}\label{class_r3_scene_a9031c48830efa7685128d45f2d7a89e4}
+
+\item 
+const \hyperlink{class_r2_viewport}{R2\+Viewport} \& {\bfseries Viewport} (void) const \hypertarget{class_r3_scene_ace4059505b029e451c6b539dba588012}{}\label{class_r3_scene_ace4059505b029e451c6b539dba588012}
+
+\item 
+const \hyperlink{class_r3_viewer}{R3\+Viewer} \& {\bfseries Viewer} (void) const \hypertarget{class_r3_scene_aeb84f65529f327721d2b2073f3df5474}{}\label{class_r3_scene_aeb84f65529f327721d2b2073f3df5474}
+
+\item 
+const \hyperlink{class_r_n_rgb}{R\+N\+Rgb} \& {\bfseries Ambient} (void) const \hypertarget{class_r3_scene_a240082ea86f085b67fa04beddc48cb7c}{}\label{class_r3_scene_a240082ea86f085b67fa04beddc48cb7c}
+
+\item 
+const \hyperlink{class_r_n_rgb}{R\+N\+Rgb} \& {\bfseries Background} (void) const \hypertarget{class_r3_scene_a25d6e6a626aaca8ec417c747f245986f}{}\label{class_r3_scene_a25d6e6a626aaca8ec417c747f245986f}
+
+\item 
+void {\bfseries Insert\+Node} (\hyperlink{class_r3_scene_node}{R3\+Scene\+Node} $\ast$node)\hypertarget{class_r3_scene_ac68436af0c0d882c08c93682dcafd61a}{}\label{class_r3_scene_ac68436af0c0d882c08c93682dcafd61a}
+
+\item 
+void {\bfseries Remove\+Node} (\hyperlink{class_r3_scene_node}{R3\+Scene\+Node} $\ast$node)\hypertarget{class_r3_scene_a506f3e31248d03705c787fc3d77a9f92}{}\label{class_r3_scene_a506f3e31248d03705c787fc3d77a9f92}
+
+\item 
+void {\bfseries Insert\+Light} (\hyperlink{class_r3_light}{R3\+Light} $\ast$light)\hypertarget{class_r3_scene_ace71242956b0eba68ae408f0cae273ca}{}\label{class_r3_scene_ace71242956b0eba68ae408f0cae273ca}
+
+\item 
+void {\bfseries Remove\+Light} (\hyperlink{class_r3_light}{R3\+Light} $\ast$light)\hypertarget{class_r3_scene_ad1dd79efae914670dae06fafb200f52e}{}\label{class_r3_scene_ad1dd79efae914670dae06fafb200f52e}
+
+\item 
+void {\bfseries Set\+Camera} (const \hyperlink{class_r3_camera}{R3\+Camera} \&viewer)\hypertarget{class_r3_scene_aa43387268d9ce69d53880bb6d8bacc4f}{}\label{class_r3_scene_aa43387268d9ce69d53880bb6d8bacc4f}
+
+\item 
+void {\bfseries Set\+Viewport} (const \hyperlink{class_r2_viewport}{R2\+Viewport} \&viewport)\hypertarget{class_r3_scene_a34da45d63dad9594ecfc72393f4f7c7f}{}\label{class_r3_scene_a34da45d63dad9594ecfc72393f4f7c7f}
+
+\item 
+void {\bfseries Set\+Viewer} (const \hyperlink{class_r3_viewer}{R3\+Viewer} \&viewer)\hypertarget{class_r3_scene_a06916c10695566dc877982b20b334132}{}\label{class_r3_scene_a06916c10695566dc877982b20b334132}
+
+\item 
+void {\bfseries Set\+Ambient} (const \hyperlink{class_r_n_rgb}{R\+N\+Rgb} \&ambient)\hypertarget{class_r3_scene_a29e07fd01d1802b1049adf49fce18aa1}{}\label{class_r3_scene_a29e07fd01d1802b1049adf49fce18aa1}
+
+\item 
+void {\bfseries Set\+Background} (const \hyperlink{class_r_n_rgb}{R\+N\+Rgb} \&background)\hypertarget{class_r3_scene_a22ea693853c46f366dcaaf794a4f15ab}{}\label{class_r3_scene_a22ea693853c46f366dcaaf794a4f15ab}
+
+\item 
+R\+N\+Boolean {\bfseries Intersects} (const \hyperlink{class_r3_ray}{R3\+Ray} \&ray, \hyperlink{class_r3_scene_node}{R3\+Scene\+Node} $\ast$$\ast$hit\+\_\+node=N\+U\+LL, \hyperlink{class_r3_scene_element}{R3\+Scene\+Element} $\ast$$\ast$hit\+\_\+element=N\+U\+LL, \hyperlink{class_r3_shape}{R3\+Shape} $\ast$$\ast$hit\+\_\+shape=N\+U\+LL, \hyperlink{class_r3_point}{R3\+Point} $\ast$hit\+\_\+point=N\+U\+LL, \hyperlink{class_r3_vector}{R3\+Vector} $\ast$hit\+\_\+normal=N\+U\+LL, R\+N\+Scalar $\ast$hit\+\_\+t=N\+U\+LL) const \hypertarget{class_r3_scene_a1f5a1e49e518d76d3a3ab12a7b3841ee}{}\label{class_r3_scene_a1f5a1e49e518d76d3a3ab12a7b3841ee}
+
+\item 
+int {\bfseries Read\+File} (const char $\ast$filename)\hypertarget{class_r3_scene_addd82e576332e4e6dc7b7bda563b1ee0}{}\label{class_r3_scene_addd82e576332e4e6dc7b7bda563b1ee0}
+
+\item 
+int {\bfseries Read\+Obj\+File} (const char $\ast$filename)\hypertarget{class_r3_scene_a5a8d13e7491bc6b479f5e9f1cea5f2c1}{}\label{class_r3_scene_a5a8d13e7491bc6b479f5e9f1cea5f2c1}
+
+\item 
+int {\bfseries Read\+Mesh\+File} (const char $\ast$filename)\hypertarget{class_r3_scene_a7702a3e989887ec7a31b7abb9c6649ce}{}\label{class_r3_scene_a7702a3e989887ec7a31b7abb9c6649ce}
+
+\item 
+int {\bfseries Read\+Princeton\+File} (const char $\ast$filename)\hypertarget{class_r3_scene_aef1a9ae118de0997b659657aac2f3083}{}\label{class_r3_scene_aef1a9ae118de0997b659657aac2f3083}
+
+\item 
+int {\bfseries Read\+Parse\+File} (const char $\ast$filename)\hypertarget{class_r3_scene_a6adfc92505c4f1847b38382bae21df9f}{}\label{class_r3_scene_a6adfc92505c4f1847b38382bae21df9f}
+
+\item 
+int {\bfseries Read\+Support\+Hierarchy\+File} (const char $\ast$filename)\hypertarget{class_r3_scene_a028248071ce50d532dc62a96f005eabb}{}\label{class_r3_scene_a028248071ce50d532dc62a96f005eabb}
+
+\item 
+int {\bfseries Read\+Grammar\+Hierarchy\+File} (const char $\ast$filename)\hypertarget{class_r3_scene_ab0ab30b22e4520fa8339d09b7555a1b1}{}\label{class_r3_scene_ab0ab30b22e4520fa8339d09b7555a1b1}
+
+\item 
+int {\bfseries Read\+Rectangle\+File} (const char $\ast$filename)\hypertarget{class_r3_scene_a562d067741b7aaf453a35a3df0d73011}{}\label{class_r3_scene_a562d067741b7aaf453a35a3df0d73011}
+
+\item 
+int {\bfseries Write\+File} (const char $\ast$filename) const \hypertarget{class_r3_scene_a210427bbe707895683b82a2482048b6c}{}\label{class_r3_scene_a210427bbe707895683b82a2482048b6c}
+
+\item 
+int {\bfseries Write\+Obj\+File} (const char $\ast$filename) const \hypertarget{class_r3_scene_a0a19ace90f62cc28a5a82eacc33ccef8}{}\label{class_r3_scene_a0a19ace90f62cc28a5a82eacc33ccef8}
+
+\item 
+int {\bfseries Write\+Princeton\+File} (const char $\ast$filename) const \hypertarget{class_r3_scene_a9d72ac32502a2c7d3d954076f4c563a0}{}\label{class_r3_scene_a9d72ac32502a2c7d3d954076f4c563a0}
+
+\item 
+int {\bfseries Write\+Parse\+File} (const char $\ast$filename) const \hypertarget{class_r3_scene_a6f75e394f687c8a1276867319729e09a}{}\label{class_r3_scene_a6f75e394f687c8a1276867319729e09a}
+
+\item 
+int {\bfseries Write\+Support\+Hierarchy\+File} (const char $\ast$filename) const \hypertarget{class_r3_scene_a7ae24b28a57af71e8765f125be0472b2}{}\label{class_r3_scene_a7ae24b28a57af71e8765f125be0472b2}
+
+\item 
+int {\bfseries Write\+Grammar\+Hierarchy\+File} (const char $\ast$filename) const \hypertarget{class_r3_scene_a1edb63b3b070012c979562e13ef4df4b}{}\label{class_r3_scene_a1edb63b3b070012c979562e13ef4df4b}
+
+\item 
+void {\bfseries Draw} (const \hyperlink{class_r_n_flags}{R3\+Draw\+Flags} draw\+\_\+flags=R3\+\_\+\+D\+E\+F\+A\+U\+L\+T\+\_\+\+D\+R\+A\+W\+\_\+\+F\+L\+A\+GS, R\+N\+Boolean set\+\_\+camera=T\+R\+UE, R\+N\+Boolean set\+\_\+lights=T\+R\+UE) const \hypertarget{class_r3_scene_a253281eac9ff6834eb7a183ca9a6406a}{}\label{class_r3_scene_a253281eac9ff6834eb7a183ca9a6406a}
+
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+R3\+Graphics/R3\+Scene.\+h\item 
+R3\+Graphics/R3\+Scene.\+cpp\end{DoxyCompactItemize}

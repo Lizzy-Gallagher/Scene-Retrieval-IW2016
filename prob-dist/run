@@ -1,0 +1,10 @@
+#!/bin/bash
+
+echo "Cleaning up..."
+scripts/clean_all
+
+echo "Analyzing..."
+bin/p5danalyze grids/ -ptm 20 -context 4 2> ./err-log.txt
+
+echo "Converting Grids..."
+scripts/convert_all

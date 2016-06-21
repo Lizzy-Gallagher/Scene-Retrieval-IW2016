@@ -1,0 +1,182 @@
+\hypertarget{class_r_n_polynomial}{}\section{R\+N\+Polynomial Class Reference}
+\label{class_r_n_polynomial}\index{R\+N\+Polynomial@{R\+N\+Polynomial}}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\bfseries R\+N\+Polynomial} (const \hyperlink{class_r_n_polynomial}{R\+N\+Polynomial} \&polynomial)\hypertarget{class_r_n_polynomial_a734538cfdf84a28b083e3a18b1d7bd55}{}\label{class_r_n_polynomial_a734538cfdf84a28b083e3a18b1d7bd55}
+
+\item 
+{\bfseries R\+N\+Polynomial} (R\+N\+Scalar c, int v, R\+N\+Scalar e)\hypertarget{class_r_n_polynomial_a0d0715c10a1b6e248c92e697b86b9e6f}{}\label{class_r_n_polynomial_a0d0715c10a1b6e248c92e697b86b9e6f}
+
+\item 
+{\bfseries R\+N\+Polynomial} (R\+N\+Scalar c, int nv, const int $\ast$v=N\+U\+LL, const R\+N\+Scalar $\ast$e=N\+U\+LL, R\+N\+Boolean already\+\_\+sorted=F\+A\+L\+SE)\hypertarget{class_r_n_polynomial_a14fc912dcf9fa6a4fd28ff998420d280}{}\label{class_r_n_polynomial_a14fc912dcf9fa6a4fd28ff998420d280}
+
+\item 
+R\+N\+Boolean {\bfseries Is\+Zero} (void) const \hypertarget{class_r_n_polynomial_aadc89190ef27ab427aaaa3cef57cd89c}{}\label{class_r_n_polynomial_aadc89190ef27ab427aaaa3cef57cd89c}
+
+\item 
+R\+N\+Boolean {\bfseries Is\+Constant} (void) const \hypertarget{class_r_n_polynomial_ad5c7d4ddd1ceb0753f846c0cab03ff7e}{}\label{class_r_n_polynomial_ad5c7d4ddd1ceb0753f846c0cab03ff7e}
+
+\item 
+R\+N\+Boolean {\bfseries Is\+Linear} (void) const \hypertarget{class_r_n_polynomial_abed9e36d70024074207c8fe5195e2073}{}\label{class_r_n_polynomial_abed9e36d70024074207c8fe5195e2073}
+
+\item 
+R\+N\+Boolean {\bfseries Is\+Quadratic} (void) const \hypertarget{class_r_n_polynomial_ab7c0bd3438eafb1cd592674040bdad8a}{}\label{class_r_n_polynomial_ab7c0bd3438eafb1cd592674040bdad8a}
+
+\item 
+R\+N\+Boolean {\bfseries Is\+Polynomial} (void) const \hypertarget{class_r_n_polynomial_a9c5d94f612e7f2abbd0ba615b34b08d8}{}\label{class_r_n_polynomial_a9c5d94f612e7f2abbd0ba615b34b08d8}
+
+\item 
+R\+N\+Boolean {\bfseries Is\+Algebraic} (void) const \hypertarget{class_r_n_polynomial_afd0931b6e46db99866270ce2cf13f308}{}\label{class_r_n_polynomial_afd0931b6e46db99866270ce2cf13f308}
+
+\item 
+R\+N\+Boolean {\bfseries Has\+Variable} (int v) const \hypertarget{class_r_n_polynomial_a9021407b0f4f5b670d8e52c78bc42659}{}\label{class_r_n_polynomial_a9021407b0f4f5b670d8e52c78bc42659}
+
+\item 
+int {\bfseries N\+Variables} (void) const \hypertarget{class_r_n_polynomial_ad94334e296f6677d0628790c7548c503}{}\label{class_r_n_polynomial_ad94334e296f6677d0628790c7548c503}
+
+\item 
+int {\bfseries N\+Partial\+Derivatives} (void) const \hypertarget{class_r_n_polynomial_aa0197499911dfb604a3f01f5587f8fea}{}\label{class_r_n_polynomial_aa0197499911dfb604a3f01f5587f8fea}
+
+\item 
+R\+N\+Scalar {\bfseries Degree} (void) const \hypertarget{class_r_n_polynomial_a515eb385bbc53fb287eb54c4166f2f71}{}\label{class_r_n_polynomial_a515eb385bbc53fb287eb54c4166f2f71}
+
+\item 
+int {\bfseries N\+Terms} (void) const \hypertarget{class_r_n_polynomial_a262868771d25fc2c8dd2ca78dceb20bc}{}\label{class_r_n_polynomial_a262868771d25fc2c8dd2ca78dceb20bc}
+
+\item 
+\hyperlink{class_r_n_polynomial_term}{R\+N\+Polynomial\+Term} $\ast$ {\bfseries Term} (int k) const \hypertarget{class_r_n_polynomial_ab2e16669a395cd11f86d93e3407867f5}{}\label{class_r_n_polynomial_ab2e16669a395cd11f86d93e3407867f5}
+
+\item 
+void {\bfseries Empty} (void)\hypertarget{class_r_n_polynomial_afe897c2c9d3205ad6e035a16d8b4ff47}{}\label{class_r_n_polynomial_afe897c2c9d3205ad6e035a16d8b4ff47}
+
+\item 
+void {\bfseries Negate} (void)\hypertarget{class_r_n_polynomial_af1870a880ae693180ad431234860beb1}{}\label{class_r_n_polynomial_af1870a880ae693180ad431234860beb1}
+
+\item 
+void {\bfseries Add} (R\+N\+Scalar constant)\hypertarget{class_r_n_polynomial_a36a7d8aa1eb98b2b0307475936361549}{}\label{class_r_n_polynomial_a36a7d8aa1eb98b2b0307475936361549}
+
+\item 
+void {\bfseries Subtract} (R\+N\+Scalar constant)\hypertarget{class_r_n_polynomial_a89f042402f05ff89501ed1f76905fa28}{}\label{class_r_n_polynomial_a89f042402f05ff89501ed1f76905fa28}
+
+\item 
+void {\bfseries Multiply} (R\+N\+Scalar factor)\hypertarget{class_r_n_polynomial_a07bab8b889472d0e1676a5bbbcad5b89}{}\label{class_r_n_polynomial_a07bab8b889472d0e1676a5bbbcad5b89}
+
+\item 
+void {\bfseries Divide} (R\+N\+Scalar factor)\hypertarget{class_r_n_polynomial_abc3555755e158190b5c8f4bb5a3bb9e7}{}\label{class_r_n_polynomial_abc3555755e158190b5c8f4bb5a3bb9e7}
+
+\item 
+void {\bfseries Add} (const \hyperlink{class_r_n_polynomial}{R\+N\+Polynomial} \&polynomial)\hypertarget{class_r_n_polynomial_a5eb2faa9cb89f5ba5e71e8bcfd74d2df}{}\label{class_r_n_polynomial_a5eb2faa9cb89f5ba5e71e8bcfd74d2df}
+
+\item 
+void {\bfseries Subtract} (const \hyperlink{class_r_n_polynomial}{R\+N\+Polynomial} \&polynomial)\hypertarget{class_r_n_polynomial_a35d6874c8f2b2405cbeac8fe65910b25}{}\label{class_r_n_polynomial_a35d6874c8f2b2405cbeac8fe65910b25}
+
+\item 
+void {\bfseries Multiply} (const \hyperlink{class_r_n_polynomial}{R\+N\+Polynomial} \&polynomial)\hypertarget{class_r_n_polynomial_a1092bb08b53222a9f7a0988e0c748fb6}{}\label{class_r_n_polynomial_a1092bb08b53222a9f7a0988e0c748fb6}
+
+\item 
+\hyperlink{class_r_n_polynomial}{R\+N\+Polynomial} \& {\bfseries operator=} (const \hyperlink{class_r_n_polynomial}{R\+N\+Polynomial} \&polynomial)\hypertarget{class_r_n_polynomial_ad063ecb59d3c54e73f14de55520c0a40}{}\label{class_r_n_polynomial_ad063ecb59d3c54e73f14de55520c0a40}
+
+\item 
+\hyperlink{class_r_n_polynomial}{R\+N\+Polynomial} \& {\bfseries operator+=} (const \hyperlink{class_r_n_polynomial}{R\+N\+Polynomial} \&polynomial)\hypertarget{class_r_n_polynomial_a4fe4089a01944fbbf2167edee70e4a48}{}\label{class_r_n_polynomial_a4fe4089a01944fbbf2167edee70e4a48}
+
+\item 
+\hyperlink{class_r_n_polynomial}{R\+N\+Polynomial} \& {\bfseries operator-\/=} (const \hyperlink{class_r_n_polynomial}{R\+N\+Polynomial} \&polynomial)\hypertarget{class_r_n_polynomial_ac433f05cf581511dd1955b7961c09a24}{}\label{class_r_n_polynomial_ac433f05cf581511dd1955b7961c09a24}
+
+\item 
+\hyperlink{class_r_n_polynomial}{R\+N\+Polynomial} \& {\bfseries operator$\ast$=} (const \hyperlink{class_r_n_polynomial}{R\+N\+Polynomial} \&polynomial)\hypertarget{class_r_n_polynomial_a36e6aa34ad1e60e02972e51c1a12ff84}{}\label{class_r_n_polynomial_a36e6aa34ad1e60e02972e51c1a12ff84}
+
+\item 
+\hyperlink{class_r_n_polynomial}{R\+N\+Polynomial} \& {\bfseries operator=} (R\+N\+Scalar a)\hypertarget{class_r_n_polynomial_a2e807a74d497624aecfe196db67069fc}{}\label{class_r_n_polynomial_a2e807a74d497624aecfe196db67069fc}
+
+\item 
+\hyperlink{class_r_n_polynomial}{R\+N\+Polynomial} \& {\bfseries operator+=} (R\+N\+Scalar a)\hypertarget{class_r_n_polynomial_a90a5802eef73c0fafabd3d4dde832286}{}\label{class_r_n_polynomial_a90a5802eef73c0fafabd3d4dde832286}
+
+\item 
+\hyperlink{class_r_n_polynomial}{R\+N\+Polynomial} \& {\bfseries operator-\/=} (R\+N\+Scalar a)\hypertarget{class_r_n_polynomial_a127c1ef8248bc58b22587989d2c5d290}{}\label{class_r_n_polynomial_a127c1ef8248bc58b22587989d2c5d290}
+
+\item 
+\hyperlink{class_r_n_polynomial}{R\+N\+Polynomial} \& {\bfseries operator$\ast$=} (R\+N\+Scalar a)\hypertarget{class_r_n_polynomial_a59c57173b9e6c5fb92f604712dc7ad8b}{}\label{class_r_n_polynomial_a59c57173b9e6c5fb92f604712dc7ad8b}
+
+\item 
+\hyperlink{class_r_n_polynomial}{R\+N\+Polynomial} \& {\bfseries operator/=} (R\+N\+Scalar a)\hypertarget{class_r_n_polynomial_a3aace0bf2f7a4ad99cf25a9b724169c7}{}\label{class_r_n_polynomial_a3aace0bf2f7a4ad99cf25a9b724169c7}
+
+\item 
+void {\bfseries Add\+Term} (R\+N\+Scalar c, R\+N\+Boolean already\+\_\+unique=F\+A\+L\+SE)\hypertarget{class_r_n_polynomial_a320912784fce364dfc98173ad3e28f67}{}\label{class_r_n_polynomial_a320912784fce364dfc98173ad3e28f67}
+
+\item 
+void {\bfseries Add\+Term} (R\+N\+Scalar c, int v, R\+N\+Scalar e, R\+N\+Boolean already\+\_\+unique=F\+A\+L\+SE)\hypertarget{class_r_n_polynomial_a0d4f0f26175fb779e26c18e3374f5466}{}\label{class_r_n_polynomial_a0d4f0f26175fb779e26c18e3374f5466}
+
+\item 
+void {\bfseries Add\+Term} (R\+N\+Scalar c, int n, const int $\ast$v, const R\+N\+Scalar $\ast$e, R\+N\+Boolean already\+\_\+sorted=F\+A\+L\+SE, R\+N\+Boolean already\+\_\+unique=F\+A\+L\+SE)\hypertarget{class_r_n_polynomial_a43d7b61dcd6bef041e99d4ad080e03b9}{}\label{class_r_n_polynomial_a43d7b61dcd6bef041e99d4ad080e03b9}
+
+\item 
+R\+N\+Scalar {\bfseries Evaluate} (const R\+N\+Scalar $\ast$x) const \hypertarget{class_r_n_polynomial_a57ddc92b8d2c1be2b25b5d9c25e09b37}{}\label{class_r_n_polynomial_a57ddc92b8d2c1be2b25b5d9c25e09b37}
+
+\item 
+R\+N\+Scalar {\bfseries Partial\+Derivative} (const R\+N\+Scalar $\ast$x, int variable) const \hypertarget{class_r_n_polynomial_a460d18be132710363595506abb4ef447}{}\label{class_r_n_polynomial_a460d18be132710363595506abb4ef447}
+
+\item 
+void {\bfseries Print} (F\+I\+LE $\ast$fp=stdout) const \hypertarget{class_r_n_polynomial_a6f3113ec39e17db04ca0937c53391caa}{}\label{class_r_n_polynomial_a6f3113ec39e17db04ca0937c53391caa}
+
+\item 
+R\+N\+Scalar {\bfseries Evaluate} (double const $\ast$const $\ast$x) const \hypertarget{class_r_n_polynomial_a345420217ca04ae32675c0aefbf13c44}{}\label{class_r_n_polynomial_a345420217ca04ae32675c0aefbf13c44}
+
+\item 
+R\+N\+Scalar {\bfseries Partial\+Derivative} (double const $\ast$const $\ast$x, int variable) const \hypertarget{class_r_n_polynomial_aa19502bd1d0d97ed529fd9b701536c15}{}\label{class_r_n_polynomial_aa19502bd1d0d97ed529fd9b701536c15}
+
+\item 
+\hyperlink{class_r_n_polynomial_term}{R\+N\+Polynomial\+Term} $\ast$ {\bfseries Find\+Term\+With\+Same\+Variables} (const \hyperlink{class_r_n_polynomial_term}{R\+N\+Polynomial\+Term} $\ast$query) const \hypertarget{class_r_n_polynomial_a6caaa07dfe2b4174d4b0860ad0897215}{}\label{class_r_n_polynomial_a6caaa07dfe2b4174d4b0860ad0897215}
+
+\item 
+\hyperlink{class_r_n_polynomial_term}{R\+N\+Polynomial\+Term} $\ast$ {\bfseries Find\+Term\+With\+Variables} (int n, int $\ast$v, R\+N\+Scalar $\ast$e) const \hypertarget{class_r_n_polynomial_ab54b0c8ee80c040a4acfb7a6e0633d56}{}\label{class_r_n_polynomial_ab54b0c8ee80c040a4acfb7a6e0633d56}
+
+\item 
+void {\bfseries Update\+Variable\+Range} (int \&min\+\_\+v, int \&max\+\_\+v) const \hypertarget{class_r_n_polynomial_a0310a8410886d83fc07b19804a836b03}{}\label{class_r_n_polynomial_a0310a8410886d83fc07b19804a836b03}
+
+\item 
+void {\bfseries Update\+Variable\+Index} (int max\+\_\+variables, int \&variable\+\_\+count, int $\ast$variable\+\_\+marks, int current\+\_\+mark, int $\ast$index\+\_\+to\+\_\+variable=N\+U\+LL, int $\ast$variable\+\_\+to\+\_\+index=N\+U\+LL, R\+N\+Boolean remap\+\_\+variables=F\+A\+L\+SE) const \hypertarget{class_r_n_polynomial_a89ce79764086298fe4191fa591929d0f}{}\label{class_r_n_polynomial_a89ce79764086298fe4191fa591929d0f}
+
+\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_r_n_polynomial}{R\+N\+Polynomial} {\bfseries operator-\/} (const \hyperlink{class_r_n_polynomial}{R\+N\+Polynomial} \&polynomial)\hypertarget{class_r_n_polynomial_a2afb69fbab20244104fff90a560e56e8}{}\label{class_r_n_polynomial_a2afb69fbab20244104fff90a560e56e8}
+
+\item 
+\hyperlink{class_r_n_polynomial}{R\+N\+Polynomial} {\bfseries operator+} (const \hyperlink{class_r_n_polynomial}{R\+N\+Polynomial} \&polynomial1, const \hyperlink{class_r_n_polynomial}{R\+N\+Polynomial} \&polynomial2)\hypertarget{class_r_n_polynomial_a6cb79f61765de8efafded355a4771150}{}\label{class_r_n_polynomial_a6cb79f61765de8efafded355a4771150}
+
+\item 
+\hyperlink{class_r_n_polynomial}{R\+N\+Polynomial} {\bfseries operator+} (const \hyperlink{class_r_n_polynomial}{R\+N\+Polynomial} \&polynomial, R\+N\+Scalar a)\hypertarget{class_r_n_polynomial_af405275fd8d6cc15f508dc618d2aef3a}{}\label{class_r_n_polynomial_af405275fd8d6cc15f508dc618d2aef3a}
+
+\item 
+\hyperlink{class_r_n_polynomial}{R\+N\+Polynomial} {\bfseries operator+} (R\+N\+Scalar a, const \hyperlink{class_r_n_polynomial}{R\+N\+Polynomial} \&polynomial)\hypertarget{class_r_n_polynomial_ab8f727f4ab079eb2edaac87c3734864c}{}\label{class_r_n_polynomial_ab8f727f4ab079eb2edaac87c3734864c}
+
+\item 
+\hyperlink{class_r_n_polynomial}{R\+N\+Polynomial} {\bfseries operator-\/} (const \hyperlink{class_r_n_polynomial}{R\+N\+Polynomial} \&polynomial1, const \hyperlink{class_r_n_polynomial}{R\+N\+Polynomial} \&polynomial2)\hypertarget{class_r_n_polynomial_a9c49458888910072679893b5bedcdc90}{}\label{class_r_n_polynomial_a9c49458888910072679893b5bedcdc90}
+
+\item 
+\hyperlink{class_r_n_polynomial}{R\+N\+Polynomial} {\bfseries operator-\/} (const \hyperlink{class_r_n_polynomial}{R\+N\+Polynomial} \&polynomial, R\+N\+Scalar a)\hypertarget{class_r_n_polynomial_a81c63501ca0365522c3df18506adbadb}{}\label{class_r_n_polynomial_a81c63501ca0365522c3df18506adbadb}
+
+\item 
+\hyperlink{class_r_n_polynomial}{R\+N\+Polynomial} {\bfseries operator-\/} (R\+N\+Scalar a, const \hyperlink{class_r_n_polynomial}{R\+N\+Polynomial} \&polynomial)\hypertarget{class_r_n_polynomial_aa7d11f0a498a2c85d0d8889fc05db11b}{}\label{class_r_n_polynomial_aa7d11f0a498a2c85d0d8889fc05db11b}
+
+\item 
+\hyperlink{class_r_n_polynomial}{R\+N\+Polynomial} {\bfseries operator$\ast$} (const \hyperlink{class_r_n_polynomial}{R\+N\+Polynomial} \&polynomial1, const \hyperlink{class_r_n_polynomial}{R\+N\+Polynomial} \&polynomial2)\hypertarget{class_r_n_polynomial_a9cd194e3089e0698029d220c8addfbc5}{}\label{class_r_n_polynomial_a9cd194e3089e0698029d220c8addfbc5}
+
+\item 
+\hyperlink{class_r_n_polynomial}{R\+N\+Polynomial} {\bfseries operator$\ast$} (const \hyperlink{class_r_n_polynomial}{R\+N\+Polynomial} \&polynomial, R\+N\+Scalar a)\hypertarget{class_r_n_polynomial_a1416f9fea998a706c23a8e30477fe6a5}{}\label{class_r_n_polynomial_a1416f9fea998a706c23a8e30477fe6a5}
+
+\item 
+\hyperlink{class_r_n_polynomial}{R\+N\+Polynomial} {\bfseries operator$\ast$} (R\+N\+Scalar a, const \hyperlink{class_r_n_polynomial}{R\+N\+Polynomial} \&polynomial)\hypertarget{class_r_n_polynomial_aee4c3b449d13bd3533397db21a71e157}{}\label{class_r_n_polynomial_aee4c3b449d13bd3533397db21a71e157}
+
+\item 
+\hyperlink{class_r_n_polynomial}{R\+N\+Polynomial} {\bfseries operator/} (const \hyperlink{class_r_n_polynomial}{R\+N\+Polynomial} \&polynomial, R\+N\+Scalar a)\hypertarget{class_r_n_polynomial_a2a86dae18495887a81ffeb7f177ff8b1}{}\label{class_r_n_polynomial_a2a86dae18495887a81ffeb7f177ff8b1}
+
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+R\+N\+Math/R\+N\+Polynomial.\+h\item 
+R\+N\+Math/R\+N\+Polynomial.\+cpp\end{DoxyCompactItemize}

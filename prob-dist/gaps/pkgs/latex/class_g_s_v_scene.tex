@@ -1,0 +1,134 @@
+\hypertarget{class_g_s_v_scene}{}\section{G\+S\+V\+Scene Class Reference}
+\label{class_g_s_v_scene}\index{G\+S\+V\+Scene@{G\+S\+V\+Scene}}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+int {\bfseries N\+Runs} (void) const \hypertarget{class_g_s_v_scene_a2e86a4322ad471830f69d18ad9bc5579}{}\label{class_g_s_v_scene_a2e86a4322ad471830f69d18ad9bc5579}
+
+\item 
+\hyperlink{class_g_s_v_run}{G\+S\+V\+Run} $\ast$ {\bfseries Run} (int run\+\_\+index) const \hypertarget{class_g_s_v_scene_a30fb81e2db0d7032667e7e70144d1bb8}{}\label{class_g_s_v_scene_a30fb81e2db0d7032667e7e70144d1bb8}
+
+\item 
+\hyperlink{class_g_s_v_run}{G\+S\+V\+Run} $\ast$ {\bfseries Run} (const char $\ast$name) const \hypertarget{class_g_s_v_scene_a9776044609c38d36050ee37f643fdefa}{}\label{class_g_s_v_scene_a9776044609c38d36050ee37f643fdefa}
+
+\item 
+int {\bfseries N\+Segments} (void) const \hypertarget{class_g_s_v_scene_ac8bc1817ad8839fbe7c7bffc21f32f58}{}\label{class_g_s_v_scene_ac8bc1817ad8839fbe7c7bffc21f32f58}
+
+\item 
+int {\bfseries N\+Lasers} (void) const \hypertarget{class_g_s_v_scene_a2e73301c2b44d904064e85fbc55f4625}{}\label{class_g_s_v_scene_a2e73301c2b44d904064e85fbc55f4625}
+
+\item 
+int {\bfseries N\+Cameras} (void) const \hypertarget{class_g_s_v_scene_afeb2d8defba862fced378c15c9ae029f}{}\label{class_g_s_v_scene_afeb2d8defba862fced378c15c9ae029f}
+
+\item 
+int {\bfseries N\+Tapestries} (void) const \hypertarget{class_g_s_v_scene_ab093ffb738a94ea3031b79948e2d6d3a}{}\label{class_g_s_v_scene_ab093ffb738a94ea3031b79948e2d6d3a}
+
+\item 
+int {\bfseries N\+Panoramas} (void) const \hypertarget{class_g_s_v_scene_af5450b6545217548201dda6099572a6e}{}\label{class_g_s_v_scene_af5450b6545217548201dda6099572a6e}
+
+\item 
+int {\bfseries N\+Images} (void) const \hypertarget{class_g_s_v_scene_a092b821640cde5196fd2afd08ac9abb3}{}\label{class_g_s_v_scene_a092b821640cde5196fd2afd08ac9abb3}
+
+\item 
+int {\bfseries N\+Scans} (void) const \hypertarget{class_g_s_v_scene_a3e3d3afe94aadf162ee6fea8b4d38b24}{}\label{class_g_s_v_scene_a3e3d3afe94aadf162ee6fea8b4d38b24}
+
+\item 
+int {\bfseries N\+Scanlines} (void) const \hypertarget{class_g_s_v_scene_a1fb5c27a8973c7e5c8f41cdd8936dc03}{}\label{class_g_s_v_scene_a1fb5c27a8973c7e5c8f41cdd8936dc03}
+
+\item 
+const \hyperlink{class_r3_box}{R3\+Box} \& {\bfseries B\+Box} (void) const \hypertarget{class_g_s_v_scene_a965900414fd13877ad91b53af52639e1}{}\label{class_g_s_v_scene_a965900414fd13877ad91b53af52639e1}
+
+\item 
+void $\ast$ {\bfseries Data} (void) const \hypertarget{class_g_s_v_scene_a7ab8a2152dbd20dc94804e993ba574d1}{}\label{class_g_s_v_scene_a7ab8a2152dbd20dc94804e993ba574d1}
+
+\item 
+void {\bfseries Insert\+Run} (\hyperlink{class_g_s_v_run}{G\+S\+V\+Run} $\ast$run)\hypertarget{class_g_s_v_scene_a710f7b98e2d68368b92220bdb4a1533e}{}\label{class_g_s_v_scene_a710f7b98e2d68368b92220bdb4a1533e}
+
+\item 
+void {\bfseries Remove\+Run} (\hyperlink{class_g_s_v_run}{G\+S\+V\+Run} $\ast$run)\hypertarget{class_g_s_v_scene_a88ea7c2793b24fa56bf04bd776c3d764}{}\label{class_g_s_v_scene_a88ea7c2793b24fa56bf04bd776c3d764}
+
+\item 
+void {\bfseries Set\+B\+Box} (const \hyperlink{class_r3_box}{R3\+Box} \&\hyperlink{structbox}{box})\hypertarget{class_g_s_v_scene_ae1d51b0629f9eaa6f87094fd55870a40}{}\label{class_g_s_v_scene_ae1d51b0629f9eaa6f87094fd55870a40}
+
+\item 
+void {\bfseries Set\+Data} (void $\ast$data)\hypertarget{class_g_s_v_scene_a645e2f45d7ff36d68050dc563f4d06c4}{}\label{class_g_s_v_scene_a645e2f45d7ff36d68050dc563f4d06c4}
+
+\item 
+virtual void {\bfseries Draw} (\hyperlink{class_r_n_flags}{R\+N\+Flags} flags=G\+S\+V\+\_\+\+D\+E\+F\+A\+U\+L\+T\+\_\+\+D\+R\+A\+W\+\_\+\+F\+L\+A\+GS) const \hypertarget{class_g_s_v_scene_a5ed844460a6f26b8f5cba9701b817f9f}{}\label{class_g_s_v_scene_a5ed844460a6f26b8f5cba9701b817f9f}
+
+\item 
+virtual void {\bfseries Print} (F\+I\+LE $\ast$fp=N\+U\+LL, const char $\ast$prefix=N\+U\+LL, const char $\ast$suffix=N\+U\+LL) const \hypertarget{class_g_s_v_scene_af04a18bdc70a687c80c039b161d840f4}{}\label{class_g_s_v_scene_af04a18bdc70a687c80c039b161d840f4}
+
+\item 
+virtual int {\bfseries Read\+File} (const char $\ast$filename, R\+N\+Boolean read\+\_\+points=T\+R\+UE)\hypertarget{class_g_s_v_scene_a133b1a9690e219c691d41a5ce7494f99}{}\label{class_g_s_v_scene_a133b1a9690e219c691d41a5ce7494f99}
+
+\item 
+virtual int {\bfseries Read\+Laser\+File} (const char $\ast$filename, R\+N\+Boolean read\+\_\+points=T\+R\+UE)\hypertarget{class_g_s_v_scene_a95d03faffbd6ac4a0d7cc0acebbcaa32}{}\label{class_g_s_v_scene_a95d03faffbd6ac4a0d7cc0acebbcaa32}
+
+\item 
+virtual int {\bfseries Read\+A\+S\+C\+I\+I\+File} (const char $\ast$filename, R\+N\+Boolean read\+\_\+points=T\+R\+UE)\hypertarget{class_g_s_v_scene_a026a951e625ff3cc5216fe42c16c9218}{}\label{class_g_s_v_scene_a026a951e625ff3cc5216fe42c16c9218}
+
+\item 
+virtual int {\bfseries Read\+G\+S\+F\+File} (const char $\ast$filename, R\+N\+Boolean read\+\_\+points=T\+R\+UE)\hypertarget{class_g_s_v_scene_ad2b708547bcc6475d1fd5c18f002e021}{}\label{class_g_s_v_scene_ad2b708547bcc6475d1fd5c18f002e021}
+
+\item 
+virtual int {\bfseries Read\+G\+S\+V\+File} (const char $\ast$filename, R\+N\+Boolean read\+\_\+points=T\+R\+UE)\hypertarget{class_g_s_v_scene_ac2e717ea3d527a9b1757accea235a563}{}\label{class_g_s_v_scene_ac2e717ea3d527a9b1757accea235a563}
+
+\item 
+virtual int {\bfseries Write\+File} (const char $\ast$filename)\hypertarget{class_g_s_v_scene_a3c1a5e6a12ed3615d12e2156883b7819}{}\label{class_g_s_v_scene_a3c1a5e6a12ed3615d12e2156883b7819}
+
+\item 
+virtual int {\bfseries Write\+G\+S\+V\+File} (const char $\ast$filename)\hypertarget{class_g_s_v_scene_addda13a9212036680f37f2dcd57d93bd}{}\label{class_g_s_v_scene_addda13a9212036680f37f2dcd57d93bd}
+
+\item 
+const char $\ast$ {\bfseries Filename} (void) const \hypertarget{class_g_s_v_scene_a2507301263dd27ec498caedf1f5a3f4a}{}\label{class_g_s_v_scene_a2507301263dd27ec498caedf1f5a3f4a}
+
+\item 
+const char $\ast$ {\bfseries Raw\+Data\+Directory\+Name} (void) const \hypertarget{class_g_s_v_scene_ad214c78f2d3757efe5f594fe258470e2}{}\label{class_g_s_v_scene_ad214c78f2d3757efe5f594fe258470e2}
+
+\item 
+void {\bfseries Set\+Raw\+Data\+Directory\+Name} (const char $\ast$directory\+\_\+name)\hypertarget{class_g_s_v_scene_ae01aca0c5f894d86dfd32f8e29624cd4}{}\label{class_g_s_v_scene_ae01aca0c5f894d86dfd32f8e29624cd4}
+
+\item 
+const char $\ast$ {\bfseries Cache\+Data\+Directory\+Name} (void) const \hypertarget{class_g_s_v_scene_ac152ec61bd2d72956978bc7899c01a3c}{}\label{class_g_s_v_scene_ac152ec61bd2d72956978bc7899c01a3c}
+
+\item 
+void {\bfseries Set\+Cache\+Data\+Directory\+Name} (const char $\ast$directory\+\_\+name)\hypertarget{class_g_s_v_scene_a13976ac3e21b3a6fb8591da0013f3249}{}\label{class_g_s_v_scene_a13976ac3e21b3a6fb8591da0013f3249}
+
+\item 
+int {\bfseries Create\+Cache\+Data\+Directory} (const char $\ast$subdirectory=N\+U\+LL, \hyperlink{class_g_s_v_run}{G\+S\+V\+Run} $\ast$run=N\+U\+LL) const \hypertarget{class_g_s_v_scene_abeeb4131664ea38878bf251ab3a67087}{}\label{class_g_s_v_scene_abeeb4131664ea38878bf251ab3a67087}
+
+\item 
+void {\bfseries Update\+B\+Box} (void)\hypertarget{class_g_s_v_scene_a93dc3eff9fc1aec0a4a0d12a32091e8f}{}\label{class_g_s_v_scene_a93dc3eff9fc1aec0a4a0d12a32091e8f}
+
+\item 
+void {\bfseries Invalidate\+B\+Box} (void)\hypertarget{class_g_s_v_scene_a4715cc1259bf616ae058719c8519ed9e}{}\label{class_g_s_v_scene_a4715cc1259bf616ae058719c8519ed9e}
+
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_r_n_array}{R\+N\+Array}$<$ \hyperlink{class_g_s_v_run}{G\+S\+V\+Run} $\ast$ $>$ {\bfseries runs}\hypertarget{class_g_s_v_scene_a191469e1dea4d64baf9360f4135abda7}{}\label{class_g_s_v_scene_a191469e1dea4d64baf9360f4135abda7}
+
+\item 
+char $\ast$ {\bfseries filename}\hypertarget{class_g_s_v_scene_a840746395403c5e00ee20be7de3e7a4b}{}\label{class_g_s_v_scene_a840746395403c5e00ee20be7de3e7a4b}
+
+\item 
+char $\ast$ {\bfseries raw\+\_\+data\+\_\+directory\+\_\+name}\hypertarget{class_g_s_v_scene_a34f451fb84ca1c892511ef6e5dc73e2f}{}\label{class_g_s_v_scene_a34f451fb84ca1c892511ef6e5dc73e2f}
+
+\item 
+char $\ast$ {\bfseries cache\+\_\+data\+\_\+directory\+\_\+name}\hypertarget{class_g_s_v_scene_ab8cc5286c81020482e7da3df63482015}{}\label{class_g_s_v_scene_ab8cc5286c81020482e7da3df63482015}
+
+\item 
+\hyperlink{class_r3_box}{R3\+Box} {\bfseries bbox}\hypertarget{class_g_s_v_scene_a1581f067b73f76490dc915f351c70ee0}{}\label{class_g_s_v_scene_a1581f067b73f76490dc915f351c70ee0}
+
+\item 
+void $\ast$ {\bfseries data}\hypertarget{class_g_s_v_scene_a2f5147787a60265e51b297109b430cac}{}\label{class_g_s_v_scene_a2f5147787a60265e51b297109b430cac}
+
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+G\+S\+V/G\+S\+V\+Scene.\+h\item 
+G\+S\+V/G\+S\+V\+Scene.\+cpp\end{DoxyCompactItemize}

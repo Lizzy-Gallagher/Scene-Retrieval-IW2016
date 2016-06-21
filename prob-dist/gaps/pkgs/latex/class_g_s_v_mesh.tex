@@ -1,0 +1,165 @@
+\hypertarget{class_g_s_v_mesh}{}\section{G\+S\+V\+Mesh Class Reference}
+\label{class_g_s_v_mesh}\index{G\+S\+V\+Mesh@{G\+S\+V\+Mesh}}
+Inheritance diagram for G\+S\+V\+Mesh\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_g_s_v_mesh}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_g_s_v_scanline}{G\+S\+V\+Scanline} $\ast$ {\bfseries Vertex\+Scanline} (\hyperlink{class_r3_mesh_vertex}{R3\+Mesh\+Vertex} $\ast$vertex) const \hypertarget{class_g_s_v_mesh_a3b84f2a88828463f0043f7a727f230a8}{}\label{class_g_s_v_mesh_a3b84f2a88828463f0043f7a727f230a8}
+
+\item 
+R\+N\+Scalar {\bfseries Vertex\+Timestamp} (\hyperlink{class_r3_mesh_vertex}{R3\+Mesh\+Vertex} $\ast$vertex) const \hypertarget{class_g_s_v_mesh_a5da24209e27df3dbe3f60e229f72a1f1}{}\label{class_g_s_v_mesh_a5da24209e27df3dbe3f60e229f72a1f1}
+
+\item 
+R\+N\+Scalar {\bfseries Vertex\+Height} (\hyperlink{class_r3_mesh_vertex}{R3\+Mesh\+Vertex} $\ast$vertex) const \hypertarget{class_g_s_v_mesh_a875fb9d6f018d4b2863924dcda4b5659}{}\label{class_g_s_v_mesh_a875fb9d6f018d4b2863924dcda4b5659}
+
+\item 
+R\+N\+Scalar {\bfseries Vertex\+Laser\+Angle} (\hyperlink{class_r3_mesh_vertex}{R3\+Mesh\+Vertex} $\ast$vertex) const \hypertarget{class_g_s_v_mesh_ac4399a5ad8392efd8739fd210693d42d}{}\label{class_g_s_v_mesh_ac4399a5ad8392efd8739fd210693d42d}
+
+\item 
+R\+N\+Scalar {\bfseries Vertex\+Laser\+Depth} (\hyperlink{class_r3_mesh_vertex}{R3\+Mesh\+Vertex} $\ast$vertex) const \hypertarget{class_g_s_v_mesh_abf70269575cb0c5052583ed27034decd}{}\label{class_g_s_v_mesh_abf70269575cb0c5052583ed27034decd}
+
+\item 
+R\+N\+Scalar {\bfseries Vertex\+Laser\+Distance} (\hyperlink{class_r3_mesh_vertex}{R3\+Mesh\+Vertex} $\ast$vertex) const \hypertarget{class_g_s_v_mesh_a966c4a17ac4596af71d20e4a44386e33}{}\label{class_g_s_v_mesh_a966c4a17ac4596af71d20e4a44386e33}
+
+\item 
+\hyperlink{class_r3_point}{R3\+Point} {\bfseries Vertex\+Laser\+Viewpoint} (\hyperlink{class_r3_mesh_vertex}{R3\+Mesh\+Vertex} $\ast$vertex) const \hypertarget{class_g_s_v_mesh_a2c3170c3398e13ea8c0f6e65ae692e51}{}\label{class_g_s_v_mesh_a2c3170c3398e13ea8c0f6e65ae692e51}
+
+\item 
+\hyperlink{class_r3_vector}{R3\+Vector} {\bfseries Vertex\+Laser\+Towards} (\hyperlink{class_r3_mesh_vertex}{R3\+Mesh\+Vertex} $\ast$vertex) const \hypertarget{class_g_s_v_mesh_a528b086b605362d736e1ea71476fe008}{}\label{class_g_s_v_mesh_a528b086b605362d736e1ea71476fe008}
+
+\item 
+\hyperlink{class_r3_vector}{R3\+Vector} {\bfseries Vertex\+Laser\+Up} (\hyperlink{class_r3_mesh_vertex}{R3\+Mesh\+Vertex} $\ast$vertex) const \hypertarget{class_g_s_v_mesh_a7b2ade12d1f9b244fd6f0d42b0c6b2e1}{}\label{class_g_s_v_mesh_a7b2ade12d1f9b244fd6f0d42b0c6b2e1}
+
+\item 
+int {\bfseries Vertex\+Scanline\+Index} (\hyperlink{class_r3_mesh_vertex}{R3\+Mesh\+Vertex} $\ast$vertex) const \hypertarget{class_g_s_v_mesh_a5dfa68d12d34f6bb0452bcba92adb219}{}\label{class_g_s_v_mesh_a5dfa68d12d34f6bb0452bcba92adb219}
+
+\item 
+int {\bfseries Vertex\+Point\+Index} (\hyperlink{class_r3_mesh_vertex}{R3\+Mesh\+Vertex} $\ast$vertex) const \hypertarget{class_g_s_v_mesh_a534b9ebcd3c8792e2747536f335b0de0}{}\label{class_g_s_v_mesh_a534b9ebcd3c8792e2747536f335b0de0}
+
+\item 
+int {\bfseries Vertex\+Boundary\+Type} (\hyperlink{class_r3_mesh_vertex}{R3\+Mesh\+Vertex} $\ast$vertex) const \hypertarget{class_g_s_v_mesh_a78263085694901117ee084ad5e4b52c1}{}\label{class_g_s_v_mesh_a78263085694901117ee084ad5e4b52c1}
+
+\item 
+int {\bfseries Load\+Scan} (\hyperlink{class_g_s_v_scan}{G\+S\+V\+Scan} $\ast$scan, R\+N\+Length min\+\_\+viewpoint\+\_\+movement=0.\+05, R\+N\+Length max\+\_\+depth\+\_\+discontinuity=1)\hypertarget{class_g_s_v_mesh_af3b7a73b0e5f36ef106de1531f5f516d}{}\label{class_g_s_v_mesh_af3b7a73b0e5f36ef106de1531f5f516d}
+
+\item 
+virtual int {\bfseries Read\+Ply\+File} (\hyperlink{class_g_s_v_scan}{G\+S\+V\+Scan} $\ast$scan, const char $\ast$filename)\hypertarget{class_g_s_v_mesh_a3fae4ae5bbb3bd888da2251e953d4261}{}\label{class_g_s_v_mesh_a3fae4ae5bbb3bd888da2251e953d4261}
+
+\item 
+virtual int {\bfseries Write\+Ply\+File} (\hyperlink{class_g_s_v_scan}{G\+S\+V\+Scan} $\ast$scan, const char $\ast$filename, R\+N\+Boolean binary=T\+R\+UE)\hypertarget{class_g_s_v_mesh_a0783b16d93c397e4c8e18f3e54b7161b}{}\label{class_g_s_v_mesh_a0783b16d93c397e4c8e18f3e54b7161b}
+
+\item 
+virtual int {\bfseries Write\+A\+R\+F\+F\+File} (\hyperlink{class_g_s_v_scan}{G\+S\+V\+Scan} $\ast$scan, const char $\ast$filename)\hypertarget{class_g_s_v_mesh_a83fae5404000dc89fb3c9982bd1b5221}{}\label{class_g_s_v_mesh_a83fae5404000dc89fb3c9982bd1b5221}
+
+\item 
+\hyperlink{class_g_s_v_mesh_vertex}{G\+S\+V\+Mesh\+Vertex} $\ast$ {\bfseries Vertex} (int k) const \hypertarget{class_g_s_v_mesh_aa76e1ab14bdac3e1c426e8bd34d98b6e}{}\label{class_g_s_v_mesh_aa76e1ab14bdac3e1c426e8bd34d98b6e}
+
+\item 
+\hyperlink{class_g_s_v_mesh_vertex}{G\+S\+V\+Mesh\+Vertex} $\ast$ {\bfseries Vertex\+On\+Vertex} (const \hyperlink{class_r3_mesh_vertex}{R3\+Mesh\+Vertex} $\ast$vertex) const \hypertarget{class_g_s_v_mesh_a8e93864d1ebfe0949ef500e18038b55b}{}\label{class_g_s_v_mesh_a8e93864d1ebfe0949ef500e18038b55b}
+
+\item 
+\hyperlink{class_g_s_v_mesh_vertex}{G\+S\+V\+Mesh\+Vertex} $\ast$ {\bfseries Vertex\+On\+Vertex} (const \hyperlink{class_r3_mesh_vertex}{R3\+Mesh\+Vertex} $\ast$vertex, int k) const \hypertarget{class_g_s_v_mesh_a65e06249b8b2cbeba9bdb0a50d765058}{}\label{class_g_s_v_mesh_a65e06249b8b2cbeba9bdb0a50d765058}
+
+\item 
+\hyperlink{class_g_s_v_mesh_vertex}{G\+S\+V\+Mesh\+Vertex} $\ast$ {\bfseries Vertex\+On\+Edge} (const \hyperlink{class_r3_mesh_edge}{R3\+Mesh\+Edge} $\ast$edge) const \hypertarget{class_g_s_v_mesh_a813f93478de4fdd477c80ce7c3df4751}{}\label{class_g_s_v_mesh_a813f93478de4fdd477c80ce7c3df4751}
+
+\item 
+\hyperlink{class_g_s_v_mesh_vertex}{G\+S\+V\+Mesh\+Vertex} $\ast$ {\bfseries Vertex\+On\+Edge} (const \hyperlink{class_r3_mesh_edge}{R3\+Mesh\+Edge} $\ast$edge, int k) const \hypertarget{class_g_s_v_mesh_abe8ef82dc24c3c631987244d794e5b0f}{}\label{class_g_s_v_mesh_abe8ef82dc24c3c631987244d794e5b0f}
+
+\item 
+\hyperlink{class_g_s_v_mesh_vertex}{G\+S\+V\+Mesh\+Vertex} $\ast$ {\bfseries Vertex\+Across\+Edge} (const \hyperlink{class_r3_mesh_edge}{R3\+Mesh\+Edge} $\ast$edge, const \hyperlink{class_r3_mesh_vertex}{R3\+Mesh\+Vertex} $\ast$vertex) const \hypertarget{class_g_s_v_mesh_a11322e655e8d70ca199bdad404fc50f3}{}\label{class_g_s_v_mesh_a11322e655e8d70ca199bdad404fc50f3}
+
+\item 
+\hyperlink{class_g_s_v_mesh_vertex}{G\+S\+V\+Mesh\+Vertex} $\ast$ {\bfseries Vertex\+Between\+Edges} (const \hyperlink{class_r3_mesh_edge}{R3\+Mesh\+Edge} $\ast$edge1, const \hyperlink{class_r3_mesh_edge}{R3\+Mesh\+Edge} $\ast$edge2) const \hypertarget{class_g_s_v_mesh_ab9813be1dd59e798e8ab4354210408ff}{}\label{class_g_s_v_mesh_ab9813be1dd59e798e8ab4354210408ff}
+
+\item 
+\hyperlink{class_g_s_v_mesh_vertex}{G\+S\+V\+Mesh\+Vertex} $\ast$ {\bfseries Vertex\+On\+Edge} (const \hyperlink{class_r3_mesh_edge}{R3\+Mesh\+Edge} $\ast$edge, const \hyperlink{class_r3_mesh_face}{R3\+Mesh\+Face} $\ast$face, R\+N\+Direction dir=R\+N\+\_\+\+C\+CW) const \hypertarget{class_g_s_v_mesh_a3691d027a79c6bade16de6186860df06}{}\label{class_g_s_v_mesh_a3691d027a79c6bade16de6186860df06}
+
+\item 
+\hyperlink{class_g_s_v_mesh_vertex}{G\+S\+V\+Mesh\+Vertex} $\ast$ {\bfseries Vertex\+On\+Face} (const \hyperlink{class_r3_mesh_face}{R3\+Mesh\+Face} $\ast$face) const \hypertarget{class_g_s_v_mesh_a47c840cfca3849706b7227fe84f850bc}{}\label{class_g_s_v_mesh_a47c840cfca3849706b7227fe84f850bc}
+
+\item 
+\hyperlink{class_g_s_v_mesh_vertex}{G\+S\+V\+Mesh\+Vertex} $\ast$ {\bfseries Vertex\+On\+Face} (const \hyperlink{class_r3_mesh_face}{R3\+Mesh\+Face} $\ast$face, int k) const \hypertarget{class_g_s_v_mesh_aab837bdf946fab5e7824bd035f3a5004}{}\label{class_g_s_v_mesh_aab837bdf946fab5e7824bd035f3a5004}
+
+\item 
+\hyperlink{class_g_s_v_mesh_vertex}{G\+S\+V\+Mesh\+Vertex} $\ast$ {\bfseries Vertex\+On\+Face} (const \hyperlink{class_r3_mesh_face}{R3\+Mesh\+Face} $\ast$face, const \hyperlink{class_r3_mesh_vertex}{R3\+Mesh\+Vertex} $\ast$vertex, R\+N\+Direction dir=R\+N\+\_\+\+C\+CW) const \hypertarget{class_g_s_v_mesh_a34f061f3d367bab9a4541f84ba31aa3e}{}\label{class_g_s_v_mesh_a34f061f3d367bab9a4541f84ba31aa3e}
+
+\item 
+\hyperlink{class_g_s_v_mesh_vertex}{G\+S\+V\+Mesh\+Vertex} $\ast$ {\bfseries Vertex\+On\+Face} (const \hyperlink{class_r3_mesh_face}{R3\+Mesh\+Face} $\ast$face, const \hyperlink{class_r3_mesh_edge}{R3\+Mesh\+Edge} $\ast$edge, R\+N\+Direction dir=R\+N\+\_\+\+C\+CW) const \hypertarget{class_g_s_v_mesh_a3b1caffaaa2ec1d7dcd056b36a161830}{}\label{class_g_s_v_mesh_a3b1caffaaa2ec1d7dcd056b36a161830}
+
+\item 
+\hyperlink{class_g_s_v_mesh_vertex}{G\+S\+V\+Mesh\+Vertex} $\ast$ {\bfseries Vertex\+Across\+Face} (const \hyperlink{class_r3_mesh_face}{R3\+Mesh\+Face} $\ast$face, const \hyperlink{class_r3_mesh_edge}{R3\+Mesh\+Edge} $\ast$edge) const \hypertarget{class_g_s_v_mesh_a20343b61ca9442eb4945adcd76a53941}{}\label{class_g_s_v_mesh_a20343b61ca9442eb4945adcd76a53941}
+
+\item 
+\hyperlink{class_g_s_v_mesh_vertex}{G\+S\+V\+Mesh\+Vertex} $\ast$ {\bfseries Vertex\+Between\+Faces} (const \hyperlink{class_r3_mesh_face}{R3\+Mesh\+Face} $\ast$face1, const \hyperlink{class_r3_mesh_face}{R3\+Mesh\+Face} $\ast$face2, R\+N\+Direction dir=R\+N\+\_\+\+C\+CW) const \hypertarget{class_g_s_v_mesh_aa3d1c1a04c86e330d6075b5374e9c529}{}\label{class_g_s_v_mesh_aa3d1c1a04c86e330d6075b5374e9c529}
+
+\item 
+virtual \hyperlink{class_g_s_v_mesh_vertex}{G\+S\+V\+Mesh\+Vertex} $\ast$ {\bfseries Merge\+Vertex} (\hyperlink{class_r3_mesh_vertex}{R3\+Mesh\+Vertex} $\ast$v1, \hyperlink{class_r3_mesh_vertex}{R3\+Mesh\+Vertex} $\ast$v2)\hypertarget{class_g_s_v_mesh_a4b271c421a7dd1741f7ce5e3c1bf60a6}{}\label{class_g_s_v_mesh_a4b271c421a7dd1741f7ce5e3c1bf60a6}
+
+\item 
+virtual \hyperlink{class_g_s_v_mesh_vertex}{G\+S\+V\+Mesh\+Vertex} $\ast$ {\bfseries Collapse\+Edge} (\hyperlink{class_r3_mesh_edge}{R3\+Mesh\+Edge} $\ast$edge, const \hyperlink{class_r3_point}{R3\+Point} \&point)\hypertarget{class_g_s_v_mesh_aa2f4cf7614c8bc3bdd0382dc34f9f19f}{}\label{class_g_s_v_mesh_aa2f4cf7614c8bc3bdd0382dc34f9f19f}
+
+\item 
+virtual \hyperlink{class_g_s_v_mesh_vertex}{G\+S\+V\+Mesh\+Vertex} $\ast$ {\bfseries Collapse\+Face} (\hyperlink{class_r3_mesh_face}{R3\+Mesh\+Face} $\ast$face, const \hyperlink{class_r3_point}{R3\+Point} \&point)\hypertarget{class_g_s_v_mesh_ae6d11bb1fe286c0f6ca45d9b6e7fe2e8}{}\label{class_g_s_v_mesh_ae6d11bb1fe286c0f6ca45d9b6e7fe2e8}
+
+\item 
+virtual \hyperlink{class_g_s_v_mesh_vertex}{G\+S\+V\+Mesh\+Vertex} $\ast$ {\bfseries Collapse\+Edge} (\hyperlink{class_r3_mesh_edge}{R3\+Mesh\+Edge} $\ast$edge)\hypertarget{class_g_s_v_mesh_a2bce05c396e58b42129dd82bb74cde44}{}\label{class_g_s_v_mesh_a2bce05c396e58b42129dd82bb74cde44}
+
+\item 
+virtual \hyperlink{class_g_s_v_mesh_vertex}{G\+S\+V\+Mesh\+Vertex} $\ast$ {\bfseries Collapse\+Face} (\hyperlink{class_r3_mesh_face}{R3\+Mesh\+Face} $\ast$face)\hypertarget{class_g_s_v_mesh_aa023f776cfd9c6046b602b7a31eac216}{}\label{class_g_s_v_mesh_aa023f776cfd9c6046b602b7a31eac216}
+
+\item 
+virtual \hyperlink{class_g_s_v_mesh_vertex}{G\+S\+V\+Mesh\+Vertex} $\ast$ {\bfseries Split\+Edge} (\hyperlink{class_r3_mesh_edge}{R3\+Mesh\+Edge} $\ast$edge, const \hyperlink{class_r3_point}{R3\+Point} \&point, \hyperlink{class_r3_mesh_edge}{R3\+Mesh\+Edge} $\ast$$\ast$e0=N\+U\+LL, \hyperlink{class_r3_mesh_edge}{R3\+Mesh\+Edge} $\ast$$\ast$e1=N\+U\+LL)\hypertarget{class_g_s_v_mesh_aef8080a94f153225f77b793f74f888c8}{}\label{class_g_s_v_mesh_aef8080a94f153225f77b793f74f888c8}
+
+\item 
+virtual \hyperlink{class_g_s_v_mesh_vertex}{G\+S\+V\+Mesh\+Vertex} $\ast$ {\bfseries Split\+Edge} (\hyperlink{class_r3_mesh_edge}{R3\+Mesh\+Edge} $\ast$edge, const \hyperlink{class_r3_plane}{R3\+Plane} \&plane)\hypertarget{class_g_s_v_mesh_aa2c1c78345b1f19febf5f102f452e4d4}{}\label{class_g_s_v_mesh_aa2c1c78345b1f19febf5f102f452e4d4}
+
+\item 
+virtual \hyperlink{class_g_s_v_mesh_vertex}{G\+S\+V\+Mesh\+Vertex} $\ast$ {\bfseries Subdivide\+Edge} (\hyperlink{class_r3_mesh_edge}{R3\+Mesh\+Edge} $\ast$edge)\hypertarget{class_g_s_v_mesh_a25e6e1790db8fdd6b8025e1bd8d48fb4}{}\label{class_g_s_v_mesh_a25e6e1790db8fdd6b8025e1bd8d48fb4}
+
+\item 
+virtual \hyperlink{class_g_s_v_mesh_vertex}{G\+S\+V\+Mesh\+Vertex} $\ast$ {\bfseries Split\+Face} (\hyperlink{class_r3_mesh_face}{R3\+Mesh\+Face} $\ast$face, const \hyperlink{class_r3_point}{R3\+Point} \&point, \hyperlink{class_r3_mesh_face}{R3\+Mesh\+Face} $\ast$$\ast$f0=N\+U\+LL, \hyperlink{class_r3_mesh_face}{R3\+Mesh\+Face} $\ast$$\ast$f1=N\+U\+LL, \hyperlink{class_r3_mesh_face}{R3\+Mesh\+Face} $\ast$$\ast$f2=N\+U\+LL)\hypertarget{class_g_s_v_mesh_a9de7be7a3fb017fb02a362debbb72367}{}\label{class_g_s_v_mesh_a9de7be7a3fb017fb02a362debbb72367}
+
+\item 
+virtual \hyperlink{class_r3_mesh_vertex}{R3\+Mesh\+Vertex} $\ast$ {\bfseries Create\+Vertex} (const \hyperlink{class_r3_point}{R3\+Point} \&position, \hyperlink{class_r3_mesh_vertex}{R3\+Mesh\+Vertex} $\ast$vertex=N\+U\+LL)\hypertarget{class_g_s_v_mesh_ab463d9a27c032686d21fac9f37baa54d}{}\label{class_g_s_v_mesh_ab463d9a27c032686d21fac9f37baa54d}
+
+\item 
+virtual \hyperlink{class_r3_mesh_vertex}{R3\+Mesh\+Vertex} $\ast$ {\bfseries Create\+Vertex} (const \hyperlink{class_r3_point}{R3\+Point} \&position, const \hyperlink{class_r3_vector}{R3\+Vector} \&normal, \hyperlink{class_r3_mesh_vertex}{R3\+Mesh\+Vertex} $\ast$vertex=N\+U\+LL)\hypertarget{class_g_s_v_mesh_a2f403b41f8c57b88b4c568d85b626172}{}\label{class_g_s_v_mesh_a2f403b41f8c57b88b4c568d85b626172}
+
+\item 
+virtual R3\+Mesh\+Type {\bfseries Intersection} (const \hyperlink{class_r3_ray}{R3\+Ray} \&ray, \hyperlink{struct_r3_mesh_intersection}{R3\+Mesh\+Intersection} $\ast$intersection=N\+U\+LL, R\+N\+Scalar min\+\_\+t=0, R\+N\+Scalar max\+\_\+t=R\+N\+\_\+\+I\+N\+F\+I\+N\+I\+TY, int($\ast$Is\+Compatible)(const \hyperlink{class_r3_point}{R3\+Point} \&, const \hyperlink{class_r3_vector}{R3\+Vector} \&, \hyperlink{class_r3_mesh}{R3\+Mesh} $\ast$, \hyperlink{class_r3_mesh_face}{R3\+Mesh\+Face} $\ast$, void $\ast$)=N\+U\+LL, void $\ast$compatible\+\_\+data=N\+U\+LL) const \hypertarget{class_g_s_v_mesh_a8d6c147e6459c0e1754bee937cadfea3}{}\label{class_g_s_v_mesh_a8d6c147e6459c0e1754bee937cadfea3}
+
+\item 
+virtual R3\+Mesh\+Type {\bfseries Closest\+Point} (const \hyperlink{class_r3_point}{R3\+Point} \&query, \hyperlink{struct_r3_mesh_intersection}{R3\+Mesh\+Intersection} $\ast$closest=N\+U\+LL, R\+N\+Scalar min\+\_\+distance=0, R\+N\+Scalar max\+\_\+distance=R\+N\+\_\+\+I\+N\+F\+I\+N\+I\+TY, int($\ast$Is\+Compatible)(const \hyperlink{class_r3_point}{R3\+Point} \&, const \hyperlink{class_r3_vector}{R3\+Vector} \&, \hyperlink{class_r3_mesh}{R3\+Mesh} $\ast$, \hyperlink{class_r3_mesh_face}{R3\+Mesh\+Face} $\ast$, void $\ast$)=N\+U\+LL, void $\ast$compatible\+\_\+data=N\+U\+LL)\hypertarget{class_g_s_v_mesh_acdfcf0811ef54cb0eb97bae8585e68b1}{}\label{class_g_s_v_mesh_acdfcf0811ef54cb0eb97bae8585e68b1}
+
+\item 
+virtual R3\+Mesh\+Type {\bfseries Intersection} (const \hyperlink{class_r3_ray}{R3\+Ray} \&ray, G\+S\+V\+Mesh\+Face $\ast$face, \hyperlink{struct_r3_mesh_intersection}{R3\+Mesh\+Intersection} $\ast$intersection=N\+U\+LL) const \hypertarget{class_g_s_v_mesh_aeba185c3abfee585f68001be68648a80}{}\label{class_g_s_v_mesh_aeba185c3abfee585f68001be68648a80}
+
+\item 
+virtual void {\bfseries Draw} (R\+N\+Boolean texture\+\_\+coordinates) const \hypertarget{class_g_s_v_mesh_a05467ac91e535dd69b904d8e71291e6f}{}\label{class_g_s_v_mesh_a05467ac91e535dd69b904d8e71291e6f}
+
+\item 
+virtual void {\bfseries Draw} (void) const \hypertarget{class_g_s_v_mesh_a83d37a551b6c5106cf8e8550b1c42fef}{}\label{class_g_s_v_mesh_a83d37a551b6c5106cf8e8550b1c42fef}
+
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_g_s_v_mesh_vertex}{G\+S\+V\+Mesh\+Vertex} $\ast$ {\bfseries gsv\+\_\+vertex\+\_\+block}\hypertarget{class_g_s_v_mesh_a496ee13f368242f1575827285fc615a0}{}\label{class_g_s_v_mesh_a496ee13f368242f1575827285fc615a0}
+
+\item 
+\hyperlink{class_r3_mesh_search_tree}{R3\+Mesh\+Search\+Tree} $\ast$ {\bfseries search\+\_\+tree}\hypertarget{class_g_s_v_mesh_a12a8557cf89e4277909c9441bb43970f}{}\label{class_g_s_v_mesh_a12a8557cf89e4277909c9441bb43970f}
+
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+G\+S\+V/G\+S\+V\+Mesh.\+h\item 
+G\+S\+V/G\+S\+V\+Mesh.\+cpp\end{DoxyCompactItemize}

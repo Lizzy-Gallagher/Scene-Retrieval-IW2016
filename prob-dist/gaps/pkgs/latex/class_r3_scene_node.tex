@@ -1,0 +1,92 @@
+\hypertarget{class_r3_scene_node}{}\section{R3\+Scene\+Node Class Reference}
+\label{class_r3_scene_node}\index{R3\+Scene\+Node@{R3\+Scene\+Node}}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\bfseries R3\+Scene\+Node} (\hyperlink{class_r3_scene}{R3\+Scene} $\ast$scene)\hypertarget{class_r3_scene_node_a41537f2a0542a5a256dd524690fe6d17}{}\label{class_r3_scene_node_a41537f2a0542a5a256dd524690fe6d17}
+
+\item 
+\hyperlink{class_r3_scene}{R3\+Scene} $\ast$ {\bfseries Scene} (void) const \hypertarget{class_r3_scene_node_a6449396f57597b2528a644c4bab5eb56}{}\label{class_r3_scene_node_a6449396f57597b2528a644c4bab5eb56}
+
+\item 
+int {\bfseries Scene\+Index} (void) const \hypertarget{class_r3_scene_node_a2e87b753e2113a37df4ef07a71d20fd0}{}\label{class_r3_scene_node_a2e87b753e2113a37df4ef07a71d20fd0}
+
+\item 
+\hyperlink{class_r3_scene_node}{R3\+Scene\+Node} $\ast$ {\bfseries Parent} (void) const \hypertarget{class_r3_scene_node_a15105880ea244b37a3f5b2eeca434533}{}\label{class_r3_scene_node_a15105880ea244b37a3f5b2eeca434533}
+
+\item 
+int {\bfseries Parent\+Index} (void) const \hypertarget{class_r3_scene_node_acbe60d1b8a3f463e2aebb3d9c0a2f062}{}\label{class_r3_scene_node_acbe60d1b8a3f463e2aebb3d9c0a2f062}
+
+\item 
+int {\bfseries N\+Children} (void) const \hypertarget{class_r3_scene_node_a1e07123fb83052c0b4b16ae39f627edd}{}\label{class_r3_scene_node_a1e07123fb83052c0b4b16ae39f627edd}
+
+\item 
+\hyperlink{class_r3_scene_node}{R3\+Scene\+Node} $\ast$ {\bfseries Child} (int k) const \hypertarget{class_r3_scene_node_a6ae48d67d0211bab6e9fc1debd2fc3a3}{}\label{class_r3_scene_node_a6ae48d67d0211bab6e9fc1debd2fc3a3}
+
+\item 
+int {\bfseries N\+Elements} (void) const \hypertarget{class_r3_scene_node_a825ec6000cbc469b20623315ed603084}{}\label{class_r3_scene_node_a825ec6000cbc469b20623315ed603084}
+
+\item 
+\hyperlink{class_r3_scene_element}{R3\+Scene\+Element} $\ast$ {\bfseries Element} (int k) const \hypertarget{class_r3_scene_node_aca7f953a1e41fd37bdf99ff6058629dd}{}\label{class_r3_scene_node_aca7f953a1e41fd37bdf99ff6058629dd}
+
+\item 
+const \hyperlink{class_r3_affine}{R3\+Affine} \& {\bfseries Transformation} (void) const \hypertarget{class_r3_scene_node_abee177e204ffbb9577bc2a0c46fb3589}{}\label{class_r3_scene_node_abee177e204ffbb9577bc2a0c46fb3589}
+
+\item 
+const \hyperlink{class_r3_box}{R3\+Box} \& {\bfseries B\+Box} (void) const \hypertarget{class_r3_scene_node_adf13995eb89320c2723baf0d1c316d74}{}\label{class_r3_scene_node_adf13995eb89320c2723baf0d1c316d74}
+
+\item 
+\hyperlink{class_r3_point}{R3\+Point} {\bfseries Centroid} (void) const \hypertarget{class_r3_scene_node_ad6aa3d71e3834322e209df793e4b6da5}{}\label{class_r3_scene_node_ad6aa3d71e3834322e209df793e4b6da5}
+
+\item 
+const char $\ast$ {\bfseries Name} (void) const \hypertarget{class_r3_scene_node_a422e7fe4340827862dc392d7032bf53d}{}\label{class_r3_scene_node_a422e7fe4340827862dc392d7032bf53d}
+
+\item 
+void $\ast$ {\bfseries Data} (void) const \hypertarget{class_r3_scene_node_af469f2f10e46f901d0630c9a5d373a7f}{}\label{class_r3_scene_node_af469f2f10e46f901d0630c9a5d373a7f}
+
+\item 
+void {\bfseries Insert\+Child} (\hyperlink{class_r3_scene_node}{R3\+Scene\+Node} $\ast$node)\hypertarget{class_r3_scene_node_a61a321a295d3e1b7f92de440e02d2b15}{}\label{class_r3_scene_node_a61a321a295d3e1b7f92de440e02d2b15}
+
+\item 
+void {\bfseries Remove\+Child} (\hyperlink{class_r3_scene_node}{R3\+Scene\+Node} $\ast$node)\hypertarget{class_r3_scene_node_aa9c1d29822046d9aead3a0b086c47ff1}{}\label{class_r3_scene_node_aa9c1d29822046d9aead3a0b086c47ff1}
+
+\item 
+void {\bfseries Insert\+Element} (\hyperlink{class_r3_scene_element}{R3\+Scene\+Element} $\ast$element)\hypertarget{class_r3_scene_node_abddac0c7c6069193ea0d1b45a1aa498b}{}\label{class_r3_scene_node_abddac0c7c6069193ea0d1b45a1aa498b}
+
+\item 
+void {\bfseries Remove\+Element} (\hyperlink{class_r3_scene_element}{R3\+Scene\+Element} $\ast$element)\hypertarget{class_r3_scene_node_a17b677f40a61ca6ac1150719f5cd65c1}{}\label{class_r3_scene_node_a17b677f40a61ca6ac1150719f5cd65c1}
+
+\item 
+void {\bfseries Set\+Transformation} (const \hyperlink{class_r3_affine}{R3\+Affine} \&transformation)\hypertarget{class_r3_scene_node_a7b37883c4be4d7fd84fcdfa4efc38aba}{}\label{class_r3_scene_node_a7b37883c4be4d7fd84fcdfa4efc38aba}
+
+\item 
+void {\bfseries Set\+Name} (const char $\ast$name)\hypertarget{class_r3_scene_node_a420889c83e290fa77e7d4afe42dc4d8a}{}\label{class_r3_scene_node_a420889c83e290fa77e7d4afe42dc4d8a}
+
+\item 
+void {\bfseries Set\+Data} (void $\ast$data)\hypertarget{class_r3_scene_node_adcde45ddb3df06dfa8f731146d913001}{}\label{class_r3_scene_node_adcde45ddb3df06dfa8f731146d913001}
+
+\item 
+R\+N\+Boolean {\bfseries Intersects} (const \hyperlink{class_r3_ray}{R3\+Ray} \&ray, \hyperlink{class_r3_scene_node}{R3\+Scene\+Node} $\ast$$\ast$hit\+\_\+node=N\+U\+LL, \hyperlink{class_r3_scene_element}{R3\+Scene\+Element} $\ast$$\ast$hit\+\_\+element=N\+U\+LL, \hyperlink{class_r3_shape}{R3\+Shape} $\ast$$\ast$hit\+\_\+shape=N\+U\+LL, \hyperlink{class_r3_point}{R3\+Point} $\ast$hit\+\_\+point=N\+U\+LL, \hyperlink{class_r3_vector}{R3\+Vector} $\ast$hit\+\_\+normal=N\+U\+LL, R\+N\+Scalar $\ast$hit\+\_\+t=N\+U\+LL) const \hypertarget{class_r3_scene_node_a0f029647533e51b4f69575d1afbb4d87}{}\label{class_r3_scene_node_a0f029647533e51b4f69575d1afbb4d87}
+
+\item 
+void {\bfseries Draw} (const \hyperlink{class_r_n_flags}{R3\+Draw\+Flags} draw\+\_\+flags=R3\+\_\+\+D\+E\+F\+A\+U\+L\+T\+\_\+\+D\+R\+A\+W\+\_\+\+F\+L\+A\+GS) const \hypertarget{class_r3_scene_node_aca30c1e93ee59d2201d7b8d1dffe9891}{}\label{class_r3_scene_node_aca30c1e93ee59d2201d7b8d1dffe9891}
+
+\item 
+void {\bfseries Invalidate\+B\+Box} (void)\hypertarget{class_r3_scene_node_aacf7b47064cb6511cd8e8fe0b39de1a7}{}\label{class_r3_scene_node_aacf7b47064cb6511cd8e8fe0b39de1a7}
+
+\item 
+void {\bfseries Update\+B\+Box} (void)\hypertarget{class_r3_scene_node_a6253d938a4d8a04e0101f2f4a336da4c}{}\label{class_r3_scene_node_a6253d938a4d8a04e0101f2f4a336da4c}
+
+\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+class {\bfseries R3\+Scene}\hypertarget{class_r3_scene_node_a54fe3819a921d0481c1732f71cde725d}{}\label{class_r3_scene_node_a54fe3819a921d0481c1732f71cde725d}
+
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+R3\+Graphics/R3\+Scene\+Node.\+h\item 
+R3\+Graphics/R3\+Scene\+Node.\+cpp\end{DoxyCompactItemize}

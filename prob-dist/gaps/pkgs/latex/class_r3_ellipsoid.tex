@@ -1,0 +1,105 @@
+\hypertarget{class_r3_ellipsoid}{}\section{R3\+Ellipsoid Class Reference}
+\label{class_r3_ellipsoid}\index{R3\+Ellipsoid@{R3\+Ellipsoid}}
+Inheritance diagram for R3\+Ellipsoid\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{class_r3_ellipsoid}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\bfseries R3\+Ellipsoid} (const \hyperlink{class_r3_ellipsoid}{R3\+Ellipsoid} \&ellipsoid)\hypertarget{class_r3_ellipsoid_a01380b11c8b169200fa5854bad7b7325}{}\label{class_r3_ellipsoid_a01380b11c8b169200fa5854bad7b7325}
+
+\item 
+{\bfseries R3\+Ellipsoid} (const \hyperlink{class_r3_coord_system}{R3\+Coord\+System} \&cs, const \hyperlink{class_r3_vector}{R3\+Vector} \&radii)\hypertarget{class_r3_ellipsoid_aff8689fa86360cdd163175c62cd135d0}{}\label{class_r3_ellipsoid_aff8689fa86360cdd163175c62cd135d0}
+
+\item 
+const \hyperlink{class_r3_point}{R3\+Point} \& {\bfseries Center} (void) const \hypertarget{class_r3_ellipsoid_abf5a12db6b2ecb59462c061452bd37b5}{}\label{class_r3_ellipsoid_abf5a12db6b2ecb59462c061452bd37b5}
+
+\item 
+const \hyperlink{class_r3_coord_system}{R3\+Coord\+System} \& {\bfseries Coord\+System} (void) const \hypertarget{class_r3_ellipsoid_a2d08d79c2d5cf13a8ffd9e06f0409213}{}\label{class_r3_ellipsoid_a2d08d79c2d5cf13a8ffd9e06f0409213}
+
+\item 
+const \hyperlink{class_r3_vector}{R3\+Vector} \& {\bfseries Radii} (void) const \hypertarget{class_r3_ellipsoid_a5357d408f807072f9d978d96640aae16}{}\label{class_r3_ellipsoid_a5357d408f807072f9d978d96640aae16}
+
+\item 
+const R\+N\+Boolean {\bfseries Is\+Empty} (void) const \hypertarget{class_r3_ellipsoid_aeea13864a16cad209cd7685777b68183}{}\label{class_r3_ellipsoid_aeea13864a16cad209cd7685777b68183}
+
+\item 
+const R\+N\+Boolean {\bfseries Is\+Finite} (void) const \hypertarget{class_r3_ellipsoid_a8b141c8a15338c376a15a7864f141864}{}\label{class_r3_ellipsoid_a8b141c8a15338c376a15a7864f141864}
+
+\item 
+virtual const R\+N\+Boolean {\bfseries Is\+Point} (void) const \hypertarget{class_r3_ellipsoid_a4d024f0e86b7eb3ec7a8c7c6aba8c50c}{}\label{class_r3_ellipsoid_a4d024f0e86b7eb3ec7a8c7c6aba8c50c}
+
+\item 
+virtual const R\+N\+Boolean {\bfseries Is\+Linear} (void) const \hypertarget{class_r3_ellipsoid_ad4b9780043d72239f37bd036810665a3}{}\label{class_r3_ellipsoid_ad4b9780043d72239f37bd036810665a3}
+
+\item 
+virtual const R\+N\+Boolean {\bfseries Is\+Planar} (void) const \hypertarget{class_r3_ellipsoid_ab1ba996d9eb401d155352ff7b01b1282}{}\label{class_r3_ellipsoid_ab1ba996d9eb401d155352ff7b01b1282}
+
+\item 
+virtual const R\+N\+Boolean {\bfseries Is\+Convex} (void) const \hypertarget{class_r3_ellipsoid_aab749af98d63aa6ffe3d434e59f8324a}{}\label{class_r3_ellipsoid_aab749af98d63aa6ffe3d434e59f8324a}
+
+\item 
+virtual const \hyperlink{class_r_n_interval}{R\+N\+Interval} {\bfseries N\+Facets} (void) const \hypertarget{class_r3_ellipsoid_ace927aacc78c97175c737d3e70e26081}{}\label{class_r3_ellipsoid_ace927aacc78c97175c737d3e70e26081}
+
+\item 
+virtual const R\+N\+Area {\bfseries Area} (void) const \hypertarget{class_r3_ellipsoid_a821e4647119a978c6b582cb38317e7c4}{}\label{class_r3_ellipsoid_a821e4647119a978c6b582cb38317e7c4}
+
+\item 
+virtual const R\+N\+Volume {\bfseries Volume} (void) const \hypertarget{class_r3_ellipsoid_a9472be5a3f0d47105eb13bcb32d1f457}{}\label{class_r3_ellipsoid_a9472be5a3f0d47105eb13bcb32d1f457}
+
+\item 
+virtual const \hyperlink{class_r3_point}{R3\+Point} {\bfseries Centroid} (void) const \hypertarget{class_r3_ellipsoid_a01f50fa6d0942a7d97b41f30a1a65a3e}{}\label{class_r3_ellipsoid_a01f50fa6d0942a7d97b41f30a1a65a3e}
+
+\item 
+virtual const \hyperlink{class_r3_shape}{R3\+Shape} \& {\bfseries B\+Shape} (void) const \hypertarget{class_r3_ellipsoid_ae0aa63239317a513c83a50a44b38dd80}{}\label{class_r3_ellipsoid_ae0aa63239317a513c83a50a44b38dd80}
+
+\item 
+virtual const \hyperlink{class_r3_box}{R3\+Box} {\bfseries B\+Box} (void) const \hypertarget{class_r3_ellipsoid_a54061aeb7a37fb6617750b5898236ca3}{}\label{class_r3_ellipsoid_a54061aeb7a37fb6617750b5898236ca3}
+
+\item 
+virtual const \hyperlink{class_r3_sphere}{R3\+Sphere} {\bfseries B\+Sphere} (void) const \hypertarget{class_r3_ellipsoid_aa057f5eddb314f8d2b984197b321ce79}{}\label{class_r3_ellipsoid_aa057f5eddb314f8d2b984197b321ce79}
+
+\item 
+virtual void {\bfseries Empty} (void)\hypertarget{class_r3_ellipsoid_af935e5f553b8497248d2cab2003adc65}{}\label{class_r3_ellipsoid_af935e5f553b8497248d2cab2003adc65}
+
+\item 
+virtual void {\bfseries Translate} (const \hyperlink{class_r3_vector}{R3\+Vector} \&vector)\hypertarget{class_r3_ellipsoid_a17c49774d7dd5412c21a8a332ec65c3a}{}\label{class_r3_ellipsoid_a17c49774d7dd5412c21a8a332ec65c3a}
+
+\item 
+virtual void {\bfseries Reposition} (const \hyperlink{class_r3_point}{R3\+Point} \&center)\hypertarget{class_r3_ellipsoid_a5ee1cf7baf9453f24c92f87bfc576e69}{}\label{class_r3_ellipsoid_a5ee1cf7baf9453f24c92f87bfc576e69}
+
+\item 
+virtual void {\bfseries Resize} (const \hyperlink{class_r3_vector}{R3\+Vector} \&radii)\hypertarget{class_r3_ellipsoid_a92f5f138077637b9fa5552c8c0ae76a4}{}\label{class_r3_ellipsoid_a92f5f138077637b9fa5552c8c0ae76a4}
+
+\item 
+virtual void {\bfseries Transform} (const \hyperlink{class_r3_transformation}{R3\+Transformation} \&transformation)\hypertarget{class_r3_ellipsoid_ad05892338bcb2b7c032d9aa8ab9ea89a}{}\label{class_r3_ellipsoid_ad05892338bcb2b7c032d9aa8ab9ea89a}
+
+\item 
+virtual void {\bfseries Draw} (const \hyperlink{class_r_n_flags}{R3\+Draw\+Flags} draw\+\_\+flags=R3\+\_\+\+D\+E\+F\+A\+U\+L\+T\+\_\+\+D\+R\+A\+W\+\_\+\+F\+L\+A\+GS) const \hypertarget{class_r3_ellipsoid_a8ba33ceec3fcfc4147190daff77e9c26}{}\label{class_r3_ellipsoid_a8ba33ceec3fcfc4147190daff77e9c26}
+
+\item 
+R\+N\+Boolean {\bfseries operator==} (const \hyperlink{class_r3_ellipsoid}{R3\+Ellipsoid} \&ellipsoid) const \hypertarget{class_r3_ellipsoid_a5f1a75a4f115295cae03cd4ae8db314b}{}\label{class_r3_ellipsoid_a5f1a75a4f115295cae03cd4ae8db314b}
+
+\item 
+R\+N\+Boolean {\bfseries operator!=} (const \hyperlink{class_r3_ellipsoid}{R3\+Ellipsoid} \&ellipsoid) const \hypertarget{class_r3_ellipsoid_a9c250b4b6ea88ff48b5b2eb9eb213c02}{}\label{class_r3_ellipsoid_a9c250b4b6ea88ff48b5b2eb9eb213c02}
+
+\item 
+{\bfseries R\+N\+\_\+\+C\+L\+A\+S\+S\+\_\+\+T\+Y\+P\+E\+\_\+\+D\+E\+C\+L\+A\+R\+A\+T\+I\+O\+NS} (\hyperlink{class_r3_ellipsoid}{R3\+Ellipsoid})\hypertarget{class_r3_ellipsoid_ac1b6ac4e5624791735c4519c865eaf48}{}\label{class_r3_ellipsoid_ac1b6ac4e5624791735c4519c865eaf48}
+
+\item 
+{\bfseries R3\+\_\+\+S\+H\+A\+P\+E\+\_\+\+R\+E\+L\+A\+T\+I\+O\+N\+S\+H\+I\+P\+\_\+\+D\+E\+C\+L\+A\+R\+A\+T\+I\+O\+NS} (\hyperlink{class_r3_ellipsoid}{R3\+Ellipsoid})\hypertarget{class_r3_ellipsoid_a0998386a1093e03bd9826a0eee8d6f6d}{}\label{class_r3_ellipsoid_a0998386a1093e03bd9826a0eee8d6f6d}
+
+\item 
+void {\bfseries Update\+B\+Box} (void)\hypertarget{class_r3_ellipsoid_abd9dffc092074e55c3d2d0d8620cc381}{}\label{class_r3_ellipsoid_abd9dffc092074e55c3d2d0d8620cc381}
+
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+R3\+Shapes/R3\+Ellipsoid.\+h\item 
+R3\+Shapes/R3\+Draw.\+cpp\item 
+R3\+Shapes/R3\+Ellipsoid.\+cpp\end{DoxyCompactItemize}

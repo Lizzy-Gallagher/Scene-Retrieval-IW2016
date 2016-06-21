@@ -1,0 +1,80 @@
+\hypertarget{class_r_n_heap}{}\section{R\+N\+Heap$<$ Ptr\+Type $>$ Class Template Reference}
+\label{class_r_n_heap}\index{R\+N\+Heap$<$ Ptr\+Type $>$@{R\+N\+Heap$<$ Ptr\+Type $>$}}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\bfseries R\+N\+Heap} (R\+N\+Scalar($\ast$value\+\_\+callback)(Ptr\+Type, void $\ast$), Ptr\+Type $\ast$$\ast$($\ast$entry\+\_\+callback)(Ptr\+Type, void $\ast$)=N\+U\+LL, void $\ast$callback\+\_\+data=N\+U\+LL, int least\+\_\+first=T\+R\+UE)\hypertarget{class_r_n_heap_a7953360d80b5b3bf1ebd4cc8c60e8c3f}{}\label{class_r_n_heap_a7953360d80b5b3bf1ebd4cc8c60e8c3f}
+
+\item 
+{\bfseries R\+N\+Heap} (Ptr\+Type base, R\+N\+Scalar $\ast$value\+\_\+ptr, Ptr\+Type $\ast$$\ast$entry\+\_\+ptr=N\+U\+LL, int least\+\_\+first=T\+R\+UE)\hypertarget{class_r_n_heap_a88f3a8ac5140207edc206d6615cdc786}{}\label{class_r_n_heap_a88f3a8ac5140207edc206d6615cdc786}
+
+\item 
+{\bfseries R\+N\+Heap} (int value\+\_\+offset, int entry\+\_\+offset=-\/1, int least\+\_\+first=T\+R\+UE)\hypertarget{class_r_n_heap_a42aab1d9286caa049676731ff2da753f}{}\label{class_r_n_heap_a42aab1d9286caa049676731ff2da753f}
+
+\item 
+int {\bfseries Is\+Empty} (void) const \hypertarget{class_r_n_heap_a65d214a5932cf5ce73c2d573b2cbbb34}{}\label{class_r_n_heap_a65d214a5932cf5ce73c2d573b2cbbb34}
+
+\item 
+int {\bfseries N\+Entries} (void) const \hypertarget{class_r_n_heap_ab67a0da0ff305167165706594534a685}{}\label{class_r_n_heap_ab67a0da0ff305167165706594534a685}
+
+\item 
+Ptr\+Type {\bfseries Kth} (int k) const \hypertarget{class_r_n_heap_a9ed01ddc045b21264e549f1aae958b0b}{}\label{class_r_n_heap_a9ed01ddc045b21264e549f1aae958b0b}
+
+\item 
+Ptr\+Type {\bfseries operator\mbox{[}$\,$\mbox{]}} (int k) const \hypertarget{class_r_n_heap_a988177bcfd495e2a6ed5bee0b50b2d26}{}\label{class_r_n_heap_a988177bcfd495e2a6ed5bee0b50b2d26}
+
+\item 
+Ptr\+Type {\bfseries Peek} (void) const \hypertarget{class_r_n_heap_a93c5fd94b674b094083af7ae5720f453}{}\label{class_r_n_heap_a93c5fd94b674b094083af7ae5720f453}
+
+\item 
+void {\bfseries Empty} (void)\hypertarget{class_r_n_heap_a92ccd84b8cfb29a5a9841a8074917c83}{}\label{class_r_n_heap_a92ccd84b8cfb29a5a9841a8074917c83}
+
+\item 
+void {\bfseries Sort} (int n=-\/1)\hypertarget{class_r_n_heap_ab30f1c07caea6b97a7a52647c185a4a5}{}\label{class_r_n_heap_ab30f1c07caea6b97a7a52647c185a4a5}
+
+\item 
+void {\bfseries Truncate} (int n, R\+N\+Boolean sort=T\+R\+UE)\hypertarget{class_r_n_heap_a2d71ba7e378aa45df266a922d1329636}{}\label{class_r_n_heap_a2d71ba7e378aa45df266a922d1329636}
+
+\item 
+void {\bfseries Remove} (Ptr\+Type data)\hypertarget{class_r_n_heap_a50c5a72ca55ac79b0ba9d85e4a645ef3}{}\label{class_r_n_heap_a50c5a72ca55ac79b0ba9d85e4a645ef3}
+
+\item 
+void {\bfseries Update} (Ptr\+Type data)\hypertarget{class_r_n_heap_a059daef56da28fedacf3cd8bbd4cba22}{}\label{class_r_n_heap_a059daef56da28fedacf3cd8bbd4cba22}
+
+\item 
+void {\bfseries Push} (Ptr\+Type data)\hypertarget{class_r_n_heap_a59d6520e607409d0c02190a583671608}{}\label{class_r_n_heap_a59d6520e607409d0c02190a583671608}
+
+\item 
+Ptr\+Type {\bfseries Pop} (void)\hypertarget{class_r_n_heap_a44b4a3cca8e16718d276e674ca76512a}{}\label{class_r_n_heap_a44b4a3cca8e16718d276e674ca76512a}
+
+\item 
+int {\bfseries Is\+Valid} (void)\hypertarget{class_r_n_heap_ac73bb2c00f869b931976ea6898d62aea}{}\label{class_r_n_heap_ac73bb2c00f869b931976ea6898d62aea}
+
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+R\+N\+Scalar {\bfseries Value} (int i) const \hypertarget{class_r_n_heap_add5fb1bf1a4910b020e967e593ff3198}{}\label{class_r_n_heap_add5fb1bf1a4910b020e967e593ff3198}
+
+\item 
+int {\bfseries Compare} (int i, int j) const \hypertarget{class_r_n_heap_a458c64a87f3f7d41f65f0d7e65da55bc}{}\label{class_r_n_heap_a458c64a87f3f7d41f65f0d7e65da55bc}
+
+\item 
+void {\bfseries Swap} (int i, int j)\hypertarget{class_r_n_heap_ad7969b13d330045badad211f069c7cc1}{}\label{class_r_n_heap_ad7969b13d330045badad211f069c7cc1}
+
+\item 
+void {\bfseries Sort} (int n, int left, int right)\hypertarget{class_r_n_heap_a4112e13d333fa43713e3c88212690586}{}\label{class_r_n_heap_a4112e13d333fa43713e3c88212690586}
+
+\item 
+int {\bfseries Bubble\+Up} (int i)\hypertarget{class_r_n_heap_a7ca7b29f22b247f5268b5336185c2dad}{}\label{class_r_n_heap_a7ca7b29f22b247f5268b5336185c2dad}
+
+\item 
+int {\bfseries Bubble\+Down} (int i)\hypertarget{class_r_n_heap_ad7f2f799c074b9c4ad5e7f4e9679d36e}{}\label{class_r_n_heap_ad7f2f799c074b9c4ad5e7f4e9679d36e}
+
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+R\+N\+Basics/R\+N\+Heap.\+h\item 
+R\+N\+Basics/R\+N\+Heap.\+cpp\end{DoxyCompactItemize}

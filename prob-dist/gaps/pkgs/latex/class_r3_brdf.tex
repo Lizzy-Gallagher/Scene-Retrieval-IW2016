@@ -1,0 +1,116 @@
+\hypertarget{class_r3_brdf}{}\section{R3\+Brdf Class Reference}
+\label{class_r3_brdf}\index{R3\+Brdf@{R3\+Brdf}}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\bfseries R3\+Brdf} (const \hyperlink{class_r3_brdf}{R3\+Brdf} \&brdf)\hypertarget{class_r3_brdf_af9356f7865445df7289cb70df49fc224}{}\label{class_r3_brdf_af9356f7865445df7289cb70df49fc224}
+
+\item 
+{\bfseries R3\+Brdf} (const \hyperlink{class_r_n_rgb}{R\+N\+Rgb} \&rgb, R\+N\+Scalar shininess=0.\+0, R\+N\+Scalar opacity=1.\+0, R\+N\+Scalar indexofrefraction=1.\+0)\hypertarget{class_r3_brdf_a57515b7fc7531baae357780519cc5c3c}{}\label{class_r3_brdf_a57515b7fc7531baae357780519cc5c3c}
+
+\item 
+{\bfseries R3\+Brdf} (R\+N\+Scalar red, R\+N\+Scalar green, R\+N\+Scalar blue, R\+N\+Scalar shininess=0.\+0, R\+N\+Scalar opacity=1.\+0, R\+N\+Scalar indexofrefraction=1.\+0)\hypertarget{class_r3_brdf_ab78895e436d411f4182aa2adf018149b}{}\label{class_r3_brdf_ab78895e436d411f4182aa2adf018149b}
+
+\item 
+{\bfseries R3\+Brdf} (const \hyperlink{class_r_n_rgb}{R\+N\+Rgb} \&ambient, const \hyperlink{class_r_n_rgb}{R\+N\+Rgb} \&diffuse, const \hyperlink{class_r_n_rgb}{R\+N\+Rgb} \&specular, const \hyperlink{class_r_n_rgb}{R\+N\+Rgb} \&emission, R\+N\+Scalar shininess=0.\+0, R\+N\+Scalar opacity=1.\+0, R\+N\+Scalar indexofrefraction=1.\+0)\hypertarget{class_r3_brdf_a1ef52495ab0ed04d5d477f4bf53fc282}{}\label{class_r3_brdf_a1ef52495ab0ed04d5d477f4bf53fc282}
+
+\item 
+{\bfseries R3\+Brdf} (const \hyperlink{class_r_n_rgb}{R\+N\+Rgb} \&ambient, const \hyperlink{class_r_n_rgb}{R\+N\+Rgb} \&diffuse, const \hyperlink{class_r_n_rgb}{R\+N\+Rgb} \&specular, const \hyperlink{class_r_n_rgb}{R\+N\+Rgb} \&transmission, const \hyperlink{class_r_n_rgb}{R\+N\+Rgb} \&emission, R\+N\+Scalar shininess=0.\+0, R\+N\+Scalar indexofrefraction=1.\+0)\hypertarget{class_r3_brdf_a474c183231e8e75b0567b40e6cbe6852}{}\label{class_r3_brdf_a474c183231e8e75b0567b40e6cbe6852}
+
+\item 
+const \hyperlink{class_r_n_rgb}{R\+N\+Rgb} \& {\bfseries Ambient} (void) const \hypertarget{class_r3_brdf_a408a8070d6aaafd7e70e070347af70b1}{}\label{class_r3_brdf_a408a8070d6aaafd7e70e070347af70b1}
+
+\item 
+const \hyperlink{class_r_n_rgb}{R\+N\+Rgb} \& {\bfseries Diffuse} (void) const \hypertarget{class_r3_brdf_adce784a5e7fddc843bcbc054096b8c4f}{}\label{class_r3_brdf_adce784a5e7fddc843bcbc054096b8c4f}
+
+\item 
+const \hyperlink{class_r_n_rgb}{R\+N\+Rgb} \& {\bfseries Specular} (void) const \hypertarget{class_r3_brdf_ad919fa8cdc2f4d9d7a62d87608a569cd}{}\label{class_r3_brdf_ad919fa8cdc2f4d9d7a62d87608a569cd}
+
+\item 
+const \hyperlink{class_r_n_rgb}{R\+N\+Rgb} \& {\bfseries Transmission} (void) const \hypertarget{class_r3_brdf_a489b21c16a877e131dcb014eaa83011c}{}\label{class_r3_brdf_a489b21c16a877e131dcb014eaa83011c}
+
+\item 
+const \hyperlink{class_r_n_rgb}{R\+N\+Rgb} \& {\bfseries Emission} (void) const \hypertarget{class_r3_brdf_a840588cbc4f2bf9cf990e371db7943e2}{}\label{class_r3_brdf_a840588cbc4f2bf9cf990e371db7943e2}
+
+\item 
+const R\+N\+Scalar {\bfseries Shininess} (void) const \hypertarget{class_r3_brdf_aa6b02a3d99da73c2d051fabdc02e59b3}{}\label{class_r3_brdf_aa6b02a3d99da73c2d051fabdc02e59b3}
+
+\item 
+const R\+N\+Scalar {\bfseries Opacity} (void) const \hypertarget{class_r3_brdf_a5b7dd03ca9921d16233115aab6a569ca}{}\label{class_r3_brdf_a5b7dd03ca9921d16233115aab6a569ca}
+
+\item 
+const R\+N\+Scalar {\bfseries Index\+Of\+Refraction} (void) const \hypertarget{class_r3_brdf_a08ecc6b83f258a1389b3fd5ab5c2c9c3}{}\label{class_r3_brdf_a08ecc6b83f258a1389b3fd5ab5c2c9c3}
+
+\item 
+const int {\bfseries Is\+Ambient} (void) const \hypertarget{class_r3_brdf_a645755513d418a8aea142e80a7e26702}{}\label{class_r3_brdf_a645755513d418a8aea142e80a7e26702}
+
+\item 
+const int {\bfseries Is\+Diffuse} (void) const \hypertarget{class_r3_brdf_a17d5ec3069b66e9c8f06b937162aa3f2}{}\label{class_r3_brdf_a17d5ec3069b66e9c8f06b937162aa3f2}
+
+\item 
+const int {\bfseries Is\+Specular} (void) const \hypertarget{class_r3_brdf_afe58b13d942d0d7b61a7538d44321e2b}{}\label{class_r3_brdf_afe58b13d942d0d7b61a7538d44321e2b}
+
+\item 
+const int {\bfseries Is\+Transparent} (void) const \hypertarget{class_r3_brdf_aa40325f67b2353cc792886e48cbbdf97}{}\label{class_r3_brdf_aa40325f67b2353cc792886e48cbbdf97}
+
+\item 
+const int {\bfseries Is\+Emissive} (void) const \hypertarget{class_r3_brdf_a9990ddfa6962a8441307f58656c54bb5}{}\label{class_r3_brdf_a9990ddfa6962a8441307f58656c54bb5}
+
+\item 
+const int {\bfseries Is\+Shiny} (void) const \hypertarget{class_r3_brdf_ae22e21397896f06042ff5caf280fbfe7}{}\label{class_r3_brdf_ae22e21397896f06042ff5caf280fbfe7}
+
+\item 
+const \hyperlink{class_r_n_flags}{R\+N\+Flags} {\bfseries Flags} (void) const \hypertarget{class_r3_brdf_a8cacff926084de6548141ea787b5ae4c}{}\label{class_r3_brdf_a8cacff926084de6548141ea787b5ae4c}
+
+\item 
+const int {\bfseries ID} (void) const \hypertarget{class_r3_brdf_a92f445ff7c96aa15946a915024b4f8b8}{}\label{class_r3_brdf_a92f445ff7c96aa15946a915024b4f8b8}
+
+\item 
+void {\bfseries Set\+Ambient} (const \hyperlink{class_r_n_rgb}{R\+N\+Rgb} \&rgb)\hypertarget{class_r3_brdf_abd6f043e8ad6dc502f4e704526c997a5}{}\label{class_r3_brdf_abd6f043e8ad6dc502f4e704526c997a5}
+
+\item 
+void {\bfseries Set\+Diffuse} (const \hyperlink{class_r_n_rgb}{R\+N\+Rgb} \&rgb)\hypertarget{class_r3_brdf_a85803ca36a81fd52fa07a875b5fe1ba2}{}\label{class_r3_brdf_a85803ca36a81fd52fa07a875b5fe1ba2}
+
+\item 
+void {\bfseries Set\+Specular} (const \hyperlink{class_r_n_rgb}{R\+N\+Rgb} \&rgb)\hypertarget{class_r3_brdf_afeef687c49b713d5a2362455a58b8975}{}\label{class_r3_brdf_afeef687c49b713d5a2362455a58b8975}
+
+\item 
+void {\bfseries Set\+Transmission} (const \hyperlink{class_r_n_rgb}{R\+N\+Rgb} \&rgb)\hypertarget{class_r3_brdf_a516ba01eb26c02fbc190c4c50851dbe3}{}\label{class_r3_brdf_a516ba01eb26c02fbc190c4c50851dbe3}
+
+\item 
+void {\bfseries Set\+Emission} (const \hyperlink{class_r_n_rgb}{R\+N\+Rgb} \&rgb)\hypertarget{class_r3_brdf_ac8ff611cf31bbe3795cd9783ac5fa833}{}\label{class_r3_brdf_ac8ff611cf31bbe3795cd9783ac5fa833}
+
+\item 
+void {\bfseries Set\+Shininess} (R\+N\+Scalar shininess)\hypertarget{class_r3_brdf_a8842037800a27d1e58cb72b150e0bda9}{}\label{class_r3_brdf_a8842037800a27d1e58cb72b150e0bda9}
+
+\item 
+void {\bfseries Set\+Opacity} (R\+N\+Scalar opacity)\hypertarget{class_r3_brdf_acd714a50ea69a513328567d1618ebe9c}{}\label{class_r3_brdf_acd714a50ea69a513328567d1618ebe9c}
+
+\item 
+void {\bfseries Set\+Index\+Of\+Refraction} (R\+N\+Scalar indexofrefraction)\hypertarget{class_r3_brdf_aaeed62c18c0eb91a5a15b9c45d4f4b1c}{}\label{class_r3_brdf_aaeed62c18c0eb91a5a15b9c45d4f4b1c}
+
+\item 
+void {\bfseries Load} (void) const \hypertarget{class_r3_brdf_af93330f6469a4c800f42a056a15655f5}{}\label{class_r3_brdf_af93330f6469a4c800f42a056a15655f5}
+
+\item 
+void {\bfseries Unload} (void) const \hypertarget{class_r3_brdf_ac2aa39a75a3aacb6f966fc96a977ed21}{}\label{class_r3_brdf_ac2aa39a75a3aacb6f966fc96a977ed21}
+
+\item 
+void {\bfseries Draw} (R\+N\+Boolean force=F\+A\+L\+SE) const \hypertarget{class_r3_brdf_a3c495da11bb530dc8c4dae2420c7e888}{}\label{class_r3_brdf_a3c495da11bb530dc8c4dae2420c7e888}
+
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void {\bfseries Update} (void)\hypertarget{class_r3_brdf_a7012a3fbcb6b610dcb6f6ca66e818ffc}{}\label{class_r3_brdf_a7012a3fbcb6b610dcb6f6ca66e818ffc}
+
+\item 
+void {\bfseries Update\+Flags} (const \hyperlink{class_r_n_flags}{R\+N\+Flags} flags)\hypertarget{class_r3_brdf_a7aa847654676680c2aa7f4bdffeb0051}{}\label{class_r3_brdf_a7aa847654676680c2aa7f4bdffeb0051}
+
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+R3\+Graphics/R3\+Brdf.\+h\item 
+R3\+Graphics/R3\+Brdf.\+cpp\end{DoxyCompactItemize}

@@ -1,0 +1,89 @@
+\hypertarget{struct_r3_mesh_property_set}{}\section{R3\+Mesh\+Property\+Set Struct Reference}
+\label{struct_r3_mesh_property_set}\index{R3\+Mesh\+Property\+Set@{R3\+Mesh\+Property\+Set}}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\bfseries R3\+Mesh\+Property\+Set} (\hyperlink{class_r3_mesh}{R3\+Mesh} $\ast$mesh)\hypertarget{struct_r3_mesh_property_set_ae13664743b8f023e8a7601f04b528b96}{}\label{struct_r3_mesh_property_set_ae13664743b8f023e8a7601f04b528b96}
+
+\item 
+\hyperlink{class_r3_mesh}{R3\+Mesh} $\ast$ {\bfseries Mesh} (void) const \hypertarget{struct_r3_mesh_property_set_a1204a1ed3e98cb7801afbcbbfaf49b35}{}\label{struct_r3_mesh_property_set_a1204a1ed3e98cb7801afbcbbfaf49b35}
+
+\item 
+int {\bfseries N\+Properties} (void) const \hypertarget{struct_r3_mesh_property_set_a8121904ec59144bc0ad92fa7c885e659}{}\label{struct_r3_mesh_property_set_a8121904ec59144bc0ad92fa7c885e659}
+
+\item 
+\hyperlink{struct_r3_mesh_property}{R3\+Mesh\+Property} $\ast$ {\bfseries Property} (int k) const \hypertarget{struct_r3_mesh_property_set_a47fd23bdeb5e8cc7a0005877bdf2463e}{}\label{struct_r3_mesh_property_set_a47fd23bdeb5e8cc7a0005877bdf2463e}
+
+\item 
+\hyperlink{struct_r3_mesh_property}{R3\+Mesh\+Property} $\ast$ {\bfseries Property} (const char $\ast$name) const \hypertarget{struct_r3_mesh_property_set_a0a7ecd1faa7c7e62eda9fcb441c63696}{}\label{struct_r3_mesh_property_set_a0a7ecd1faa7c7e62eda9fcb441c63696}
+
+\item 
+int {\bfseries Property\+Index} (\hyperlink{struct_r3_mesh_property}{R3\+Mesh\+Property} $\ast$property) const \hypertarget{struct_r3_mesh_property_set_aec0fd03707de5028090e410d5176d893}{}\label{struct_r3_mesh_property_set_aec0fd03707de5028090e410d5176d893}
+
+\item 
+int {\bfseries Property\+Index} (const char $\ast$property\+\_\+name) const \hypertarget{struct_r3_mesh_property_set_a63429bf2c02ef660190950c66ca3b3a0}{}\label{struct_r3_mesh_property_set_a63429bf2c02ef660190950c66ca3b3a0}
+
+\item 
+\hyperlink{struct_r3_mesh_property}{R3\+Mesh\+Property} $\ast$ {\bfseries operator\mbox{[}$\,$\mbox{]}} (int k) const \hypertarget{struct_r3_mesh_property_set_a65ac08cc34d264cd2702f0724e5cc8d8}{}\label{struct_r3_mesh_property_set_a65ac08cc34d264cd2702f0724e5cc8d8}
+
+\item 
+void {\bfseries Empty} (void)\hypertarget{struct_r3_mesh_property_set_a97b49931fd8b6541070608284ead7913}{}\label{struct_r3_mesh_property_set_a97b49931fd8b6541070608284ead7913}
+
+\item 
+void {\bfseries Sort\+By\+Name} (void)\hypertarget{struct_r3_mesh_property_set_afaac5d1b2286a20c50fd58fa3afb7810}{}\label{struct_r3_mesh_property_set_afaac5d1b2286a20c50fd58fa3afb7810}
+
+\item 
+void {\bfseries Insert} (\hyperlink{struct_r3_mesh_property}{R3\+Mesh\+Property} $\ast$property)\hypertarget{struct_r3_mesh_property_set_a105524c1e174380e61151699136cbb60}{}\label{struct_r3_mesh_property_set_a105524c1e174380e61151699136cbb60}
+
+\item 
+void {\bfseries Insert} (\hyperlink{struct_r3_mesh_property_set}{R3\+Mesh\+Property\+Set} $\ast$set)\hypertarget{struct_r3_mesh_property_set_a9641c889a386e15c37bab482944b59ed}{}\label{struct_r3_mesh_property_set_a9641c889a386e15c37bab482944b59ed}
+
+\item 
+void {\bfseries Remove} (\hyperlink{struct_r3_mesh_property}{R3\+Mesh\+Property} $\ast$property)\hypertarget{struct_r3_mesh_property_set_a6929a71518d8391e2fae282d540e37fa}{}\label{struct_r3_mesh_property_set_a6929a71518d8391e2fae282d540e37fa}
+
+\item 
+void {\bfseries Remove} (\hyperlink{struct_r3_mesh_property_set}{R3\+Mesh\+Property\+Set} $\ast$set)\hypertarget{struct_r3_mesh_property_set_a36398b1d8abd7e29cb302522972b3a21}{}\label{struct_r3_mesh_property_set_a36398b1d8abd7e29cb302522972b3a21}
+
+\item 
+void {\bfseries Remove} (const char $\ast$name)\hypertarget{struct_r3_mesh_property_set_a3648ede0754d3b88791384212237fd1a}{}\label{struct_r3_mesh_property_set_a3648ede0754d3b88791384212237fd1a}
+
+\item 
+void {\bfseries Remove} (int k)\hypertarget{struct_r3_mesh_property_set_a485046ef602fbb204580b4cf774ce300}{}\label{struct_r3_mesh_property_set_a485046ef602fbb204580b4cf774ce300}
+
+\item 
+int {\bfseries Read} (const char $\ast$filename)\hypertarget{struct_r3_mesh_property_set_a52aa57c56ba27e654bb98a6966775fcc}{}\label{struct_r3_mesh_property_set_a52aa57c56ba27e654bb98a6966775fcc}
+
+\item 
+int {\bfseries Read\+A\+R\+FF} (const char $\ast$filename)\hypertarget{struct_r3_mesh_property_set_a23be501fa14ccf0433b42a237f79a543}{}\label{struct_r3_mesh_property_set_a23be501fa14ccf0433b42a237f79a543}
+
+\item 
+int {\bfseries Read\+Toronto} (const char $\ast$filename)\hypertarget{struct_r3_mesh_property_set_a1f1a24103f523a9f16fc87514acde2e9}{}\label{struct_r3_mesh_property_set_a1f1a24103f523a9f16fc87514acde2e9}
+
+\item 
+int {\bfseries Read\+Property} (const char $\ast$filename)\hypertarget{struct_r3_mesh_property_set_ab001e891cb516b1729d981f6dc210982}{}\label{struct_r3_mesh_property_set_ab001e891cb516b1729d981f6dc210982}
+
+\item 
+int {\bfseries Write} (const char $\ast$filename) const \hypertarget{struct_r3_mesh_property_set_a69b963f9e160e2a2e9e18f08845c5315}{}\label{struct_r3_mesh_property_set_a69b963f9e160e2a2e9e18f08845c5315}
+
+\item 
+int {\bfseries Write\+A\+R\+FF} (const char $\ast$filename) const \hypertarget{struct_r3_mesh_property_set_a35a1fd7f9d7a6a05922b5444ed5b78ab}{}\label{struct_r3_mesh_property_set_a35a1fd7f9d7a6a05922b5444ed5b78ab}
+
+\item 
+int {\bfseries Write\+Values} (const char $\ast$filename) const \hypertarget{struct_r3_mesh_property_set_a6bad709674455fff2889fc50d9aa9f43}{}\label{struct_r3_mesh_property_set_a6bad709674455fff2889fc50d9aa9f43}
+
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_r3_mesh}{R3\+Mesh} $\ast$ {\bfseries mesh}\hypertarget{struct_r3_mesh_property_set_ab331ed50bcc3db6f00d327730dadfef4}{}\label{struct_r3_mesh_property_set_ab331ed50bcc3db6f00d327730dadfef4}
+
+\item 
+\hyperlink{class_r_n_array}{R\+N\+Array}$<$ \hyperlink{struct_r3_mesh_property}{R3\+Mesh\+Property} $\ast$ $>$ {\bfseries properties}\hypertarget{struct_r3_mesh_property_set_af202ee0f3f569874b1b95d27f7c2ec0b}{}\label{struct_r3_mesh_property_set_af202ee0f3f569874b1b95d27f7c2ec0b}
+
+\end{DoxyCompactItemize}
+
+
+The documentation for this struct was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+R3\+Shapes/R3\+Mesh\+Property\+Set.\+h\item 
+R3\+Shapes/R3\+Mesh\+Property\+Set.\+cpp\end{DoxyCompactItemize}

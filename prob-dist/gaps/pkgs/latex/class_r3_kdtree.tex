@@ -1,0 +1,173 @@
+\hypertarget{class_r3_kdtree}{}\section{R3\+Kdtree$<$ Ptr\+Type $>$ Class Template Reference}
+\label{class_r3_kdtree}\index{R3\+Kdtree$<$ Ptr\+Type $>$@{R3\+Kdtree$<$ Ptr\+Type $>$}}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\bfseries R3\+Kdtree} (const \hyperlink{class_r3_box}{R3\+Box} \&bbox, int position\+\_\+offset=0)\hypertarget{class_r3_kdtree_a689526419ffbce0bc405963ed0be2997}{}\label{class_r3_kdtree_a689526419ffbce0bc405963ed0be2997}
+
+\item 
+{\bfseries R3\+Kdtree} (const \hyperlink{class_r3_box}{R3\+Box} \&bbox, \hyperlink{class_r3_point}{R3\+Point}($\ast$position\+\_\+callback)(Ptr\+Type, void $\ast$), void $\ast$data=N\+U\+LL)\hypertarget{class_r3_kdtree_a8aa6010354ce64df48829eb35c35bb92}{}\label{class_r3_kdtree_a8aa6010354ce64df48829eb35c35bb92}
+
+\item 
+{\bfseries R3\+Kdtree} (const \hyperlink{class_r_n_array}{R\+N\+Array}$<$ Ptr\+Type $>$ \&points, int position\+\_\+offset=0)\hypertarget{class_r3_kdtree_a31fcf0a9e20cf63d491ddf4447860bce}{}\label{class_r3_kdtree_a31fcf0a9e20cf63d491ddf4447860bce}
+
+\item 
+{\bfseries R3\+Kdtree} (const \hyperlink{class_r_n_array}{R\+N\+Array}$<$ Ptr\+Type $>$ \&points, \hyperlink{class_r3_point}{R3\+Point}($\ast$position\+\_\+callback)(Ptr\+Type, void $\ast$), void $\ast$data=N\+U\+LL)\hypertarget{class_r3_kdtree_ab8940db6cca4aee9cc26d9e4ffce7e17}{}\label{class_r3_kdtree_ab8940db6cca4aee9cc26d9e4ffce7e17}
+
+\item 
+{\bfseries R3\+Kdtree} (const \hyperlink{class_r3_kdtree}{R3\+Kdtree}$<$ Ptr\+Type $>$ \&kdtree)\hypertarget{class_r3_kdtree_a7ae51ebc9ea7a2ffd88c5275bf4aadbf}{}\label{class_r3_kdtree_a7ae51ebc9ea7a2ffd88c5275bf4aadbf}
+
+\item 
+const \hyperlink{class_r3_box}{R3\+Box} \& {\bfseries B\+Box} (void) const \hypertarget{class_r3_kdtree_a41e526ac31c29835b8b7c4a4dd13dcfe}{}\label{class_r3_kdtree_a41e526ac31c29835b8b7c4a4dd13dcfe}
+
+\item 
+int {\bfseries N\+Points} (void) const \hypertarget{class_r3_kdtree_afbe168c70253c18fd9e284dc09897451}{}\label{class_r3_kdtree_afbe168c70253c18fd9e284dc09897451}
+
+\item 
+int {\bfseries N\+Nodes} (void) const \hypertarget{class_r3_kdtree_a7169b0048894065d599abbe923ffe5e9}{}\label{class_r3_kdtree_a7169b0048894065d599abbe923ffe5e9}
+
+\item 
+void {\bfseries Insert\+Point} (Ptr\+Type point)\hypertarget{class_r3_kdtree_a08512b73a97e6904754cd607edb022b8}{}\label{class_r3_kdtree_a08512b73a97e6904754cd607edb022b8}
+
+\item 
+Ptr\+Type {\bfseries Find\+Closest} (Ptr\+Type query\+\_\+point, R\+N\+Length min\+\_\+distance, R\+N\+Length max\+\_\+distance, int($\ast$Is\+Compatible)(Ptr\+Type, Ptr\+Type, void $\ast$), void $\ast$compatible\+\_\+data, R\+N\+Length $\ast$closest\+\_\+distance=N\+U\+LL) const \hypertarget{class_r3_kdtree_adc9970c4c0f53c8cd09766f213142e5a}{}\label{class_r3_kdtree_adc9970c4c0f53c8cd09766f213142e5a}
+
+\item 
+Ptr\+Type {\bfseries Find\+Closest} (Ptr\+Type query\+\_\+point, R\+N\+Length min\+\_\+distance=0, R\+N\+Length max\+\_\+distance=F\+L\+T\+\_\+\+M\+AX, R\+N\+Length $\ast$closest\+\_\+distance=N\+U\+LL) const \hypertarget{class_r3_kdtree_a8dfd4edac8c4ebd8e3080be323f9e7df}{}\label{class_r3_kdtree_a8dfd4edac8c4ebd8e3080be323f9e7df}
+
+\item 
+Ptr\+Type {\bfseries Find\+Closest} (const \hyperlink{class_r3_point}{R3\+Point} \&query\+\_\+position, R\+N\+Length min\+\_\+distance=0, R\+N\+Length max\+\_\+distance=F\+L\+T\+\_\+\+M\+AX, R\+N\+Length $\ast$closest\+\_\+distance=N\+U\+LL) const \hypertarget{class_r3_kdtree_a5f964e682676ae805872187273a557c8}{}\label{class_r3_kdtree_a5f964e682676ae805872187273a557c8}
+
+\item 
+Ptr\+Type {\bfseries Find\+Closest} (const \hyperlink{class_r3_line}{R3\+Line} \&query\+\_\+line, R\+N\+Length min\+\_\+distance=0, R\+N\+Length max\+\_\+distance=F\+L\+T\+\_\+\+M\+AX, R\+N\+Length $\ast$closest\+\_\+distance=N\+U\+LL) const \hypertarget{class_r3_kdtree_a63a4dc8766ec8101e64d5b324e1012db}{}\label{class_r3_kdtree_a63a4dc8766ec8101e64d5b324e1012db}
+
+\item 
+Ptr\+Type {\bfseries Find\+Closest} (const \hyperlink{class_r3_plane}{R3\+Plane} \&query\+\_\+plane, R\+N\+Length min\+\_\+distance=0, R\+N\+Length max\+\_\+distance=F\+L\+T\+\_\+\+M\+AX, R\+N\+Length $\ast$closest\+\_\+distance=N\+U\+LL) const \hypertarget{class_r3_kdtree_a5c0894b4d1c0d8afe50b13f9047a92a8}{}\label{class_r3_kdtree_a5c0894b4d1c0d8afe50b13f9047a92a8}
+
+\item 
+Ptr\+Type {\bfseries Find\+Closest} (const \hyperlink{class_r3_shape}{R3\+Shape} \&query\+\_\+shape, R\+N\+Length min\+\_\+distance=0, R\+N\+Length max\+\_\+distance=F\+L\+T\+\_\+\+M\+AX, R\+N\+Length $\ast$closest\+\_\+distance=N\+U\+LL) const \hypertarget{class_r3_kdtree_a856e61de11b59aaa6f9e1cd2a406891b}{}\label{class_r3_kdtree_a856e61de11b59aaa6f9e1cd2a406891b}
+
+\item 
+int {\bfseries Find\+Closest} (Ptr\+Type query\+\_\+point, R\+N\+Length min\+\_\+distance, R\+N\+Length max\+\_\+distance, int max\+\_\+points, int($\ast$Is\+Compatible)(Ptr\+Type, Ptr\+Type, void $\ast$), void $\ast$compatible\+\_\+data, \hyperlink{class_r_n_array}{R\+N\+Array}$<$ Ptr\+Type $>$ \&points, R\+N\+Length $\ast$distances=N\+U\+LL) const \hypertarget{class_r3_kdtree_a85e75d93d3ce0aef22d7e287dc7c475f}{}\label{class_r3_kdtree_a85e75d93d3ce0aef22d7e287dc7c475f}
+
+\item 
+int {\bfseries Find\+Closest} (Ptr\+Type query\+\_\+point, R\+N\+Length min\+\_\+distance, R\+N\+Length max\+\_\+distance, int max\+\_\+points, \hyperlink{class_r_n_array}{R\+N\+Array}$<$ Ptr\+Type $>$ \&points, R\+N\+Length $\ast$distances=N\+U\+LL) const \hypertarget{class_r3_kdtree_a2a2af4fb3c237612e742390cd20f1d19}{}\label{class_r3_kdtree_a2a2af4fb3c237612e742390cd20f1d19}
+
+\item 
+int {\bfseries Find\+Closest} (const \hyperlink{class_r3_point}{R3\+Point} \&query\+\_\+position, R\+N\+Length min\+\_\+distance, R\+N\+Length max\+\_\+distance, int max\+\_\+points, \hyperlink{class_r_n_array}{R\+N\+Array}$<$ Ptr\+Type $>$ \&points, R\+N\+Length $\ast$distances=N\+U\+LL) const \hypertarget{class_r3_kdtree_a18fa705bed88b8ecccd41586ab8ecca7}{}\label{class_r3_kdtree_a18fa705bed88b8ecccd41586ab8ecca7}
+
+\item 
+int {\bfseries Find\+Closest} (const \hyperlink{class_r3_line}{R3\+Line} \&query\+\_\+line, R\+N\+Length min\+\_\+distance, R\+N\+Length max\+\_\+distance, int max\+\_\+points, \hyperlink{class_r_n_array}{R\+N\+Array}$<$ Ptr\+Type $>$ \&points, R\+N\+Length $\ast$distances=N\+U\+LL) const \hypertarget{class_r3_kdtree_acdee93471b8f30c8d7c82c52152321c0}{}\label{class_r3_kdtree_acdee93471b8f30c8d7c82c52152321c0}
+
+\item 
+int {\bfseries Find\+Closest} (const \hyperlink{class_r3_plane}{R3\+Plane} \&query\+\_\+plane, R\+N\+Length min\+\_\+distance, R\+N\+Length max\+\_\+distance, int max\+\_\+points, \hyperlink{class_r_n_array}{R\+N\+Array}$<$ Ptr\+Type $>$ \&points, R\+N\+Length $\ast$distances=N\+U\+LL) const \hypertarget{class_r3_kdtree_acdb004f0eee2c6cc817ba984ae37a28b}{}\label{class_r3_kdtree_acdb004f0eee2c6cc817ba984ae37a28b}
+
+\item 
+int {\bfseries Find\+Closest} (const \hyperlink{class_r3_shape}{R3\+Shape} \&query\+\_\+shape, R\+N\+Length min\+\_\+distance, R\+N\+Length max\+\_\+distance, int max\+\_\+points, \hyperlink{class_r_n_array}{R\+N\+Array}$<$ Ptr\+Type $>$ \&points, R\+N\+Length $\ast$distances=N\+U\+LL) const \hypertarget{class_r3_kdtree_add13c72c12771eb76b48f0b242f3018b}{}\label{class_r3_kdtree_add13c72c12771eb76b48f0b242f3018b}
+
+\item 
+int {\bfseries Find\+All} (Ptr\+Type query\+\_\+point, R\+N\+Length min\+\_\+distance, R\+N\+Length max\+\_\+distance, int($\ast$Is\+Compatible)(Ptr\+Type, Ptr\+Type, void $\ast$), void $\ast$compatible\+\_\+data, \hyperlink{class_r_n_array}{R\+N\+Array}$<$ Ptr\+Type $>$ \&points) const \hypertarget{class_r3_kdtree_a9884c61d556922cb0a5d29e651589272}{}\label{class_r3_kdtree_a9884c61d556922cb0a5d29e651589272}
+
+\item 
+int {\bfseries Find\+All} (Ptr\+Type query\+\_\+point, R\+N\+Length min\+\_\+distance, R\+N\+Length max\+\_\+distance, \hyperlink{class_r_n_array}{R\+N\+Array}$<$ Ptr\+Type $>$ \&points) const \hypertarget{class_r3_kdtree_a4f740206a7671cece60de427420a1cc1}{}\label{class_r3_kdtree_a4f740206a7671cece60de427420a1cc1}
+
+\item 
+int {\bfseries Find\+All} (const \hyperlink{class_r3_point}{R3\+Point} \&query\+\_\+position, R\+N\+Length min\+\_\+distance, R\+N\+Length max\+\_\+distance, \hyperlink{class_r_n_array}{R\+N\+Array}$<$ Ptr\+Type $>$ \&points) const \hypertarget{class_r3_kdtree_a40b2dfbdbabdb7a96a58f7d90d28abd6}{}\label{class_r3_kdtree_a40b2dfbdbabdb7a96a58f7d90d28abd6}
+
+\item 
+int {\bfseries Find\+All} (const \hyperlink{class_r3_line}{R3\+Line} \&query\+\_\+line, R\+N\+Length min\+\_\+distance, R\+N\+Length max\+\_\+distance, \hyperlink{class_r_n_array}{R\+N\+Array}$<$ Ptr\+Type $>$ \&points) const \hypertarget{class_r3_kdtree_a0794669497a02d7facde99a531e98599}{}\label{class_r3_kdtree_a0794669497a02d7facde99a531e98599}
+
+\item 
+int {\bfseries Find\+All} (const \hyperlink{class_r3_plane}{R3\+Plane} \&query\+\_\+plane, R\+N\+Length min\+\_\+distance, R\+N\+Length max\+\_\+distance, \hyperlink{class_r_n_array}{R\+N\+Array}$<$ Ptr\+Type $>$ \&points) const \hypertarget{class_r3_kdtree_a1adb80cf66a3330dcd88bd5317c7baa3}{}\label{class_r3_kdtree_a1adb80cf66a3330dcd88bd5317c7baa3}
+
+\item 
+int {\bfseries Find\+All} (const \hyperlink{class_r3_shape}{R3\+Shape} \&query\+\_\+shape, R\+N\+Length min\+\_\+distance, R\+N\+Length max\+\_\+distance, \hyperlink{class_r_n_array}{R\+N\+Array}$<$ Ptr\+Type $>$ \&points) const \hypertarget{class_r3_kdtree_aa012d9833a77f06936c69cd389e20db6}{}\label{class_r3_kdtree_aa012d9833a77f06936c69cd389e20db6}
+
+\item 
+Ptr\+Type {\bfseries Find\+Any} (Ptr\+Type query\+\_\+point, R\+N\+Length min\+\_\+distance, R\+N\+Length max\+\_\+distance, int($\ast$Is\+Compatible)(Ptr\+Type, Ptr\+Type, void $\ast$), void $\ast$compatible\+\_\+data) const \hypertarget{class_r3_kdtree_a5cac7e268dc2f7f06d8b1bf5a3a92fee}{}\label{class_r3_kdtree_a5cac7e268dc2f7f06d8b1bf5a3a92fee}
+
+\item 
+Ptr\+Type {\bfseries Find\+Any} (Ptr\+Type query\+\_\+point, R\+N\+Length min\+\_\+distance=0, R\+N\+Length max\+\_\+distance=F\+L\+T\+\_\+\+M\+AX) const \hypertarget{class_r3_kdtree_a370311b1f187236395af80ee67f23764}{}\label{class_r3_kdtree_a370311b1f187236395af80ee67f23764}
+
+\item 
+Ptr\+Type {\bfseries Find\+Any} (const \hyperlink{class_r3_point}{R3\+Point} \&query\+\_\+position, R\+N\+Length min\+\_\+distance=0, R\+N\+Length max\+\_\+distance=F\+L\+T\+\_\+\+M\+AX) const \hypertarget{class_r3_kdtree_ae842f41eb444501f601f5b0967cf76db}{}\label{class_r3_kdtree_ae842f41eb444501f601f5b0967cf76db}
+
+\item 
+void {\bfseries Outline} (void) const \hypertarget{class_r3_kdtree_a3bbb029fbc96ccbe2f0a2310daedd2b1}{}\label{class_r3_kdtree_a3bbb029fbc96ccbe2f0a2310daedd2b1}
+
+\item 
+void {\bfseries Find\+Closest} (\hyperlink{class_r3_kdtree_node}{R3\+Kdtree\+Node}$<$ Ptr\+Type $>$ $\ast$node, const \hyperlink{class_r3_box}{R3\+Box} \&node\+\_\+box, Ptr\+Type query\+\_\+point, const \hyperlink{class_r3_point}{R3\+Point} \&query\+\_\+position, R\+N\+Length min\+\_\+distance\+\_\+squared, R\+N\+Length max\+\_\+distance\+\_\+squared, int($\ast$Is\+Compatible)(Ptr\+Type, Ptr\+Type, void $\ast$), void $\ast$compatible\+\_\+data, Ptr\+Type \&closest\+\_\+point, R\+N\+Length \&closest\+\_\+distance\+\_\+squared) const \hypertarget{class_r3_kdtree_ac60eb1582d5f94051ba76991b6095fe6}{}\label{class_r3_kdtree_ac60eb1582d5f94051ba76991b6095fe6}
+
+\item 
+void {\bfseries Find\+Closest} (\hyperlink{class_r3_kdtree_node}{R3\+Kdtree\+Node}$<$ Ptr\+Type $>$ $\ast$node, const \hyperlink{class_r3_box}{R3\+Box} \&node\+\_\+box, Ptr\+Type query\+\_\+point, const \hyperlink{class_r3_point}{R3\+Point} \&query\+\_\+position, R\+N\+Length min\+\_\+distance\+\_\+squared, R\+N\+Length max\+\_\+distance\+\_\+squared, int max\+\_\+points, int($\ast$Is\+Compatible)(Ptr\+Type, Ptr\+Type, void $\ast$), void $\ast$compatible\+\_\+data, \hyperlink{class_r_n_array}{R\+N\+Array}$<$ Ptr\+Type $>$ \&points, R\+N\+Length $\ast$distances\+\_\+squared) const \hypertarget{class_r3_kdtree_ace72061be066f692e4366484a09b6dc9}{}\label{class_r3_kdtree_ace72061be066f692e4366484a09b6dc9}
+
+\item 
+void {\bfseries Find\+All} (\hyperlink{class_r3_kdtree_node}{R3\+Kdtree\+Node}$<$ Ptr\+Type $>$ $\ast$node, const \hyperlink{class_r3_box}{R3\+Box} \&node\+\_\+box, Ptr\+Type query\+\_\+point, const \hyperlink{class_r3_point}{R3\+Point} \&position, R\+N\+Length min\+\_\+distance\+\_\+squared, R\+N\+Length max\+\_\+distance\+\_\+squared, int($\ast$Is\+Compatible)(Ptr\+Type, Ptr\+Type, void $\ast$), void $\ast$compatible\+\_\+data, \hyperlink{class_r_n_array}{R\+N\+Array}$<$ Ptr\+Type $>$ \&points) const \hypertarget{class_r3_kdtree_a184a5fe64cb187f2065f819fcc1b36a5}{}\label{class_r3_kdtree_a184a5fe64cb187f2065f819fcc1b36a5}
+
+\item 
+Ptr\+Type {\bfseries Find\+Any} (\hyperlink{class_r3_kdtree_node}{R3\+Kdtree\+Node}$<$ Ptr\+Type $>$ $\ast$node, const \hyperlink{class_r3_box}{R3\+Box} \&node\+\_\+box, Ptr\+Type query\+\_\+point, const \hyperlink{class_r3_point}{R3\+Point} \&query\+\_\+position, R\+N\+Length min\+\_\+distance\+\_\+squared, R\+N\+Length max\+\_\+distance\+\_\+squared, int($\ast$Is\+Compatible)(Ptr\+Type, Ptr\+Type, void $\ast$), void $\ast$compatible\+\_\+data) const \hypertarget{class_r3_kdtree_a6c923385fea98e251e9ffd5682e9d5ee}{}\label{class_r3_kdtree_a6c923385fea98e251e9ffd5682e9d5ee}
+
+\item 
+{\footnotesize template$<$class Shape $>$ }\\void {\bfseries Find\+Closest} (\hyperlink{class_r3_kdtree_node}{R3\+Kdtree\+Node}$<$ Ptr\+Type $>$ $\ast$node, const \hyperlink{class_r3_box}{R3\+Box} \&node\+\_\+box, const Shape \&query\+\_\+plane, R\+N\+Length min\+\_\+distance, R\+N\+Length max\+\_\+distance, Ptr\+Type \&closest\+\_\+point, R\+N\+Length \&closest\+\_\+distance) const \hypertarget{class_r3_kdtree_abb08d5b25e8f6f37d07de1045b445690}{}\label{class_r3_kdtree_abb08d5b25e8f6f37d07de1045b445690}
+
+\item 
+{\footnotesize template$<$class Shape $>$ }\\void {\bfseries Find\+Closest} (\hyperlink{class_r3_kdtree_node}{R3\+Kdtree\+Node}$<$ Ptr\+Type $>$ $\ast$node, const \hyperlink{class_r3_box}{R3\+Box} \&node\+\_\+box, const Shape \&query\+\_\+plane, R\+N\+Length min\+\_\+distance, R\+N\+Length max\+\_\+distance, int max\+\_\+points, \hyperlink{class_r_n_array}{R\+N\+Array}$<$ Ptr\+Type $>$ \&points, R\+N\+Length $\ast$distances) const \hypertarget{class_r3_kdtree_a63dc40af47f90e875e42b71cd71a56d2}{}\label{class_r3_kdtree_a63dc40af47f90e875e42b71cd71a56d2}
+
+\item 
+{\footnotesize template$<$class Shape $>$ }\\void {\bfseries Find\+All} (\hyperlink{class_r3_kdtree_node}{R3\+Kdtree\+Node}$<$ Ptr\+Type $>$ $\ast$node, const \hyperlink{class_r3_box}{R3\+Box} \&node\+\_\+box, const Shape \&query\+\_\+plane, R\+N\+Length min\+\_\+distance, R\+N\+Length max\+\_\+distance, \hyperlink{class_r_n_array}{R\+N\+Array}$<$ Ptr\+Type $>$ \&points) const \hypertarget{class_r3_kdtree_a19116ff24636b65fe52f95eab958126e}{}\label{class_r3_kdtree_a19116ff24636b65fe52f95eab958126e}
+
+\item 
+void {\bfseries Insert\+Point} (\hyperlink{class_r3_kdtree_node}{R3\+Kdtree\+Node}$<$ Ptr\+Type $>$ $\ast$node, const \hyperlink{class_r3_box}{R3\+Box} \&node\+\_\+box, Ptr\+Type point)\hypertarget{class_r3_kdtree_a2ed8118bd91bde28954a6725dc305886}{}\label{class_r3_kdtree_a2ed8118bd91bde28954a6725dc305886}
+
+\item 
+void {\bfseries Insert\+Points} (\hyperlink{class_r3_kdtree_node}{R3\+Kdtree\+Node}$<$ Ptr\+Type $>$ $\ast$node, const \hyperlink{class_r3_box}{R3\+Box} \&node\+\_\+box, Ptr\+Type $\ast$points, int npoints)\hypertarget{class_r3_kdtree_a5c6cf3714975b2d0999ecf42788508c0}{}\label{class_r3_kdtree_a5c6cf3714975b2d0999ecf42788508c0}
+
+\item 
+int {\bfseries Partition\+Points} (Ptr\+Type $\ast$points, int npoints, R\+N\+Dimension dim, int imin, int imax)\hypertarget{class_r3_kdtree_a6962f9a9c107214e7b5646634e74e542}{}\label{class_r3_kdtree_a6962f9a9c107214e7b5646634e74e542}
+
+\item 
+void {\bfseries Split\+Node} (\hyperlink{class_r3_kdtree_node}{R3\+Kdtree\+Node}$<$ Ptr\+Type $>$ $\ast$node, const \hyperlink{class_r3_box}{R3\+Box} \&node\+\_\+box)\hypertarget{class_r3_kdtree_ab67ab9ab9d095ffb6151cc5e719cc356}{}\label{class_r3_kdtree_ab67ab9ab9d095ffb6151cc5e719cc356}
+
+\item 
+void {\bfseries Outline} (\hyperlink{class_r3_kdtree_node}{R3\+Kdtree\+Node}$<$ Ptr\+Type $>$ $\ast$node, const \hyperlink{class_r3_box}{R3\+Box} \&bbox) const \hypertarget{class_r3_kdtree_a7c073edda35b2bca06da1340da5a13bc}{}\label{class_r3_kdtree_a7c073edda35b2bca06da1340da5a13bc}
+
+\item 
+void {\bfseries Print\+Debug\+Info} (void) const \hypertarget{class_r3_kdtree_ae0bb4f814ee2a06d1b0a200dbc4174c7}{}\label{class_r3_kdtree_ae0bb4f814ee2a06d1b0a200dbc4174c7}
+
+\item 
+int {\bfseries Print\+Balance} (\hyperlink{class_r3_kdtree_node}{R3\+Kdtree\+Node}$<$ Ptr\+Type $>$ $\ast$node, int depth) const \hypertarget{class_r3_kdtree_af33b78d6c7a4869377c9bfec86d93ee1}{}\label{class_r3_kdtree_af33b78d6c7a4869377c9bfec86d93ee1}
+
+\item 
+const \hyperlink{class_r3_point}{R3\+Point} {\bfseries Position} (Ptr\+Type point) const \hypertarget{class_r3_kdtree_a660e8024d23b0953217a12fcdbf09161}{}\label{class_r3_kdtree_a660e8024d23b0953217a12fcdbf09161}
+
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_r3_box}{R3\+Box} {\bfseries bbox}\hypertarget{class_r3_kdtree_a5e1e3d8113e4b4e3f8bf558c43bda5d2}{}\label{class_r3_kdtree_a5e1e3d8113e4b4e3f8bf558c43bda5d2}
+
+\item 
+int {\bfseries position\+\_\+offset}\hypertarget{class_r3_kdtree_acb3e370d99b1d054d1d260c12f443a37}{}\label{class_r3_kdtree_acb3e370d99b1d054d1d260c12f443a37}
+
+\item 
+\hyperlink{class_r3_point}{R3\+Point}($\ast$ {\bfseries position\+\_\+callback} )(Ptr\+Type, void $\ast$)\hypertarget{class_r3_kdtree_a6544a888fb5708924597c7f722f462b7}{}\label{class_r3_kdtree_a6544a888fb5708924597c7f722f462b7}
+
+\item 
+void $\ast$ {\bfseries position\+\_\+callback\+\_\+data}\hypertarget{class_r3_kdtree_afd98560c6d6e0c9738dc0999fba03137}{}\label{class_r3_kdtree_afd98560c6d6e0c9738dc0999fba03137}
+
+\item 
+\hyperlink{class_r3_kdtree_node}{R3\+Kdtree\+Node}$<$ Ptr\+Type $>$ $\ast$ {\bfseries root}\hypertarget{class_r3_kdtree_a6c798271d6d168b8a93d1763e40e2695}{}\label{class_r3_kdtree_a6c798271d6d168b8a93d1763e40e2695}
+
+\item 
+int {\bfseries npoints}\hypertarget{class_r3_kdtree_a6421964dbaa0b3631bdc74aec03d2285}{}\label{class_r3_kdtree_a6421964dbaa0b3631bdc74aec03d2285}
+
+\item 
+int {\bfseries nnodes}\hypertarget{class_r3_kdtree_a77d9f807d31d66d645471e71258471f0}{}\label{class_r3_kdtree_a77d9f807d31d66d645471e71258471f0}
+
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+R3\+Shapes/R3\+Kdtree.\+h\item 
+R3\+Shapes/R3\+Kdtree.\+cpp\end{DoxyCompactItemize}

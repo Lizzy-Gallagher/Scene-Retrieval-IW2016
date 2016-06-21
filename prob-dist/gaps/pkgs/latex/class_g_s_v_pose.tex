@@ -1,0 +1,68 @@
+\hypertarget{class_g_s_v_pose}{}\section{G\+S\+V\+Pose Class Reference}
+\label{class_g_s_v_pose}\index{G\+S\+V\+Pose@{G\+S\+V\+Pose}}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\bfseries G\+S\+V\+Pose} (const \hyperlink{class_r3_point}{R3\+Point} \&viewpoint, const \hyperlink{class_r3_quaternion}{R3\+Quaternion} \&orientation)\hypertarget{class_g_s_v_pose_ad0325ddef2d0e8fd88cb0c6acd9e4a3e}{}\label{class_g_s_v_pose_ad0325ddef2d0e8fd88cb0c6acd9e4a3e}
+
+\item 
+{\bfseries G\+S\+V\+Pose} (double px, double py, double pz, double qx, double qy, double qz, double qw)\hypertarget{class_g_s_v_pose_a76a8e7936aad12e9f6915cd102486103}{}\label{class_g_s_v_pose_a76a8e7936aad12e9f6915cd102486103}
+
+\item 
+const \hyperlink{class_r3_point}{R3\+Point} \& {\bfseries Viewpoint} (void) const \hypertarget{class_g_s_v_pose_a9475be2716846027f8b6e4f4fc8ed89e}{}\label{class_g_s_v_pose_a9475be2716846027f8b6e4f4fc8ed89e}
+
+\item 
+const \hyperlink{class_r3_quaternion}{R3\+Quaternion} \& {\bfseries Orientation} (void) const \hypertarget{class_g_s_v_pose_a235dc10a7609c320911549ac03fa0a70}{}\label{class_g_s_v_pose_a235dc10a7609c320911549ac03fa0a70}
+
+\item 
+const \hyperlink{class_r3_vector}{R3\+Vector} {\bfseries Towards} (void) const \hypertarget{class_g_s_v_pose_a861d9166c2e892e3c1a5881d5b396108}{}\label{class_g_s_v_pose_a861d9166c2e892e3c1a5881d5b396108}
+
+\item 
+const \hyperlink{class_r3_vector}{R3\+Vector} {\bfseries Up} (void) const \hypertarget{class_g_s_v_pose_af99b5e2fa5d1de0ff090566d5dad80fd}{}\label{class_g_s_v_pose_af99b5e2fa5d1de0ff090566d5dad80fd}
+
+\item 
+const \hyperlink{class_r3_vector}{R3\+Vector} {\bfseries Right} (void) const \hypertarget{class_g_s_v_pose_af39180d7dbd68159cbc35e8ca2f9dcf2}{}\label{class_g_s_v_pose_af39180d7dbd68159cbc35e8ca2f9dcf2}
+
+\item 
+const \hyperlink{class_r4_matrix}{R4\+Matrix} {\bfseries Matrix} (void) const \hypertarget{class_g_s_v_pose_a33948aed7e8459cade083f0fdadc7e5c}{}\label{class_g_s_v_pose_a33948aed7e8459cade083f0fdadc7e5c}
+
+\item 
+void {\bfseries Set\+Viewpoint} (const \hyperlink{class_r3_point}{R3\+Point} \&position)\hypertarget{class_g_s_v_pose_a81122257c988666e9ad114f128479b50}{}\label{class_g_s_v_pose_a81122257c988666e9ad114f128479b50}
+
+\item 
+void {\bfseries Set\+Orientation} (const \hyperlink{class_r3_quaternion}{R3\+Quaternion} \&orientation)\hypertarget{class_g_s_v_pose_ac8e259a65512ad173fe4af9a6dd0b69b}{}\label{class_g_s_v_pose_ac8e259a65512ad173fe4af9a6dd0b69b}
+
+\item 
+void {\bfseries Translate} (const \hyperlink{class_r3_vector}{R3\+Vector} \&translation)\hypertarget{class_g_s_v_pose_a1a557a2b9cac48f9701934a0dc719787}{}\label{class_g_s_v_pose_a1a557a2b9cac48f9701934a0dc719787}
+
+\item 
+void {\bfseries Rotate} (const \hyperlink{class_r3_quaternion}{R3\+Quaternion} \&rotation)\hypertarget{class_g_s_v_pose_a91aff541579b48f72f19941184c1c048}{}\label{class_g_s_v_pose_a91aff541579b48f72f19941184c1c048}
+
+\item 
+void {\bfseries Rotate} (const \hyperlink{class_r3_vector}{R3\+Vector} \&xyz\+\_\+angles)\hypertarget{class_g_s_v_pose_af692e88240238e796cbaeedb6259c5d2}{}\label{class_g_s_v_pose_af692e88240238e796cbaeedb6259c5d2}
+
+\item 
+void {\bfseries Transform} (const \hyperlink{class_r3_affine}{R3\+Affine} \&affine)\hypertarget{class_g_s_v_pose_a59568bd5cbc3416b6535704a4a550bc5}{}\label{class_g_s_v_pose_a59568bd5cbc3416b6535704a4a550bc5}
+
+\item 
+virtual void {\bfseries Draw} (\hyperlink{class_r_n_flags}{R\+N\+Flags} flags=G\+S\+V\+\_\+\+D\+E\+F\+A\+U\+L\+T\+\_\+\+D\+R\+A\+W\+\_\+\+F\+L\+A\+GS) const \hypertarget{class_g_s_v_pose_a9f6cf50fd5c6ee49e8a6013a6b04644e}{}\label{class_g_s_v_pose_a9f6cf50fd5c6ee49e8a6013a6b04644e}
+
+\item 
+virtual void {\bfseries Print} (F\+I\+LE $\ast$fp=N\+U\+LL, const char $\ast$prefix=N\+U\+LL, const char $\ast$suffix=N\+U\+LL) const \hypertarget{class_g_s_v_pose_aa2d0f827f02b77f17fcd90a30f132dbe}{}\label{class_g_s_v_pose_aa2d0f827f02b77f17fcd90a30f132dbe}
+
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_r3_point}{R3\+Point} {\bfseries viewpoint}\hypertarget{class_g_s_v_pose_aaed6ef8149b84b7da675028187c87b0f}{}\label{class_g_s_v_pose_aaed6ef8149b84b7da675028187c87b0f}
+
+\item 
+\hyperlink{class_r3_quaternion}{R3\+Quaternion} {\bfseries orientation}\hypertarget{class_g_s_v_pose_a8b51594a232f1240f2cf52c665340194}{}\label{class_g_s_v_pose_a8b51594a232f1240f2cf52c665340194}
+
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+G\+S\+V/G\+S\+V\+Pose.\+h\item 
+G\+S\+V/G\+S\+V\+Pose.\+cpp\end{DoxyCompactItemize}

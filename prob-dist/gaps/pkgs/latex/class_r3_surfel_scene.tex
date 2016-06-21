@@ -1,0 +1,263 @@
+\hypertarget{class_r3_surfel_scene}{}\section{R3\+Surfel\+Scene Class Reference}
+\label{class_r3_surfel_scene}\index{R3\+Surfel\+Scene@{R3\+Surfel\+Scene}}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\bfseries R3\+Surfel\+Scene} (const char $\ast$name=N\+U\+LL)\hypertarget{class_r3_surfel_scene_a71cdf9f385093b44b2c3a752dd03eff1}{}\label{class_r3_surfel_scene_a71cdf9f385093b44b2c3a752dd03eff1}
+
+\item 
+{\bfseries R3\+Surfel\+Scene} (const \hyperlink{class_r3_surfel_scene}{R3\+Surfel\+Scene} \&scene)\hypertarget{class_r3_surfel_scene_a8f501256ddf0b017856d8916af9d0bcb}{}\label{class_r3_surfel_scene_a8f501256ddf0b017856d8916af9d0bcb}
+
+\item 
+const \hyperlink{class_r3_box}{R3\+Box} \& {\bfseries B\+Box} (void) const \hypertarget{class_r3_surfel_scene_aef52657a0cec8dbfd37fb4bb65a5a875}{}\label{class_r3_surfel_scene_aef52657a0cec8dbfd37fb4bb65a5a875}
+
+\item 
+\hyperlink{class_r3_point}{R3\+Point} {\bfseries Centroid} (void) const \hypertarget{class_r3_surfel_scene_a4047a286060f1531cd56978ff865f005}{}\label{class_r3_surfel_scene_a4047a286060f1531cd56978ff865f005}
+
+\item 
+const char $\ast$ {\bfseries Name} (void) const \hypertarget{class_r3_surfel_scene_ad9a826a9b2065410935a9834ea9b1639}{}\label{class_r3_surfel_scene_ad9a826a9b2065410935a9834ea9b1639}
+
+\item 
+\hyperlink{class_r3_surfel_tree}{R3\+Surfel\+Tree} $\ast$ {\bfseries Tree} (void) const \hypertarget{class_r3_surfel_scene_abfac6b3ecb73acacf331f03e9ae87102}{}\label{class_r3_surfel_scene_abfac6b3ecb73acacf331f03e9ae87102}
+
+\item 
+int {\bfseries N\+Objects} (void) const \hypertarget{class_r3_surfel_scene_a8acfa61b6a7c69ee48906d19d5d57159}{}\label{class_r3_surfel_scene_a8acfa61b6a7c69ee48906d19d5d57159}
+
+\item 
+\hyperlink{class_r3_surfel_object}{R3\+Surfel\+Object} $\ast$ {\bfseries Object} (int k) const \hypertarget{class_r3_surfel_scene_a0930c85684b8991f6ea996cf6f94b21c}{}\label{class_r3_surfel_scene_a0930c85684b8991f6ea996cf6f94b21c}
+
+\item 
+\hyperlink{class_r3_surfel_object}{R3\+Surfel\+Object} $\ast$ {\bfseries Find\+Object\+By\+Name} (const char $\ast$object\+\_\+name) const \hypertarget{class_r3_surfel_scene_a2d4fa33fd2990bdd2a2fc9f0100aa470}{}\label{class_r3_surfel_scene_a2d4fa33fd2990bdd2a2fc9f0100aa470}
+
+\item 
+\hyperlink{class_r3_surfel_object}{R3\+Surfel\+Object} $\ast$ {\bfseries Find\+Object\+By\+Identifier} (int identifier) const \hypertarget{class_r3_surfel_scene_acd2d381711eed1f1f23a9ef4f34f1549}{}\label{class_r3_surfel_scene_acd2d381711eed1f1f23a9ef4f34f1549}
+
+\item 
+\hyperlink{class_r3_surfel_object}{R3\+Surfel\+Object} $\ast$ {\bfseries Root\+Object} (void) const \hypertarget{class_r3_surfel_scene_a26ef482636666568bbaf6d70df9f0de1}{}\label{class_r3_surfel_scene_a26ef482636666568bbaf6d70df9f0de1}
+
+\item 
+int {\bfseries N\+Labels} (void) const \hypertarget{class_r3_surfel_scene_a1e9aa48a490fa9d5c821ca84c0fb192e}{}\label{class_r3_surfel_scene_a1e9aa48a490fa9d5c821ca84c0fb192e}
+
+\item 
+\hyperlink{class_r3_surfel_label}{R3\+Surfel\+Label} $\ast$ {\bfseries Label} (int k) const \hypertarget{class_r3_surfel_scene_a6678d7cd3a1f3995efb4ad5a8beff973}{}\label{class_r3_surfel_scene_a6678d7cd3a1f3995efb4ad5a8beff973}
+
+\item 
+\hyperlink{class_r3_surfel_label}{R3\+Surfel\+Label} $\ast$ {\bfseries Find\+Label\+By\+Name} (const char $\ast$label\+\_\+name) const \hypertarget{class_r3_surfel_scene_a778ea8f52e821415d76e94dfe87835dd}{}\label{class_r3_surfel_scene_a778ea8f52e821415d76e94dfe87835dd}
+
+\item 
+\hyperlink{class_r3_surfel_label}{R3\+Surfel\+Label} $\ast$ {\bfseries Find\+Label\+By\+Identifier} (int identifier) const \hypertarget{class_r3_surfel_scene_aa8257233ef030f9a9b859c91ac9dcd4a}{}\label{class_r3_surfel_scene_aa8257233ef030f9a9b859c91ac9dcd4a}
+
+\item 
+\hyperlink{class_r3_surfel_label}{R3\+Surfel\+Label} $\ast$ {\bfseries Find\+Label\+By\+Assignment\+Keystroke} (int key) const \hypertarget{class_r3_surfel_scene_ab3528dd8cd14f89d0a1e28c0a28233d8}{}\label{class_r3_surfel_scene_ab3528dd8cd14f89d0a1e28c0a28233d8}
+
+\item 
+\hyperlink{class_r3_surfel_label}{R3\+Surfel\+Label} $\ast$ {\bfseries Root\+Label} (void) const \hypertarget{class_r3_surfel_scene_ad977eb03cd0721a2824f1e8d3b7e21c3}{}\label{class_r3_surfel_scene_ad977eb03cd0721a2824f1e8d3b7e21c3}
+
+\item 
+int {\bfseries N\+Object\+Properties} (void) const \hypertarget{class_r3_surfel_scene_aee63940c67184c7dbde0ed831745abe3}{}\label{class_r3_surfel_scene_aee63940c67184c7dbde0ed831745abe3}
+
+\item 
+\hyperlink{class_r3_surfel_object_property}{R3\+Surfel\+Object\+Property} $\ast$ {\bfseries Object\+Property} (int k) const \hypertarget{class_r3_surfel_scene_a990f21e9470403781aeccace1a1a38ff}{}\label{class_r3_surfel_scene_a990f21e9470403781aeccace1a1a38ff}
+
+\item 
+int {\bfseries N\+Label\+Properties} (void) const \hypertarget{class_r3_surfel_scene_ad511d5aebf6424385407e9e3c7fb8ee5}{}\label{class_r3_surfel_scene_ad511d5aebf6424385407e9e3c7fb8ee5}
+
+\item 
+\hyperlink{class_r3_surfel_label_property}{R3\+Surfel\+Label\+Property} $\ast$ {\bfseries Label\+Property} (int k) const \hypertarget{class_r3_surfel_scene_aedc1efc6daa22f59ae7e8d74bc506cf5}{}\label{class_r3_surfel_scene_aedc1efc6daa22f59ae7e8d74bc506cf5}
+
+\item 
+int {\bfseries N\+Object\+Relationships} (void) const \hypertarget{class_r3_surfel_scene_ae242fd487ff6b51034f564197556def2}{}\label{class_r3_surfel_scene_ae242fd487ff6b51034f564197556def2}
+
+\item 
+\hyperlink{class_r3_surfel_object_relationship}{R3\+Surfel\+Object\+Relationship} $\ast$ {\bfseries Object\+Relationship} (int k) const \hypertarget{class_r3_surfel_scene_a16e49e0502eef548480b24095d0773d6}{}\label{class_r3_surfel_scene_a16e49e0502eef548480b24095d0773d6}
+
+\item 
+int {\bfseries N\+Label\+Relationships} (void) const \hypertarget{class_r3_surfel_scene_aad4cc50e0264b50fcf9d23ed218a5fd0}{}\label{class_r3_surfel_scene_aad4cc50e0264b50fcf9d23ed218a5fd0}
+
+\item 
+\hyperlink{class_r3_surfel_label_relationship}{R3\+Surfel\+Label\+Relationship} $\ast$ {\bfseries Label\+Relationship} (int k) const \hypertarget{class_r3_surfel_scene_abe517227057122990ce0f5d1d3d9fc43}{}\label{class_r3_surfel_scene_abe517227057122990ce0f5d1d3d9fc43}
+
+\item 
+int {\bfseries N\+Label\+Assignments} (void) const \hypertarget{class_r3_surfel_scene_aaff3a67de215e280c8bf1942ba714447}{}\label{class_r3_surfel_scene_aaff3a67de215e280c8bf1942ba714447}
+
+\item 
+\hyperlink{class_r3_surfel_label_assignment}{R3\+Surfel\+Label\+Assignment} $\ast$ {\bfseries Label\+Assignment} (int k) const \hypertarget{class_r3_surfel_scene_aa428129f83c1d499154aa751de035a7a}{}\label{class_r3_surfel_scene_aa428129f83c1d499154aa751de035a7a}
+
+\item 
+\hyperlink{class_r3_surfel_label_assignment}{R3\+Surfel\+Label\+Assignment} $\ast$ {\bfseries Find\+Label\+Assignment} (\hyperlink{class_r3_surfel_object}{R3\+Surfel\+Object} $\ast$object, \hyperlink{class_r3_surfel_label}{R3\+Surfel\+Label} $\ast$label, R\+N\+Scalar confidence, int originator) const \hypertarget{class_r3_surfel_scene_ab2f00b2ce4c676dce0f02a51f56ba83e}{}\label{class_r3_surfel_scene_ab2f00b2ce4c676dce0f02a51f56ba83e}
+
+\item 
+int {\bfseries N\+Scans} (void) const \hypertarget{class_r3_surfel_scene_ab9bd6ca17f3f64f94c722307781029fe}{}\label{class_r3_surfel_scene_ab9bd6ca17f3f64f94c722307781029fe}
+
+\item 
+\hyperlink{class_r3_surfel_scan}{R3\+Surfel\+Scan} $\ast$ {\bfseries Scan} (int k) const \hypertarget{class_r3_surfel_scene_a318c042f99619aaea18fd1d422ba1dac}{}\label{class_r3_surfel_scene_a318c042f99619aaea18fd1d422ba1dac}
+
+\item 
+\hyperlink{class_r3_surfel_scan}{R3\+Surfel\+Scan} $\ast$ {\bfseries Find\+Scan\+By\+Name} (const char $\ast$scan\+\_\+name) const \hypertarget{class_r3_surfel_scene_ae00d75c742b1ff423b5205c75c206681}{}\label{class_r3_surfel_scene_ae00d75c742b1ff423b5205c75c206681}
+
+\item 
+int {\bfseries N\+Features} (void) const \hypertarget{class_r3_surfel_scene_a974946cd84eefd3b93487104b89806a7}{}\label{class_r3_surfel_scene_a974946cd84eefd3b93487104b89806a7}
+
+\item 
+\hyperlink{class_r3_surfel_feature}{R3\+Surfel\+Feature} $\ast$ {\bfseries Feature} (int k) const \hypertarget{class_r3_surfel_scene_aa791b22ec9717bdea2dce94017d1c299}{}\label{class_r3_surfel_scene_aa791b22ec9717bdea2dce94017d1c299}
+
+\item 
+\hyperlink{class_r3_surfel_feature}{R3\+Surfel\+Feature} $\ast$ {\bfseries Find\+Feature\+By\+Name} (const char $\ast$feature\+\_\+name) const \hypertarget{class_r3_surfel_scene_a4c9ac9086beaece12a51dc4d764db3d5}{}\label{class_r3_surfel_scene_a4c9ac9086beaece12a51dc4d764db3d5}
+
+\item 
+virtual void {\bfseries Set\+Name} (const char $\ast$name)\hypertarget{class_r3_surfel_scene_ab1597ca57353375b0192657bed019ee7}{}\label{class_r3_surfel_scene_ab1597ca57353375b0192657bed019ee7}
+
+\item 
+virtual void {\bfseries Insert\+Object} (\hyperlink{class_r3_surfel_object}{R3\+Surfel\+Object} $\ast$object, \hyperlink{class_r3_surfel_object}{R3\+Surfel\+Object} $\ast$parent)\hypertarget{class_r3_surfel_scene_a297d021200f2187c2bf56770fa9961f4}{}\label{class_r3_surfel_scene_a297d021200f2187c2bf56770fa9961f4}
+
+\item 
+virtual void {\bfseries Remove\+Object} (\hyperlink{class_r3_surfel_object}{R3\+Surfel\+Object} $\ast$object)\hypertarget{class_r3_surfel_scene_ae2d77aefc703271af5ef294346d2a489}{}\label{class_r3_surfel_scene_ae2d77aefc703271af5ef294346d2a489}
+
+\item 
+virtual void {\bfseries Merge\+Object} (\hyperlink{class_r3_surfel_object}{R3\+Surfel\+Object} $\ast$dst\+\_\+object, \hyperlink{class_r3_surfel_object}{R3\+Surfel\+Object} $\ast$src\+\_\+object)\hypertarget{class_r3_surfel_scene_a2b7156bc0316f89246c20b95bff478b3}{}\label{class_r3_surfel_scene_a2b7156bc0316f89246c20b95bff478b3}
+
+\item 
+virtual void {\bfseries Insert\+Label} (\hyperlink{class_r3_surfel_label}{R3\+Surfel\+Label} $\ast$label, \hyperlink{class_r3_surfel_label}{R3\+Surfel\+Label} $\ast$parent)\hypertarget{class_r3_surfel_scene_aa7edafa9893be74dc43b319121ebefeb}{}\label{class_r3_surfel_scene_aa7edafa9893be74dc43b319121ebefeb}
+
+\item 
+virtual void {\bfseries Remove\+Label} (\hyperlink{class_r3_surfel_label}{R3\+Surfel\+Label} $\ast$label)\hypertarget{class_r3_surfel_scene_af1660e17332532370fba91b27da37588}{}\label{class_r3_surfel_scene_af1660e17332532370fba91b27da37588}
+
+\item 
+virtual void {\bfseries Insert\+Object\+Property} (\hyperlink{class_r3_surfel_object_property}{R3\+Surfel\+Object\+Property} $\ast$property)\hypertarget{class_r3_surfel_scene_ad9928a09633e9bf0542dc4e76748d4a0}{}\label{class_r3_surfel_scene_ad9928a09633e9bf0542dc4e76748d4a0}
+
+\item 
+virtual void {\bfseries Remove\+Object\+Property} (\hyperlink{class_r3_surfel_object_property}{R3\+Surfel\+Object\+Property} $\ast$property)\hypertarget{class_r3_surfel_scene_a8e370f15e72ed99f00a5339f3c919bf5}{}\label{class_r3_surfel_scene_a8e370f15e72ed99f00a5339f3c919bf5}
+
+\item 
+virtual void {\bfseries Insert\+Label\+Property} (\hyperlink{class_r3_surfel_label_property}{R3\+Surfel\+Label\+Property} $\ast$property)\hypertarget{class_r3_surfel_scene_a6e4df173fe79288bc50dc832fc5b416f}{}\label{class_r3_surfel_scene_a6e4df173fe79288bc50dc832fc5b416f}
+
+\item 
+virtual void {\bfseries Remove\+Label\+Property} (\hyperlink{class_r3_surfel_label_property}{R3\+Surfel\+Label\+Property} $\ast$property)\hypertarget{class_r3_surfel_scene_aac214ba3ffa72a973190a9491a397cb4}{}\label{class_r3_surfel_scene_aac214ba3ffa72a973190a9491a397cb4}
+
+\item 
+virtual void {\bfseries Insert\+Object\+Relationship} (\hyperlink{class_r3_surfel_object_relationship}{R3\+Surfel\+Object\+Relationship} $\ast$relationship)\hypertarget{class_r3_surfel_scene_a40a5c1783624fad870c599bd41f1ced2}{}\label{class_r3_surfel_scene_a40a5c1783624fad870c599bd41f1ced2}
+
+\item 
+virtual void {\bfseries Remove\+Object\+Relationship} (\hyperlink{class_r3_surfel_object_relationship}{R3\+Surfel\+Object\+Relationship} $\ast$relationship)\hypertarget{class_r3_surfel_scene_a948b3d04d3218963d35de3e61315dd44}{}\label{class_r3_surfel_scene_a948b3d04d3218963d35de3e61315dd44}
+
+\item 
+virtual void {\bfseries Insert\+Label\+Relationship} (\hyperlink{class_r3_surfel_label_relationship}{R3\+Surfel\+Label\+Relationship} $\ast$relationship)\hypertarget{class_r3_surfel_scene_a4fe2f7dafecbc074bc649a4650b1476d}{}\label{class_r3_surfel_scene_a4fe2f7dafecbc074bc649a4650b1476d}
+
+\item 
+virtual void {\bfseries Remove\+Label\+Relationship} (\hyperlink{class_r3_surfel_label_relationship}{R3\+Surfel\+Label\+Relationship} $\ast$relationship)\hypertarget{class_r3_surfel_scene_a99be6c1d7776aca09d59d041d73cb6e3}{}\label{class_r3_surfel_scene_a99be6c1d7776aca09d59d041d73cb6e3}
+
+\item 
+virtual void {\bfseries Insert\+Label\+Assignment} (\hyperlink{class_r3_surfel_label_assignment}{R3\+Surfel\+Label\+Assignment} $\ast$assignment)\hypertarget{class_r3_surfel_scene_aeca672ddfce30f9f49e957794dc55a57}{}\label{class_r3_surfel_scene_aeca672ddfce30f9f49e957794dc55a57}
+
+\item 
+virtual void {\bfseries Remove\+Label\+Assignment} (\hyperlink{class_r3_surfel_label_assignment}{R3\+Surfel\+Label\+Assignment} $\ast$assignment)\hypertarget{class_r3_surfel_scene_ab0e26b98501b18016e2bf5f1f799984a}{}\label{class_r3_surfel_scene_ab0e26b98501b18016e2bf5f1f799984a}
+
+\item 
+virtual void {\bfseries Insert\+Scan} (\hyperlink{class_r3_surfel_scan}{R3\+Surfel\+Scan} $\ast$scan)\hypertarget{class_r3_surfel_scene_a46ede81772f690d39f3e742e7ccfb8d4}{}\label{class_r3_surfel_scene_a46ede81772f690d39f3e742e7ccfb8d4}
+
+\item 
+virtual void {\bfseries Remove\+Scan} (\hyperlink{class_r3_surfel_scan}{R3\+Surfel\+Scan} $\ast$scan)\hypertarget{class_r3_surfel_scene_a9a11318e18837dd55bfb0e1f9e8fd340}{}\label{class_r3_surfel_scene_a9a11318e18837dd55bfb0e1f9e8fd340}
+
+\item 
+virtual void {\bfseries Insert\+Feature} (\hyperlink{class_r3_surfel_feature}{R3\+Surfel\+Feature} $\ast$feature)\hypertarget{class_r3_surfel_scene_a0536a7acda168fe260bcc899dd55bf90}{}\label{class_r3_surfel_scene_a0536a7acda168fe260bcc899dd55bf90}
+
+\item 
+virtual void {\bfseries Remove\+Feature} (\hyperlink{class_r3_surfel_feature}{R3\+Surfel\+Feature} $\ast$feature)\hypertarget{class_r3_surfel_scene_a65e9684c631df43dfef3d7e12f83fb1f}{}\label{class_r3_surfel_scene_a65e9684c631df43dfef3d7e12f83fb1f}
+
+\item 
+virtual void {\bfseries Insert\+Scene} (const \hyperlink{class_r3_surfel_scene}{R3\+Surfel\+Scene} \&scene2, \hyperlink{class_r3_surfel_object}{R3\+Surfel\+Object} $\ast$parent\+\_\+object1=N\+U\+LL, \hyperlink{class_r3_surfel_label}{R3\+Surfel\+Label} $\ast$parent\+\_\+label1=N\+U\+LL, \hyperlink{class_r3_surfel_node}{R3\+Surfel\+Node} $\ast$parent\+\_\+node1=N\+U\+LL)\hypertarget{class_r3_surfel_scene_ac71b934287f70616a51ab6e89e1cb05b}{}\label{class_r3_surfel_scene_ac71b934287f70616a51ab6e89e1cb05b}
+
+\item 
+virtual void {\bfseries Draw} (\hyperlink{class_r_n_flags}{R\+N\+Flags} flags=R3\+\_\+\+S\+U\+R\+F\+E\+L\+\_\+\+D\+E\+F\+A\+U\+L\+T\+\_\+\+D\+R\+A\+W\+\_\+\+F\+L\+A\+GS) const \hypertarget{class_r3_surfel_scene_a39a2895331a757858c28331533706f17}{}\label{class_r3_surfel_scene_a39a2895331a757858c28331533706f17}
+
+\item 
+virtual void {\bfseries Print} (F\+I\+LE $\ast$fp=N\+U\+LL, const char $\ast$prefix=N\+U\+LL, const char $\ast$suffix=N\+U\+LL) const \hypertarget{class_r3_surfel_scene_a0e6e2dc2ecb2811478aba53316564461}{}\label{class_r3_surfel_scene_a0e6e2dc2ecb2811478aba53316564461}
+
+\item 
+virtual int {\bfseries Open\+File} (const char $\ast$scene\+\_\+filename, const char $\ast$database\+\_\+filename, const char $\ast$scene\+\_\+rwaccess=N\+U\+LL, const char $\ast$database\+\_\+rwaccess=N\+U\+LL)\hypertarget{class_r3_surfel_scene_a1f4c23c978414e90f8ebbe42e09f4b4b}{}\label{class_r3_surfel_scene_a1f4c23c978414e90f8ebbe42e09f4b4b}
+
+\item 
+virtual int {\bfseries Sync\+File} (const char $\ast$output\+\_\+scene\+\_\+filename=N\+U\+LL)\hypertarget{class_r3_surfel_scene_a83d49ef4d3d30010d5cc88592cbb0dfc}{}\label{class_r3_surfel_scene_a83d49ef4d3d30010d5cc88592cbb0dfc}
+
+\item 
+virtual int {\bfseries Close\+File} (const char $\ast$output\+\_\+scene\+\_\+filename=N\+U\+LL)\hypertarget{class_r3_surfel_scene_a4e957a6b426d4df7951530603df522ab}{}\label{class_r3_surfel_scene_a4e957a6b426d4df7951530603df522ab}
+
+\item 
+void {\bfseries Set\+Dirty} (void)\hypertarget{class_r3_surfel_scene_ad75ada6bbd858db7d5ccf20aad03a81d}{}\label{class_r3_surfel_scene_ad75ada6bbd858db7d5ccf20aad03a81d}
+
+\item 
+virtual int {\bfseries Read\+File} (const char $\ast$filename)\hypertarget{class_r3_surfel_scene_aa1127051cc30232008abbcf48875b02d}{}\label{class_r3_surfel_scene_aa1127051cc30232008abbcf48875b02d}
+
+\item 
+virtual int {\bfseries Write\+File} (const char $\ast$filename)\hypertarget{class_r3_surfel_scene_af7b22843de09de955b57d7724a30ec4a}{}\label{class_r3_surfel_scene_af7b22843de09de955b57d7724a30ec4a}
+
+\item 
+virtual int {\bfseries Read\+Ascii\+File} (const char $\ast$filename)\hypertarget{class_r3_surfel_scene_a9ff325f3bb719086d6aca932deb49050}{}\label{class_r3_surfel_scene_a9ff325f3bb719086d6aca932deb49050}
+
+\item 
+virtual int {\bfseries Write\+Ascii\+File} (const char $\ast$filename)\hypertarget{class_r3_surfel_scene_a6aad289aab9336869de6d6066e326d59}{}\label{class_r3_surfel_scene_a6aad289aab9336869de6d6066e326d59}
+
+\item 
+virtual int {\bfseries Read\+Binary\+File} (const char $\ast$filename)\hypertarget{class_r3_surfel_scene_ae8ee21b1a55439d5543d189dea690252}{}\label{class_r3_surfel_scene_ae8ee21b1a55439d5543d189dea690252}
+
+\item 
+virtual int {\bfseries Write\+Binary\+File} (const char $\ast$filename)\hypertarget{class_r3_surfel_scene_a3a1489b58764a36a1445ef8171a6664e}{}\label{class_r3_surfel_scene_a3a1489b58764a36a1445ef8171a6664e}
+
+\item 
+virtual int {\bfseries Write\+A\+R\+F\+F\+File} (const char $\ast$filename)\hypertarget{class_r3_surfel_scene_a7487304e8c462560e822a247051a9bdb}{}\label{class_r3_surfel_scene_a7487304e8c462560e822a247051a9bdb}
+
+\item 
+virtual int {\bfseries Write\+Tianqiang\+File} (const char $\ast$filename)\hypertarget{class_r3_surfel_scene_a50e26f0ec234ae3794c23ce114b4b660}{}\label{class_r3_surfel_scene_a50e26f0ec234ae3794c23ce114b4b660}
+
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_r3_surfel_tree}{R3\+Surfel\+Tree} $\ast$ {\bfseries tree}\hypertarget{class_r3_surfel_scene_a12f525d6f1d75f851047f4745430c07d}{}\label{class_r3_surfel_scene_a12f525d6f1d75f851047f4745430c07d}
+
+\item 
+\hyperlink{class_r_n_array}{R\+N\+Array}$<$ \hyperlink{class_r3_surfel_object}{R3\+Surfel\+Object} $\ast$ $>$ {\bfseries objects}\hypertarget{class_r3_surfel_scene_a5ce910401977268e9a158de57b0bd7e5}{}\label{class_r3_surfel_scene_a5ce910401977268e9a158de57b0bd7e5}
+
+\item 
+\hyperlink{class_r_n_array}{R\+N\+Array}$<$ \hyperlink{class_r3_surfel_label}{R3\+Surfel\+Label} $\ast$ $>$ {\bfseries labels}\hypertarget{class_r3_surfel_scene_a441745712132cae892b754aa37f69b22}{}\label{class_r3_surfel_scene_a441745712132cae892b754aa37f69b22}
+
+\item 
+\hyperlink{class_r_n_array}{R\+N\+Array}$<$ \hyperlink{class_r3_surfel_object_property}{R3\+Surfel\+Object\+Property} $\ast$ $>$ {\bfseries object\+\_\+properties}\hypertarget{class_r3_surfel_scene_a1d1941dc05573aaa55f981df166fb58f}{}\label{class_r3_surfel_scene_a1d1941dc05573aaa55f981df166fb58f}
+
+\item 
+\hyperlink{class_r_n_array}{R\+N\+Array}$<$ \hyperlink{class_r3_surfel_label_property}{R3\+Surfel\+Label\+Property} $\ast$ $>$ {\bfseries label\+\_\+properties}\hypertarget{class_r3_surfel_scene_a6708627dad0a6dd9955ba4d06e1b29b1}{}\label{class_r3_surfel_scene_a6708627dad0a6dd9955ba4d06e1b29b1}
+
+\item 
+\hyperlink{class_r_n_array}{R\+N\+Array}$<$ \hyperlink{class_r3_surfel_object_relationship}{R3\+Surfel\+Object\+Relationship} $\ast$ $>$ {\bfseries object\+\_\+relationships}\hypertarget{class_r3_surfel_scene_ad07e74ec2b6e60481b87ba0526d267e2}{}\label{class_r3_surfel_scene_ad07e74ec2b6e60481b87ba0526d267e2}
+
+\item 
+\hyperlink{class_r_n_array}{R\+N\+Array}$<$ \hyperlink{class_r3_surfel_label_relationship}{R3\+Surfel\+Label\+Relationship} $\ast$ $>$ {\bfseries label\+\_\+relationships}\hypertarget{class_r3_surfel_scene_a447d26a73919a335f815f65084c5143b}{}\label{class_r3_surfel_scene_a447d26a73919a335f815f65084c5143b}
+
+\item 
+\hyperlink{class_r_n_array}{R\+N\+Array}$<$ \hyperlink{class_r3_surfel_label_assignment}{R3\+Surfel\+Label\+Assignment} $\ast$ $>$ {\bfseries assignments}\hypertarget{class_r3_surfel_scene_a87c3608417a9381fd4cae245b878f25d}{}\label{class_r3_surfel_scene_a87c3608417a9381fd4cae245b878f25d}
+
+\item 
+\hyperlink{class_r_n_array}{R\+N\+Array}$<$ \hyperlink{class_r3_surfel_scan}{R3\+Surfel\+Scan} $\ast$ $>$ {\bfseries scans}\hypertarget{class_r3_surfel_scene_a17d62b9224b04f92428c8935f7904666}{}\label{class_r3_surfel_scene_a17d62b9224b04f92428c8935f7904666}
+
+\item 
+\hyperlink{class_r_n_array}{R\+N\+Array}$<$ \hyperlink{class_r3_surfel_feature}{R3\+Surfel\+Feature} $\ast$ $>$ {\bfseries features}\hypertarget{class_r3_surfel_scene_a85c19d4648e09d32568e35ed88d37f1b}{}\label{class_r3_surfel_scene_a85c19d4648e09d32568e35ed88d37f1b}
+
+\item 
+char $\ast$ {\bfseries filename}\hypertarget{class_r3_surfel_scene_ae85c94d0ff079c74599701a96ddeb4da}{}\label{class_r3_surfel_scene_ae85c94d0ff079c74599701a96ddeb4da}
+
+\item 
+char $\ast$ {\bfseries rwaccess}\hypertarget{class_r3_surfel_scene_a97987af0f79351237dd3211a0ac6a45d}{}\label{class_r3_surfel_scene_a97987af0f79351237dd3211a0ac6a45d}
+
+\item 
+char $\ast$ {\bfseries name}\hypertarget{class_r3_surfel_scene_a90d9969bbc2778a9aa2bc25dc792a757}{}\label{class_r3_surfel_scene_a90d9969bbc2778a9aa2bc25dc792a757}
+
+\item 
+\hyperlink{class_r_n_flags}{R\+N\+Flags} {\bfseries flags}\hypertarget{class_r3_surfel_scene_af94ebe6da866df3af411ad39f8bfb46a}{}\label{class_r3_surfel_scene_af94ebe6da866df3af411ad39f8bfb46a}
+
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+R3\+Surfels/R3\+Surfel\+Scene.\+h\item 
+R3\+Surfels/R3\+Surfel\+Scene.\+cpp\end{DoxyCompactItemize}

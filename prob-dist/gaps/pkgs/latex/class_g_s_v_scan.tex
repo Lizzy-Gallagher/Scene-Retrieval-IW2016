@@ -1,0 +1,152 @@
+\hypertarget{class_g_s_v_scan}{}\section{G\+S\+V\+Scan Class Reference}
+\label{class_g_s_v_scan}\index{G\+S\+V\+Scan@{G\+S\+V\+Scan}}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_g_s_v_scene}{G\+S\+V\+Scene} $\ast$ {\bfseries Scene} (void) const \hypertarget{class_g_s_v_scan_abff175e1883ed8ffb0352ce775fb3be2}{}\label{class_g_s_v_scan_abff175e1883ed8ffb0352ce775fb3be2}
+
+\item 
+int {\bfseries Scene\+Index} (void) const \hypertarget{class_g_s_v_scan_a02c60e070a71cbbc725d5627f4feb384}{}\label{class_g_s_v_scan_a02c60e070a71cbbc725d5627f4feb384}
+
+\item 
+\hyperlink{class_g_s_v_run}{G\+S\+V\+Run} $\ast$ {\bfseries Run} (void) const \hypertarget{class_g_s_v_scan_a7a9960e8fc69f20514c13b74402d3516}{}\label{class_g_s_v_scan_a7a9960e8fc69f20514c13b74402d3516}
+
+\item 
+int {\bfseries Run\+Index} (void) const \hypertarget{class_g_s_v_scan_ab0d9d95aabbe4e093ae479103ef07fc3}{}\label{class_g_s_v_scan_ab0d9d95aabbe4e093ae479103ef07fc3}
+
+\item 
+\hyperlink{class_g_s_v_segment}{G\+S\+V\+Segment} $\ast$ {\bfseries Segment} (void) const \hypertarget{class_g_s_v_scan_a258c8b1ce3ff5a4f47a582a4658ff9ea}{}\label{class_g_s_v_scan_a258c8b1ce3ff5a4f47a582a4658ff9ea}
+
+\item 
+int {\bfseries Segment\+Index} (void) const \hypertarget{class_g_s_v_scan_abb2a6fda464cb709b26ff6fd8db28b50}{}\label{class_g_s_v_scan_abb2a6fda464cb709b26ff6fd8db28b50}
+
+\item 
+\hyperlink{class_g_s_v_laser}{G\+S\+V\+Laser} $\ast$ {\bfseries Laser} (void) const \hypertarget{class_g_s_v_scan_ae0fdd1eb393a76bd230bdba75da04740}{}\label{class_g_s_v_scan_ae0fdd1eb393a76bd230bdba75da04740}
+
+\item 
+int {\bfseries Laser\+Index} (void) const \hypertarget{class_g_s_v_scan_a2c6792f54642e253087c0c03bd21642e}{}\label{class_g_s_v_scan_a2c6792f54642e253087c0c03bd21642e}
+
+\item 
+int {\bfseries N\+Scanlines} (void) const \hypertarget{class_g_s_v_scan_a58eee30968b3d422bc6cf860b22d41d3}{}\label{class_g_s_v_scan_a58eee30968b3d422bc6cf860b22d41d3}
+
+\item 
+\hyperlink{class_g_s_v_scanline}{G\+S\+V\+Scanline} $\ast$ {\bfseries Scanline} (int scanline\+\_\+index) const \hypertarget{class_g_s_v_scan_a6c0990abc474d4bfcb7ea77076b24426}{}\label{class_g_s_v_scan_a6c0990abc474d4bfcb7ea77076b24426}
+
+\item 
+\hyperlink{class_g_s_v_scanline}{G\+S\+V\+Scanline} $\ast$ {\bfseries Find\+Scanline\+Before\+Timestamp} (R\+N\+Scalar timestamp) const \hypertarget{class_g_s_v_scan_a7bc79f99e48e44641afeca7208339839}{}\label{class_g_s_v_scan_a7bc79f99e48e44641afeca7208339839}
+
+\item 
+\hyperlink{class_g_s_v_scanline}{G\+S\+V\+Scanline} $\ast$ {\bfseries Find\+Scanline\+Before\+Travel\+Distance} (R\+N\+Scalar travel\+\_\+distance) const \hypertarget{class_g_s_v_scan_a646377d432494e96f46a72636f4fda05}{}\label{class_g_s_v_scan_a646377d432494e96f46a72636f4fda05}
+
+\item 
+const \hyperlink{class_r3_box}{R3\+Box} \& {\bfseries B\+Box} (void) const \hypertarget{class_g_s_v_scan_a6c0763aafef1558b35e360e0cf997fd0}{}\label{class_g_s_v_scan_a6c0763aafef1558b35e360e0cf997fd0}
+
+\item 
+\hyperlink{class_g_s_v_mesh}{G\+S\+V\+Mesh} $\ast$ {\bfseries Mesh} (void) const \hypertarget{class_g_s_v_scan_ad2a0fd171dbd6091021b2938d8d4afb7}{}\label{class_g_s_v_scan_ad2a0fd171dbd6091021b2938d8d4afb7}
+
+\item 
+\hyperlink{class_g_s_v_pose}{G\+S\+V\+Pose} {\bfseries Pose} (R\+N\+Scalar timestamp) const \hypertarget{class_g_s_v_scan_aa045acf110d249d0ee62ba08d29237af}{}\label{class_g_s_v_scan_aa045acf110d249d0ee62ba08d29237af}
+
+\item 
+void $\ast$ {\bfseries Data} (void) const \hypertarget{class_g_s_v_scan_a0d78f0b4a419d4d3625dafed849920e0}{}\label{class_g_s_v_scan_a0d78f0b4a419d4d3625dafed849920e0}
+
+\item 
+void {\bfseries Insert\+Scanline} (\hyperlink{class_g_s_v_scanline}{G\+S\+V\+Scanline} $\ast$scanline)\hypertarget{class_g_s_v_scan_ab270165ff48b6fc518bb9119be5e13bf}{}\label{class_g_s_v_scan_ab270165ff48b6fc518bb9119be5e13bf}
+
+\item 
+void {\bfseries Remove\+Scanline} (\hyperlink{class_g_s_v_scanline}{G\+S\+V\+Scanline} $\ast$scanline)\hypertarget{class_g_s_v_scan_aa03b0d0e1ad8fe77a94c6467799e4bb4}{}\label{class_g_s_v_scan_aa03b0d0e1ad8fe77a94c6467799e4bb4}
+
+\item 
+void {\bfseries Set\+B\+Box} (const \hyperlink{class_r3_box}{R3\+Box} \&\hyperlink{structbox}{box})\hypertarget{class_g_s_v_scan_acf46388ded21da7c46f2c7f5ab66d528}{}\label{class_g_s_v_scan_acf46388ded21da7c46f2c7f5ab66d528}
+
+\item 
+void {\bfseries Set\+Data} (void $\ast$data)\hypertarget{class_g_s_v_scan_aaafb8fdec0a66305881a8d1c7b131928}{}\label{class_g_s_v_scan_aaafb8fdec0a66305881a8d1c7b131928}
+
+\item 
+virtual void {\bfseries Draw} (\hyperlink{class_r_n_flags}{R\+N\+Flags} flags=G\+S\+V\+\_\+\+D\+E\+F\+A\+U\+L\+T\+\_\+\+D\+R\+A\+W\+\_\+\+F\+L\+A\+GS) const \hypertarget{class_g_s_v_scan_a6a88aae808d71f873434859e50e9cccc}{}\label{class_g_s_v_scan_a6a88aae808d71f873434859e50e9cccc}
+
+\item 
+virtual void {\bfseries Print} (F\+I\+LE $\ast$fp=N\+U\+LL, const char $\ast$prefix=N\+U\+LL, const char $\ast$suffix=N\+U\+LL) const \hypertarget{class_g_s_v_scan_af45fbff9939e42d62c512aff4b7c0b3c}{}\label{class_g_s_v_scan_af45fbff9939e42d62c512aff4b7c0b3c}
+
+\item 
+int {\bfseries Read\+Points} (void)\hypertarget{class_g_s_v_scan_acc1cea60355c5d14fb9a61e23db1c553}{}\label{class_g_s_v_scan_acc1cea60355c5d14fb9a61e23db1c553}
+
+\item 
+int {\bfseries Read\+Points} (F\+I\+LE $\ast$fp)\hypertarget{class_g_s_v_scan_a9dffe8de039261c578530db92c2b215b}{}\label{class_g_s_v_scan_a9dffe8de039261c578530db92c2b215b}
+
+\item 
+int {\bfseries Release\+Points} (void)\hypertarget{class_g_s_v_scan_a69864be5991882e1b1ada3fccae107bf}{}\label{class_g_s_v_scan_a69864be5991882e1b1ada3fccae107bf}
+
+\item 
+R\+N\+Length {\bfseries Travel\+Distance} (int scanline\+\_\+index) const \hypertarget{class_g_s_v_scan_a585843f129be5cd5cf301b4aac15f3ea}{}\label{class_g_s_v_scan_a585843f129be5cd5cf301b4aac15f3ea}
+
+\item 
+void {\bfseries Update\+B\+Box} (void)\hypertarget{class_g_s_v_scan_a139cb5cfc9378fa83a2bf39720bdb124}{}\label{class_g_s_v_scan_a139cb5cfc9378fa83a2bf39720bdb124}
+
+\item 
+void {\bfseries Invalidate\+B\+Box} (void)\hypertarget{class_g_s_v_scan_a8d1f61bc9ce96f28678c780541b1b7cf}{}\label{class_g_s_v_scan_a8d1f61bc9ce96f28678c780541b1b7cf}
+
+\item 
+void {\bfseries Update\+Travel\+Distances} (void)\hypertarget{class_g_s_v_scan_a3a7a4ae54f4d51609ef023ebf8783994}{}\label{class_g_s_v_scan_a3a7a4ae54f4d51609ef023ebf8783994}
+
+\item 
+void {\bfseries Invalidate\+Travel\+Distances} (void)\hypertarget{class_g_s_v_scan_ace6d56d0b4baf4f13801454badcc5616}{}\label{class_g_s_v_scan_ace6d56d0b4baf4f13801454badcc5616}
+
+\item 
+void {\bfseries Empty\+Cache} (void)\hypertarget{class_g_s_v_scan_a1654c8c1c5457a88a4ea6decd0f5c44a}{}\label{class_g_s_v_scan_a1654c8c1c5457a88a4ea6decd0f5c44a}
+
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_g_s_v_scanline}{G\+S\+V\+Scanline} $\ast$ {\bfseries Find\+Scanline\+Before\+Timestamp} (R\+N\+Scalar timestamp, int imin, int imax) const \hypertarget{class_g_s_v_scan_a40639c8a2e71480fb114dbff2077875b}{}\label{class_g_s_v_scan_a40639c8a2e71480fb114dbff2077875b}
+
+\item 
+\hyperlink{class_g_s_v_scanline}{G\+S\+V\+Scanline} $\ast$ {\bfseries Find\+Scanline\+Before\+Travel\+Distance} (R\+N\+Scalar travel\+\_\+distance, int imin, int imax) const \hypertarget{class_g_s_v_scan_a7f2ed84a9131e787262a17341b574fcf}{}\label{class_g_s_v_scan_a7f2ed84a9131e787262a17341b574fcf}
+
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_g_s_v_segment}{G\+S\+V\+Segment} $\ast$ {\bfseries segment}\hypertarget{class_g_s_v_scan_a4a46bdf4b8b52db74c51c28133b9eb43}{}\label{class_g_s_v_scan_a4a46bdf4b8b52db74c51c28133b9eb43}
+
+\item 
+int {\bfseries segment\+\_\+index}\hypertarget{class_g_s_v_scan_a45c80db495212631c2a1ea72e93a999c}{}\label{class_g_s_v_scan_a45c80db495212631c2a1ea72e93a999c}
+
+\item 
+\hyperlink{class_g_s_v_laser}{G\+S\+V\+Laser} $\ast$ {\bfseries laser}\hypertarget{class_g_s_v_scan_a52aeadf75c122f58e1ba8d889f691e50}{}\label{class_g_s_v_scan_a52aeadf75c122f58e1ba8d889f691e50}
+
+\item 
+int {\bfseries laser\+\_\+index}\hypertarget{class_g_s_v_scan_ad923a848c409d58a7ad3030696df3f8c}{}\label{class_g_s_v_scan_ad923a848c409d58a7ad3030696df3f8c}
+
+\item 
+unsigned int {\bfseries read\+\_\+count}\hypertarget{class_g_s_v_scan_a5277bbd894446b960476e18e1a2975a1}{}\label{class_g_s_v_scan_a5277bbd894446b960476e18e1a2975a1}
+
+\item 
+\hyperlink{class_r_n_array}{R\+N\+Array}$<$ \hyperlink{class_g_s_v_scanline}{G\+S\+V\+Scanline} $\ast$ $>$ {\bfseries scanlines}\hypertarget{class_g_s_v_scan_a8903425dbed73d2824f813c1175894e5}{}\label{class_g_s_v_scan_a8903425dbed73d2824f813c1175894e5}
+
+\item 
+R\+N\+Length $\ast$ {\bfseries travel\+\_\+distances}\hypertarget{class_g_s_v_scan_acd4f8aea966d8f601a857e0d15556fdd}{}\label{class_g_s_v_scan_acd4f8aea966d8f601a857e0d15556fdd}
+
+\item 
+\hyperlink{class_r3_box}{R3\+Box} {\bfseries bbox}\hypertarget{class_g_s_v_scan_a0861a947213e569edf542c7089a55257}{}\label{class_g_s_v_scan_a0861a947213e569edf542c7089a55257}
+
+\item 
+void $\ast$ {\bfseries data}\hypertarget{class_g_s_v_scan_aba6c332eacf4e7af5981972b144e693f}{}\label{class_g_s_v_scan_aba6c332eacf4e7af5981972b144e693f}
+
+\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+class {\bfseries G\+S\+V\+Segment}\hypertarget{class_g_s_v_scan_a24c71f4a2a67fb7c97d76dffafabda73}{}\label{class_g_s_v_scan_a24c71f4a2a67fb7c97d76dffafabda73}
+
+\item 
+class {\bfseries G\+S\+V\+Laser}\hypertarget{class_g_s_v_scan_adbf4d02bbb6b74ff3478440bfffce348}{}\label{class_g_s_v_scan_adbf4d02bbb6b74ff3478440bfffce348}
+
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+G\+S\+V/G\+S\+V\+Scan.\+h\item 
+G\+S\+V/G\+S\+V\+Scan.\+cpp\end{DoxyCompactItemize}

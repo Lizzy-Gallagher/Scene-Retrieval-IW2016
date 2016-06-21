@@ -1,0 +1,83 @@
+\hypertarget{class_g_s_v_laser}{}\section{G\+S\+V\+Laser Class Reference}
+\label{class_g_s_v_laser}\index{G\+S\+V\+Laser@{G\+S\+V\+Laser}}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_g_s_v_scene}{G\+S\+V\+Scene} $\ast$ {\bfseries Scene} (void) const \hypertarget{class_g_s_v_laser_ad6ca5d4debbb566aace5e0984f4b4e90}{}\label{class_g_s_v_laser_ad6ca5d4debbb566aace5e0984f4b4e90}
+
+\item 
+int {\bfseries Scene\+Index} (void) const \hypertarget{class_g_s_v_laser_ab690dbba65778f6155fcaf3d8d92508d}{}\label{class_g_s_v_laser_ab690dbba65778f6155fcaf3d8d92508d}
+
+\item 
+\hyperlink{class_g_s_v_run}{G\+S\+V\+Run} $\ast$ {\bfseries Run} (void) const \hypertarget{class_g_s_v_laser_ac737daa29053573e47a4a72ca6343101}{}\label{class_g_s_v_laser_ac737daa29053573e47a4a72ca6343101}
+
+\item 
+int {\bfseries Run\+Index} (void) const \hypertarget{class_g_s_v_laser_a28a36cb626d5159db5c33f5ed4e5ca3f}{}\label{class_g_s_v_laser_a28a36cb626d5159db5c33f5ed4e5ca3f}
+
+\item 
+int {\bfseries N\+Scans} (void) const \hypertarget{class_g_s_v_laser_a547909ad5391671d3406b8ee907e752f}{}\label{class_g_s_v_laser_a547909ad5391671d3406b8ee907e752f}
+
+\item 
+\hyperlink{class_g_s_v_scan}{G\+S\+V\+Scan} $\ast$ {\bfseries Scan} (int scan\+\_\+index) const \hypertarget{class_g_s_v_laser_ac261f4662dbb1ed590c9e50259ea4dc6}{}\label{class_g_s_v_laser_ac261f4662dbb1ed590c9e50259ea4dc6}
+
+\item 
+const \hyperlink{class_r3_box}{R3\+Box} \& {\bfseries B\+Box} (void) const \hypertarget{class_g_s_v_laser_af4cd484d511867f8473858b013101eaa}{}\label{class_g_s_v_laser_af4cd484d511867f8473858b013101eaa}
+
+\item 
+void $\ast$ {\bfseries Data} (void) const \hypertarget{class_g_s_v_laser_ad0216ddfa9e09c056bd85063919d8a8e}{}\label{class_g_s_v_laser_ad0216ddfa9e09c056bd85063919d8a8e}
+
+\item 
+void {\bfseries Insert\+Scan} (\hyperlink{class_g_s_v_scan}{G\+S\+V\+Scan} $\ast$scan)\hypertarget{class_g_s_v_laser_a346614f951369a865c55148dc8ec148b}{}\label{class_g_s_v_laser_a346614f951369a865c55148dc8ec148b}
+
+\item 
+void {\bfseries Remove\+Scan} (\hyperlink{class_g_s_v_scan}{G\+S\+V\+Scan} $\ast$scan)\hypertarget{class_g_s_v_laser_a76edd93fd8e0c05502d25edfc2df78e6}{}\label{class_g_s_v_laser_a76edd93fd8e0c05502d25edfc2df78e6}
+
+\item 
+void {\bfseries Set\+B\+Box} (const \hyperlink{class_r3_box}{R3\+Box} \&\hyperlink{structbox}{box})\hypertarget{class_g_s_v_laser_a35c8d67d2e0f3833cb077cdd2c466674}{}\label{class_g_s_v_laser_a35c8d67d2e0f3833cb077cdd2c466674}
+
+\item 
+void {\bfseries Set\+Data} (void $\ast$data)\hypertarget{class_g_s_v_laser_a176cf94a8cdcf97022550f437227e5f4}{}\label{class_g_s_v_laser_a176cf94a8cdcf97022550f437227e5f4}
+
+\item 
+virtual void {\bfseries Draw} (\hyperlink{class_r_n_flags}{R\+N\+Flags} flags=G\+S\+V\+\_\+\+D\+E\+F\+A\+U\+L\+T\+\_\+\+D\+R\+A\+W\+\_\+\+F\+L\+A\+GS) const \hypertarget{class_g_s_v_laser_ae5ef5b687e4b3ad9dfdb98d171454a68}{}\label{class_g_s_v_laser_ae5ef5b687e4b3ad9dfdb98d171454a68}
+
+\item 
+virtual void {\bfseries Print} (F\+I\+LE $\ast$fp=N\+U\+LL, const char $\ast$prefix=N\+U\+LL, const char $\ast$suffix=N\+U\+LL) const \hypertarget{class_g_s_v_laser_a4c94b234a9e63cb021b3b2cdc7a51db7}{}\label{class_g_s_v_laser_a4c94b234a9e63cb021b3b2cdc7a51db7}
+
+\item 
+void {\bfseries Update\+B\+Box} (void)\hypertarget{class_g_s_v_laser_a9b9bb3e54545524fef513adab8a9a4f5}{}\label{class_g_s_v_laser_a9b9bb3e54545524fef513adab8a9a4f5}
+
+\item 
+void {\bfseries Invalidate\+B\+Box} (void)\hypertarget{class_g_s_v_laser_aefac4439d2229ba561d4eaee5200e6e3}{}\label{class_g_s_v_laser_aefac4439d2229ba561d4eaee5200e6e3}
+
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_g_s_v_run}{G\+S\+V\+Run} $\ast$ {\bfseries run}\hypertarget{class_g_s_v_laser_ac1c7c90dabfcbbf17643220beeec9078}{}\label{class_g_s_v_laser_ac1c7c90dabfcbbf17643220beeec9078}
+
+\item 
+int {\bfseries run\+\_\+index}\hypertarget{class_g_s_v_laser_ac978493003fd61915ad20b3054cea434}{}\label{class_g_s_v_laser_ac978493003fd61915ad20b3054cea434}
+
+\item 
+\hyperlink{class_r_n_array}{R\+N\+Array}$<$ \hyperlink{class_g_s_v_scan}{G\+S\+V\+Scan} $\ast$ $>$ {\bfseries scans}\hypertarget{class_g_s_v_laser_ae9475217258caac68eade097512e0aa7}{}\label{class_g_s_v_laser_ae9475217258caac68eade097512e0aa7}
+
+\item 
+\hyperlink{class_r3_box}{R3\+Box} {\bfseries bbox}\hypertarget{class_g_s_v_laser_ad9f581a176c074a6c21615bc5ec4a26a}{}\label{class_g_s_v_laser_ad9f581a176c074a6c21615bc5ec4a26a}
+
+\item 
+void $\ast$ {\bfseries data}\hypertarget{class_g_s_v_laser_a1c932c1673fb8e91961bffba6babd980}{}\label{class_g_s_v_laser_a1c932c1673fb8e91961bffba6babd980}
+
+\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+class {\bfseries G\+S\+V\+Run}\hypertarget{class_g_s_v_laser_ae54f10cc7f586c4696bcda2addbb27e0}{}\label{class_g_s_v_laser_ae54f10cc7f586c4696bcda2addbb27e0}
+
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+G\+S\+V/G\+S\+V\+Laser.\+h\item 
+G\+S\+V/G\+S\+V\+Laser.\+cpp\end{DoxyCompactItemize}

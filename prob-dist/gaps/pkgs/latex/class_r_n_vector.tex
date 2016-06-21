@@ -1,0 +1,116 @@
+\hypertarget{class_r_n_vector}{}\section{R\+N\+Vector Class Reference}
+\label{class_r_n_vector}\index{R\+N\+Vector@{R\+N\+Vector}}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\bfseries R\+N\+Vector} (int n, R\+N\+Scalar $\ast$values=N\+U\+LL)\hypertarget{class_r_n_vector_ad80bbd3e12b599d7811c55b2448af622}{}\label{class_r_n_vector_ad80bbd3e12b599d7811c55b2448af622}
+
+\item 
+{\bfseries R\+N\+Vector} (const \hyperlink{class_r_n_vector}{R\+N\+Vector} \&vector)\hypertarget{class_r_n_vector_a0dcb460b7c5d6def7a29ba5f7ed8705b}{}\label{class_r_n_vector_a0dcb460b7c5d6def7a29ba5f7ed8705b}
+
+\item 
+int {\bfseries N\+Rows} (void) const \hypertarget{class_r_n_vector_a15302186822cbe1dc29329502b7b092f}{}\label{class_r_n_vector_a15302186822cbe1dc29329502b7b092f}
+
+\item 
+int {\bfseries N\+Values} (void) const \hypertarget{class_r_n_vector_a68817a8f780d1d45028adf0f783a9d18}{}\label{class_r_n_vector_a68817a8f780d1d45028adf0f783a9d18}
+
+\item 
+R\+N\+Scalar {\bfseries Value} (int i) const \hypertarget{class_r_n_vector_ae6bf135620595a7aef10d1a327c22afe}{}\label{class_r_n_vector_ae6bf135620595a7aef10d1a327c22afe}
+
+\item 
+void {\bfseries Set\+Value} (int i, R\+N\+Scalar value)\hypertarget{class_r_n_vector_a0293604a55a18a0ff17ed6ea8acd7b05}{}\label{class_r_n_vector_a0293604a55a18a0ff17ed6ea8acd7b05}
+
+\item 
+R\+N\+Scalar {\bfseries operator\mbox{[}$\,$\mbox{]}} (int i) const \hypertarget{class_r_n_vector_a75031f54ae3e660af19689cd8d37487a}{}\label{class_r_n_vector_a75031f54ae3e660af19689cd8d37487a}
+
+\item 
+R\+N\+Boolean {\bfseries Is\+Zero} (void) const \hypertarget{class_r_n_vector_a37d9739ed672542523dee83187373c63}{}\label{class_r_n_vector_a37d9739ed672542523dee83187373c63}
+
+\item 
+R\+N\+Length {\bfseries Length} (void) const \hypertarget{class_r_n_vector_a9dd2ed84f26f9b0fe47ca7626130ba78}{}\label{class_r_n_vector_a9dd2ed84f26f9b0fe47ca7626130ba78}
+
+\item 
+\hyperlink{class_r_n_vector}{R\+N\+Vector} {\bfseries Subvector} (int min\+\_\+row, int max\+\_\+row) const \hypertarget{class_r_n_vector_ac629740e0372ab6661e9eb82956652be}{}\label{class_r_n_vector_ac629740e0372ab6661e9eb82956652be}
+
+\item 
+R\+N\+Scalar {\bfseries Dot} (const \hyperlink{class_r_n_vector}{R\+N\+Vector} \&vector) const \hypertarget{class_r_n_vector_a7e181e231a4568834ae2231179277f77}{}\label{class_r_n_vector_a7e181e231a4568834ae2231179277f77}
+
+\item 
+R\+N\+Boolean {\bfseries operator==} (const \hyperlink{class_r_n_vector}{R\+N\+Vector} \&vector) const \hypertarget{class_r_n_vector_a28ca1a318f959f238b398baf39586224}{}\label{class_r_n_vector_a28ca1a318f959f238b398baf39586224}
+
+\item 
+R\+N\+Boolean {\bfseries operator!=} (const \hyperlink{class_r_n_vector}{R\+N\+Vector} \&vector) const \hypertarget{class_r_n_vector_abaff644515ac34005ab1e50fd4bddeed}{}\label{class_r_n_vector_abaff644515ac34005ab1e50fd4bddeed}
+
+\item 
+void {\bfseries Negate} (void)\hypertarget{class_r_n_vector_a6cfc29e3cbe7fa541ba6c66a19424306}{}\label{class_r_n_vector_a6cfc29e3cbe7fa541ba6c66a19424306}
+
+\item 
+void {\bfseries Normalize} (void)\hypertarget{class_r_n_vector_a5d62dbc3a616d78f7cc15a73dd6d10ff}{}\label{class_r_n_vector_a5d62dbc3a616d78f7cc15a73dd6d10ff}
+
+\item 
+void {\bfseries Add} (const \hyperlink{class_r_n_vector}{R\+N\+Vector} \&vector)\hypertarget{class_r_n_vector_a967fd380c3549e9fb1acbb15783346de}{}\label{class_r_n_vector_a967fd380c3549e9fb1acbb15783346de}
+
+\item 
+void {\bfseries Subtract} (const \hyperlink{class_r_n_vector}{R\+N\+Vector} \&vector)\hypertarget{class_r_n_vector_a093564093d3e2a897d8c25f430c43831}{}\label{class_r_n_vector_a093564093d3e2a897d8c25f430c43831}
+
+\item 
+void {\bfseries Multiply} (R\+N\+Scalar a)\hypertarget{class_r_n_vector_a25d452e83208adef142a29b6d77e94fe}{}\label{class_r_n_vector_a25d452e83208adef142a29b6d77e94fe}
+
+\item 
+void {\bfseries Reset} (int nvalues, R\+N\+Scalar $\ast$values=N\+U\+LL)\hypertarget{class_r_n_vector_a3d533a6ef9c711fbae6c7c653bed4ae4}{}\label{class_r_n_vector_a3d533a6ef9c711fbae6c7c653bed4ae4}
+
+\item 
+\hyperlink{class_r_n_vector}{R\+N\+Vector} \& {\bfseries operator=} (const \hyperlink{class_r_n_vector}{R\+N\+Vector} \&vector)\hypertarget{class_r_n_vector_a32257866280de6f50d805e243d83d478}{}\label{class_r_n_vector_a32257866280de6f50d805e243d83d478}
+
+\item 
+\hyperlink{class_r_n_vector}{R\+N\+Vector} \& {\bfseries operator+=} (const \hyperlink{class_r_n_vector}{R\+N\+Vector} \&vector)\hypertarget{class_r_n_vector_a59b7f9620dbad9b57376c1a93f3cab5b}{}\label{class_r_n_vector_a59b7f9620dbad9b57376c1a93f3cab5b}
+
+\item 
+\hyperlink{class_r_n_vector}{R\+N\+Vector} \& {\bfseries operator-\/=} (const \hyperlink{class_r_n_vector}{R\+N\+Vector} \&vector)\hypertarget{class_r_n_vector_a8bf36d948d04111fa6b1dd223b6936f9}{}\label{class_r_n_vector_a8bf36d948d04111fa6b1dd223b6936f9}
+
+\item 
+\hyperlink{class_r_n_vector}{R\+N\+Vector} \& {\bfseries operator$\ast$=} (R\+N\+Scalar a)\hypertarget{class_r_n_vector_ac0b2be745ecd1303d735e9782c334ac7}{}\label{class_r_n_vector_ac0b2be745ecd1303d735e9782c334ac7}
+
+\item 
+\hyperlink{class_r_n_vector}{R\+N\+Vector} \& {\bfseries operator/=} (R\+N\+Scalar a)\hypertarget{class_r_n_vector_adcb3bd86fc052ae403371317385e56a2}{}\label{class_r_n_vector_adcb3bd86fc052ae403371317385e56a2}
+
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+R\+N\+Scalar $\ast$ {\bfseries values}\hypertarget{class_r_n_vector_a1e0af0157e337733b856976ace521355}{}\label{class_r_n_vector_a1e0af0157e337733b856976ace521355}
+
+\item 
+int {\bfseries nvalues}\hypertarget{class_r_n_vector_af906f4dcdf0062284fa548b179adbdd1}{}\label{class_r_n_vector_af906f4dcdf0062284fa548b179adbdd1}
+
+\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+class {\bfseries R\+N\+Dense\+Matrix}\hypertarget{class_r_n_vector_ad7f7bcd3bd5154305d7d7efc6a2601b2}{}\label{class_r_n_vector_ad7f7bcd3bd5154305d7d7efc6a2601b2}
+
+\item 
+\hyperlink{class_r_n_vector}{R\+N\+Vector} {\bfseries operator-\/} (const \hyperlink{class_r_n_vector}{R\+N\+Vector} \&vector)\hypertarget{class_r_n_vector_a55947c43bdb1fe86a9f075c52d5cf800}{}\label{class_r_n_vector_a55947c43bdb1fe86a9f075c52d5cf800}
+
+\item 
+\hyperlink{class_r_n_vector}{R\+N\+Vector} {\bfseries operator+} (const \hyperlink{class_r_n_vector}{R\+N\+Vector} \&vector1, const \hyperlink{class_r_n_vector}{R\+N\+Vector} \&vector2)\hypertarget{class_r_n_vector_aabf0273765d8fa73e6799fec99bc3b34}{}\label{class_r_n_vector_aabf0273765d8fa73e6799fec99bc3b34}
+
+\item 
+\hyperlink{class_r_n_vector}{R\+N\+Vector} {\bfseries operator-\/} (const \hyperlink{class_r_n_vector}{R\+N\+Vector} \&vector1, const \hyperlink{class_r_n_vector}{R\+N\+Vector} \&vector2)\hypertarget{class_r_n_vector_ab4ba9b000137a503d54e3b3526fb7be5}{}\label{class_r_n_vector_ab4ba9b000137a503d54e3b3526fb7be5}
+
+\item 
+\hyperlink{class_r_n_vector}{R\+N\+Vector} {\bfseries operator$\ast$} (R\+N\+Scalar a, const \hyperlink{class_r_n_vector}{R\+N\+Vector} \&vector)\hypertarget{class_r_n_vector_a83795bad11797142573e219d3886c0aa}{}\label{class_r_n_vector_a83795bad11797142573e219d3886c0aa}
+
+\item 
+\hyperlink{class_r_n_vector}{R\+N\+Vector} {\bfseries operator$\ast$} (const \hyperlink{class_r_n_vector}{R\+N\+Vector} \&vector, R\+N\+Scalar a)\hypertarget{class_r_n_vector_ad0df169d0f2f1ab5137e3526ac29084f}{}\label{class_r_n_vector_ad0df169d0f2f1ab5137e3526ac29084f}
+
+\item 
+\hyperlink{class_r_n_vector}{R\+N\+Vector} {\bfseries operator/} (const \hyperlink{class_r_n_vector}{R\+N\+Vector} \&vector, R\+N\+Scalar a)\hypertarget{class_r_n_vector_a876135cceea526231953cd7bcec16dda}{}\label{class_r_n_vector_a876135cceea526231953cd7bcec16dda}
+
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+R\+N\+Math/R\+N\+Vector.\+h\item 
+R\+N\+Math/R\+N\+Vector.\+cpp\end{DoxyCompactItemize}

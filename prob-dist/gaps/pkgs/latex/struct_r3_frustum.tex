@@ -1,0 +1,56 @@
+\hypertarget{struct_r3_frustum}{}\section{R3\+Frustum Struct Reference}
+\label{struct_r3_frustum}\index{R3\+Frustum@{R3\+Frustum}}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\bfseries R3\+Frustum} (const \hyperlink{class_r3_camera}{R3\+Camera} \&camera)\hypertarget{struct_r3_frustum_ad2560ce0693fe855cfe601ed00651701}{}\label{struct_r3_frustum_ad2560ce0693fe855cfe601ed00651701}
+
+\item 
+{\bfseries R3\+Frustum} (const \hyperlink{class_r3_point}{R3\+Point} \&viewpoint, const \hyperlink{class_r3_vector}{R3\+Vector} \&towards, const \hyperlink{class_r3_vector}{R3\+Vector} \&up, R\+N\+Angle xfov, R\+N\+Angle yfov, R\+N\+Length neardist, R\+N\+Length fardist)\hypertarget{struct_r3_frustum_aab15ed12f3aef3028427d1cf685c5b23}{}\label{struct_r3_frustum_aab15ed12f3aef3028427d1cf685c5b23}
+
+\item 
+const \hyperlink{class_r3_camera}{R3\+Camera} \& {\bfseries Camera} (void) const \hypertarget{struct_r3_frustum_a7a92ddc7b16b5ecf9ed0ca7972d27320}{}\label{struct_r3_frustum_a7a92ddc7b16b5ecf9ed0ca7972d27320}
+
+\item 
+const \hyperlink{class_r3_halfspace}{R3\+Halfspace} \& {\bfseries Halfspace} (int dir, int dim) const \hypertarget{struct_r3_frustum_a8383513c86ed5dc77c6ef446db2ddf75}{}\label{struct_r3_frustum_a8383513c86ed5dc77c6ef446db2ddf75}
+
+\item 
+void {\bfseries Set\+Camera} (const \hyperlink{class_r3_camera}{R3\+Camera} \&camera)\hypertarget{struct_r3_frustum_a5f950afb6109bf79fd41174844fd6fcb}{}\label{struct_r3_frustum_a5f950afb6109bf79fd41174844fd6fcb}
+
+\item 
+R\+N\+Boolean {\bfseries Intersects} (const \hyperlink{class_r3_point}{R3\+Point} \&point) const \hypertarget{struct_r3_frustum_a3ba00858b6906f6b4b5aa17a6307f32d}{}\label{struct_r3_frustum_a3ba00858b6906f6b4b5aa17a6307f32d}
+
+\item 
+R\+N\+Boolean {\bfseries Intersects} (const \hyperlink{class_r3_span}{R3\+Span} \&span) const \hypertarget{struct_r3_frustum_a706e0b3936b5f8c59001f101b11531c2}{}\label{struct_r3_frustum_a706e0b3936b5f8c59001f101b11531c2}
+
+\item 
+R\+N\+Boolean {\bfseries Intersects} (const \hyperlink{class_r3_box}{R3\+Box} \&\hyperlink{structbox}{box}) const \hypertarget{struct_r3_frustum_a0ac494f2de905ce5644bb5ffadf8099b}{}\label{struct_r3_frustum_a0ac494f2de905ce5644bb5ffadf8099b}
+
+\item 
+R\+N\+Boolean {\bfseries Contains} (const \hyperlink{class_r3_point}{R3\+Point} \&point) const \hypertarget{struct_r3_frustum_a5c8e2c1824f9a9312adbdc936f70d920}{}\label{struct_r3_frustum_a5c8e2c1824f9a9312adbdc936f70d920}
+
+\item 
+R\+N\+Boolean {\bfseries Contains} (const \hyperlink{class_r3_span}{R3\+Span} \&span) const \hypertarget{struct_r3_frustum_a7b5430be3f72ec0cb75295788f33357b}{}\label{struct_r3_frustum_a7b5430be3f72ec0cb75295788f33357b}
+
+\item 
+R\+N\+Boolean {\bfseries Contains} (const \hyperlink{class_r3_box}{R3\+Box} \&\hyperlink{structbox}{box}) const \hypertarget{struct_r3_frustum_a9462950da6a7bccacad9145aeba864d0}{}\label{struct_r3_frustum_a9462950da6a7bccacad9145aeba864d0}
+
+\item 
+void {\bfseries Draw} (void) const \hypertarget{struct_r3_frustum_a28b625c7c0975f8261b2604cd174c02a}{}\label{struct_r3_frustum_a28b625c7c0975f8261b2604cd174c02a}
+
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_r3_camera}{R3\+Camera} {\bfseries camera}\hypertarget{struct_r3_frustum_a01976de96489f9aa190b5512aaa58964}{}\label{struct_r3_frustum_a01976de96489f9aa190b5512aaa58964}
+
+\item 
+\hyperlink{class_r3_halfspace}{R3\+Halfspace} {\bfseries halfspaces} \mbox{[}2\mbox{]}\mbox{[}3\mbox{]}\hypertarget{struct_r3_frustum_a1fbff48418da119afd0f35dfdce5419f}{}\label{struct_r3_frustum_a1fbff48418da119afd0f35dfdce5419f}
+
+\end{DoxyCompactItemize}
+
+
+The documentation for this struct was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+R3\+Graphics/R3\+Frustum.\+h\item 
+R3\+Graphics/R3\+Frustum.\+cpp\end{DoxyCompactItemize}

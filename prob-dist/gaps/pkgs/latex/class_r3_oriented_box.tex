@@ -1,0 +1,144 @@
+\hypertarget{class_r3_oriented_box}{}\section{R3\+Oriented\+Box Class Reference}
+\label{class_r3_oriented_box}\index{R3\+Oriented\+Box@{R3\+Oriented\+Box}}
+Inheritance diagram for R3\+Oriented\+Box\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{class_r3_oriented_box}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\bfseries R3\+Oriented\+Box} (const \hyperlink{class_r3_oriented_box}{R3\+Oriented\+Box} \&\hyperlink{structbox}{box})\hypertarget{class_r3_oriented_box_a2289e108730b037d661682cd00c52963}{}\label{class_r3_oriented_box_a2289e108730b037d661682cd00c52963}
+
+\item 
+{\bfseries R3\+Oriented\+Box} (const \hyperlink{class_r3_point}{R3\+Point} \&center, const \hyperlink{class_r3_vector}{R3\+Vector} \&axis0, const \hyperlink{class_r3_vector}{R3\+Vector} \&axis1, const \hyperlink{class_r3_vector}{R3\+Vector} \&axis2)\hypertarget{class_r3_oriented_box_a7aedb602e10faab8d73c48601cc17ad1}{}\label{class_r3_oriented_box_a7aedb602e10faab8d73c48601cc17ad1}
+
+\item 
+{\bfseries R3\+Oriented\+Box} (const \hyperlink{class_r3_point}{R3\+Point} \&center, const \hyperlink{class_r3_vector}{R3\+Vector} \&axis0, const \hyperlink{class_r3_vector}{R3\+Vector} \&axis1, R\+N\+Scalar radius0, R\+N\+Scalar radius1, R\+N\+Scalar radius2)\hypertarget{class_r3_oriented_box_a741128e4f66d74121d914d7d56d9d29a}{}\label{class_r3_oriented_box_a741128e4f66d74121d914d7d56d9d29a}
+
+\item 
+const \hyperlink{class_r3_point}{R3\+Point} \& {\bfseries Center} (void) const \hypertarget{class_r3_oriented_box_ae263d49700476287b856b59bb16922ac}{}\label{class_r3_oriented_box_ae263d49700476287b856b59bb16922ac}
+
+\item 
+const \hyperlink{class_r3_triad}{R3\+Triad} \& {\bfseries Axes} (void) const \hypertarget{class_r3_oriented_box_ae83a2a1a1bf70cbd81c64d53c00157c3}{}\label{class_r3_oriented_box_ae83a2a1a1bf70cbd81c64d53c00157c3}
+
+\item 
+const \hyperlink{class_r3_coord_system}{R3\+Coord\+System} \& {\bfseries Coord\+System} (void) const \hypertarget{class_r3_oriented_box_aa1705e61cd31720ea447e71fc4c1caf0}{}\label{class_r3_oriented_box_aa1705e61cd31720ea447e71fc4c1caf0}
+
+\item 
+const R\+N\+Length {\bfseries Min\+Radius} (void) const \hypertarget{class_r3_oriented_box_aab76939f941137e503dba9a0bae78b68}{}\label{class_r3_oriented_box_aab76939f941137e503dba9a0bae78b68}
+
+\item 
+const R\+N\+Length {\bfseries Max\+Radius} (void) const \hypertarget{class_r3_oriented_box_ad2d7be638bc52f27bc6592ad55dbe5e6}{}\label{class_r3_oriented_box_ad2d7be638bc52f27bc6592ad55dbe5e6}
+
+\item 
+const R\+N\+Length {\bfseries Diagonal\+Radius} (void) const \hypertarget{class_r3_oriented_box_ab749654a798015a22124ab60ae1599d0}{}\label{class_r3_oriented_box_ab749654a798015a22124ab60ae1599d0}
+
+\item 
+const \hyperlink{class_r3_vector}{R3\+Vector} \& {\bfseries Axis} (R\+N\+Dimension dim) const \hypertarget{class_r3_oriented_box_aadb9205a36799c7f8cb8fb307dc5206b}{}\label{class_r3_oriented_box_aadb9205a36799c7f8cb8fb307dc5206b}
+
+\item 
+const R\+N\+Length {\bfseries Radius} (R\+N\+Dimension dim) const \hypertarget{class_r3_oriented_box_ab1c602d81b7e2ad718cb8ed28019b0f0}{}\label{class_r3_oriented_box_ab1c602d81b7e2ad718cb8ed28019b0f0}
+
+\item 
+const \hyperlink{class_r3_point}{R3\+Point} {\bfseries Corner} (R\+N\+Octant octant) const \hypertarget{class_r3_oriented_box_a718fc57771ac9d97d7bcb3f04b1580e6}{}\label{class_r3_oriented_box_a718fc57771ac9d97d7bcb3f04b1580e6}
+
+\item 
+const \hyperlink{class_r3_point}{R3\+Point} {\bfseries Corner} (R\+N\+Direction dir0, R\+N\+Direction dir1, R\+N\+Direction dir2) const \hypertarget{class_r3_oriented_box_a40605c09890c36c20235681b9e7307ad}{}\label{class_r3_oriented_box_a40605c09890c36c20235681b9e7307ad}
+
+\item 
+const \hyperlink{class_r3_plane}{R3\+Plane} {\bfseries Plane} (R\+N\+Side side) const \hypertarget{class_r3_oriented_box_a520f8c9cd7ea8c58f4698c65f75184bc}{}\label{class_r3_oriented_box_a520f8c9cd7ea8c58f4698c65f75184bc}
+
+\item 
+const \hyperlink{class_r3_plane}{R3\+Plane} {\bfseries Plane} (R\+N\+Direction dir, R\+N\+Dimension dim) const \hypertarget{class_r3_oriented_box_a0e2a334dc9608a036e9a1527dd502c87}{}\label{class_r3_oriented_box_a0e2a334dc9608a036e9a1527dd502c87}
+
+\item 
+const R\+N\+Boolean {\bfseries Is\+Empty} (void) const \hypertarget{class_r3_oriented_box_abe3b32e3d68d8db3b143c96a7b6fb3dc}{}\label{class_r3_oriented_box_abe3b32e3d68d8db3b143c96a7b6fb3dc}
+
+\item 
+const R\+N\+Boolean {\bfseries Is\+Finite} (void) const \hypertarget{class_r3_oriented_box_a2cdf10094f22d8d05069a6ceef32db95}{}\label{class_r3_oriented_box_a2cdf10094f22d8d05069a6ceef32db95}
+
+\item 
+virtual const R\+N\+Boolean {\bfseries Is\+Point} (void) const \hypertarget{class_r3_oriented_box_af786c1ea59a26cb441760b3b421d2e18}{}\label{class_r3_oriented_box_af786c1ea59a26cb441760b3b421d2e18}
+
+\item 
+virtual const R\+N\+Boolean {\bfseries Is\+Linear} (void) const \hypertarget{class_r3_oriented_box_a2c2e824b7f03dda95a0b1e9926ee3936}{}\label{class_r3_oriented_box_a2c2e824b7f03dda95a0b1e9926ee3936}
+
+\item 
+virtual const R\+N\+Boolean {\bfseries Is\+Planar} (void) const \hypertarget{class_r3_oriented_box_afa802d46aae18cb47a31c62d898c179b}{}\label{class_r3_oriented_box_afa802d46aae18cb47a31c62d898c179b}
+
+\item 
+virtual const R\+N\+Boolean {\bfseries Is\+Convex} (void) const \hypertarget{class_r3_oriented_box_a28080a454bb19b053aa5df51f25939b5}{}\label{class_r3_oriented_box_a28080a454bb19b053aa5df51f25939b5}
+
+\item 
+virtual const \hyperlink{class_r_n_interval}{R\+N\+Interval} {\bfseries N\+Facets} (void) const \hypertarget{class_r3_oriented_box_ac2a0bae4aba417cc019709091f79eaa1}{}\label{class_r3_oriented_box_ac2a0bae4aba417cc019709091f79eaa1}
+
+\item 
+virtual const R\+N\+Area {\bfseries Area} (void) const \hypertarget{class_r3_oriented_box_a95f395ba15472c9b4bf9b5753b93d58f}{}\label{class_r3_oriented_box_a95f395ba15472c9b4bf9b5753b93d58f}
+
+\item 
+virtual const R\+N\+Volume {\bfseries Volume} (void) const \hypertarget{class_r3_oriented_box_a2dc460f69946df1ad89f1dd61c25a414}{}\label{class_r3_oriented_box_a2dc460f69946df1ad89f1dd61c25a414}
+
+\item 
+virtual const \hyperlink{class_r3_point}{R3\+Point} {\bfseries Centroid} (void) const \hypertarget{class_r3_oriented_box_aa73008cab4be36b8ff961548a8dc4048}{}\label{class_r3_oriented_box_aa73008cab4be36b8ff961548a8dc4048}
+
+\item 
+virtual const \hyperlink{class_r3_point}{R3\+Point} {\bfseries Closest\+Point} (const \hyperlink{class_r3_point}{R3\+Point} \&point) const \hypertarget{class_r3_oriented_box_a56d278fc5d1fc5fb329af0fcfe4ab31f}{}\label{class_r3_oriented_box_a56d278fc5d1fc5fb329af0fcfe4ab31f}
+
+\item 
+virtual const \hyperlink{class_r3_point}{R3\+Point} {\bfseries Furthest\+Point} (const \hyperlink{class_r3_point}{R3\+Point} \&point) const \hypertarget{class_r3_oriented_box_a5584bfed95d462b36bef26f30ce5d83b}{}\label{class_r3_oriented_box_a5584bfed95d462b36bef26f30ce5d83b}
+
+\item 
+virtual const \hyperlink{class_r3_shape}{R3\+Shape} \& {\bfseries B\+Shape} (void) const \hypertarget{class_r3_oriented_box_ae818d40761cc8ac0da5ae9c9a1ff3002}{}\label{class_r3_oriented_box_ae818d40761cc8ac0da5ae9c9a1ff3002}
+
+\item 
+virtual const \hyperlink{class_r3_box}{R3\+Box} {\bfseries B\+Box} (void) const \hypertarget{class_r3_oriented_box_ab2a7f8e0dfc7079d41b6f80c7efe35c3}{}\label{class_r3_oriented_box_ab2a7f8e0dfc7079d41b6f80c7efe35c3}
+
+\item 
+virtual const \hyperlink{class_r3_sphere}{R3\+Sphere} {\bfseries B\+Sphere} (void) const \hypertarget{class_r3_oriented_box_af604ff36dacf9183249d0ae3c0c36d87}{}\label{class_r3_oriented_box_af604ff36dacf9183249d0ae3c0c36d87}
+
+\item 
+virtual void {\bfseries Empty} (void)\hypertarget{class_r3_oriented_box_af5c8365a058cfa78cf7e3c062ffcd96b}{}\label{class_r3_oriented_box_af5c8365a058cfa78cf7e3c062ffcd96b}
+
+\item 
+virtual void {\bfseries Translate} (const \hyperlink{class_r3_vector}{R3\+Vector} \&vector)\hypertarget{class_r3_oriented_box_afe9cf0c09cacfbf485eb91cc3a2c3766}{}\label{class_r3_oriented_box_afe9cf0c09cacfbf485eb91cc3a2c3766}
+
+\item 
+virtual void {\bfseries Reposition} (const \hyperlink{class_r3_point}{R3\+Point} \&center)\hypertarget{class_r3_oriented_box_aeed49c7c6c2e1735e9c35672bfb06e07}{}\label{class_r3_oriented_box_aeed49c7c6c2e1735e9c35672bfb06e07}
+
+\item 
+virtual void {\bfseries Resize} (R\+N\+Length radius0, R\+N\+Length radius1, R\+N\+Length radius2)\hypertarget{class_r3_oriented_box_af6b7b6f80b4ae8ac2f9b5fc32b776175}{}\label{class_r3_oriented_box_af6b7b6f80b4ae8ac2f9b5fc32b776175}
+
+\item 
+virtual void {\bfseries Reorient} (const \hyperlink{class_r3_vector}{R3\+Vector} \&axis0, const \hyperlink{class_r3_vector}{R3\+Vector} \&axis1)\hypertarget{class_r3_oriented_box_a5692cc0b0fcace1d1e66b4df479a3d4a}{}\label{class_r3_oriented_box_a5692cc0b0fcace1d1e66b4df479a3d4a}
+
+\item 
+virtual void {\bfseries Transform} (const \hyperlink{class_r3_transformation}{R3\+Transformation} \&transformation)\hypertarget{class_r3_oriented_box_a84c3e78dd9dc204ff0627aa584e5eddf}{}\label{class_r3_oriented_box_a84c3e78dd9dc204ff0627aa584e5eddf}
+
+\item 
+virtual void {\bfseries Reset} (const \hyperlink{class_r3_point}{R3\+Point} \&center, const \hyperlink{class_r3_vector}{R3\+Vector} \&axis0, const \hyperlink{class_r3_vector}{R3\+Vector} \&axis1, R\+N\+Scalar radius0, R\+N\+Scalar radius1, R\+N\+Scalar radius2)\hypertarget{class_r3_oriented_box_aa52e70fbfd3589223610ddcfa4c1313b}{}\label{class_r3_oriented_box_aa52e70fbfd3589223610ddcfa4c1313b}
+
+\item 
+virtual void {\bfseries Draw} (const \hyperlink{class_r_n_flags}{R3\+Draw\+Flags} draw\+\_\+flags=R3\+\_\+\+D\+E\+F\+A\+U\+L\+T\+\_\+\+D\+R\+A\+W\+\_\+\+F\+L\+A\+GS) const \hypertarget{class_r3_oriented_box_a3ab43dc67d7dd7bf6aa58bdca2c9f343}{}\label{class_r3_oriented_box_a3ab43dc67d7dd7bf6aa58bdca2c9f343}
+
+\item 
+R\+N\+Boolean {\bfseries operator==} (const \hyperlink{class_r3_oriented_box}{R3\+Oriented\+Box} \&\hyperlink{structbox}{box}) const \hypertarget{class_r3_oriented_box_ae136893a8dd4b75314483e164b3eb6d9}{}\label{class_r3_oriented_box_ae136893a8dd4b75314483e164b3eb6d9}
+
+\item 
+R\+N\+Boolean {\bfseries operator!=} (const \hyperlink{class_r3_oriented_box}{R3\+Oriented\+Box} \&\hyperlink{structbox}{box}) const \hypertarget{class_r3_oriented_box_a32a4bc55b2b0d5eb7bdc043ea9adf9de}{}\label{class_r3_oriented_box_a32a4bc55b2b0d5eb7bdc043ea9adf9de}
+
+\item 
+{\bfseries R\+N\+\_\+\+C\+L\+A\+S\+S\+\_\+\+T\+Y\+P\+E\+\_\+\+D\+E\+C\+L\+A\+R\+A\+T\+I\+O\+NS} (\hyperlink{class_r3_oriented_box}{R3\+Oriented\+Box})\hypertarget{class_r3_oriented_box_a4b3849e36f419171a90522b8867a5f71}{}\label{class_r3_oriented_box_a4b3849e36f419171a90522b8867a5f71}
+
+\item 
+{\bfseries R3\+\_\+\+S\+H\+A\+P\+E\+\_\+\+R\+E\+L\+A\+T\+I\+O\+N\+S\+H\+I\+P\+\_\+\+D\+E\+C\+L\+A\+R\+A\+T\+I\+O\+NS} (\hyperlink{class_r3_oriented_box}{R3\+Oriented\+Box})\hypertarget{class_r3_oriented_box_ad47428562a81d39534ef559e21f441f3}{}\label{class_r3_oriented_box_ad47428562a81d39534ef559e21f441f3}
+
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+R3\+Shapes/R3\+Oriented\+Box.\+h\item 
+R3\+Shapes/R3\+Draw.\+cpp\item 
+R3\+Shapes/R3\+Oriented\+Box.\+cpp\end{DoxyCompactItemize}

@@ -1,0 +1,80 @@
+\hypertarget{class_r3_surfel_object_relationship}{}\section{R3\+Surfel\+Object\+Relationship Class Reference}
+\label{class_r3_surfel_object_relationship}\index{R3\+Surfel\+Object\+Relationship@{R3\+Surfel\+Object\+Relationship}}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\bfseries R3\+Surfel\+Object\+Relationship} (int type=0, \hyperlink{class_r3_surfel_object}{R3\+Surfel\+Object} $\ast$object0=N\+U\+LL, \hyperlink{class_r3_surfel_object}{R3\+Surfel\+Object} $\ast$object1=N\+U\+LL, R\+N\+Scalar $\ast$operands=N\+U\+LL, int noperands=0)\hypertarget{class_r3_surfel_object_relationship_a037c3991cd611b3d156fe8c16da7620f}{}\label{class_r3_surfel_object_relationship_a037c3991cd611b3d156fe8c16da7620f}
+
+\item 
+{\bfseries R3\+Surfel\+Object\+Relationship} (int type, const \hyperlink{class_r_n_array}{R\+N\+Array}$<$ \hyperlink{class_r3_surfel_object}{R3\+Surfel\+Object} $\ast$ $>$ \&objects, R\+N\+Scalar $\ast$operands=N\+U\+LL, int noperands=0)\hypertarget{class_r3_surfel_object_relationship_a1be8aaa17218e5fbb1504ba601016ec3}{}\label{class_r3_surfel_object_relationship_a1be8aaa17218e5fbb1504ba601016ec3}
+
+\item 
+{\bfseries R3\+Surfel\+Object\+Relationship} (const \hyperlink{class_r3_surfel_object_relationship}{R3\+Surfel\+Object\+Relationship} \&relationship)\hypertarget{class_r3_surfel_object_relationship_a94a14f93b8a847a3c2f800958746d6fa}{}\label{class_r3_surfel_object_relationship_a94a14f93b8a847a3c2f800958746d6fa}
+
+\item 
+int {\bfseries Type} (void) const \hypertarget{class_r3_surfel_object_relationship_a5f5424199965e19d18b9a4c064798e30}{}\label{class_r3_surfel_object_relationship_a5f5424199965e19d18b9a4c064798e30}
+
+\item 
+\hyperlink{class_r3_surfel_scene}{R3\+Surfel\+Scene} $\ast$ {\bfseries Scene} (void) const \hypertarget{class_r3_surfel_object_relationship_a777fb9c5c821444e5870a7d69a0b2cc9}{}\label{class_r3_surfel_object_relationship_a777fb9c5c821444e5870a7d69a0b2cc9}
+
+\item 
+int {\bfseries Scene\+Index} (void) const \hypertarget{class_r3_surfel_object_relationship_ac32b9b20ce06d599338f8050851d1440}{}\label{class_r3_surfel_object_relationship_ac32b9b20ce06d599338f8050851d1440}
+
+\item 
+int {\bfseries N\+Objects} (void) const \hypertarget{class_r3_surfel_object_relationship_a1899ffeb4f7b5e186a6fd43f7e3a31ea}{}\label{class_r3_surfel_object_relationship_a1899ffeb4f7b5e186a6fd43f7e3a31ea}
+
+\item 
+\hyperlink{class_r3_surfel_object}{R3\+Surfel\+Object} $\ast$ {\bfseries Object} (int k) const \hypertarget{class_r3_surfel_object_relationship_a326d6326f1037e09d18d50249e7e9100}{}\label{class_r3_surfel_object_relationship_a326d6326f1037e09d18d50249e7e9100}
+
+\item 
+int {\bfseries N\+Operands} (void) const \hypertarget{class_r3_surfel_object_relationship_a5c1f055f753716f8f957858a252255d8}{}\label{class_r3_surfel_object_relationship_a5c1f055f753716f8f957858a252255d8}
+
+\item 
+R\+N\+Scalar {\bfseries Operand} (int k) const \hypertarget{class_r3_surfel_object_relationship_ab8142b3111ac93789e53f3d0e8d40505}{}\label{class_r3_surfel_object_relationship_ab8142b3111ac93789e53f3d0e8d40505}
+
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void {\bfseries Update\+After\+Insert} (\hyperlink{class_r3_surfel_scene}{R3\+Surfel\+Scene} $\ast$scene)\hypertarget{class_r3_surfel_object_relationship_aef71af4fa261b1b266e31ab9c76a3341}{}\label{class_r3_surfel_object_relationship_aef71af4fa261b1b266e31ab9c76a3341}
+
+\item 
+void {\bfseries Update\+Before\+Remove} (\hyperlink{class_r3_surfel_scene}{R3\+Surfel\+Scene} $\ast$scene)\hypertarget{class_r3_surfel_object_relationship_af6eb8493d15e530c0ac28d1ecf403c47}{}\label{class_r3_surfel_object_relationship_af6eb8493d15e530c0ac28d1ecf403c47}
+
+\item 
+void {\bfseries Update\+Operands} (void)\hypertarget{class_r3_surfel_object_relationship_a233214557373574497546c48dd48dbd0}{}\label{class_r3_surfel_object_relationship_a233214557373574497546c48dd48dbd0}
+
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_r3_surfel_scene}{R3\+Surfel\+Scene} $\ast$ {\bfseries scene}\hypertarget{class_r3_surfel_object_relationship_a41243390750e832ae9704d127a67cf12}{}\label{class_r3_surfel_object_relationship_a41243390750e832ae9704d127a67cf12}
+
+\item 
+int {\bfseries scene\+\_\+index}\hypertarget{class_r3_surfel_object_relationship_afdab131a845e65a4ffadc164a72a0ba6}{}\label{class_r3_surfel_object_relationship_afdab131a845e65a4ffadc164a72a0ba6}
+
+\item 
+\hyperlink{class_r_n_array}{R\+N\+Array}$<$ \hyperlink{class_r3_surfel_object}{R3\+Surfel\+Object} $\ast$ $>$ {\bfseries objects}\hypertarget{class_r3_surfel_object_relationship_a6d0b4c3be6ebea54519c27e6fe82e5a7}{}\label{class_r3_surfel_object_relationship_a6d0b4c3be6ebea54519c27e6fe82e5a7}
+
+\item 
+R\+N\+Scalar $\ast$ {\bfseries operands}\hypertarget{class_r3_surfel_object_relationship_a8f2d7d83e51b410ab6cecb2cdf5b9ada}{}\label{class_r3_surfel_object_relationship_a8f2d7d83e51b410ab6cecb2cdf5b9ada}
+
+\item 
+int {\bfseries noperands}\hypertarget{class_r3_surfel_object_relationship_acf4f643711969fe557f8989f892b9391}{}\label{class_r3_surfel_object_relationship_acf4f643711969fe557f8989f892b9391}
+
+\item 
+int {\bfseries type}\hypertarget{class_r3_surfel_object_relationship_a1ce0179d6b91874b599349a20dbdf3c6}{}\label{class_r3_surfel_object_relationship_a1ce0179d6b91874b599349a20dbdf3c6}
+
+\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+class {\bfseries R3\+Surfel\+Scene}\hypertarget{class_r3_surfel_object_relationship_af9bb32c0eac7d1d54787bbc6b44586b6}{}\label{class_r3_surfel_object_relationship_af9bb32c0eac7d1d54787bbc6b44586b6}
+
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+R3\+Surfels/R3\+Surfel\+Object\+Relationship.\+h\item 
+R3\+Surfels/R3\+Surfel\+Object\+Relationship.\+cpp\end{DoxyCompactItemize}
