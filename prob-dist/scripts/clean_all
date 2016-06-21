@@ -1,14 +1,14 @@
 #!/bin/bash
 
 echo -e "\tRemoving all images..."
-for i in imgs/*.png; do rm "$i"; done
+for i in output/imgs/*.png; do rm "$i"; done
 
 echo -e "\tRemoving all grids..."
-for i in grids/*.grd; do rm "$i"; done
+for i in output/grids/*.grd; do rm "$i"; done
 
 echo -e "\tRemoving stats files..."
-rm stats/categories.csv
-rm stats/pairs.csv
+rm output/stats/categories.csv
+rm output/stats/pairs.csv
 
 echo -e "\tRemoving log files..."
-rm err-log.txt
+rm output/err-log.txt
