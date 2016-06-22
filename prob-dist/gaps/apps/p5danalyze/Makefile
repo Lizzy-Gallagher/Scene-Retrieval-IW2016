@@ -3,7 +3,7 @@
 #
 
 NAME=p5danalyze
-CCSRCS=$(NAME).cpp p5d.cpp json.cpp
+CCSRCS=$(NAME).cpp R2Aux.cpp IOAux.cpp 
 
 
 #

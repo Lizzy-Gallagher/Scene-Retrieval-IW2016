@@ -40,3 +40,18 @@
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+========
+
+resources/
+scene-toolkit/
+old-results/
+etc/
+
+# Data is way too big!
+prob-dist/data/objects
+prob-dist/data/projects_clean
+prob-dist/data/projects
+prob-dist/data/roomfiles
+prob-dist/data/texture
+
