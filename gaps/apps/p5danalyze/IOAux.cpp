@@ -1,10 +1,14 @@
 #include "R3Graphics/R3Graphics.h"
+#include "R3Graphics/p5d.h"
 #include "csv.h"
+
 #include <string>
 #include <vector>
 #include <map>
+#include <iostream>
+#include <fstream>
 
-P5DProject *ReadProject(const char *project_name, bool print_verbose)
+P5DProject *ReadProject(const char *project_name, bool print_verbose, const char *input_data_directory)
 {
   // Start statistics
   RNTime start_time;
@@ -39,7 +43,8 @@ P5DProject *ReadProject(const char *project_name, bool print_verbose)
   return project;
 }
 
-R3Scene *CreateScene(P5DProject *project, const char* input_data_directory) 
+R3Scene *
+CreateScene(P5DProject *project, const char* input_data_directory) 
 {
   // Start statistics
   RNTime start_time;
@@ -162,6 +167,9 @@ R3Scene *CreateScene(P5DProject *project, const char* input_data_directory)
         }
       }
     }
+  }
+
+  return scene;
 }
 
 std::vector<std::string>
