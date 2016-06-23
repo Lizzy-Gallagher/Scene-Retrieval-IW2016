@@ -49,9 +49,17 @@ old-results/
 etc/
 
 # Data is way too big!
-prob-dist/data/objects
-prob-dist/data/projects_clean
-prob-dist/data/projects
-prob-dist/data/roomfiles
-prob-dist/data/texture
+data/objects
+data/projects_clean
+data/projects
+data/roomfiles
+data/texture
+
+!gaps/
+
+gaps/*
+!gaps/apps
+
+gaps/apps/*
+!gaps/apps/p5danalyze
 
