@@ -6,8 +6,13 @@
 #include "fglut/fglut.h"
 #include "R3Graphics/p5d.h"
 #include "csv.h"
+
 #include "R2Aux.h"
 #include "IOAux.h"
+#include "StatsAux.h"
+#include "P5DAux.h"
+#include "Heatmap.h"
+#include "Prepositions.h"
 
 #include <string>
 #include <map>
@@ -15,18 +20,25 @@
 #include <fstream>
 #include <time.h>
 
+// Tasks to complete
+enum Task
+{
+    NOT_SET = 0,
+    HEATMAPS = 1,
+    INTRINSIC_PREPOSITIONS = 2,
+};
+
 // Program variables
 static const char *input_data_directory = "data/";
 static const char *output_grid_directory = NULL;
 static int print_verbose = 0;
 static int print_debug = 0;
 
-// Logging
-static std::map<std::string, int> num_of_object;
-static std::map<std::string, std::map<std::string, int>> num_of_pair;
+// Stats Logging
+FrequencyStats freq_stats;
 
-static std::map<std::string, std::string> id_to_category;
-static std::map<std::string, std::map<std::string, R2Grid*>> grids;
+// For later use
+static std::map<std::string, std::string> id2cat;
 static std::vector<std::string> project_ids;
 
 static int meters_of_context = 3;
@@ -36,6 +48,12 @@ static int resolution = pixels_to_meters * (2 * meters_of_context);
 static double threshold = meters_of_context + 1;
 clock_t start, finish;
 
+// By Task
+Task task = NOT_SET; 
+HeatmapMap heatmaps = HeatmapMap(); 
+PrepMap prep_map = PrepMap();
+
+// Waiting for integration
 //std::string only_category = "sofa";
 
 /*-------------------------------------------------------------------------*/
@@ -54,6 +72,14 @@ ParseArgs(int argc, char **argv)
             else if (!strcmp(*argv, "-data_directory")) { argc--; argv++; input_data_directory = *argv; }
             else if (!strcmp(*argv, "-ptm")) { argc--; argv++; pixels_to_meters = atoi(*argv); }
             else if (!strcmp(*argv, "-context")) { argc--; argv++; meters_of_context = atoi(*argv); }
+            
+            // Set Task
+            else if (!strcmp(*argv, "-heat")) { 
+                if (task != NOT_SET) return 0;
+                task = HEATMAPS; }
+            else if (!strcmp(*argv, "-prep")) { 
+                if (task != NOT_SET) return 0;
+                task = INTRINSIC_PREPOSITIONS; } 
             //else if (!strcmp(*argv, "-category")) { argc--; argv++; only_category = *argv; }
             else { 
                 fprintf(stderr, "Invalid program argument: %s", *argv); 
@@ -69,8 +95,8 @@ ParseArgs(int argc, char **argv)
     }
 
     // Check filenames
-    if (!output_grid_directory) {
-        fprintf(stderr, "Usage: p5dview outputgriddirectory [-debug] [-v]" 
+    if (!output_grid_directory || task == NOT_SET) {
+        fprintf(stderr, "Usage: p5dview outputgriddirectory <task> [-debug] [-v]" 
                 "[data-directory dir] [-ptm num] [-context num] [-category id]  \n");
         return 0;
     }
@@ -79,41 +105,14 @@ ParseArgs(int argc, char **argv)
     return 1;
 }
 
-std::string GetObjectCategory(R3SceneNode* obj) 
-{
-    // Parse object name for id
-    std::string name (obj->Name());
 
-    size_t pos = name.find_last_of("_") + 1;
-    if (name[pos - 2] == '_') { // for the s__* series
-        pos = name.find_last_of("_", pos - 3) + 1;
-    }
-
-    if (pos == std::string::npos) {
-        fprintf(stdout, "FAILURE. Malformed object name: %s\n", name.c_str());
-        exit(-1);
-    }
-
-    std::string id = name.substr(pos);
-
-    // Lookup id in id_to_category_map
-    auto cat_iter = id_to_category.find(id);
-    if (cat_iter == id_to_category.end()) {
-        fprintf(stderr, "FAILURE. Unexpected object Id: %s\n", id.c_str());
-        return "";
-    }
-
-    std::string cat = cat_iter->second;
-
-    return cat;
-}
 
 /*-------------------------------------------------------------------------*/
-//  Heatmap Code
+//  
 /*-------------------------------------------------------------------------*/
 
 
-    static R2Grid*
+static R2Grid*
 DrawObject(R3SceneNode* obj, R2Grid *grid, R2Vector translation, RNAngle theta, bool do_fX, bool do_fY, R2Vector *dist = NULL)
 {
     R2Grid temp_grid = R2Grid(resolution, resolution);
@@ -160,110 +159,38 @@ DrawObject(R3SceneNode* obj, R2Grid *grid, R2Vector translation, RNAngle theta, 
     return grid;
 }
 
-// Take collection of grids and write them
-    static int 
-WriteHeatMaps()
+
+
+static int
+Update(R3Scene *scene)
 {
-    std::ofstream stats_categories_file;
-    stats_categories_file.open("stats/categories.csv");
-    stats_categories_file << "category,count\n"; 
-
-    std::ofstream stats_pairs_file;
-    stats_pairs_file.open("stats/pairs.csv");
-    stats_pairs_file << "src_cat,dst_cat,count\n"; 
-
-    for (auto it : grids) {
-        std::string src_cat = it.first;
-        std::map<std::string, R2Grid*> map = it.second;
-        stats_categories_file << src_cat.c_str() << "," << num_of_object[src_cat] << "\n";
-
-
-        for (auto it2 : map) {
-            std::string dst_cat = it2.first;
-            R2Grid* grid        = it2.second;
-
-            char output_filename[1024];
-            sprintf(output_filename, "%s/%s___%s.grd", output_grid_directory, 
-                    src_cat.c_str(), dst_cat.c_str());
-
-            stats_pairs_file << src_cat.c_str() << "," << dst_cat.c_str() << "," << num_of_pair[src_cat][dst_cat] << "\n"; 
-            if (!WriteGrid(grid, output_filename, print_verbose)) return 0;
-        }
-    }
-
-    stats_categories_file.close();
-    stats_pairs_file.close();
-    return 1;
-}
-
-    static int
-UpdateHeatmapCollection(R3Scene* scene, std::vector<R3SceneNode*> object_nodes)
-{
-
-    // Populate category->category map
-    for (int i = 0; i < object_nodes.size(); i++) {
-        R3SceneNode* src_obj = object_nodes[i];
-        std::string src_cat = GetObjectCategory(src_obj);
-        if (src_cat.size() == 0) continue; 
-        //if (src_cat != only_category) continue;
-
-        num_of_object[src_cat]++;
-
-        for (int j = 0; j < object_nodes.size(); j++) {
-            if (i == j) continue;
-
-            R3SceneNode* dst_obj = object_nodes[j];
-            std::string dst_cat = GetObjectCategory(dst_obj);
-            if (dst_cat.size() == 0) continue;
-
-            if (grids[src_cat].count(dst_cat) == 0)
-                grids[src_cat][dst_cat] = new R2Grid(resolution, resolution); 
-        }
-
-        if (grids[src_cat]["wall"] == 0)
-            grids[src_cat]["wall"] = new R2Grid(resolution, resolution);
-    }
-
-    return 1;
-}
-
-    static int
-UpdateGrids(R3Scene *scene)
-{
-    std::vector<R3SceneNode*> object_nodes;
-    std::vector<R3SceneNode*> wall_nodes;
-
-    // Find all objects and walls
-    for (int i = 0; i < scene->NNodes(); i++) {
-        R3SceneNode* node = scene->Node(i);
-
-        std::string name (node->Name());
-        if (std::string::npos != name.find("Object")) // probably a better way with casting
-            object_nodes.push_back(node);
-        if (std::string::npos != name.find("Wall"))
-            wall_nodes.push_back(node);     
-    }
-
-    fprintf(stdout, "\t- Located Objects : %lu\n", object_nodes.size());
+    SceneNodes nodes = GetSceneNodes(scene);
+    fprintf(stdout, "\t- Located Objects : %lu\n", nodes.objects.size());
 
     // Category->Category->Heatmap
-    if (!UpdateHeatmapCollection(scene, object_nodes)) return 0;
-
-    fprintf(stdout, "\t- Updated Heatmaps\n");
-
-    for (int i = 0; i < object_nodes.size(); i++) {
-        R3SceneNode* src_obj = object_nodes[i];
-        std::string src_cat = GetObjectCategory(src_obj);
-        if (src_cat.size() == 0) continue;
-        //if (src_cat != only_category) continue;
+    
+    switch ( task ) {
+        case HEATMAPS:
+            UpdateHeatmaps(scene, nodes.objects, &heatmaps, resolution, freq_stats.cat_count, &id2cat);
+            break;
+        case INTRINSIC_PREPOSITIONS:
+            UpdatePrepositions(scene, nodes.objects, &prep_map, freq_stats, &id2cat);
+    }
+    
+    fprintf(stdout, "\t- Updated Collection\n");
+    for (int i = 0; i < nodes.objects.size(); i++) {
+        R3SceneNode* pri_obj = nodes.objects[i];
+        std::string pri_cat = GetObjectCategory(pri_obj, &id2cat);
+        if (pri_cat.size() == 0) continue;
+        //if (pri_cat != only_category) continue;
 
         // Translation constants
-        float a = 0.5 * (resolution - 1) - src_obj->Centroid().X();
-        float b = 0.5 * (resolution - 1) - src_obj->Centroid().Y();
+        float a = 0.5 * (resolution - 1) - pri_obj->Centroid().X();
+        float b = 0.5 * (resolution - 1) - pri_obj->Centroid().Y();
         R2Vector translation(a, b);
 
         // Rotation constants
-        P5DObject *p5d_obj = (P5DObject *) src_obj->Data();
+        P5DObject *p5d_obj = (P5DObject *) pri_obj->Data();
         RNAngle theta = p5d_obj->a;
 
         if (!strcmp(p5d_obj->className, "Door")) theta += RN_PI_OVER_TWO;
@@ -273,38 +200,36 @@ UpdateGrids(R3Scene *scene)
         bool do_fY = p5d_obj->fY;
 
         // Draw objects
-        for (int j = 0; j < object_nodes.size(); j++) {
+        for (int j = 0; j < nodes.objects.size(); j++) {
             if (i == j) continue;
 
-            R3SceneNode* dst_obj = object_nodes[j];
-            std::string dst_cat = GetObjectCategory(dst_obj);
-            if (dst_cat.size() == 0) continue;
+            R3SceneNode* ref_obj = nodes.objects[j];
+            std::string ref_cat = GetObjectCategory(ref_obj, &id2cat);
+            if (ref_cat.size() == 0) continue;
 
-            R2Grid *grid = grids[src_cat][dst_cat];
+            R2Grid *grid = heatmaps[pri_cat][ref_cat];
 
-            R3Vector dist3d = (dst_obj->Centroid() - src_obj->Centroid());
+            R3Vector dist3d = (ref_obj->Centroid() - pri_obj->Centroid());
             R2Vector dist = R2Vector(dist3d.X(), dist3d.Y());
 
             // Only draw object close enough
             if (dist.Length() < threshold) {
-                DrawObject(dst_obj, grid, translation, theta, do_fX, do_fY, &dist);
-                num_of_pair[src_cat][dst_cat]++;
+                DrawObject(ref_obj, grid, translation, theta, do_fX, do_fY, &dist);
+                (*freq_stats.pair_count)[pri_cat][ref_cat]++;
             }
         }
 
         // Draw walls
-        for (int w = 0; w < wall_nodes.size(); w++) {
-            R3SceneNode* wall_node = wall_nodes[w];
+        for (int w = 0; w < nodes.walls.size(); w++) {
+            R3SceneNode* wall_node = nodes.walls[w];
+            R2Grid *grid = heatmaps[pri_cat]["wall"];
 
-            R2Grid *grid = grids[src_cat]["wall"];
-
-
-            R3Vector dist3d = (wall_node->Centroid() - src_obj->Centroid());
+            R3Vector dist3d = (wall_node->Centroid() - pri_obj->Centroid());
             R2Vector dist = R2Vector(dist3d.X(), dist3d.Y());
 
             if (dist.Length() < threshold) {
                 DrawObject(wall_node, grid, translation, theta, do_fX, do_fY, &dist);
-                num_of_pair[src_cat]["wall"]++;
+                (*freq_stats.pair_count)[pri_cat]["wall"]++;
             }
         }
 
@@ -316,14 +241,14 @@ UpdateGrids(R3Scene *scene)
 
 int main(int argc, char **argv)
 {
+    // Parse program arguments
+    if (!ParseArgs(argc, argv)) exit(-1);
+
     // Create a vector of all project IDs
     project_ids = LoadProjectIds();
 
     // Create mapping of ids to object categories
-    id_to_category = LoadIdToCategoryMap();
-
-    // Parse program arguments
-    if (!ParseArgs(argc, argv)) exit(-1);
+    id2cat = LoadIdToCategoryMap();
 
     // Create the output directory
     char cmd[1024];
@@ -332,7 +257,7 @@ int main(int argc, char **argv)
 
     int failures = 0;
     int i = 0; 
-    for (std::string project_id : project_ids)
+    for (std::string project_id : project_ids) // For each project...
     {
         if (i == 5) break;
 
@@ -341,36 +266,32 @@ int main(int argc, char **argv)
 
         // Read project
         P5DProject *project = ReadProject(project_id.c_str(), print_verbose, input_data_directory);
-        if (!project) /*exit(-1)*/ {
-            failures++;
-            continue;
-        }
-
+        if (!project) { failures++; continue; }
         fprintf(stdout, "\t- Read Project\n");
 
         // Create scene
         R3Scene *scene = CreateScene(project, input_data_directory);
-        if (!scene) {
-            failures++;
-            continue;
-        }
-
+        if (!scene) { failures++; continue; }
         fprintf(stdout, "\t- Created Scene\n");
 
-        // Write grids
-        if (!UpdateGrids(scene)) {
-            failures++;
-            continue;
-        }
-
+        // Update the task goal
+        if (!Update(scene)) { failures++; continue; }
         fprintf(stdout, "\t- Completed in : %f sec\n", (double)(clock() - start) / CLOCKS_PER_SEC);
+        
         i++;
     }
 
     fprintf(stdout, "\n-- Failures: %d---\n", failures);
     fprintf(stdout, "\n--- Finished. ---\n");
 
-    WriteHeatMaps();
+    switch ( task ) {
+        case HEATMAPS:
+            WriteHeatmaps(&heatmaps, freq_stats, output_grid_directory, print_verbose);
+            break;
+        case INTRINSIC_PREPOSITIONS:
+            // WriteIntrinsicPrepositions
+            break;
+    }
 
     // Return success 
     return 0;
