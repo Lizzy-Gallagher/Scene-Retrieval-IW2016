@@ -8,6 +8,8 @@
 #include <iostream>
 #include <fstream>
 
+using Id2CatMap = std::map<std::string, std::string>;
+
 P5DProject *ReadProject(const char *project_name, bool print_verbose, const char *input_data_directory)
 {
   // Start statistics
@@ -193,16 +195,45 @@ LoadProjectIds(std::string filename = "data/list-of-projects.txt") {
 
 std::map<std::string, std::string> 
 LoadIdToCategoryMap(std::string csv_filename="data/object_names.csv") { 
-    std::map<std::string, std::string> id_to_category;
+    std::map<std::string, std::string> id2cat;
 
     io::CSVReader<2, io::trim_chars<' '>, io::double_quote_escape<',','\"'> > in(csv_filename.c_str());
     in.read_header(io::ignore_extra_column, "id", "category");
     std::string id; std::string category;
     while(in.read_row(id, category)) {
-        id_to_category[id] = category;
+        id2cat[id] = category;
     }
 
-    return id_to_category;
+    return id2cat;
+}
+
+std::string GetObjectCategory(R3SceneNode* obj, Id2CatMap* id2cat) 
+{
+    // Parse object name for id
+    std::string name (obj->Name());
+
+    size_t pos = name.find_last_of("_") + 1;
+    if (name[pos - 2] == '_') { // for the s__* series
+        pos = name.find_last_of("_", pos - 3) + 1;
+    }
+
+    if (pos == std::string::npos) {
+        fprintf(stdout, "FAILURE. Malformed object name: %s\n", name.c_str());
+        exit(-1);
+    }
+
+    std::string id = name.substr(pos);
+
+    // Lookup id in id2cat_map
+    auto cat_iter = (*id2cat).find(id);
+    if (cat_iter == (*id2cat).end()) {
+        fprintf(stderr, "FAILURE. Unexpected object Id: %s\n", id.c_str());
+        return "";
+    }
+
+    std::string cat = cat_iter->second;
+
+    return cat;
 }
 
 int 

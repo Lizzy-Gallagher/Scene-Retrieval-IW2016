@@ -48,6 +48,10 @@ scene-toolkit/
 old-results/
 etc/
 
+# Ignore Output
+prob-dist/output
+prep-dist/output
+
 # Data is way too big!
 data/objects
 data/projects_clean
