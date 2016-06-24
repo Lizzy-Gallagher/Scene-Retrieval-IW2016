@@ -1,6 +1,7 @@
 #include "R3Graphics/R3Graphics.h"
 #include "IOAux.h"
 #include "StatsAux.h"
+#include "R2Aux.h"
 
 #include <string>
 #include <map>
@@ -11,8 +12,7 @@
 using HeatmapMap = std::map<std::string, std::map<std::string, R2Grid*>>;
 
 // Take collection of grids and write them
-int 
-WriteHeatmaps(HeatmapMap* heatmaps, FrequencyStats freq_stats,
+int WriteHeatmaps(HeatmapMap* heatmaps, FrequencyStats freq_stats,
         const char* output_grid_directory, bool print_verbose)
 {
     std::ofstream stats_categories_file;
@@ -73,4 +73,20 @@ void UpdateHeatmaps(R3Scene* scene, std::vector<R3SceneNode*> objects,
         if ((*heatmaps)[pri_cat]["wall"] == 0)
             (*heatmaps)[pri_cat]["wall"] = new R2Grid(resolution, resolution);
     }
+}
+
+void CalcHeatmaps( R3SceneNode* pri_obj, R3SceneNode* ref_obj, std::string ref_cat,
+        std::string pri_cat, Id2CatMap* id2cat, HeatmapMap* heatmaps, 
+        DrawingValues values, double threshold, int pixels_to_meters) 
+{
+    // Draw objects
+    R2Grid *grid = (*heatmaps)[pri_cat][ref_cat];
+
+    R3Vector dist3d = (ref_obj->Centroid() - pri_obj->Centroid());
+    R2Vector dist = R2Vector(dist3d.X(), dist3d.Y());
+    values.dist = &dist; 
+
+    // Only draw object close enough
+    if (dist.Length() < threshold)
+        DrawObject(ref_obj, grid, values, pixels_to_meters);
 }

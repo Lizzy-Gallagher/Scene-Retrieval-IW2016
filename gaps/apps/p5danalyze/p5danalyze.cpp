@@ -3,14 +3,14 @@
 // Include files 
 
 #include "R3Graphics/R3Graphics.h"
-#include "fglut/fglut.h"
 #include "R3Graphics/p5d.h"
+#include "fglut/fglut.h"
 #include "csv.h"
 
+#include "P5DAux.h"
 #include "R2Aux.h"
 #include "IOAux.h"
 #include "StatsAux.h"
-#include "P5DAux.h"
 #include "Heatmap.h"
 #include "Prepositions.h"
 
@@ -72,7 +72,7 @@ ParseArgs(int argc, char **argv)
             else if (!strcmp(*argv, "-data_directory")) { argc--; argv++; input_data_directory = *argv; }
             else if (!strcmp(*argv, "-ptm")) { argc--; argv++; pixels_to_meters = atoi(*argv); }
             else if (!strcmp(*argv, "-context")) { argc--; argv++; meters_of_context = atoi(*argv); }
-            
+
             // Set Task
             else if (!strcmp(*argv, "-heat")) { 
                 if (task != NOT_SET) return 0;
@@ -111,78 +111,28 @@ ParseArgs(int argc, char **argv)
 //  
 /*-------------------------------------------------------------------------*/
 
-
-static R2Grid*
-DrawObject(R3SceneNode* obj, R2Grid *grid, R2Vector translation, RNAngle theta, bool do_fX, bool do_fY, R2Vector *dist = NULL)
-{
-    R2Grid temp_grid = R2Grid(resolution, resolution);
-
-    R2Affine world_to_grid_xform = PrepareWorldToGridXform(obj->Centroid(), translation, theta, do_fX, do_fY, dist, pixels_to_meters);
-    temp_grid.SetWorldToGridTransformation(world_to_grid_xform);
-
-    // For all R3SceneElements in the R3SceneNode
-    for (int k = 0; k < obj->NElements(); k++) {
-        R3SceneElement* el = obj->Element(k);
-
-        // For all R3Shapes in the R3SceneElements    
-        for (int l = 0; l < el->NShapes(); l++) {
-
-            R3Shape* shape = el->Shape(l);
-            R3TriangleArray* arr = (R3TriangleArray*) shape;
-
-            // For all R3Triangles in the R3TriangleArray
-            for (int t = 0; t < arr->NTriangles(); t++) {
-                R3Triangle *triangle = arr->Triangle(t);
-
-                // Create new points
-                R2Point v0 = R2Point(triangle->V0()->Position().X(), triangle->V0()->Position().Y());
-                R2Point v1 = R2Point(triangle->V1()->Position().X(), triangle->V1()->Position().Y());
-                R2Point v2 = R2Point(triangle->V2()->Position().X(), triangle->V2()->Position().Y());
-
-                if (IsOutsideGrid(&temp_grid, v0, v1, v2)) continue;
-
-                // Move exterior verticies inside the grid
-                std::vector<R2Point> v = MoveInsideGrid(&temp_grid, v0, v1, v2);
-
-                v0 = temp_grid.GridPosition(v[0]);
-                v1 = temp_grid.GridPosition(v[1]);
-                v2 = temp_grid.GridPosition(v[2]);
-
-                temp_grid.RasterizeWorldTriangle(v[0], v[1], v[2], 1);
-            }
-        }
-    }
-
-    // Color the shape with a single color
-    temp_grid.Threshold(0, 0, 1);
-    grid->Add(temp_grid);
-    return grid;
-}
-
-
-
-static int
-Update(R3Scene *scene)
+static int Update(R3Scene *scene)
 {
     SceneNodes nodes = GetSceneNodes(scene);
     fprintf(stdout, "\t- Located Objects : %lu\n", nodes.objects.size());
 
-    // Category->Category->Heatmap
-    
     switch ( task ) {
         case HEATMAPS:
             UpdateHeatmaps(scene, nodes.objects, &heatmaps, resolution, freq_stats.cat_count, &id2cat);
             break;
         case INTRINSIC_PREPOSITIONS:
             UpdatePrepositions(scene, nodes.objects, &prep_map, freq_stats, &id2cat);
-    }
-    
+            break;
+    } 
     fprintf(stdout, "\t- Updated Collection\n");
+
+    // For each object, calculate a grid that identifies what it means to be
+    // "on the front side of, etc
     for (int i = 0; i < nodes.objects.size(); i++) {
+
         R3SceneNode* pri_obj = nodes.objects[i];
         std::string pri_cat = GetObjectCategory(pri_obj, &id2cat);
         if (pri_cat.size() == 0) continue;
-        //if (pri_cat != only_category) continue;
 
         // Translation constants
         float a = 0.5 * (resolution - 1) - pri_obj->Centroid().X();
@@ -199,6 +149,8 @@ Update(R3Scene *scene)
         bool do_fX = p5d_obj->fX;
         bool do_fY = p5d_obj->fY;
 
+        DrawingValues values = { translation, theta, do_fX, do_fY, NULL };
+
         // Draw objects
         for (int j = 0; j < nodes.objects.size(); j++) {
             if (i == j) continue;
@@ -206,33 +158,30 @@ Update(R3Scene *scene)
             R3SceneNode* ref_obj = nodes.objects[j];
             std::string ref_cat = GetObjectCategory(ref_obj, &id2cat);
             if (ref_cat.size() == 0) continue;
-
-            R2Grid *grid = heatmaps[pri_cat][ref_cat];
-
-            R3Vector dist3d = (ref_obj->Centroid() - pri_obj->Centroid());
-            R2Vector dist = R2Vector(dist3d.X(), dist3d.Y());
-
-            // Only draw object close enough
-            if (dist.Length() < threshold) {
-                DrawObject(ref_obj, grid, translation, theta, do_fX, do_fY, &dist);
-                (*freq_stats.pair_count)[pri_cat][ref_cat]++;
+            
+            switch ( task ) {
+                case HEATMAPS:
+                    CalcHeatmaps(pri_obj, ref_obj, ref_cat, pri_cat, &id2cat, &heatmaps, values, threshold, pixels_to_meters);
+                    break;
+                case INTRINSIC_PREPOSITIONS:
+                    //CalcPreposisions();
+                    break;
             }
         }
 
         // Draw walls
         for (int w = 0; w < nodes.walls.size(); w++) {
             R3SceneNode* wall_node = nodes.walls[w];
-            R2Grid *grid = heatmaps[pri_cat]["wall"];
-
-            R3Vector dist3d = (wall_node->Centroid() - pri_obj->Centroid());
-            R2Vector dist = R2Vector(dist3d.X(), dist3d.Y());
-
-            if (dist.Length() < threshold) {
-                DrawObject(wall_node, grid, translation, theta, do_fX, do_fY, &dist);
-                (*freq_stats.pair_count)[pri_cat]["wall"]++;
+            
+            switch ( task ) {
+                case HEATMAPS:
+                    CalcHeatmaps(pri_obj, wall_node, "wall", pri_cat, &id2cat, &heatmaps, values, threshold, pixels_to_meters);
+                    break;
+                case INTRINSIC_PREPOSITIONS:
+                    //
+                    break;
             }
         }
-
     }
 
     // Return success
@@ -277,7 +226,7 @@ int main(int argc, char **argv)
         // Update the task goal
         if (!Update(scene)) { failures++; continue; }
         fprintf(stdout, "\t- Completed in : %f sec\n", (double)(clock() - start) / CLOCKS_PER_SEC);
-        
+
         i++;
     }
 

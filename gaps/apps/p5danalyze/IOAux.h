@@ -4,11 +4,12 @@
 #ifndef IO_AUX
 #define IO_AUX
 
-#include "R3Graphics/R3Graphics.h"
-#include "R3Graphics/p5d.h"
 #include <string>
 #include <vector>
 #include <map>
+
+#include "R3Graphics/R3Graphics.h"
+#include "R3Graphics/p5d.h"
 
 using Id2CatMap = std::map<std::string, std::string>;
 
