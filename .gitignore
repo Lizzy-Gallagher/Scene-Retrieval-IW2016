@@ -11,6 +11,7 @@
 ##################
 *.swp
 *.swo
+*.un~
 
 # Packages #
 ############
@@ -63,6 +64,7 @@ data/texture
 
 gaps/*
 !gaps/apps
+!gaps/pkgs
 
 gaps/apps/*
 !gaps/apps/p5danalyze
