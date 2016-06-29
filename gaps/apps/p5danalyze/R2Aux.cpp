@@ -1,4 +1,5 @@
 #include "R3Graphics/R3Graphics.h"
+#include "R3Graphics/p5d.h"
 #include "R2Aux.h"
 #include <vector>
 
@@ -46,9 +47,80 @@ bool IsOutsideGrid(R2Grid* grid, R2Point v0, R2Point v1, R2Point v2) {
     return IsOutsideGrid(grid, v0) && IsOutsideGrid(grid, v1) && IsOutsideGrid(grid, v2);
 }
 
+// Moves vertex inside grid
+R3Point MoveInsideGrid(R3Grid* grid, R3Point v) {
+    R3Point grid_v = grid->GridPosition(v);
+    RNScalar x = grid_v.X();
+    RNScalar y = grid_v.Y();
+    RNScalar z = grid_v.Z();
+
+    if (x >= grid->XResolution())
+        x = grid->XResolution() - 1;
+    else if (x < 0)
+        x = 0;
+   
+    if (y >= grid->YResolution())
+        y = grid->YResolution() - 1;
+    else if (y < 0)
+        y = 0;
+
+    if (z >= grid->ZResolution())
+        z = grid->ZResolution() - 1;
+    else if (z < 0)
+        z = 0;
+
+    return grid->WorldPosition(int(x), int(y), int(z));
+}
+
+std::vector<R3Point> MoveInsideGrid(R3Grid* grid, R3Point v0, R3Point v1, R3Point v2) {
+    v0 = MoveInsideGrid(grid, v0);
+    v1 = MoveInsideGrid(grid, v1);
+    v2 = MoveInsideGrid(grid, v2);
+
+    std::vector<R3Point> v = { v0, v1, v2 };
+    return v;
+}
+
+// Verifies whether vertices are outside of the grid
+bool IsOutsideGrid(R3Grid* grid, R3Point v) {
+    v = grid->GridPosition(v);
+
+    return v.X() >= grid->XResolution() || v.X() < 0 ||
+        v.Y() >= grid->YResolution() || v.Y() < 0 ||
+        v.Z() >= grid->ZResolution() || v.Z() < 0;
+}
+
+bool IsOutsideGrid(R3Grid* grid, R3Point v0, R3Point v1, R3Point v2) {
+    return IsOutsideGrid(grid, v0) && IsOutsideGrid(grid, v1) && IsOutsideGrid(grid, v2);
+}
+
 /*-------------------------------------------------------------------------*/
 //  Drawing Methods (perhaps refactor later to DrawAux.[h/cpp])
 /*-------------------------------------------------------------------------*/
+
+
+DrawingValues CreateDrawingValues(R3SceneNode* node, int resolution) {
+    // Translation constants
+    float a = 0.5 * (resolution - 1) - node->Centroid().X();
+    float b = 0.5 * (resolution - 1) - node->Centroid().Y();
+    float c = 0.5 * (resolution - 1) - node->Centroid().Z();
+
+    R2Vector translation(a, b);
+    R3Vector translation3D(a, b, c);
+
+    // Rotation constants
+    P5DObject *p5d_obj = (P5DObject *) node->Data();
+    RNAngle theta = p5d_obj->a;
+
+    if (!strcmp(p5d_obj->className, "Door")) theta += RN_PI_OVER_TWO;
+    else if (!strcmp(p5d_obj->className, "Window")) theta += RN_PI_OVER_TWO;
+
+    bool do_fX = p5d_obj->fX;
+    bool do_fY = p5d_obj->fY;
+
+    DrawingValues values = { translation, translation3D, theta, do_fX, do_fY, NULL };
+    return values;
+}
 
 // Prepares specific transform required by Heatmaps
 R2Affine PrepareWorldToGridXform(R3Point cen3, DrawingValues values, int pixels_to_meters) {

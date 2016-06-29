@@ -60,8 +60,7 @@ PrepMap prep_map = PrepMap();
 //  Initialization Functions  
 /*-------------------------------------------------------------------------*/
 
-    static int 
-ParseArgs(int argc, char **argv)
+static int ParseArgs(int argc, char **argv)
 {
     // Parse arguments
     argc--; argv++;
@@ -111,6 +110,8 @@ ParseArgs(int argc, char **argv)
 //  
 /*-------------------------------------------------------------------------*/
 
+
+
 static int Update(R3Scene *scene)
 {
     SceneNodes nodes = GetSceneNodes(scene);
@@ -129,42 +130,32 @@ static int Update(R3Scene *scene)
     // For each object, calculate a grid that identifies what it means to be
     // "on the front side of, etc
     for (int i = 0; i < nodes.objects.size(); i++) {
-
+        std::map<int, PrepRegion> prep_region_map; 
         R3SceneNode* pri_obj = nodes.objects[i];
         std::string pri_cat = GetObjectCategory(pri_obj, &id2cat);
         if (pri_cat.size() == 0) continue;
+        DrawingValues values = CreateDrawingValues(pri_obj, resolution);
 
-        // Translation constants
-        float a = 0.5 * (resolution - 1) - pri_obj->Centroid().X();
-        float b = 0.5 * (resolution - 1) - pri_obj->Centroid().Y();
-        R2Vector translation(a, b);
-
-        // Rotation constants
-        P5DObject *p5d_obj = (P5DObject *) pri_obj->Data();
-        RNAngle theta = p5d_obj->a;
-
-        if (!strcmp(p5d_obj->className, "Door")) theta += RN_PI_OVER_TWO;
-        else if (!strcmp(p5d_obj->className, "Window")) theta += RN_PI_OVER_TWO;
-
-        bool do_fX = p5d_obj->fX;
-        bool do_fY = p5d_obj->fY;
-
-        DrawingValues values = { translation, theta, do_fX, do_fY, NULL };
+        switch ( task ) {
+            case INTRINSIC_PREPOSITIONS:
+                prep_region_map = InitPrepositions(pri_obj);
+                break;
+        }
 
         // Draw objects
-        for (int j = 0; j < nodes.objects.size(); j++) {
+        for (int j = 0; j < /*nodes.objects.size()*/ 2; j++) {
             if (i == j) continue;
 
             R3SceneNode* ref_obj = nodes.objects[j];
             std::string ref_cat = GetObjectCategory(ref_obj, &id2cat);
             if (ref_cat.size() == 0) continue;
-            
+
             switch ( task ) {
                 case HEATMAPS:
                     CalcHeatmaps(pri_obj, ref_obj, ref_cat, pri_cat, &id2cat, &heatmaps, values, threshold, pixels_to_meters);
                     break;
                 case INTRINSIC_PREPOSITIONS:
-                    //CalcPreposisions();
+                    CalcPrepositions(pri_obj, ref_obj, pri_cat, ref_cat, &id2cat, prep_region_map);
                     break;
             }
         }
@@ -172,13 +163,13 @@ static int Update(R3Scene *scene)
         // Draw walls
         for (int w = 0; w < nodes.walls.size(); w++) {
             R3SceneNode* wall_node = nodes.walls[w];
-            
+
             switch ( task ) {
                 case HEATMAPS:
                     CalcHeatmaps(pri_obj, wall_node, "wall", pri_cat, &id2cat, &heatmaps, values, threshold, pixels_to_meters);
                     break;
                 case INTRINSIC_PREPOSITIONS:
-                    //
+                    //Calc(Prep
                     break;
             }
         }
@@ -187,6 +178,13 @@ static int Update(R3Scene *scene)
     // Return success
     return 1;
 }
+
+void CreateDirectory(const char* dir_name) {
+    char cmd[1024];
+    sprintf(cmd, "mkdir -p %s", dir_name);
+    system(cmd);
+}
+
 
 int main(int argc, char **argv)
 {
@@ -200,15 +198,13 @@ int main(int argc, char **argv)
     id2cat = LoadIdToCategoryMap();
 
     // Create the output directory
-    char cmd[1024];
-    sprintf(cmd, "mkdir -p %s", output_grid_directory);
-    system(cmd);
+    CreateDirectory(output_grid_directory);
 
     int failures = 0;
     int i = 0; 
     for (std::string project_id : project_ids) // For each project...
     {
-        if (i == 5) break;
+        if (i == 1) break;
 
         start = clock();
         fprintf(stdout, "Working on ... %s (%d) \n", project_id.c_str(), i); 
