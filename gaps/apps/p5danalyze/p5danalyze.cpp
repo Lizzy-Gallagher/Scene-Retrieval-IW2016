@@ -41,7 +41,7 @@ FrequencyStats freq_stats;
 static std::map<std::string, std::string> id2cat;
 static std::vector<std::string> project_ids;
 
-static int meters_of_context = 3;
+static int meters_of_context = 2;
 static int pixels_to_meters = 15;
 static int resolution = pixels_to_meters * (2 * meters_of_context);
 
@@ -138,12 +138,12 @@ static int Update(R3Scene *scene)
 
         switch ( task ) {
             case INTRINSIC_PREPOSITIONS:
-                prep_region_map = InitPrepositions(pri_obj);
+                prep_region_map = InitPrepositions(pri_obj, meters_of_context);
                 break;
         }
 
         // Draw objects
-        for (int j = 0; j < /*nodes.objects.size()*/ 2; j++) {
+        for (int j = 0; j < nodes.objects.size(); j++) {
             if (i == j) continue;
 
             R3SceneNode* ref_obj = nodes.objects[j];
@@ -155,7 +155,7 @@ static int Update(R3Scene *scene)
                     CalcHeatmaps(pri_obj, ref_obj, ref_cat, pri_cat, &id2cat, &heatmaps, values, threshold, pixels_to_meters);
                     break;
                 case INTRINSIC_PREPOSITIONS:
-                    CalcPrepositions(pri_obj, ref_obj, pri_cat, ref_cat, &id2cat, prep_region_map);
+                    CalcPrepositions(pri_obj, ref_obj, pri_cat, ref_cat, &id2cat, prep_region_map, &prep_map, meters_of_context, freq_stats);
                     break;
             }
         }
@@ -169,7 +169,7 @@ static int Update(R3Scene *scene)
                     CalcHeatmaps(pri_obj, wall_node, "wall", pri_cat, &id2cat, &heatmaps, values, threshold, pixels_to_meters);
                     break;
                 case INTRINSIC_PREPOSITIONS:
-                    //Calc(Prep
+                    CalcPrepositions(pri_obj, wall_node, pri_cat, "wall", &id2cat, prep_region_map, &prep_map, meters_of_context, freq_stats); 
                     break;
             }
         }
@@ -204,7 +204,7 @@ int main(int argc, char **argv)
     int i = 0; 
     for (std::string project_id : project_ids) // For each project...
     {
-        if (i == 1) break;
+        if (i == 10) break;
 
         start = clock();
         fprintf(stdout, "Working on ... %s (%d) \n", project_id.c_str(), i); 
@@ -234,13 +234,14 @@ int main(int argc, char **argv)
             WriteHeatmaps(&heatmaps, freq_stats, output_grid_directory, print_verbose);
             break;
         case INTRINSIC_PREPOSITIONS:
-            // WriteIntrinsicPrepositions
+            WritePrepositions(&prep_map, freq_stats);
             break;
     }
 
     // Return success 
     return 0;
 }
+
 
 
 

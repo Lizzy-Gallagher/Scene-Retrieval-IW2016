@@ -198,3 +198,45 @@ R2Grid* DrawObject(R3SceneNode* obj, R2Grid *grid, DrawingValues values, int pix
     return grid;
 }
 
+/*
+R3Grid* DrawObject(R3SceneNode* node, R3Grid *grid)
+{
+    R3Grid temp_grid = R3Grid(grid->XResolution(), grid->YResolution(), grid->ZResolution());
+
+    DrawingValues values = CreateDrawingValues(node, grid->XResolution());
+    R3Affine world_to_grid_xform = PrepareWorldToGridXfrom(node->Centroid(), values);
+    
+    // For all R3SceneElements in the R3SceneNode
+    for (int k = 0; k < node->NElements(); k++) {
+        R3SceneElement* el = node->Element(k);
+
+        // For all R3Shapes in the R3SceneElements    
+        for (int l = 0; l < el->NShapes(); l++) {
+
+            R3Shape* shape = el->Shape(l);
+            R3TriangleArray* arr = (R3TriangleArray*) shape;
+
+            // For all R3Triangles in the R3TriangleArray
+            for (int t = 0; t < arr->NTriangles(); t++) {
+                R3Triangle *triangle = arr->Triangle(t);
+
+                // Create new points
+                R3Point v0 = R3Point(triangle->V0()->Position());
+                R3Point v1 = R3Point(triangle->V1()->Position());
+                R3Point v2 = R3Point(triangle->V2()->Position());
+
+                if (IsOutsideGrid(&temp_grid, v0, v1, v2)) continue;
+
+                // Move exterior verticies inside the grid
+                std::vector<R3Point> v = MoveInsideGrid(&temp_grid, v0, v1, v2);
+                temp_grid.RasterizeWorldTriangle(v[0], v[1], v[2], 1);
+            }
+        }
+    }
+
+    // Color the shape with a single color
+    temp_grid.Threshold(0, 0, 1);
+    grid->Add(temp_grid);
+    return grid;
+}
+*/
