@@ -204,7 +204,7 @@ int main(int argc, char **argv)
     int i = 0; 
     for (std::string project_id : project_ids) // For each project...
     {
-        if (i == 10) break;
+        if (i == 3) break;
 
         start = clock();
         fprintf(stdout, "Working on ... %s (%d) \n", project_id.c_str(), i); 

@@ -3,6 +3,7 @@
 #include "Prepositions.h"
 #include "Drawing.h"
 #include "IOAux.h"
+#include "HTML.h"
 
 #include <map>
 #include <string>
@@ -203,7 +204,8 @@ int WritePrepMap(PrepMap* prepmap, FrequencyStats freq_stats) {
         std::string pri_cat = it.first;
         std::map<std::string, PrepositionStats> map = it.second;
 
-        fprintf(stdout, "[%s]\n", pri_cat.c_str());
+        CreatePage(pri_cat, map, freq_stats, prep_names); 
+        /*fprintf(stdout, "[%s]\n", pri_cat.c_str());
         for (auto it2 : map) {
             std::string ref_cat = it2.first;
             PrepositionStats prep_stats = it2.second;
@@ -230,7 +232,7 @@ int WritePrepMap(PrepMap* prepmap, FrequencyStats freq_stats) {
                 fprintf(stdout, "%s : %f (%d), ", prep_names[i], probabilities[i], prep_stats[i]);
             }
             fprintf(stdout, "\n");
-        }
+        }*/
     }
 
     // Return success
