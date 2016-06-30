@@ -10,6 +10,8 @@
 
 // TUNING
 double on_top_threshold = 0.1;
+double nearness_threshold = 1.5; // TODO: this is fraction of original size, need to add math to make this "meters"
+// ... perhaps
 
 const char* prep_names[] = {
     "FRONTSIDE",
@@ -19,6 +21,7 @@ const char* prep_names[] = {
     "RIGHTSIDE",
     "LEFTSIDE",
     "ON_TOP",
+    "NEAR",
 };
 
 /* Debug */
@@ -60,6 +63,7 @@ PrepRegion CalcPrepRegion(R3Box bb, int preposition, int meters_of_context) {
         case PREP_RIGHTSIDE: region = bb.Side(RN_HX_SIDE); break;
         case PREP_LEFTSIDE:  region = bb.Side(RN_LX_SIDE); break;
         case PREP_ON_TOP:    region = bb.Side(RN_HZ_SIDE); break;
+        case PREP_NEAR:      region = R3Box(bb); break;
     }
     
     R3Point min = region.Min(); 
@@ -73,6 +77,7 @@ PrepRegion CalcPrepRegion(R3Box bb, int preposition, int meters_of_context) {
         case PREP_RIGHTSIDE: max.SetX(max.X() + meters_of_context); break;
         case PREP_LEFTSIDE:  min.SetX(min.X() - meters_of_context); break;
         case PREP_ON_TOP:    max.SetZ(max.Z() + on_top_threshold);  break;
+        case PREP_NEAR:      region.Inflate(nearness_threshold); break;
     }
 
     PrepRegion pr = { prep_names[preposition], preposition, R3Box(min, max) };
@@ -89,6 +94,7 @@ void UpdateStats(PrepositionStats& prep_stats, int preposition) {
         case PREP_RIGHTSIDE: ++prep_stats.rightside; break;
         case PREP_LEFTSIDE:  ++prep_stats.leftside; break;
         case PREP_ON_TOP:    ++prep_stats.on_top; break;
+        case PREP_NEAR:      ++prep_stats.near; break;
     } 
 }
 
@@ -225,7 +231,7 @@ int WritePrepMap(PrepMap* prepmap, FrequencyStats freq_stats) {
                 fprintf(stdout, "%s : ", prep_names[i])
             }*/
 
-            fprintf(stdout, "\t[%s] frontside: %d backside: %d above: %d below: %d leftside: %d rightside: %d on_top: %d, div: %d\n", 
+            fprintf(stdout, "\t[%s] frontside: %d backside: %d above: %d below: %d leftside: %d rightside: %d on_top: %d, near: %d, div: %d\n", 
                 ref_cat.c_str(),
                 prep_stats.frontside, // div, 
                 prep_stats.backside, // div, 
@@ -234,6 +240,7 @@ int WritePrepMap(PrepMap* prepmap, FrequencyStats freq_stats) {
                 prep_stats.leftside, // div, 
                 prep_stats.rightside,
                 prep_stats.on_top,
+                prep_stats.near,
                 div); // div);
 
         }
