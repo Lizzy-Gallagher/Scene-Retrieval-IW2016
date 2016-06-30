@@ -1,8 +1,6 @@
 #include <fstream>
 #include "Prepositions.h"
 
-std::map<std::string, std::ofstream> file_collection;
-
 std::string GetFileName(std::string pri_cat) {
     return "html/" + pri_cat + ".html";
 }
@@ -11,69 +9,82 @@ std::string GetRelativeFileName(std::string ref_cat) {
     return ref_cat + ".html";
 }
 
+void PrintPriBlurb(std::ofstream &file, std::string pri_cat, FrequencyStats freq_stats) {
+    file << "<h1>" << pri_cat << "</h1>";
+    file << "<p>" << "# Appearances: " << (*freq_stats.cat_count)[pri_cat] << "</p>";
+    file << "<p>" << "# Scenes: " << "TODO" << "</p>"; 
+}
+
+void PrintTableHeader(std::ofstream &file, const char* prep_names[]) {
+    file << "<thead><tr><th>Reference Category</th>";
+    for (int i = 0; i < NUM_PREPOSITIONS; i++)
+        file << "<th>" << prep_names[i] << "</th>";
+    file << "</tr></thead>";
+}
+
+void PrintTableRow(std::ofstream &file, std::string pri_cat, std::string ref_cat, PrepositionStats prep_stats, FrequencyStats freq_stats) {
+    double div = (double) ((*freq_stats.pair_count)[pri_cat][ref_cat]);
+    if (div <= 0.0) return;
+
+    bool all_zero = true;
+    double probabilities[NUM_PREPOSITIONS]; 
+    for (int i = 0; i < NUM_PREPOSITIONS; i++) {
+        probabilities[i] = prep_stats[i] / div; 
+        if (prep_stats[i] > 0)
+            all_zero = false;
+    }
+    if (all_zero) return;
+
+    file << "<tr><td><a href=\"" << GetRelativeFileName(ref_cat) << "\">" << ref_cat << "</td>";
+    for (int i = 0; i < NUM_PREPOSITIONS; i++)
+        file << "<td>" << probabilities[i] << " (" << prep_stats[i] << ") </td>";
+
+    file << "</tr>";
+}
+
 void CreatePage(std::string pri_cat, std::map<std::string, PrepositionStats> spec_prep_map,
         FrequencyStats freq_stats, const char* prep_names[]) {
     
     std::ofstream file;
     file.open(GetFileName(pri_cat));
-    file << "<!DOCTYPE html><html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"style.css\"><script src=\"sorttable.js\"></script></head><body>";
+    file << "<!DOCTYPE html><html><head> \
+        <link rel=\"stylesheet\" type=\"text/css\" href=\"style.css\"> \
+        <script src=\"sorttable.js\"></script></head><body>";
 
-    file << "<h1>" << pri_cat << "</h1>"; 
+    PrintPriBlurb(file, pri_cat, freq_stats);
     
     file << "<div class=\"datagrid\"><table class=\"sortable\">";
     
     // Table header
-    file << "<thead><tr><th>Reference Category</th>";
-    for (int i = 0; i < NUM_PREPOSITIONS; i++)
-        file << "<th>" << prep_names[i] << "</th>";
-    file << "</tr></thead>";
+    PrintTableHeader(file, prep_names);
 
     // Table body
     file << "<tbody>";
     for (auto it : spec_prep_map) {
-        file << "<tr>";
         std::string ref_cat = it.first;
         PrepositionStats prep_stats = it.second;
-        
-        double div = (double) ((*freq_stats.pair_count)[pri_cat][ref_cat]);
-        if (div <= 0.0) continue;
 
-        bool all_zero = true;
-        double probabilities[NUM_PREPOSITIONS]; 
-        for (int i = 0; i < NUM_PREPOSITIONS; i++) {
-            probabilities[i] = prep_stats[i] / div; 
-            if (prep_stats[i] > 0)
-                all_zero = false;
-        }
-        if (all_zero) continue;
-
-        file << "<td><a href=\"" << GetRelativeFileName(ref_cat) << "\">" << ref_cat << "</td>";
-        for (int i = 0; i < NUM_PREPOSITIONS; i++)
-            file << "<td>" << probabilities[i] << " (" << prep_stats[i] << ") </td>";
-
-        file << "</tr>";
+        PrintTableRow(file, pri_cat, ref_cat, prep_stats, freq_stats);    
     }
+
     file << "</tbody></table></div>";
     file << "</body></html>";
     file.close();
 }
 
-/*
-<div class="datagrid"><table>
-<thead><tr><th>header</th><th>header</th><th>header</th><th>header</th></tr></thead>
-<tbody><tr><td>data</td><td>data</td><td>data</td><td>data</td></tr>
-<tr class="alt"><td>data</td><td>data</td><td>data</td><td>data</td></tr>
-<tr><td>data</td><td>data</td><td>data</td><td>data</td></tr>
-<tr class="alt"><td>data</td><td>data</td><td>data</td><td>data</td></tr>
-<tr><td>data</td><td>data</td><td>data</td><td>data</td></tr>
-</tbody>
-</table></div>
-*/
+void CreateTOC(PrepMap* prepmap) {
+    PrepMap prep_map = *prepmap;
 
-/*void FinishPage(std::string pri_cat) {
     std::ofstream file;
-    file.open(GetFileName(pri_cat));
-
+    file.open("html/main.html");
+    file << "<!DOCTYPE html><html><head></head><body>";
+    file << "<ul>";
+    for (auto it : prep_map) {
+        std::string cat = it.first;
+        file << "<li><a href=\"" << GetRelativeFileName(cat) << "\">" << cat << "</li>";
+    }
+    file << "</ul>";
     file << "</body></html>";
     file.close();
-}*/
+
+}

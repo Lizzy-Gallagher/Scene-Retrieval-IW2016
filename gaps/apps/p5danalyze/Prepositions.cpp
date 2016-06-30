@@ -200,39 +200,13 @@ void CalcPrepositions(R3SceneNode* pri_obj, R3SceneNode* ref_obj, std::string pr
 
 int WritePrepMap(PrepMap* prepmap, FrequencyStats freq_stats) {
     PrepMap prep_map = *prepmap;
+    
+    CreateTOC(prepmap);
     for (auto it : prep_map) {
         std::string pri_cat = it.first;
         std::map<std::string, PrepositionStats> map = it.second;
 
         CreatePage(pri_cat, map, freq_stats, prep_names); 
-        /*fprintf(stdout, "[%s]\n", pri_cat.c_str());
-        for (auto it2 : map) {
-            std::string ref_cat = it2.first;
-            PrepositionStats prep_stats = it2.second;
-
-            double div = (double) ((*freq_stats.pair_count)[pri_cat][ref_cat]);
-            if (div <= 0.0)
-                continue;
-
-            bool all_zero = true;
-
-            // Cleaner priting code
-            double probabilities[NUM_PREPOSITIONS]; 
-            for (int i = 0; i < NUM_PREPOSITIONS; i++) {
-                probabilities[i] = prep_stats[i] / div; 
-                if (prep_stats[i] > 0)
-                    all_zero = false;
-            }
-
-            if (all_zero)
-                continue;
-            
-            fprintf(stdout, "\t[%s] ", ref_cat.c_str());
-            for (int i = 0; i < NUM_PREPOSITIONS; i++) {
-                fprintf(stdout, "%s : %f (%d), ", prep_names[i], probabilities[i], prep_stats[i]);
-            }
-            fprintf(stdout, "\n");
-        }*/
     }
 
     // Return success
