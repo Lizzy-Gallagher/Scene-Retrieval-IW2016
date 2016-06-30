@@ -3,7 +3,7 @@
 #
 
 NAME=p5danalyze
-CCSRCS=$(NAME).cpp Drawing.cpp IOAux.cpp P5DAux.cpp Heatmap.cpp Prepositions.cpp GraphAux.cpp
+CCSRCS=$(NAME).cpp Drawing.cpp IOAux.cpp P5DAux.cpp Heatmap.cpp Prepositions.cpp GraphAux.cpp HTML.cpp
 
 
 #
