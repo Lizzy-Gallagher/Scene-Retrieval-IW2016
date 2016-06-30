@@ -1,7 +1,7 @@
 #include "R3Graphics/R3Graphics.h"
 #include "IOAux.h"
 #include "StatsAux.h"
-#include "R2Aux.h"
+#include "Drawing.h"
 
 #include <string>
 #include <map>
@@ -77,7 +77,7 @@ void UpdateHeatmaps(R3Scene* scene, std::vector<R3SceneNode*> objects,
 
 void CalcHeatmaps( R3SceneNode* pri_obj, R3SceneNode* ref_obj, std::string ref_cat,
         std::string pri_cat, Id2CatMap* id2cat, HeatmapMap* heatmaps, 
-        DrawingValues values, double threshold, int pixels_to_meters) 
+        XformValues values, double threshold, int pixels_to_meters) 
 {
     // Draw objects
     R2Grid *grid = (*heatmaps)[pri_cat][ref_cat];

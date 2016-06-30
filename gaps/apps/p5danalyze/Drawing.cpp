@@ -1,105 +1,15 @@
 #include "R3Graphics/R3Graphics.h"
 #include "R3Graphics/p5d.h"
-#include "R2Aux.h"
+#include "GraphAux.h"
+#include "Drawing.h"
 #include <vector>
 
 /*-------------------------------------------------------------------------*/
-//  Geometry Methods (rename file to Geometry.[h/cpp]?
-/*-------------------------------------------------------------------------*/
-
-// Moves vertex inside grid
-R2Point MoveInsideGrid(R2Grid* grid, R2Point v) {
-    R2Point grid_v = grid->GridPosition(v);
-    RNScalar x = grid_v.X();
-    RNScalar y = grid_v.Y();
-
-    if (x >= grid->XResolution())
-        x = grid->XResolution() - 1;
-    else if (x < 0)
-        x = 0;
-   
-    if (y >= grid->YResolution())
-        y = grid->YResolution() - 1;
-    else if (y < 0)
-        y = 0;
-
-    return grid->WorldPosition(int(x), int(y));
-}
-
-std::vector<R2Point> MoveInsideGrid(R2Grid* grid, R2Point v0, R2Point v1, R2Point v2) {
-    v0 = MoveInsideGrid(grid, v0);
-    v1 = MoveInsideGrid(grid, v1);
-    v2 = MoveInsideGrid(grid, v2);
-
-    std::vector<R2Point> v = { v0, v1, v2 };
-    return v;
-}
-
-// Verifies whether vertices are outside of the grid
-bool IsOutsideGrid(R2Grid* grid, R2Point v) {
-    v = grid->GridPosition(v);
-
-    return v.X() >= grid->XResolution() || v.X() < 0 ||
-        v.Y() >= grid->YResolution() || v.Y() < 0;
-}
-
-bool IsOutsideGrid(R2Grid* grid, R2Point v0, R2Point v1, R2Point v2) {
-    return IsOutsideGrid(grid, v0) && IsOutsideGrid(grid, v1) && IsOutsideGrid(grid, v2);
-}
-
-// Moves vertex inside grid
-R3Point MoveInsideGrid(R3Grid* grid, R3Point v) {
-    R3Point grid_v = grid->GridPosition(v);
-    RNScalar x = grid_v.X();
-    RNScalar y = grid_v.Y();
-    RNScalar z = grid_v.Z();
-
-    if (x >= grid->XResolution())
-        x = grid->XResolution() - 1;
-    else if (x < 0)
-        x = 0;
-   
-    if (y >= grid->YResolution())
-        y = grid->YResolution() - 1;
-    else if (y < 0)
-        y = 0;
-
-    if (z >= grid->ZResolution())
-        z = grid->ZResolution() - 1;
-    else if (z < 0)
-        z = 0;
-
-    return grid->WorldPosition(int(x), int(y), int(z));
-}
-
-std::vector<R3Point> MoveInsideGrid(R3Grid* grid, R3Point v0, R3Point v1, R3Point v2) {
-    v0 = MoveInsideGrid(grid, v0);
-    v1 = MoveInsideGrid(grid, v1);
-    v2 = MoveInsideGrid(grid, v2);
-
-    std::vector<R3Point> v = { v0, v1, v2 };
-    return v;
-}
-
-// Verifies whether vertices are outside of the grid
-bool IsOutsideGrid(R3Grid* grid, R3Point v) {
-    v = grid->GridPosition(v);
-
-    return v.X() >= grid->XResolution() || v.X() < 0 ||
-        v.Y() >= grid->YResolution() || v.Y() < 0 ||
-        v.Z() >= grid->ZResolution() || v.Z() < 0;
-}
-
-bool IsOutsideGrid(R3Grid* grid, R3Point v0, R3Point v1, R3Point v2) {
-    return IsOutsideGrid(grid, v0) && IsOutsideGrid(grid, v1) && IsOutsideGrid(grid, v2);
-}
-
-/*-------------------------------------------------------------------------*/
-//  Drawing Methods (perhaps refactor later to DrawAux.[h/cpp])
+//  Drawing Methods
 /*-------------------------------------------------------------------------*/
 
 
-DrawingValues CreateDrawingValues(R3SceneNode* node, int resolution) {
+XformValues CreateXformValues(R3SceneNode* node, int resolution) {
     // Translation constants
     float a = 0.5 * (resolution - 1) - node->Centroid().X();
     float b = 0.5 * (resolution - 1) - node->Centroid().Y();
@@ -118,18 +28,18 @@ DrawingValues CreateDrawingValues(R3SceneNode* node, int resolution) {
     bool do_fX = p5d_obj->fX;
     bool do_fY = p5d_obj->fY;
 
-    DrawingValues values = { translation, translation3D, theta, do_fX, do_fY, NULL };
+    XformValues values = { translation, translation3D, theta, do_fX, do_fY, NULL };
     return values;
 }
 
 // Prepares specific transform required by Heatmaps
-R2Affine PrepareWorldToGridXform(R3Point cen3, DrawingValues values, int pixels_to_meters) {
+R2Affine PrepareWorldToGridXform(R3Point cen3, XformValues values, int pixels_to_meters) {
     R2Vector cen = R2Vector(cen3.X(), cen3.Y());
     
     // Start with the identity matrix
     R2Affine world_to_grid_xform = R2identity_affine;
     
-    // Transform the distance from src_obj
+    // Transform the distance form src_obj
     if (values.dist != NULL) {
         values.dist->Rotate(-1.0 * values.theta);
         if (values.do_fX) values.dist->Mirror(R2posy_line);
@@ -152,7 +62,36 @@ R2Affine PrepareWorldToGridXform(R3Point cen3, DrawingValues values, int pixels_
     return world_to_grid_xform;
 }
 
-R2Grid* DrawObject(R3SceneNode* obj, R2Grid *grid, DrawingValues values, int pixels_to_meters)
+R3Affine PrepareWorldToGridXform(R3Point cen_pnt, XformValues values) 
+{
+    R3Vector cen = R3Vector(cen_pnt.X(), cen_pnt.Y(), cen_pnt.Z());
+
+   // Start with the identity matrix
+   R3Affine world_to_grid_xform = R3identity_affine;
+
+    // Transform the dist3Dance from src_node
+    if (values.dist3D != NULL) {
+        values.dist3D->Rotate(R3posz_vector, -1.0 * values.theta);
+        if (values.do_fX) values.dist3D->Mirror(R3posyz_plane);
+        if (values.do_fY) values.dist3D->Mirror(R3posxz_plane);
+        world_to_grid_xform.Translate(*(values.dist3D));
+        world_to_grid_xform.Translate(-1.0 * *(values.dist3D));
+    }
+    
+    // Center
+    world_to_grid_xform.Translate(values.translation3D);
+
+    // Transform about the origin
+    world_to_grid_xform.Translate(cen);
+    if (values.do_fX) world_to_grid_xform.XMirror();
+    if (values.do_fY) world_to_grid_xform.YMirror();
+    world_to_grid_xform.Rotate(R3posz_vector, -1.0 * values.theta);
+    world_to_grid_xform.Translate(-1.0 * cen);
+
+    return world_to_grid_xform;
+}
+
+R2Grid* DrawObject(R3SceneNode* obj, R2Grid *grid, XformValues values, int pixels_to_meters)
 {
     R2Grid temp_grid = R2Grid(grid->XResolution(), grid->YResolution());
 
@@ -198,13 +137,13 @@ R2Grid* DrawObject(R3SceneNode* obj, R2Grid *grid, DrawingValues values, int pix
     return grid;
 }
 
-/*
-R3Grid* DrawObject(R3SceneNode* node, R3Grid *grid)
+
+R3Grid* DrawObject(R3SceneNode* node, R3Grid *grid, XformValues values)
 {
     R3Grid temp_grid = R3Grid(grid->XResolution(), grid->YResolution(), grid->ZResolution());
 
-    DrawingValues values = CreateDrawingValues(node, grid->XResolution());
-    R3Affine world_to_grid_xform = PrepareWorldToGridXfrom(node->Centroid(), values);
+    //XformValues values = CreateXformValues(node, grid->XResolution());
+    R3Affine world_to_grid_xform = PrepareWorldToGridXform(node->Centroid(), values);
     
     // For all R3SceneElements in the R3SceneNode
     for (int k = 0; k < node->NElements(); k++) {
@@ -239,4 +178,4 @@ R3Grid* DrawObject(R3SceneNode* node, R3Grid *grid)
     grid->Add(temp_grid);
     return grid;
 }
-*/
+
