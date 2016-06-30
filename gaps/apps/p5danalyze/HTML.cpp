@@ -16,17 +16,27 @@ void CreatePage(std::string pri_cat, std::map<std::string, PrepositionStats> spe
     
     std::ofstream file;
     file.open(GetFileName(pri_cat));
-    file << "<!DOCTYPE html><html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"style.css\"></head><body>";
+    file << "<!DOCTYPE html><html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"style.css\"><script src=\"sorttable.js\"></script></head><body>";
 
     file << "<h1>" << pri_cat << "</h1>"; 
     
-    file << "<ul>";
+    file << "<div class=\"datagrid\"><table class=\"sortable\">";
+    
+    // Table header
+    file << "<thead><tr><th>Reference Category</th>";
+    for (int i = 0; i < NUM_PREPOSITIONS; i++)
+        file << "<th>" << prep_names[i] << "</th>";
+    file << "</tr></thead>";
+
+    // Table body
+    file << "<tbody>";
     for (auto it : spec_prep_map) {
+        file << "<tr>";
         std::string ref_cat = it.first;
         PrepositionStats prep_stats = it.second;
-
-       double div = (double) ((*freq_stats.pair_count)[pri_cat][ref_cat]);
-       if (div <= 0.0) continue;
+        
+        double div = (double) ((*freq_stats.pair_count)[pri_cat][ref_cat]);
+        if (div <= 0.0) continue;
 
         bool all_zero = true;
         double probabilities[NUM_PREPOSITIONS]; 
@@ -36,28 +46,14 @@ void CreatePage(std::string pri_cat, std::map<std::string, PrepositionStats> spe
                 all_zero = false;
         }
         if (all_zero) continue;
-            
-        file << "<li><a href=\""<< GetRelativeFileName(ref_cat) << "\">" << ref_cat << "</a>";
-       
-        file << "<div class=\"datagrid\"><table>";
-        
-        // Table header
-        file << "<thead><tr>";
-        for (int i = 0; i < NUM_PREPOSITIONS; i++)
-            file << "<th>" << prep_names[i] << "</th>";
-        file << "</tr></thead>";
 
-        // Table body
-        file << "<tbody><tr>";
+        file << "<td><a href=\"" << GetRelativeFileName(ref_cat) << "\">" << ref_cat << "</td>";
         for (int i = 0; i < NUM_PREPOSITIONS; i++)
             file << "<td>" << probabilities[i] << " (" << prep_stats[i] << ") </td>";
-        file << "</tr></tbody>";
-        file << "</table></div>";
 
-        file << "</li>";
+        file << "</tr>";
     }
-    file << "</ul>";
-
+    file << "</tbody></table></div>";
     file << "</body></html>";
     file.close();
 }
