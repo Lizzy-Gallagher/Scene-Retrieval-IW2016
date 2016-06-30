@@ -169,7 +169,7 @@ static int Update(R3Scene *scene)
                     CalcHeatmaps(pri_obj, wall_node, "wall", pri_cat, &id2cat, &heatmaps, values, threshold, pixels_to_meters);
                     break;
                 case INTRINSIC_PREPOSITIONS:
-                    CalcPrepositions(pri_obj, wall_node, pri_cat, "wall", &id2cat, prep_region_map, &prep_map, meters_of_context, freq_stats); 
+                    //CalcPrepositions(pri_obj, wall_node, pri_cat, "wall", &id2cat, prep_region_map, &prep_map, meters_of_context, freq_stats); 
                     break;
             }
         }
