@@ -8,7 +8,7 @@
 #include "csv.h"
 
 #include "P5DAux.h"
-#include "R2Aux.h"
+#include "Drawing.h"
 #include "IOAux.h"
 #include "StatsAux.h"
 #include "Heatmap.h"
@@ -122,7 +122,7 @@ static int Update(R3Scene *scene)
             UpdateHeatmaps(scene, nodes.objects, &heatmaps, resolution, freq_stats.cat_count, &id2cat);
             break;
         case INTRINSIC_PREPOSITIONS:
-            UpdatePrepositions(scene, nodes.objects, &prep_map, freq_stats, &id2cat);
+            PopulatePrepMap(scene, nodes.objects, &prep_map, freq_stats, &id2cat);
             break;
     } 
     fprintf(stdout, "\t- Updated Collection\n");
@@ -134,11 +134,11 @@ static int Update(R3Scene *scene)
         R3SceneNode* pri_obj = nodes.objects[i];
         std::string pri_cat = GetObjectCategory(pri_obj, &id2cat);
         if (pri_cat.size() == 0) continue;
-        DrawingValues values = CreateDrawingValues(pri_obj, resolution);
+        XformValues values = CreateXformValues(pri_obj, resolution);
 
         switch ( task ) {
             case INTRINSIC_PREPOSITIONS:
-                prep_region_map = InitPrepositions(pri_obj, meters_of_context);
+                prep_region_map = InitPrepRegions(pri_obj, meters_of_context);
                 break;
         }
 
@@ -234,7 +234,7 @@ int main(int argc, char **argv)
             WriteHeatmaps(&heatmaps, freq_stats, output_grid_directory, print_verbose);
             break;
         case INTRINSIC_PREPOSITIONS:
-            WritePrepositions(&prep_map, freq_stats);
+            WritePrepMap(&prep_map, freq_stats);
             break;
     }
 
