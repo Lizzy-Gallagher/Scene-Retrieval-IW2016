@@ -22,7 +22,6 @@ std::string GetObjectCategory(R3SceneNode* obj, Id2CatMap* id2cat);
 
 int WriteGrid(R2Grid *grid, const char *filename, bool print_verbose);
 
-
 #endif
 
 
