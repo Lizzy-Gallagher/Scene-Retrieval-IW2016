@@ -13,8 +13,8 @@
 #include <vector>
 
 /* Adding a new preposition? 
- *  - Start here, add to the enum, name array, and struct
- *  - In Prepositions.cpp, add to CalcPrepositions
+ *  - Start here
+ *  - In Prepositions.cpp, add to constants
  */
 
 enum Prep {
@@ -26,7 +26,8 @@ enum Prep {
     PREP_LEFTSIDE    = 5,
     PREP_ON_TOP      = 6,
     PREP_NEAR        = 7,
-    NUM_PREPOSITIONS = 8,
+    PREP_WITHIN      = 8,
+    NUM_PREPOSITIONS = 9,
 };
 
 using PrepositionStats = std::vector<int>;
