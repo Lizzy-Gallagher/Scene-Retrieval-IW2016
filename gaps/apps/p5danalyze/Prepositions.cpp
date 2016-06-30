@@ -13,9 +13,6 @@ double on_top_threshold = 0.1;
 double nearness_threshold = 1.5; // TODO: this is fraction of original size, need to add math to make this "meters"
 // ... perhaps
 
-// Constants
-// PrepositionStats prep_stats = PrepositionStats();
-
 const char* prep_names[] = {
     "FRONTSIDE",
     "BACKSIDE",
@@ -25,6 +22,7 @@ const char* prep_names[] = {
     "LEFTSIDE",
     "ON_TOP",
     "NEAR",
+    "WITHIN",
 };
 
 /* Debug */
@@ -65,6 +63,7 @@ PrepRegion CalcPrepRegion(R3Box bb, int preposition, int meters_of_context) {
         case PREP_LEFTSIDE:  region = bb.Side(RN_LX_SIDE); break;
         case PREP_ON_TOP:    region = bb.Side(RN_HZ_SIDE); break;
         case PREP_NEAR:      region = R3Box(bb); break;
+        case PREP_WITHIN:    region = R3Box(bb); break;
     }
     
     R3Point min = region.Min(); 
@@ -79,6 +78,7 @@ PrepRegion CalcPrepRegion(R3Box bb, int preposition, int meters_of_context) {
         case PREP_LEFTSIDE:  min.SetX(min.X() - meters_of_context); break;
         case PREP_ON_TOP:    max.SetZ(max.Z() + on_top_threshold);  break;
         case PREP_NEAR:      region.Inflate(nearness_threshold); break;
+        case PREP_WITHIN:    break; // do nothing
     }
 
     PrepRegion pr = { prep_names[preposition], preposition, R3Box(min, max) };
@@ -88,17 +88,6 @@ PrepRegion CalcPrepRegion(R3Box bb, int preposition, int meters_of_context) {
 
 void UpdateStats(PrepositionStats& prep_stats, int preposition) {  
     ++prep_stats[preposition];
-    
-    /*switch (preposition) {
-        case PREP_FRONTSIDE: ++prep_stats.frontside; break;
-        case PREP_BACKSIDE:  ++prep_stats.backside; break;
-        case PREP_ABOVE:     ++prep_stats.above; break;
-        case PREP_BELOW:     ++prep_stats.below; break;
-        case PREP_RIGHTSIDE: ++prep_stats.rightside; break;
-        case PREP_LEFTSIDE:  ++prep_stats.leftside; break;
-        case PREP_ON_TOP:    ++prep_stats.on_top; break;
-        case PREP_NEAR:      ++prep_stats.near; break;
-    }*/
 }
 
 R3Box* CalcIntersection(R3Box b1, R3Box b2) {
