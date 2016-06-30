@@ -6,3 +6,6 @@ Directories of note:
 
 ###### prob-dist 
     * Holds code for calculating probability distributions for the Planner5d dataset  
+###### prep-dist 
+    * Holds code for calculating preposition distributions for the Planner5d dataset  
+
