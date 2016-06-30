@@ -12,6 +12,11 @@
 #include <string>
 #include <vector>
 
+/* Adding a new preposition? 
+ *  - Start here, add to the enum, name array, and struct
+ *  - In Prepositions.cpp, add to CalcPrepositions
+ */
+
 enum Prep {
     PREP_FRONTSIDE   = 0,
     PREP_BACKSIDE    = 1,
@@ -19,7 +24,8 @@ enum Prep {
     PREP_BELOW       = 3,
     PREP_RIGHTSIDE   = 4,
     PREP_LEFTSIDE    = 5,
-    NUM_PREPOSITIONS = 6,
+    PREP_ON_TOP      = 6,
+    NUM_PREPOSITIONS = 7,
 };
 
 struct PrepositionStats {
@@ -29,6 +35,7 @@ struct PrepositionStats {
     int below; 
     int leftside;
     int rightside;
+    int on_top;
 };
 
 struct PrepRegion {
@@ -36,6 +43,7 @@ struct PrepRegion {
     int prep;
     R3Box region;
 };
+
 
 using PrepMap = std::map<std::string, std::map<std::string, PrepositionStats>>;
 using PrepRegionMap = std::map<int, PrepRegion>;

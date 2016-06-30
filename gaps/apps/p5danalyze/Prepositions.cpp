@@ -8,7 +8,18 @@
 #include <string>
 #include <vector>
 
-using PrepMap = std::map<std::string, std::map<std::string, PrepositionStats>>;
+// TUNING
+double on_top_threshold = 0.1;
+
+const char* prep_names[] = {
+    "FRONTSIDE",
+    "BACKSIDE",
+    "ABOVE",
+    "BELOW",
+    "RIGHTSIDE",
+    "LEFTSIDE",
+    "ON_TOP",
+};
 
 /* Debug */
 
@@ -37,14 +48,7 @@ void PrintBox(R3Box region, const char* name) {
 
 /* Helpers */
 
-const char* prep_names[] = {
-    "FRONTSIDE",
-    "BACKSIDE",
-    "ABOVE",
-    "BELOW",
-    "RIGHTSIDE",
-    "LEFTSIDE",
-};
+
 
 PrepRegion CalcPrepRegion(R3Box bb, int preposition, int meters_of_context) {
     R3Box region;
@@ -55,6 +59,7 @@ PrepRegion CalcPrepRegion(R3Box bb, int preposition, int meters_of_context) {
         case PREP_BELOW:     region = bb.Side(RN_LZ_SIDE); break;
         case PREP_RIGHTSIDE: region = bb.Side(RN_HX_SIDE); break;
         case PREP_LEFTSIDE:  region = bb.Side(RN_LX_SIDE); break;
+        case PREP_ON_TOP:    region = bb.Side(RN_HZ_SIDE); break;
     }
     
     R3Point min = region.Min(); 
@@ -67,6 +72,7 @@ PrepRegion CalcPrepRegion(R3Box bb, int preposition, int meters_of_context) {
         case PREP_BELOW:     min.SetZ(min.Z() - meters_of_context); break;
         case PREP_RIGHTSIDE: max.SetX(max.X() + meters_of_context); break;
         case PREP_LEFTSIDE:  min.SetX(min.X() - meters_of_context); break;
+        case PREP_ON_TOP:    max.SetZ(max.Z() + on_top_threshold);  break;
     }
 
     PrepRegion pr = { prep_names[preposition], preposition, R3Box(min, max) };
@@ -82,6 +88,7 @@ void UpdateStats(PrepositionStats& prep_stats, int preposition) {
         case PREP_BELOW:     ++prep_stats.below; break;
         case PREP_RIGHTSIDE: ++prep_stats.rightside; break;
         case PREP_LEFTSIDE:  ++prep_stats.leftside; break;
+        case PREP_ON_TOP:    ++prep_stats.on_top; break;
     } 
 }
 
@@ -208,7 +215,17 @@ int WritePrepMap(PrepMap* prepmap, FrequencyStats freq_stats) {
 
             int div = ((*freq_stats.pair_count)[pri_cat][ref_cat]);
 
-            fprintf(stdout, "\t[%s] frontside: %d backside: %d above: %d below: %d leftside: %d rightside: %d div: %d\n", 
+            // Cleaner priting code
+            /*double probabilities[Prep.NUM_PREPOSITIONS]; 
+            for (int i = 0; i < Prep.NUM_PREPOSITIONS; i++) {
+                
+            }
+
+            for (int i = 0; i < prep_names.size(); i++) {
+                fprintf(stdout, "%s : ", prep_names[i])
+            }*/
+
+            fprintf(stdout, "\t[%s] frontside: %d backside: %d above: %d below: %d leftside: %d rightside: %d on_top: %d, div: %d\n", 
                 ref_cat.c_str(),
                 prep_stats.frontside, // div, 
                 prep_stats.backside, // div, 
@@ -216,6 +233,7 @@ int WritePrepMap(PrepMap* prepmap, FrequencyStats freq_stats) {
                 prep_stats.below, // div, 
                 prep_stats.leftside, // div, 
                 prep_stats.rightside,
+                prep_stats.on_top,
                 div); // div);
 
         }
