@@ -25,7 +25,8 @@ enum Prep {
     PREP_RIGHTSIDE   = 4,
     PREP_LEFTSIDE    = 5,
     PREP_ON_TOP      = 6,
-    NUM_PREPOSITIONS = 7,
+    PREP_NEAR        = 7,
+    NUM_PREPOSITIONS = 8,
 };
 
 struct PrepositionStats {
@@ -36,6 +37,7 @@ struct PrepositionStats {
     int leftside;
     int rightside;
     int on_top;
+    int near;
 };
 
 struct PrepRegion {
