@@ -42,6 +42,10 @@
 ehthumbs.db
 Thumbs.db
 
+# HTML files #
+##############
+*.html
+
 ========
 
 resources/
