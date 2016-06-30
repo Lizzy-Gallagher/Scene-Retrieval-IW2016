@@ -13,6 +13,9 @@ double on_top_threshold = 0.1;
 double nearness_threshold = 1.5; // TODO: this is fraction of original size, need to add math to make this "meters"
 // ... perhaps
 
+// Constants
+// PrepositionStats prep_stats = PrepositionStats();
+
 const char* prep_names[] = {
     "FRONTSIDE",
     "BACKSIDE",
@@ -51,8 +54,6 @@ void PrintBox(R3Box region, const char* name) {
 
 /* Helpers */
 
-
-
 PrepRegion CalcPrepRegion(R3Box bb, int preposition, int meters_of_context) {
     R3Box region;
     switch (preposition) {
@@ -86,7 +87,9 @@ PrepRegion CalcPrepRegion(R3Box bb, int preposition, int meters_of_context) {
 
 
 void UpdateStats(PrepositionStats& prep_stats, int preposition) {  
-    switch (preposition) {
+    ++prep_stats[preposition];
+    
+    /*switch (preposition) {
         case PREP_FRONTSIDE: ++prep_stats.frontside; break;
         case PREP_BACKSIDE:  ++prep_stats.backside; break;
         case PREP_ABOVE:     ++prep_stats.above; break;
@@ -95,7 +98,7 @@ void UpdateStats(PrepositionStats& prep_stats, int preposition) {
         case PREP_LEFTSIDE:  ++prep_stats.leftside; break;
         case PREP_ON_TOP:    ++prep_stats.on_top; break;
         case PREP_NEAR:      ++prep_stats.near; break;
-    } 
+    }*/
 }
 
 R3Box* CalcIntersection(R3Box b1, R3Box b2) {
@@ -142,12 +145,12 @@ void PopulatePrepMap(R3Scene* scene, std::vector<R3SceneNode*> objects,
             if (ref_cat.size() == 0) continue;
             
             if ((*prep_map)[pri_cat].count(ref_cat) == 0)
-                (*prep_map)[pri_cat][ref_cat] = {}; 
+                (*prep_map)[pri_cat][ref_cat] = PrepositionStats(NUM_PREPOSITIONS); 
 
         }
 
         if ((*prep_map)[pri_cat].count("wall") == 0)
-            (*prep_map)[pri_cat]["wall"] = {};
+            (*prep_map)[pri_cat]["wall"] = PrepositionStats(NUM_PREPOSITIONS);
     }
 }
 
@@ -185,7 +188,7 @@ void CalcPrepositions(R3SceneNode* pri_obj, R3SceneNode* ref_obj, std::string pr
 
     ++(*freq_stats.pair_count)[pri_cat][ref_cat]; 
 
-    for (int i = 0; i < prep_region_map.size(); ++i) {
+    for (int i = 0; i < NUM_PREPOSITIONS; ++i) {
         PrepRegion pr = prep_region_map[i];
         R3Box region = pr.region;
 
@@ -204,6 +207,7 @@ void CalcPrepositions(R3SceneNode* pri_obj, R3SceneNode* ref_obj, std::string pr
     }
 }
 
+
 int WritePrepMap(PrepMap* prepmap, FrequencyStats freq_stats) {
     PrepMap prep_map = *prepmap;
     for (auto it : prep_map) {
@@ -215,34 +219,28 @@ int WritePrepMap(PrepMap* prepmap, FrequencyStats freq_stats) {
             std::string ref_cat = it2.first;
             PrepositionStats prep_stats = it2.second;
 
-            if (prep_stats.frontside == 0 && prep_stats.backside == 0 && prep_stats.above == 0 && 
-                prep_stats.below == 0 && prep_stats.leftside == 0 && prep_stats.rightside == 0)
+            double div = (double) ((*freq_stats.pair_count)[pri_cat][ref_cat]);
+            if (div <= 0.0)
                 continue;
 
-            int div = ((*freq_stats.pair_count)[pri_cat][ref_cat]);
+            bool all_zero = true;
 
             // Cleaner priting code
-            /*double probabilities[Prep.NUM_PREPOSITIONS]; 
-            for (int i = 0; i < Prep.NUM_PREPOSITIONS; i++) {
-                
+            double probabilities[NUM_PREPOSITIONS]; 
+            for (int i = 0; i < NUM_PREPOSITIONS; i++) {
+                probabilities[i] = prep_stats[i] / div; 
+                if (prep_stats[i] > 0)
+                    all_zero = false;
             }
 
-            for (int i = 0; i < prep_names.size(); i++) {
-                fprintf(stdout, "%s : ", prep_names[i])
-            }*/
-
-            fprintf(stdout, "\t[%s] frontside: %d backside: %d above: %d below: %d leftside: %d rightside: %d on_top: %d, near: %d, div: %d\n", 
-                ref_cat.c_str(),
-                prep_stats.frontside, // div, 
-                prep_stats.backside, // div, 
-                prep_stats.above, // div, 
-                prep_stats.below, // div, 
-                prep_stats.leftside, // div, 
-                prep_stats.rightside,
-                prep_stats.on_top,
-                prep_stats.near,
-                div); // div);
-
+            if (all_zero)
+                continue;
+            
+            fprintf(stdout, "\t[%s] ", ref_cat.c_str());
+            for (int i = 0; i < NUM_PREPOSITIONS; i++) {
+                fprintf(stdout, "%s : %f (%d), ", prep_names[i], probabilities[i], prep_stats[i]);
+            }
+            fprintf(stdout, "\n");
         }
     }
 

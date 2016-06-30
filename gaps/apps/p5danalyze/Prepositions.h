@@ -29,16 +29,7 @@ enum Prep {
     NUM_PREPOSITIONS = 8,
 };
 
-struct PrepositionStats {
-    int frontside;
-    int backside;
-    int above;
-    int below; 
-    int leftside;
-    int rightside;
-    int on_top;
-    int near;
-};
+using PrepositionStats = std::vector<int>;
 
 struct PrepRegion {
     const char* name;
