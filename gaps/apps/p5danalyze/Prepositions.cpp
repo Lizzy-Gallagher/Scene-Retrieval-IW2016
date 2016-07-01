@@ -201,7 +201,7 @@ void CalcPrepositions(R3SceneNode* pri_obj, R3SceneNode* ref_obj, std::string pr
 int WritePrepMap(PrepMap* prepmap, FrequencyStats freq_stats) {
     PrepMap prep_map = *prepmap;
     
-    CreateTOC(prepmap);
+    CreateTOC(prepmap, freq_stats);
     for (auto it : prep_map) {
         std::string pri_cat = it.first;
         std::map<std::string, PrepositionStats> map = it.second;

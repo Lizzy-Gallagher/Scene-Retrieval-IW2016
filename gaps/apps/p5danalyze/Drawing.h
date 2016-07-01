@@ -15,7 +15,7 @@ struct XformValues {
     R3Vector *dist3D;
 };
 
-XformValues CreateXformValues(R3SceneNode* node, int resolution = 0);
+XformValues CreateXformValues(R3SceneNode* node, int resolution = 0, bool is_room = false);
 
 R2Affine PrepareWorldToGridXform(R3Point cen3, XformValues values, int pixels_to_meters);
 R3Affine PrepareWorldToGridXform(R3Point cen3, XformValues values);

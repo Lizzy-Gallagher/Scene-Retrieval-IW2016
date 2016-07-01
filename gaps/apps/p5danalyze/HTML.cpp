@@ -11,7 +11,7 @@ std::string GetRelativeFileName(std::string ref_cat) {
 
 void PrintPriBlurb(std::ofstream &file, std::string pri_cat, FrequencyStats freq_stats) {
     file << "<h1>" << pri_cat << "</h1>";
-    file << "<p>" << "# Appearances: " << (*freq_stats.cat_count)[pri_cat] << "</p>";
+    file << "<p>" << "Number of Objects: " << (*freq_stats.cat_count)[pri_cat] << "</p>";
     file << "<p>" << "# Scenes: " << "TODO" << "</p>"; 
 }
 
@@ -72,18 +72,28 @@ void CreatePage(std::string pri_cat, std::map<std::string, PrepositionStats> spe
     file.close();
 }
 
-void CreateTOC(PrepMap* prepmap) {
+void CreateTOC(PrepMap* prepmap, FrequencyStats freq_stats) {
     PrepMap prep_map = *prepmap;
 
     std::ofstream file;
     file.open("html/main.html");
-    file << "<!DOCTYPE html><html><head></head><body>";
-    file << "<ul>";
+     file << "<!DOCTYPE html><html><head> \
+        <link rel=\"stylesheet\" type=\"text/css\" href=\"style.css\"> \
+        <script src=\"sorttable.js\"></script></head><body>";
+
+    file << "<h1>Table of Contents</h1>";
+    file << "<p>Each of object categories were present in the P5D Scenes</p>";
+    
+    file << "<div class=\"datagrid\"><table class=\"sortable\">"; 
+    file << "<thead><tr><th>Primary Object Category</th><th>Number of Appearances</th></tr></thead>"; 
+    file << "<tbody>";
+
     for (auto it : prep_map) {
         std::string cat = it.first;
-        file << "<li><a href=\"" << GetRelativeFileName(cat) << "\">" << cat << "</li>";
+        file << "<tr><td><a href=\"" << GetRelativeFileName(cat) << "\">" << cat << "</td>" \
+            "<td>" << (*freq_stats.cat_count)[cat] << "</td></tr>";
     }
-    file << "</ul>";
+    file << "</tbody></table></div>";
     file << "</body></html>";
     file.close();
 
