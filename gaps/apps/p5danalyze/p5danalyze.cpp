@@ -136,6 +136,13 @@ static int Update(R3Scene *scene)
         if (pri_cat.size() == 0) continue;
         XformValues values = CreateXformValues(pri_obj, resolution);
 
+        // Testing Code for Walls: 
+        if (nodes.walls.size() > 1) {
+            R3SceneNode* room = nodes.walls[1];
+            GetWalls(room);
+            exit(1);
+        }
+
         switch ( task ) {
             case INTRINSIC_PREPOSITIONS:
                 prep_region_map = InitPrepRegions(pri_obj, meters_of_context);
@@ -199,6 +206,7 @@ int main(int argc, char **argv)
 
     // Create the output directory
     CreateDirectory(output_grid_directory);
+    CreateDirectory("html");
 
     int failures = 0;
     int i = 0; 

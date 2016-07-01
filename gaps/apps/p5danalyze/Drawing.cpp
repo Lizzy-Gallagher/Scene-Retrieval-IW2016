@@ -9,7 +9,7 @@
 /*-------------------------------------------------------------------------*/
 
 
-XformValues CreateXformValues(R3SceneNode* node, int resolution) {
+XformValues CreateXformValues(R3SceneNode* node, int resolution, bool is_room) {
     // Translation constants
     float a = 0.5 * (resolution - 1) - node->Centroid().X();
     float b = 0.5 * (resolution - 1) - node->Centroid().Y();
@@ -17,6 +17,11 @@ XformValues CreateXformValues(R3SceneNode* node, int resolution) {
 
     R2Vector translation(a, b);
     R3Vector translation3D(a, b, c);
+
+    if (is_room) {
+        XformValues values = { translation, translation3D, 0.0, false, false, NULL };
+        return values;
+    }
 
     // Rotation constants
     P5DObject *p5d_obj = (P5DObject *) node->Data();
