@@ -4,6 +4,7 @@
 
 #include <string>
 #include <vector>
+#include <sstream>
 
 SceneNodes GetSceneNodes(R3Scene *scene)
 {
@@ -27,8 +28,8 @@ struct Wall {
     bool isHorizon;
     bool isVert;
 
-    float x;
-    float y;
+    float x = 0.0;
+    float y = 0.0;
 
     std::vector<R3SceneElement*> elements;
 };
@@ -41,7 +42,7 @@ bool IsHorizontalWall(R3Triangle* triangle) {
     R3Point v0 = triangle->V0()->Position();
     R3Point v1 = triangle->V1()->Position();
     R3Point v2 = triangle->V2()->Position();
-    
+
     double ave = (v0.Y() + v1.Y() + v2.Y()) / 3.0;
     return (fabs(ave - v0.Y()) > 0.1);
 }
@@ -50,7 +51,7 @@ bool IsVerticalWall(R3Triangle* triangle) {
     R3Point v0 = triangle->V0()->Position();
     R3Point v1 = triangle->V1()->Position();
     R3Point v2 = triangle->V2()->Position();
-    
+
     double ave = (v0.X() + v1.X() + v2.X()) / 3.0;
     return (fabs(ave - v0.X()) > 0.1);
 }
@@ -79,17 +80,17 @@ Walls GetWalls(R3SceneNode* room) {
 
     //fprintf(stdout, "Number of Elements: %d\n", room->NElements());
     for (int k = 0; k < room->NElements(); k++) {
-       R3SceneElement* el = room->Element(k); 
-       //fprintf(stdout, "\tNumber of Shapes in el %d: %d\n", k, el->NShapes());
-       
-       for (int l = 0; l < el->NShapes(); l++) {
+        R3SceneElement* el = room->Element(k); 
+        //fprintf(stdout, "\tNumber of Shapes in el %d: %d\n", k, el->NShapes());
+
+        for (int l = 0; l < el->NShapes(); l++) {
             R3Shape* shape = el->Shape(l);
             R3TriangleArray* arr = (R3TriangleArray*) shape;
 
             // For all R3Triangles in the R3TriangleArray
             for (int t = 0; t < arr->NTriangles(); t++) {
                 R3Triangle *triangle = arr->Triangle(t);
-               
+
                 Wall wall = {};
                 wall.elements.push_back(el);
 
@@ -103,36 +104,57 @@ Walls GetWalls(R3SceneNode* room) {
 
                 // Check if matches a previous wall
                 if (walls.size() == 0) {
+                    //fprintf(stdout, "Adding the first wall!\n");
                     walls.push_back(wall); // add first wall
                     continue;
                 }
-                
-                bool already_wall = false;
-                for (Wall est_wall : walls) {
-                    if (est_wall.isHorizon != wall.isHorizon) continue;
-                    if (fabs(est_wall.x - wall.x) > 0.1 &&
-                        fabs(est_wall.y - wall.y) > 0.1) continue;
 
-                    fprintf(stdout, "Same wall!\n");
+                bool already_wall = false;
+                for (auto &est_wall : walls) {
+                    if (est_wall.isHorizon != wall.isHorizon) continue;
+                    if (est_wall.isHorizon && fabs(est_wall.y - wall.y) > 0.5) continue;
+                    if (est_wall.isVert && fabs(est_wall.x - wall.x) > 0.5) continue;
+                    
+
+                    //if (fabs(est_wall.x - wall.x) > 0.5 ||
+                    //        fabs(est_wall.y - wall.y) > 0.5) continue;
+
+                    fprintf(stdout, "Results: x: %f  y: %f\n", fabs(est_wall.x - wall.x),
+                         fabs(est_wall.y - wall.y)  );
+
                     est_wall.elements.push_back(el);
+
                     already_wall = true;
-                    //break;
+                    break;
                 }
 
                 if (!already_wall)
                     walls.push_back(wall);
-                
-                fprintf(stdout, "size %lu\n", walls.size()); 
+
                 // Perhaps collapse the notion of "wall" from a mesh into a BB (possibly first step)
             }
-       }
+        }
     } 
 
     fprintf(stdout, "Num Walls: %lu\n", walls.size());
 
-    R2Grid* drawn_grid = DrawObject(room, grid, values, 70); 
-    drawn_grid->WriteImage("room.png");
-    exit(1);
-    return Walls();
-}
+    int j = 0;
+    for (auto &est_wall : walls) {
+        R2Grid* wall_grid = new R2Grid(resolution, resolution);
+        //fprintf(stdout, "Wall %d:\n", w);
+        int e = 0;
+        for (auto &el : est_wall.elements) {
+            R2Grid* temp_grid = DrawElement(el, wall_grid, values, 70, room->Centroid());
+            std::ostringstream filename;
+            filename << "wall_" << j << "_el_"<< e++ << ".png";
+            temp_grid->WriteImage(filename.str().c_str()); 
+        }
+        j++;
+        }
+
+        R2Grid* wall_grid = DrawObject(room, grid, values, 70); 
+        wall_grid->WriteImage("room.png");
+        exit(1);
+        return Walls();
+    }
 
