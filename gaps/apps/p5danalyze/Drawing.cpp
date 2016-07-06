@@ -96,6 +96,36 @@ R3Affine PrepareWorldToGridXform(R3Point cen_pnt, XformValues values)
     return world_to_grid_xform;
 }
 
+R2Grid* DrawTriangle(R3Triangle* triangle, R2Grid *grid, XformValues values, int pixels_to_meters, R3Point cen) {
+    R2Grid temp_grid = R2Grid(grid->XResolution(), grid->YResolution());
+
+    R2Affine world_to_grid_xform = PrepareWorldToGridXform(cen, values, pixels_to_meters);
+    temp_grid.SetWorldToGridTransformation(world_to_grid_xform);
+
+    // Create new points
+    R2Point v0 = R2Point(triangle->V0()->Position().X(), triangle->V0()->Position().Y());
+    R2Point v1 = R2Point(triangle->V1()->Position().X(), triangle->V1()->Position().Y());
+    R2Point v2 = R2Point(triangle->V2()->Position().X(), triangle->V2()->Position().Y());
+
+    if (IsOutsideGrid(&temp_grid, v0, v1, v2)) return grid;
+
+    // Move exterior verticies inside the grid
+    std::vector<R2Point> v = MoveInsideGrid(&temp_grid, v0, v1, v2);
+
+    v0 = temp_grid.GridPosition(v[0]);
+    v1 = temp_grid.GridPosition(v[1]);
+    v2 = temp_grid.GridPosition(v[2]);
+
+    temp_grid.RasterizeWorldTriangle(v[0], v[1], v[2], 1);
+
+    // Color the shape with a single color
+    temp_grid.Threshold(0, 0, 1);
+    grid->Add(temp_grid);
+    return grid;
+
+
+}
+
 R2Grid* DrawElement(R3SceneElement* el, R2Grid *grid, XformValues values, int pixels_to_meters, R3Point cen) {
     R2Grid temp_grid = R2Grid(grid->XResolution(), grid->YResolution());
 
