@@ -96,7 +96,7 @@ R3Affine PrepareWorldToGridXform(R3Point cen_pnt, XformValues values)
     return world_to_grid_xform;
 }
 
-R2Grid* DrawTriangle(R3Triangle* triangle, R2Grid *grid, XformValues values, int pixels_to_meters, R3Point cen) {
+R2Grid* Draw(R3Triangle* triangle, R2Grid *grid, XformValues values, int pixels_to_meters, R3Point cen) {
     R2Grid temp_grid = R2Grid(grid->XResolution(), grid->YResolution());
 
     R2Affine world_to_grid_xform = PrepareWorldToGridXform(cen, values, pixels_to_meters);
@@ -126,7 +126,7 @@ R2Grid* DrawTriangle(R3Triangle* triangle, R2Grid *grid, XformValues values, int
 
 }
 
-R2Grid* DrawElement(R3SceneElement* el, R2Grid *grid, XformValues values, int pixels_to_meters, R3Point cen) {
+R2Grid* Draw(R3SceneElement* el, R2Grid *grid, XformValues values, int pixels_to_meters, R3Point cen) {
     R2Grid temp_grid = R2Grid(grid->XResolution(), grid->YResolution());
 
     R2Affine world_to_grid_xform = PrepareWorldToGridXform(cen, values, pixels_to_meters);
@@ -170,7 +170,7 @@ R2Grid* DrawElement(R3SceneElement* el, R2Grid *grid, XformValues values, int pi
 
 /* For Objects... */
 
-R2Grid* DrawObject(R3SceneNode* obj, R2Grid *grid, XformValues values, int pixels_to_meters)
+R2Grid* Draw(R3SceneNode* obj, R2Grid *grid, XformValues values, int pixels_to_meters)
 {
     R2Grid temp_grid = R2Grid(grid->XResolution(), grid->YResolution());
 
@@ -217,7 +217,7 @@ R2Grid* DrawObject(R3SceneNode* obj, R2Grid *grid, XformValues values, int pixel
 }
 
 
-R3Grid* DrawObject(R3SceneNode* node, R3Grid *grid, XformValues values)
+R3Grid* Draw(R3SceneNode* node, R3Grid *grid, XformValues values)
 {
     R3Grid temp_grid = R3Grid(grid->XResolution(), grid->YResolution(), grid->ZResolution());
 
