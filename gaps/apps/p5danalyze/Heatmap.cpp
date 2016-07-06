@@ -88,5 +88,5 @@ void CalcHeatmaps( R3SceneNode* pri_obj, R3SceneNode* ref_obj, std::string ref_c
 
     // Only draw object close enough
     if (dist.Length() < threshold)
-        DrawObject(ref_obj, grid, values, pixels_to_meters);
+        Draw(ref_obj, grid, values, pixels_to_meters);
 }

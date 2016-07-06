@@ -17,47 +17,20 @@ SceneNodes GetSceneNodes(R3Scene *scene)
         std::string name (node->Name());
         if (std::string::npos != name.find("Object")) // probably a better way with casting
             nodes.objects.push_back(node);
-        if (std::string::npos != name.find("Wall"))
-            nodes.walls.push_back(node);     
+        if (std::string::npos != name.find("Wall")) {
+            std::vector<Wall> walls = GetWalls(node);
+            nodes.walls.reserve(nodes.walls.size() + walls.size());
+            nodes.walls.insert(nodes.walls.end(), walls.begin(), walls.end());
+        }
     }
 
     return nodes;
 }
 
-struct Wall {
-    bool isHorizon;
-    bool isVert;
-
-    float x = 0.0;
-    float y = 0.0;
-
-    //std::vector<R3SceneElement*> elements;
-    std::vector<R3Triangle*> triangles;
-};
-
-std::vector<Wall> walls;
 
 // If within some small threshold
 
-bool IsHorizontalWall(R3Triangle* triangle) {
-    R3Point v0 = triangle->V0()->Position();
-    R3Point v1 = triangle->V1()->Position();
-    R3Point v2 = triangle->V2()->Position();
-
-    double ave = (v0.Y() + v1.Y() + v2.Y()) / 3.0;
-    return (fabs(ave - v0.Y()) < 0.1);
-}
-
-bool IsVerticalWall(R3Triangle* triangle) {
-    R3Point v0 = triangle->V0()->Position();
-    R3Point v1 = triangle->V1()->Position();
-    R3Point v2 = triangle->V2()->Position();
-
-    double ave = (v0.X() + v1.X() + v2.X()) / 3.0;
-    return (fabs(ave - v0.X()) < 0.1);
-}
-
-float GetX(R3Triangle* triangle) {
+double GetAveX(R3Triangle* triangle) {
     R3Point v0 = triangle->V0()->Position();
     R3Point v1 = triangle->V1()->Position();
     R3Point v2 = triangle->V2()->Position();
@@ -65,7 +38,7 @@ float GetX(R3Triangle* triangle) {
     return (v0.X() + v1.X() + v2.X()) / 3.0;
 }
 
-float GetY(R3Triangle* triangle) {
+double GetAveY(R3Triangle* triangle) {
     R3Point v0 = triangle->V0()->Position();
     R3Point v1 = triangle->V1()->Position();
     R3Point v2 = triangle->V2()->Position();
@@ -73,8 +46,47 @@ float GetY(R3Triangle* triangle) {
     return (v0.Y() + v1.Y() + v2.Y()) / 3.0;
 }
 
+double GetSampleX(R3Triangle* triangle) {
+    R3Point v0 = triangle->V0()->Position();
+    return v0.X();
+}
+
+double GetSampleY(R3Triangle* triangle) {
+    R3Point v0 = triangle->V0()->Position();
+    return v0.Y();
+}
+
+bool IsHorizontalWall(R3Triangle* triangle) {
+    double ave = GetAveY(triangle);
+    return (fabs(ave - GetSampleY(triangle)) < 0.1);
+}
+
+bool IsVerticalWall(R3Triangle* triangle) {
+    double ave = GetAveX(triangle); 
+    return (fabs(ave - GetAveX(triangle)) < 0.1);
+}
+
+R3TriangleArray* MergeTriangleArray(R3TriangleArray* arr1, R3TriangleArray* arr2) {
+    // Make collection of vertices
+    RNArray<R3TriangleVertex*> vertices = RNArray<R3TriangleVertex*>();
+    for (int v = 0; v < arr1->NVertices(); v++)
+        vertices.Insert(arr1->Vertex(v));
+    for (int v = 0; v < arr2->NVertices(); v++)
+        vertices.Insert(arr2->Vertex(v));
+    
+    // Make collection of triangles
+    RNArray<R3Triangle*> triangles = RNArray<R3Triangle*>();
+    for (int v = 0; v < arr1->NTriangles(); v++)
+        triangles.Insert(arr1->Triangle(v));
+    for (int v = 0; v < arr2->NTriangles(); v++)
+        triangles.Insert(arr2->Triangle(v));
+
+    return new R3TriangleArray(vertices, triangles); 
+}
 
 Walls GetWalls(R3SceneNode* room) {
+    Walls walls;
+
     int resolution = 500;
     R2Grid* grid = new R2Grid(resolution, resolution);
     XformValues values = CreateXformValues(room, resolution, true);
@@ -88,82 +100,62 @@ Walls GetWalls(R3SceneNode* room) {
             R3Shape* shape = el->Shape(l);
             R3TriangleArray* arr = (R3TriangleArray*) shape;
 
-            // Construction Assumption
-            /*if (arr->NTriangles() > 1) { 
-                fprintf(stdout, "MORE THAN ONE TRIANGLE.\n");
-                fprintf(stdout, "NUM TRIANGLES: %d\n", arr->NTriangles());
-                exit(1);
-            }*/
+            Wall wall = {};
+            wall.triangles = arr;
 
-            // For all R3Triangles in the R3TriangleArray
-            for (int t = 0; t < arr->NTriangles(); t++) {
-                R3Triangle *triangle = arr->Triangle(t);
-
-                Wall wall = {};
-                wall.triangles.push_back(triangle);
-
-                if (IsHorizontalWall(triangle)) {
-                    wall.isHorizon = true;
-                    wall.y = GetY(triangle);
-                } else {
-                    wall.isVert = true;
-                    wall.x = GetX(triangle);
-                }
-
-                // Check if matches a previous wall
-                if (walls.size() == 0) {
-                    walls.push_back(wall); // add first wall
-                    continue;
-                }
-
-                bool already_wall = false;
-                int i = -1;
-                for (auto &est_wall : walls) {
-                    i++;
-                    if (est_wall.isHorizon != wall.isHorizon) continue;
-
-                    if (est_wall.isHorizon && fabs(est_wall.y - wall.y) > 0.5) continue;
-                    if (est_wall.isVert && fabs(est_wall.x - wall.x) > 0.5) continue;
-                    
-                    fprintf(stdout, "(Wall %d) Results: x: %f  y: %f\n", i, fabs(est_wall.x - wall.x),
-                         fabs(est_wall.y - wall.y)  );
-
-                    est_wall.triangles.push_back(triangle);
-
-                    already_wall = true;
-                    break;
-                }
-
-                if (!already_wall) {
-                    fprintf(stdout, "\t(Wall %d) Results: x: %f  y: %f isVert: %d\n", walls.size(), wall.x, wall.y, wall.isVert);
-
-                    walls.push_back(wall);
-                }
-
-                // Perhaps collapse the notion of "wall" from a mesh into a BB (possibly first step)
+            R3Triangle *triangle = arr->Triangle(0);
+            if (IsHorizontalWall(triangle)) {
+                wall.isHorizon = true;
+                wall.y = GetAveY(triangle);
+            } else {
+                wall.isVert = true;
+                wall.x = GetAveX(triangle);
             }
+
+            // Check if matches a previous wall
+            if (walls.size() == 0) {
+                walls.push_back(wall); // add first wall
+                continue;
+            }
+
+            bool already_wall = false;
+            for (auto &est_wall : walls) {
+                if (est_wall.isHorizon != wall.isHorizon) continue;
+
+                if (est_wall.isHorizon && fabs(est_wall.y - wall.y) > 0.5) continue;
+                if (est_wall.isVert && fabs(est_wall.x - wall.x) > 0.5) continue;
+
+                //est_wall.triangles->push_back(triangle);
+                est_wall.triangles = MergeTriangleArray(est_wall.triangles, arr);
+
+                already_wall = true;
+                break;
+            }
+
+            if (!already_wall)
+                walls.push_back(wall);
+
+            // Perhaps collapse the notion of "wall" from a mesh into a BB (possibly first step)
         }
     } 
 
-    fprintf(stdout, "Num Walls: %lu\n", walls.size());
+    /*fprintf(stdout, "Num Walls: %lu\n", walls.size());
 
     int j = 0;
     for (auto &est_wall : walls) {
         R2Grid* wall_grid = new R2Grid(resolution, resolution);
-        //fprintf(stdout, "Wall %d:\n", w);
-        int t = 0;
-        for (auto &tri : est_wall.triangles) {
+        for (int i = 0; i < est_wall.triangles->NTriangles(); i++) {
+            R3Triangle* tri = est_wall.triangles->Triangle(i);
             R2Grid* temp_grid = DrawTriangle(tri, wall_grid, values, 70, room->Centroid());
             std::ostringstream filename;
             filename << "wall_" << j << "_tri_"<< t++ << ".png";
             temp_grid->WriteImage(filename.str().c_str()); 
         }
-        j++;
     }
 
     R2Grid* wall_grid = DrawObject(room, grid, values, 70); 
     wall_grid->WriteImage("room.png");
-    exit(1);
-    return Walls();
+    exit(1);*/
+    return walls;
 }
 

@@ -137,11 +137,10 @@ static int Update(R3Scene *scene)
         XformValues values = CreateXformValues(pri_obj, resolution);
 
         // Testing Code for Walls: 
-        if (nodes.walls.size() > 1) {
+        /*if (nodes.walls.size() > 1) {
             R3SceneNode* room = nodes.walls[1];
             GetWalls(room);
-            exit(1);
-        }
+        }*/
 
         switch ( task ) {
             case INTRINSIC_PREPOSITIONS:
@@ -169,11 +168,12 @@ static int Update(R3Scene *scene)
 
         // Draw walls
         for (int w = 0; w < nodes.walls.size(); w++) {
-            R3SceneNode* wall_node = nodes.walls[w];
+            //R3SceneNode* wall_node = nodes.walls[w];
+            Wall arr = nodes.walls[w];
 
             switch ( task ) {
                 case HEATMAPS:
-                    CalcHeatmaps(pri_obj, wall_node, "wall", pri_cat, &id2cat, &heatmaps, values, threshold, pixels_to_meters);
+                    //CalcHeatmaps(pri_obj, wall_node, "wall", pri_cat, &id2cat, &heatmaps, values, threshold, pixels_to_meters);
                     break;
                 case INTRINSIC_PREPOSITIONS:
                     //CalcPrepositions(pri_obj, wall_node, pri_cat, "wall", &id2cat, prep_region_map, &prep_map, meters_of_context, freq_stats); 
@@ -212,7 +212,7 @@ int main(int argc, char **argv)
     int i = 0; 
     for (std::string project_id : project_ids) // For each project...
     {
-        if (i == 3) break;
+        if (i == 70) break;
 
         start = clock();
         fprintf(stdout, "Working on ... %s (%d) \n", project_id.c_str(), i); 

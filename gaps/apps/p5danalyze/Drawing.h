@@ -22,9 +22,9 @@ R2Affine PrepareWorldToGridXform(R3Point cen3, XformValues values, int pixels_to
 R3Affine PrepareWorldToGridXform(R3Point cen3, XformValues values);
 
 // Drawing methods.
-R2Grid* DrawTriangle(R3Triangle* triangle, R2Grid *grid, XformValues values, int pixels_to_meters, R3Point cen);
-R2Grid* DrawElement(R3SceneElement* el, R2Grid *grid, XformValues values, int pixels_to_meters, R3Point cen);
-R2Grid* DrawObject(R3SceneNode* obj, R2Grid *grid, XformValues values, int pixels_to_meters = 1);
-R3Grid* DrawObject(R3SceneNode* node, R3Grid *grid, XformValues values);
+R2Grid* Draw(R3Triangle* triangle, R2Grid *grid, XformValues values, int pixels_to_meters, R3Point cen);
+R2Grid* Draw(R3SceneElement* el, R2Grid *grid, XformValues values, int pixels_to_meters, R3Point cen);
+R2Grid* Draw(R3SceneNode* obj, R2Grid *grid, XformValues values, int pixels_to_meters = 1);
+R3Grid* Draw(R3SceneNode* node, R3Grid *grid, XformValues values);
 
 #endif 
