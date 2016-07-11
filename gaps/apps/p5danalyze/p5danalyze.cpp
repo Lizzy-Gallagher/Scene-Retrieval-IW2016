@@ -169,7 +169,7 @@ static int Update(R3Scene *scene)
         // Draw walls
         for (int w = 0; w < nodes.walls.size(); w++) {
             //R3SceneNode* wall_node = nodes.walls[w];
-            Wall arr = nodes.walls[w];
+            Wall* arr = nodes.walls[w];
 
             switch ( task ) {
                 case HEATMAPS:

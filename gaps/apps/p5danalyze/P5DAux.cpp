@@ -18,7 +18,7 @@ SceneNodes GetSceneNodes(R3Scene *scene)
         if (std::string::npos != name.find("Object")) // probably a better way with casting
             nodes.objects.push_back(node);
         if (std::string::npos != name.find("Wall")) {
-            std::vector<Wall> walls = GetWalls(node);
+            Walls walls = GetWalls(node);
             nodes.walls.reserve(nodes.walls.size() + walls.size());
             nodes.walls.insert(nodes.walls.end(), walls.begin(), walls.end());
         }
@@ -27,6 +27,19 @@ SceneNodes GetSceneNodes(R3Scene *scene)
     return nodes;
 }
 
+
+struct VerboseWall {
+    // Stats for construction 
+    bool isHorizon;
+    bool isVert;
+
+    float x = 0.0;
+    float y = 0.0;
+
+    R3TriangleArray* triangles;
+};
+
+using VerboseWalls = std::vector<VerboseWall>;
 
 // If within some small threshold
 
@@ -84,8 +97,18 @@ R3TriangleArray* MergeTriangleArray(R3TriangleArray* arr1, R3TriangleArray* arr2
     return new R3TriangleArray(vertices, triangles); 
 }
 
-Walls GetWalls(R3SceneNode* room) {
+Walls ConvertVerboseWalls(VerboseWalls& v_walls) {
     Walls walls;
+    
+    for (VerboseWall& v_wall : v_walls) {
+        walls.push_back(v_wall.triangles);
+    }
+
+    return walls;
+}
+
+Walls GetWalls(R3SceneNode* room) {
+    VerboseWalls walls;
 
     int resolution = 500;
     R2Grid* grid = new R2Grid(resolution, resolution);
@@ -100,7 +123,7 @@ Walls GetWalls(R3SceneNode* room) {
             R3Shape* shape = el->Shape(l);
             R3TriangleArray* arr = (R3TriangleArray*) shape;
 
-            Wall wall = {};
+            VerboseWall wall = {};
             wall.triangles = arr;
 
             R3Triangle *triangle = arr->Triangle(0);
@@ -139,23 +162,30 @@ Walls GetWalls(R3SceneNode* room) {
         }
     } 
 
+    // return ConvertVerboseWalls(walls);
+
+    Walls my_walls = ConvertVerboseWalls(walls);
+
     /*fprintf(stdout, "Num Walls: %lu\n", walls.size());
 
     int j = 0;
-    for (auto &est_wall : walls) {
+    for (auto &est_wall : my_walls) {
         R2Grid* wall_grid = new R2Grid(resolution, resolution);
-        for (int i = 0; i < est_wall.triangles->NTriangles(); i++) {
-            R3Triangle* tri = est_wall.triangles->Triangle(i);
-            R2Grid* temp_grid = DrawTriangle(tri, wall_grid, values, 70, room->Centroid());
+        int t = 0;
+        for (int i = 0; i < est_wall->NTriangles(); i++) {
+            R3Triangle* tri = est_wall->Triangle(i);
+            R2Grid* temp_grid = Draw(tri, wall_grid, values, 70, room->Centroid());
             std::ostringstream filename;
-            filename << "wall_" << j << "_tri_"<< t++ << ".png";
+            filename << "output/imgs/wall_" << j << "_tri_"<< t++ << ".png";
             temp_grid->WriteImage(filename.str().c_str()); 
         }
     }
 
-    R2Grid* wall_grid = DrawObject(room, grid, values, 70); 
+    R2Grid* wall_grid = Draw(room, grid, values, 70); 
     wall_grid->WriteImage("room.png");
     exit(1);*/
-    return walls;
+
+
+    return my_walls;
 }
 

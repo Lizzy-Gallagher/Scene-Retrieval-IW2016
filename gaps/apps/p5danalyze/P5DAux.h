@@ -6,7 +6,7 @@
 #include "R3Graphics/R3Graphics.h"
 #include <vector>
 
-struct Wall {
+/*struct Wall {
     // Stats for construction 
     bool isHorizon;
     bool isVert;
@@ -17,12 +17,14 @@ struct Wall {
     R3TriangleArray* triangles;
 };
 
-using Walls = std::vector<Wall>;
+using Walls = std::vector<Wall>;*/
+
+using Wall = R3TriangleArray;
+using Walls = std::vector<Wall*>;
 
 struct SceneNodes {
     std::vector<R3SceneNode*> objects; 
-    //std::vector<Wall*> walls;
-    std::vector<Wall> walls;
+    Walls walls;
 };
 
 SceneNodes GetSceneNodes(R3Scene *scene);

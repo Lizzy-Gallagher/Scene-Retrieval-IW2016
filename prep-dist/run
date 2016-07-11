@@ -9,6 +9,8 @@ echo "Analyzing..."
 #   echo category : $c
 #done
 
+rm output/imgs/*.png
+
 bin/p5danalyze output/grids/ -prep -ptm 20 -context 4 2> output/err-log.txt
 
 #echo "Converting Grids..."
