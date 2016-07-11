@@ -161,30 +161,25 @@ PrepRegionMap InitPrepRegions(R3SceneNode* node, int meters_of_context) {
     return prep_region_map;
 }
 
-void CalcPrepositions(R3SceneNode* pri_obj, R3SceneNode* ref_obj, std::string pri_cat, 
-        std::string ref_cat, Id2CatMap* id2cat, PrepRegionMap prep_region_map, 
-        PrepMap* prep_map, int meters_of_context, FrequencyStats& freq_stats) {
-    R3Box ref_bb = ref_obj->BBox();
-
+void TransformRefBB(R3SceneNode* pri_obj, R3Box& ref_bb) {
     // Create and Apply transform to put nearby region
     XformValues values = CreateXformValues(pri_obj);
-    R3Vector dist3d = (ref_obj->Centroid() - pri_obj->Centroid());
+    R3Vector dist3d = (ref_bb.Centroid() - pri_obj->Centroid());
     values.dist3D = &dist3d;  // TODO: fix 
-    R3Affine world_to_grid_xform = PrepareWorldToGridXform(ref_obj->Centroid(), values);
+    R3Affine world_to_grid_xform = PrepareWorldToGridXform(ref_bb.Centroid(), values);
     ref_bb.Transform(world_to_grid_xform);
+}
 
-    if (dist3d.Length() > meters_of_context)
-        return;
+void CalcPrepositions(R3SceneNode* pri_obj, R3Box ref_bb, PrepRegionMap prep_region_map, PrepMap* prep_map, int meters_of_context, std::string pri_cat, std::string ref_cat) {
+    TransformRefBB(pri_obj, ref_bb);
+    if ((ref_bb.Centroid() - pri_obj->Centroid()).Length() > meters_of_context) return;
 
-    ++(*freq_stats.pair_count)[pri_cat][ref_cat]; 
-
-    for (int i = 0; i < NUM_PREPOSITIONS; ++i) {
+   for (int i = 0; i < NUM_PREPOSITIONS; ++i) {
         PrepRegion pr = prep_region_map[i];
         R3Box region = pr.region;
 
         R3Box* result = CalcIntersection(region, ref_bb);
-        if (result == NULL)
-            continue;
+        if (result == NULL) continue;
         
         float volume_of_overlap = result->Volume() / ref_bb.Volume();
         
@@ -194,7 +189,21 @@ void CalcPrepositions(R3SceneNode* pri_obj, R3SceneNode* ref_obj, std::string pr
         PrepositionStats prep_stats = (*prep_map)[pri_cat][ref_cat];
         UpdateStats(prep_stats, i);
         (*prep_map)[pri_cat][ref_cat] = prep_stats;
-    }
+    } 
+}
+
+void CalcPrepositions(R3SceneNode* pri_obj, Wall* ref_wall, std::string pri_cat, PrepRegionMap prep_region_map,
+        PrepMap* prep_map, int meters_of_context) {
+    R3Box ref_bb = ref_wall->BBox();
+    CalcPrepositions(pri_obj, ref_bb, prep_region_map, prep_map, meters_of_context, pri_cat, "wall");
+}
+
+void CalcPrepositions(R3SceneNode* pri_obj, R3SceneNode* ref_obj, std::string pri_cat, 
+        std::string ref_cat,  PrepRegionMap prep_region_map, 
+        PrepMap* prep_map, int meters_of_context, FrequencyStats& freq_stats) {
+    R3Box ref_bb = ref_obj->BBox();
+    CalcPrepositions(pri_obj, ref_bb, prep_region_map, prep_map, meters_of_context, pri_cat, ref_cat);
+    //++(*freq_stats.pair_count)[pri_cat][ref_cat]; 
 }
 
 

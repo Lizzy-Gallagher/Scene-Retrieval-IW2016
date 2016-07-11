@@ -1,0 +1,25 @@
+#! /bin/bash
+
+category="a"
+
+python_dir="py"
+csv_dir="csv"
+scripts_dir="scripts"
+
+src_csv_filename="sample.csv"
+dst_csv_filename=$category.csv
+report_filename="output.csv"
+
+##
+##  FILTER BY CATEGORY
+##
+rm $csv_dir/$dst_csv_filename ;
+
+echo "Filtering $csv_dir/$src_csv_filename for '$category'..." 
+$scripts_dir/filter -v pri_cat=$category $csv_dir/$src_csv_filename > $csv_dir/$dst_csv_filename
+
+##
+##  ANALYZE CATEGORY
+## 
+
+python $python_dir/analyze.py $csv_dir/$dst_csv_filename $report_filename $category

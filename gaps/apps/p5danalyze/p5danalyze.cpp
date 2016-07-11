@@ -161,7 +161,7 @@ static int Update(R3Scene *scene)
                     CalcHeatmaps(pri_obj, ref_obj, ref_cat, pri_cat, &id2cat, &heatmaps, values, threshold, pixels_to_meters);
                     break;
                 case INTRINSIC_PREPOSITIONS:
-                    CalcPrepositions(pri_obj, ref_obj, pri_cat, ref_cat, &id2cat, prep_region_map, &prep_map, meters_of_context, freq_stats);
+                    CalcPrepositions(pri_obj, ref_obj, pri_cat, ref_cat, prep_region_map, &prep_map, meters_of_context, freq_stats);
                     break;
             }
         }
@@ -169,14 +169,14 @@ static int Update(R3Scene *scene)
         // Draw walls
         for (int w = 0; w < nodes.walls.size(); w++) {
             //R3SceneNode* wall_node = nodes.walls[w];
-            Wall* arr = nodes.walls[w];
+            Wall* ref_wall = nodes.walls[w];
 
             switch ( task ) {
                 case HEATMAPS:
                     //CalcHeatmaps(pri_obj, wall_node, "wall", pri_cat, &id2cat, &heatmaps, values, threshold, pixels_to_meters);
                     break;
                 case INTRINSIC_PREPOSITIONS:
-                    //CalcPrepositions(pri_obj, wall_node, pri_cat, "wall", &id2cat, prep_region_map, &prep_map, meters_of_context, freq_stats); 
+                    CalcPrepositions(pri_obj, ref_wall, pri_cat, prep_region_map, &prep_map, meters_of_context); 
                     break;
             }
         }
@@ -212,7 +212,7 @@ int main(int argc, char **argv)
     int i = 0; 
     for (std::string project_id : project_ids) // For each project...
     {
-        if (i == 70) break;
+        if (i == 5) break;
 
         start = clock();
         fprintf(stdout, "Working on ... %s (%d) \n", project_id.c_str(), i); 
