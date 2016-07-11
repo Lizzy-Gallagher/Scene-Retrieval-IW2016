@@ -18,7 +18,7 @@ SceneNodes GetSceneNodes(R3Scene *scene)
         if (std::string::npos != name.find("Object")) // probably a better way with casting
             nodes.objects.push_back(node);
         if (std::string::npos != name.find("Wall")) {
-            Walls walls = GetWalls(node);
+            std::vector<Wall*> walls = GetWalls(node);
             nodes.walls.reserve(nodes.walls.size() + walls.size());
             nodes.walls.insert(nodes.walls.end(), walls.begin(), walls.end());
         }
@@ -38,8 +38,6 @@ struct VerboseWall {
 
     R3TriangleArray* triangles;
 };
-
-using VerboseWalls = std::vector<VerboseWall>;
 
 // If within some small threshold
 
@@ -97,8 +95,8 @@ R3TriangleArray* MergeTriangleArray(R3TriangleArray* arr1, R3TriangleArray* arr2
     return new R3TriangleArray(vertices, triangles); 
 }
 
-Walls ConvertVerboseWalls(VerboseWalls& v_walls) {
-    Walls walls;
+std::vector<Wall*> ConvertVerboseWalls(std::vector<VerboseWall>& v_walls) {
+    std::vector<Wall*> walls;
     
     for (VerboseWall& v_wall : v_walls) {
         walls.push_back(v_wall.triangles);
@@ -107,8 +105,8 @@ Walls ConvertVerboseWalls(VerboseWalls& v_walls) {
     return walls;
 }
 
-Walls GetWalls(R3SceneNode* room) {
-    VerboseWalls walls;
+std::vector<Wall*> GetWalls(R3SceneNode* room) {
+    std::vector<VerboseWall> walls;
 
     int resolution = 500;
     R2Grid* grid = new R2Grid(resolution, resolution);
@@ -162,9 +160,9 @@ Walls GetWalls(R3SceneNode* room) {
         }
     } 
 
-    // return ConvertVerboseWalls(walls);
+    return ConvertVerboseWalls(walls);
 
-    Walls my_walls = ConvertVerboseWalls(walls);
+    //Walls my_walls = ConvertVerboseWalls(walls);
 
     /*fprintf(stdout, "Num Walls: %lu\n", walls.size());
 
@@ -186,6 +184,6 @@ Walls GetWalls(R3SceneNode* room) {
     exit(1);*/
 
 
-    return my_walls;
+    //return my_walls;
 }
 
