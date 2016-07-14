@@ -202,8 +202,8 @@ def get_exchangable_ids(category):
 ##
 
 if __name__ == '__main__':
-    preprocess()
+    preprocess.preprocess("chair", categories)
 
 
-    print get_exchangable_ids("sofa")
+    # print get_exchangable_ids("sofa")
     print "Done."
