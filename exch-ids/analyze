@@ -18,14 +18,14 @@ report_filename="output.csv"
 
 rm $csv_dir/$dst_csv_filename ;
 
-echo "Filtering $csv_dir/$src_csv_filename for '$category'..." 
+#echo "Filtering $csv_dir/$src_csv_filename for '$category'..." 
 $scripts_dir/filter -v pri_cat=$category $csv_dir/$src_csv_filename > $csv_dir/$dst_csv_filename
 
 ##
 ##  COLLAPSE ROWS
 ## 
-echo "Collapsing (Averaging) $csv_dir/$dst_csv_filename..."
-$scripts_dir/average -v pri_cat=$category $csv_dir/$dst_csv_filename > $csv_dir/test_$dst_filename
+#echo "Collapsing (Averaging) $csv_dir/$dst_csv_filename..."
+#$scripts_dir/average -v pri_cat=$category $csv_dir/$dst_csv_filename > $csv_dir/test_$dst_filename
 
 ##
 ##  ANALYZE CATEGORY

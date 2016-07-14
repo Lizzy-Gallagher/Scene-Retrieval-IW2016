@@ -72,4 +72,5 @@ gaps/*
 
 gaps/apps/*
 !gaps/apps/p5danalyze
+!gaps/apps/scn2rel
 
