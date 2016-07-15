@@ -201,10 +201,10 @@ CreatePlanarGrids(const R3Grid& surface_grid)
       int coord[3];
 
       // Create planar grid
+      RNScalar spacing = surface_grid.GridToWorldScaleFactor();
       R3Box world_box = surface_grid.WorldBox();
       R3Plane plane = world_box.Plane(dir, dim); plane.Flip();
       R3Box side_box = world_box.Side(dir, dim);
-      RNScalar spacing = surface_grid.GridToWorldScaleFactor();
       planar_grids[side].Reset(plane, side_box, spacing);
       planar_grids[side].Clear(R2_GRID_UNKNOWN_VALUE);
 
@@ -216,7 +216,12 @@ CreatePlanarGrids(const R3Grid& surface_grid)
             RNScalar value = surface_grid.GridValue(coord[0], coord[1], coord[2]);
             if (RNIsNotZero(value)) {
               R3Point world_position = surface_grid.WorldPosition(coord[0]+0.5, coord[1]+0.5, coord[2]+0.5);
-              planar_grids[side].SetGridValue(coord[dim1], coord[dim2], world_position[dim]);
+              R2Point grid_position = planar_grids[side].GridPosition(world_position);
+              int grid_ix = (int) (grid_position.X() + 0.5);               
+              if ((grid_ix < 0) || (grid_ix >= planar_grids[side].XResolution())) break;
+              int grid_iy = (int) (grid_position.Y() + 0.5);
+              if ((grid_iy < 0) || (grid_iy >= planar_grids[side].YResolution())) break;
+              planar_grids[side].SetGridValue(grid_ix, grid_iy, world_position[dim]);
               break;
             }
           }
@@ -301,7 +306,7 @@ WriteRelationships(R3Scene *scene, const char *filename)
     R3Grid *squared_distance_grid1 = CreateSquaredDistanceGrid(*surface_grid1);
     if (!squared_distance_grid1) { delete surface_grid1; continue; }
     if (RNIsNotEqual(scale1, 1.0)) squared_distance_grid1->Multiply(scale1 * scale1);
-    
+
     // Create planar grids
     R3PlanarGrid *planar_grids1 = CreatePlanarGrids(*surface_grid1);
     if (!planar_grids1) { delete surface_grid1; delete squared_distance_grid1; continue; }
@@ -327,10 +332,16 @@ WriteRelationships(R3Scene *scene, const char *filename)
       RNLength d = R3Distance(world_bbox1, world_bbox2);
       if (d > max_radius) continue;
 
+#define USE_GRID
+#ifdef USE_GRID
       // Create grid for node2
       R3Grid *surface_grid2 = CreateSurfaceGrid(node2, bbox2, scale2);
       if (!surface_grid2) continue;
-
+#else
+      R3Grid *surface_grid2 = new R3Grid();
+      if (!surface_grid2) continue;
+#endif
+      
       // Initialize relationship statistics
       int npoints = 0;
       int bc[NUM_BBOX_REGIONS], pc[NUM_PROJECTION_REGIONS], ddc[NUM_DD_BINS];
@@ -347,7 +358,7 @@ WriteRelationships(R3Scene *scene, const char *filename)
             if (value2 <= 0) continue;
 
             // Get position in node1 local coordinates
-            R3Point p = surface_grid2->WorldPosition(R3Point(ix+05, iy+0.5, iz+0.5));
+            R3Point p = surface_grid2->WorldPosition(R3Point(ix+0.5, iy+0.5, iz+0.5));
             p.Transform(transformation2);
             p.InverseTransform(transformation1);
 
@@ -363,8 +374,22 @@ WriteRelationships(R3Scene *scene, const char *filename)
             int gz = (int) (gp.Z() + 0.5);
             if ((gz < 0) || (gz >= surface_grid1->ZResolution())) continue;
 
-            // Update squared distance statistics
+            // Get squared distance to closest point
+            // RNScalar d;
+            // R3Point tmp(p);
+            // tmp.Transform(node1->Transformation());
+            // if (!node1->FindClosest(tmp, NULL, NULL, NULL, NULL, NULL, &d, 0, max_radius)) continue;
+            // RNScalar dd = d * d;
+
+#ifdef USE_GRID
             RNScalar dd = squared_distance_grid1->GridValue(gp);
+#else                     
+            R3Point tmp(p);
+            tmp.Transform(node1->Transformation());
+            RNScalar d = node1->Distance(tmp);
+            RNScalar dd = d * d;
+#endif            
+            // Update squared distance statistics
             if (dd < closest_dd) closest_dd = dd;
             int bin = 0;
             while (bin < NUM_DD_BINS) {
@@ -510,4 +535,3 @@ int main(int argc, char **argv)
   // Return success 
   return 0;
 }
-
