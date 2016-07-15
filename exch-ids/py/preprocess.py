@@ -6,7 +6,8 @@ import relationships
 ## I/O
 ##
 
-data_file = "obj_stats.txt"
+#data_file = "obj_stats.txt"
+data_file = "foo.txt"
 map = None
 
 def extract_id(name):
@@ -91,12 +92,12 @@ class DDC(object):
 
 
 def get_cat(name, map):
-    if "Walls" in name:
+    if "Wall" in name:
         return "Wall"
-    elif "Floors" in name:
-        return "Floors"
-    elif "Ceilings" in name:
-        return "Ceilings"
+    elif "Floor" in name:
+        return "Floor"
+    elif "Ceiling" in name:
+        return "Ceiling"
 
     id = extract_id(name) 
 
@@ -179,9 +180,9 @@ class Record(object):
 
 def process_row(row, filter, categories):
     pri_name = row[0]
-    if "Walls" in pri_name or "Floors" in pri_name or "Ceilings" in pri_name: 
+    if "Wall" in pri_name or "Floor" in pri_name or "Ceiling" in pri_name: 
         return None
-    if "Walls" in row[1]:
+    if "Wall" in row[1]:
         return None
 
     id = extract_id(pri_name)
@@ -202,25 +203,29 @@ def preprocess(category, categories):
     counter = Counter()
     dict = {}
     
-    rel_dict = {}
-    rel_dict["supports"] = []
-    rel_dict["above"] = []
-    rel_dict["below"] = []
-    rel_dict["supported_by"] = []
+    rels = {"supports" : relationships.supports,
+            "supported_by" : relationships.supported_by,
+            "above" : relationships.above,
+            "below" : relationships.below,
+            "touching" : relationships.touching,
+            "within_1m" : relationships.within_1m,
+            "within_2m" : relationships.within_2m,
+            "within_3m" : relationships.within_3m,
+            "faces" : relationships.faces,
+            "faces_away" : relationships.faces_away }
+    
+    rel_log = {}
+    for rel in rels.keys():
+        rel_log[rel] = []
+
     with open(data_file, 'r') as fh:
         for row in fh:
             row = row.split()
             record = process_row(row, category, categories)
             if record is not None:
-                if relationships.supports(record):
-                    #print record.make_legible()
-                    rel_dict["supports"].append(record)
-                #if relationships.above(record):
-                #    rel_dict["above"].append(record)
-                #if relationships.below(record):
-                #    rel_dict["below"].append(record)
-                #if relationships.supported_by(record):
-                #    rel_dict["supported_by"].append(record)
+                for rel, func in rels.items:
+                    if func(record):
+                        rel_log[rel].append(record)
 
                 key = create_key(record)
                 counter.update({key : 1})
@@ -229,6 +234,9 @@ def preprocess(category, categories):
                     dict[key].add(record)
                 else:
                     dict[key] = record
+
+    for rel, records in rel_log.items():
+        print rel + " " + str(len(records)
 
     #for r in rel_dict["supports"]:
     #    print r.make_legible() + " : " + str(r.sqrt_closest_dd)
