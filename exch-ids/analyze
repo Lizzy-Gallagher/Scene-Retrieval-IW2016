@@ -1,8 +1,9 @@
 #! /bin/bash
 
-[ $# -eq 0 ] && { echo "Usage: $0 category"; exit 1; }
+[ $# -le 1 ] && { echo "Usage: $0 input_file category"; exit 1; }
 
-category=$1
+input_file=$1
+category=$2
 
 python_dir="py"
 csv_dir="csv"
@@ -16,10 +17,10 @@ report_filename="output.csv"
 ##  FILTER BY CATEGORY
 ##
 
-rm $csv_dir/$dst_csv_filename ;
+#rm $csv_dir/$dst_csv_filename ;
 
 #echo "Filtering $csv_dir/$src_csv_filename for '$category'..." 
-$scripts_dir/filter -v pri_cat=$category $csv_dir/$src_csv_filename > $csv_dir/$dst_csv_filename
+#$scripts_dir/filter -v pri_cat=$category $csv_dir/$src_csv_filename > $csv_dir/$dst_csv_filename
 
 ##
 ##  COLLAPSE ROWS
@@ -31,4 +32,6 @@ $scripts_dir/filter -v pri_cat=$category $csv_dir/$src_csv_filename > $csv_dir/$
 ##  ANALYZE CATEGORY
 ## 
 
-python $python_dir/analyze.py $csv_dir/$dst_csv_filename $report_filename $category
+python $python_dir/analyze.py $category $input_file output.txt
+
+#python $python_dir/analyze.py $csv_dir/$dst_csv_filename $report_filename $category

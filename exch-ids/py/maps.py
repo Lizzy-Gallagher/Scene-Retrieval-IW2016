@@ -20,6 +20,6 @@ class Ids(dict):
                 cat = row[1]
                 
                 if cat not in self:
-                    self[cat] = list(id)
-                else:
-                    self[cat].append(id)
+                    self[cat] = []
+                
+                self[cat].append(id)
