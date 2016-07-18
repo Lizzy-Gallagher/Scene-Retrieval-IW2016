@@ -6,8 +6,8 @@ import relationships
 ## I/O
 ##
 
-#data_file = "obj_stats.txt"
-data_file = "foo.txt"
+#input_file = "obj_stats.txt"
+#input_file = "foo.txt"
 map = None
 
 def extract_id(name):
@@ -31,7 +31,7 @@ def extract_id(name):
 
 def on_top(r):
     surface_area = r.point_area * r.npoints
-    
+
     # Amount above
     num_above = r.pc.above_projection_z
     percent_above = (num_above * r.point_area) / surface_area
@@ -44,7 +44,7 @@ def on_top(r):
     distance = r.sqrt_closest_dd
 
     print r.pri_cat + ":" + r.ref_cat + " - " + str(num_above) + " - " + \
-    str(percent_above) + " - " + str(distance)
+            str(percent_above) + " - " + str(distance)
 
 class PC(object):
     # pc is a histogram of how many points on object B lie below, within,
@@ -188,8 +188,8 @@ def process_row(row, filter, categories):
     id = extract_id(pri_name)
     category = categories[id]
 
-    #if filter != category:
-    #    return None
+    if filter != category:
+        return None
 
     record = Record(row, categories)
     return record
@@ -197,12 +197,11 @@ def process_row(row, filter, categories):
 def create_key(record):
     return record.pri_id + record.ref_id
 
-def preprocess(category, categories):
+def preprocess(category, input_file, categories):
     # Load data
-    category = "table_lamp"
     counter = Counter()
     dict = {}
-    
+
     rels = {"supports" : relationships.supports,
             "supported_by" : relationships.supported_by,
             "above" : relationships.above,
@@ -213,19 +212,35 @@ def preprocess(category, categories):
             "within_3m" : relationships.within_3m,
             "faces" : relationships.faces,
             "faces_away" : relationships.faces_away }
-    
-    rel_log = {}
-    for rel in rels.keys():
-        rel_log[rel] = []
+    lim_rels = {
+        "supports" : relationships.supports,
+        "supported_by" : relationships.supported_by,
+        "within_1m" : relationships.within_1m,
+        "within_2m" : relationships.within_2m,
+        "within_3m" : relationships.within_3m,
+    }
 
-    with open(data_file, 'r') as fh:
+    active_rels = lim_rels # Change me to change rels
+
+    rel_log = {}
+    with open(input_file, 'r') as fh:
         for row in fh:
             row = row.split()
             record = process_row(row, category, categories)
             if record is not None:
-                for rel, func in rels.items:
+                id = record.pri_id
+
+                for rel, func in active_rels.items():
                     if func(record):
-                        rel_log[rel].append(record)
+                        if id not in rel_log:
+                            rel_log[id] = {}
+                            for rel in active_rels.keys():
+                                rel_log[id][rel] = {} 
+
+                        if record.ref_cat not in rel_log[id][rel]:
+                            rel_log[id][rel][record.ref_cat] = 1
+                        else:
+                            rel_log[id][rel][record.ref_cat] += 1
 
                 key = create_key(record)
                 counter.update({key : 1})
@@ -235,8 +250,16 @@ def preprocess(category, categories):
                 else:
                     dict[key] = record
 
-    for rel, records in rel_log.items():
-        print rel + " " + str(len(records)
+    # Send back
+    return rel_log
+
+    # Printing for examination
+    for id, rel_set in sorted(rel_log.items()):
+        print id
+        for rel, cat_set in sorted(rel_set.items()):
+            print "\t" + rel
+            for cat, count in sorted(cat_set.items()):
+                print "\t\t" + cat + " : " + str(count)
 
     #for r in rel_dict["supports"]:
     #    print r.make_legible() + " : " + str(r.sqrt_closest_dd)
@@ -248,7 +271,4 @@ def preprocess(category, categories):
     # for every category of ref_objects, average all numeric values
 
     # use AWK to do this
-
-
-    raise NotImplementedError()
 

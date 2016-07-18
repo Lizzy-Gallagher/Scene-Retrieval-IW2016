@@ -1,5 +1,5 @@
 import sys
-from itertools import tee, izip
+import itertools
 from random import randint
 
 from maps import Categories
@@ -7,9 +7,9 @@ from maps import Ids
 import preprocess
 
 # Command-Line Args
-input_filename  = sys.argv[1]
-output_filename = sys.argv[2]
-category        = sys.argv[3]
+category        = sys.argv[1]
+input_filename  = sys.argv[2]
+output_filename = sys.argv[3]
 
 ##
 ## CONSTANTS
@@ -107,43 +107,59 @@ def matches(id1, id2):
 
     print "Unimplemented"
 
-def compute_compatibility_score(id_1, id_2):
+def compute_compatibility_score(id_1, id_2, rel_log):
 
-    matches = 0
-    
-    
-    # for all ref_cat
-    #   if matches(id1, id2):
-    #       matches += 1
-    # if matches / total_num > threshold
-    #   return true
+    matches = 0.0
+    misses = 0.0
+    rel_set1 = rel_log[id_1]
+    rel_set2 = rel_log[id_2]
 
-    #print "Unimplemented"
-    return randint(0,9)
-    #return matches
+    rels_that_matter = ["supported_by"]
+    for rel in rels_that_matter:
+        for cat, count in rel_set1[rel].items():
+            if cat in rel_set2[rel]:
+                matches += 1
+            else:
+                misses += 1
+        for cat, count in rel_set2[rel].items():
+            if cat not in rel_set1[rel]:
+                misses += 1
+
+    if misses + matches == 0:
+        return 0
+
+    ratio = matches / (matches + misses)
+    return ratio * 10
 
 def pairwise(iterable):
     """ s -> (s0,s1), (s1,s2), (s2,s2) ..."""
-    a,b = tee(iterable)
-    next(b, None)
-    return izip(a, b)
+    new_iterable = []
+    for i, item1 in enumerate(iterable):
+        for item2 in itertools.islice(iterable, i+1, None):
+            new_iterable.append((item1,item2))
+
+    return new_iterable
 
 def get_score(record):
     """ return record.score """
     return record[2]
 
-def get_exchangable_ids(category):
+def get_exchangable_ids(rel_log):
     all_ids = ids[category] # All ids in the category
 
-    if len(all_ids) == 1:
+    if len(all_ids) <= 1:
         return None
  
     records = []
     for id1, id2 in pairwise(all_ids):
-        score = compute_compatibility_score(id1, id2)
-        records.append((id1, id2, score))
+        if id1 not in rel_log or id2 not in rel_log:
+            continue
 
-    threshold = 7
+        score = compute_compatibility_score(id1, id2, rel_log)
+        records.append((id1, id2, score))
+        print "\t\t- (" + str(id1) + ")(" + str(id2) + ") : " + str(score)
+
+    threshold = 1 # score necessary for compatibility
 
     # Only inlclude records above a certain threshold
     records = filter(lambda record: get_score(record) > threshold,
@@ -181,29 +197,15 @@ def get_exchangable_ids(category):
 
     return exchangable_sets
 
-    # Create a dictionary of the following form:
-    # pri_id -> [ref_id2 -> relationships]
-
-    # This involves calculating the relationships
-    #   Simple: 
-    #       - contained in columns of 6-orthogonal directions (6) 
-    #       - partially in columns of 6-orthogonal directions (6)
-    #       - in 6-orthogonal directions, but outside column  (6)
-    #       - "Near" to within 0.5m - 5m increments           (10)
-
-    # For each id in dict compare the fraction of shared relationships
-    # of the 28-relationships with each of the other categories
-
-#def get_similar_objects_by_id(id):
-#    print "Unimplemented"
-
-##
-## MAIN METHOD
-##
-
 if __name__ == '__main__':
-    preprocess.preprocess("chair", categories)
-
+    print "Starting ..." 
+    
+    print "\t- Analyzing scenes..."
+    rel_log = preprocess.preprocess(category, input_filename, categories)
+    
+    print "\t- Calculating exchangable sets..."
+    exchangable_ids = get_exchangable_ids(rel_log)
+    print exchangable_ids
 
     # print get_exchangable_ids("sofa")
     print "Done."
