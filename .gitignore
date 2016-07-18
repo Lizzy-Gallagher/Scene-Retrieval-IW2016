@@ -66,11 +66,15 @@ data/roomfiles
 data/texture
 data/rels
 
-!gaps/
+#!gaps/
 
 gaps/*
+!gaps/bin
 !gaps/apps
 !gaps/pkgs
+
+gaps/bin/*
+!gaps/bin/x86_64/scn2rel
 
 gaps/apps/*
 !gaps/apps/p5danalyze
