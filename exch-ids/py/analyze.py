@@ -107,29 +107,41 @@ def matches(id1, id2):
 
     print "Unimplemented"
 
-def compute_compatibility_score(id_1, id_2, rel_log):
+class Score(object):
+    def __init__(self):
+        self.matches = 0.0
+        self.misses  = 0.0
 
-    matches = 0.0
-    misses = 0.0
+    def is_empty(self):
+        return self.misses + self.matches == 0
+
+    def ratio(self):
+        if self.is_empty():
+            return 0.0
+
+        return self.matches / (self.matches + self.misses)
+
+def compute_compatibility_score(id_1, id_2, rel_log):
+    rels_that_matter = ["supported_by", "supports"]
     rel_set1 = rel_log[id_1]
     rel_set2 = rel_log[id_2]
 
-    rels_that_matter = ["supported_by"]
+    ratios = {"best" : 0.0}
     for rel in rels_that_matter:
+        score = Score()
         for cat, count in rel_set1[rel].items():
             if cat in rel_set2[rel]:
-                matches += 1
+                score.matches += 1
             else:
-                misses += 1
+                score.misses += 1
         for cat, count in rel_set2[rel].items():
             if cat not in rel_set1[rel]:
-                misses += 1
+                score.misses += 1
+       
+        if score.ratio > ratios["best"]:
+            ratios["best"] = score.ratio
 
-    if misses + matches == 0:
-        return 0
-
-    ratio = matches / (matches + misses)
-    return ratio * 10
+    return ratios["best"] * 10
 
 def pairwise(iterable):
     """ s -> (s0,s1), (s1,s2), (s2,s2) ..."""

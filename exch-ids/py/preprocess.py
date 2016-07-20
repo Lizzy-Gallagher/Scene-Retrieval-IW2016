@@ -45,6 +45,24 @@ def on_top(r):
 
     print r.pri_cat + ":" + r.ref_cat + " - " + str(num_above) + " - " + \
             str(percent_above) + " - " + str(distance)
+class MINIMALPC(object):
+    # pc is a histogram of how many points on object B lie below, within,
+    # or above the surfaces of A (for each dimension x, y, and z)
+    def __init__(self, pc):
+        self.below_projection_z  = int(pc[0])
+        self.within_projection_z = int(pc[1])
+        self.above_projection_z  = int(pc[2])
+
+class MINIMALBC(object):
+    # bc is a histogram of how many points on object B lie below, within,
+    # or above the bounding box of A (for each dimension x, y, and z)
+    def __init__(self, bc):
+        self.within_bbox_x = int(bc[0])
+        self.below_bbox_y  = int(bc[1])      
+        self.within_bbox_y = int(bc[2])
+        self.above_bbox_y  = int(bc[3])      
+        self.below_bbox_z  = int(bc[4])
+        self.above_bbox_z  = int(bc[5])
 
 class PC(object):
     # pc is a histogram of how many points on object B lie below, within,
@@ -90,18 +108,50 @@ class DDC(object):
         self.bin8 = int(ddc[8])
         self.bin9 = int(ddc[9])
 
-
 def get_cat(name, map):
-    if "Wall" in name:
+    if "W" in name:
         return "Wall"
-    elif "Floor" in name:
+    elif "F" in name:
         return "Floor"
-    elif "Ceiling" in name:
+    elif "C" in name:
         return "Ceiling"
 
     id = extract_id(name) 
 
     return map[id]
+
+class MinimalRecord(object):
+    def __init__(self, row, map):
+        print row 
+        self.pri_id = row[0]
+        self.pri_cat = get_cat(row[0], map)
+
+        self.ref_id  = row[1]
+        self.ref_cat = get_cat(row[1], map)
+
+        # distance between closest points
+        self.sqrt_closest_dd = float(row[2])
+
+        self.cz = float(row[3])
+
+        # bc is a histogram of how many points on object B lie below, within,
+        # or above the bounding box of A (for each dimension x, y, and z)
+        num_bbox_regions = 6
+        start_bc = 4
+        end_bc = start_bc + num_bbox_regions
+        print row[start_bc:end_bc]
+        self.bc  = MINIMALBC(row[start_bc:end_bc])
+
+        # pc is a histogram of how many points on object B lie below, within,
+        # or above the surfaces of A (for each dimension x, y, and z)
+        num_projection_regions = 3
+        start_pc = end_bc
+        end_pc = start_pc + num_projection_regions
+        print row[start_pc:end_pc]
+        self.pc = MINIMALPC(row[start_pc:end_pc])
+
+    def make_legible(self):
+        return self.pri_cat + "(" + self.pri_id + ")" + " : " + self.ref_cat + "(" + self.ref_id + ")"
 
 class Record(object):
     def __init__(self, row, map):
@@ -180,9 +230,9 @@ class Record(object):
 
 def process_row(row, filter, categories):
     pri_name = row[0]
-    if "Wall" in pri_name or "Floor" in pri_name or "Ceiling" in pri_name: 
+    if "W" in pri_name or "F" in pri_name or "C" in pri_name: 
         return None
-    if "Wall" in row[1]:
+    if "W" in row[1]:
         return None
 
     id = extract_id(pri_name)
@@ -191,7 +241,7 @@ def process_row(row, filter, categories):
     if filter != category:
         return None
 
-    record = Record(row, categories)
+    record = MinimalRecord(row, categories)
     return record
 
 def create_key(record):
@@ -200,7 +250,6 @@ def create_key(record):
 def preprocess(category, input_file, categories):
     # Load data
     counter = Counter()
-    dict = {}
 
     rels = {"supports" : relationships.supports,
             "supported_by" : relationships.supported_by,
@@ -244,11 +293,6 @@ def preprocess(category, input_file, categories):
 
                 key = create_key(record)
                 counter.update({key : 1})
-
-                if key in dict:
-                    dict[key].add(record)
-                else:
-                    dict[key] = record
 
     # Send back
     return rel_log

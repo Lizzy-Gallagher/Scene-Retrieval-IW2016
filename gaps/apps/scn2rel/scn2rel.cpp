@@ -17,9 +17,9 @@ static const char *input_prefix = NULL;
 static const char *output_relationship_name = NULL;
 static int start_idx = -1;
 static int end_idx = -1;
-static double max_radius = 5;
+static double max_radius = /*5*/ 4;
 static double grid_spacing = 0.05;
-static int grid_max_resolution = /*256*/ 128;
+static int grid_max_resolution = /*256*/ /*128*/ 64;
 static int print_verbose = 0;
 
 
@@ -308,7 +308,35 @@ CreateSquaredDistanceGrid(R3Grid& input)
     return grid;
 }
 
+std::string GetID(const char* name_ptr) {
+    std::string name (name_ptr);
 
+    // Exceptions
+    if (name.find("Floor") != std::string::npos)
+        return "F";
+    else if (name.find("Ceiling") != std::string::npos)
+        return "C";
+    else if (name.find("Wall") != std::string::npos)
+        return "W";
+
+    // Traditional Ids
+    size_t pos = name.find_last_of("_") + 1;
+    
+    // Stores series
+    if (name.find("stores") != std::string::npos)
+        pos = name.find("stores");
+    // s series
+    else if (name[pos - 2] == '_')
+        pos = name.find_last_of("_", pos - 3) + 1;
+
+    if (pos == std::string::npos) {
+        fprintf(stdout, "FAILURE. Malformed object name: %s\n", name.c_str());
+        exit(-1);
+    }
+
+    std::string id = name.substr(pos); 
+    return id;
+}
 
 static int 
 WriteRelationships(R3Scene *scene, const char *filename)
@@ -333,7 +361,7 @@ WriteRelationships(R3Scene *scene, const char *filename)
 
     // Foreach leaf node1
     for (int i1 = 0; i1 < scene->NNodes(); i1++) {
-        tic();
+        //tic();
         R3SceneNode *node1 = scene->Node(i1);
         if (node1->NChildren() > 0) continue;
         const char *name1 = node1->Name();
@@ -487,13 +515,13 @@ WriteRelationships(R3Scene *scene, const char *filename)
             c.Transform(transformation2);
             c.InverseTransform(transformation1);
 
+            
             // Write relationship statistics
-            fprintf(fp, "%s %s  ", name1, name2);
-            fprintf(fp, "%.3g %.3g %d  ", point_area, sqrt(closest_dd), npoints);
-            fprintf(fp, "%.3g %.3g %.3g  ", c.X(), c.Y(), c.Z());
-            for (int i = 0; i < NUM_DD_BINS; i++) fprintf(fp, "%d ", ddc[i]); fprintf(fp, " ");
-            for (int i = 0; i < NUM_BBOX_REGIONS; i++) fprintf(fp, "%d ", bc[i]); fprintf(fp, " ");
-            for (int i = 0; i < NUM_PROJECTION_REGIONS; i++) fprintf(fp, "%d ", pc[i]); fprintf(fp, " ");
+            fprintf(fp, "%s %s ", GetID(name1).c_str(), GetID(name2).c_str()); // shorten the names to save lots of space
+            fprintf(fp, "%.2g ", sqrt(closest_dd));
+            fprintf(fp, "%.3g ", c.Z());
+            fprintf(fp, "%d %d %d %d %d %d ", bc[WITHIN_BBOX_X], bc[ABOVE_BBOX_Y], bc[WITHIN_BBOX_Y], bc[BELOW_BBOX_Y], bc[ABOVE_BBOX_Z], bc[BELOW_BBOX_Z]);
+            fprintf(fp, "%d %d %d ", pc[ABOVE_PROJECTION_Z], pc[WITHIN_PROJECTION_Z], pc[BELOW_PROJECTION_Z]);
             fprintf(fp, "\n");
 
             // Update statistics
@@ -507,7 +535,7 @@ WriteRelationships(R3Scene *scene, const char *filename)
         delete [] planar_grids1;
         delete squared_distance_grid1;
         delete surface_grid1;
-        toc("\tCalculating node");
+        //toc("\tCalculating node");
 
     }
 
@@ -586,10 +614,11 @@ int main(int argc, char **argv)
         tic();
         R3Scene *scene = ReadScene(project_id.c_str());
         if (!scene) continue;
-        toc("Reading scene");
 
         // Write relationships
         if (!WriteRelationships(scene, output_relationship_name)) continue;
+        toc("Reading scene");
+        fprintf(stdout, "%d...", i);
     }
 
     // Return success 
