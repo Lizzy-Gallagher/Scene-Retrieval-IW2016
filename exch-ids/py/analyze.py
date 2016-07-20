@@ -12,100 +12,29 @@ input_filename  = sys.argv[2]
 output_filename = sys.argv[3]
 
 ##
-## CONSTANTS
+## Constants
 ##
 
 id_to_cat_filename = "data/object_names.csv"
 categories = Categories(id_to_cat_filename)
 ids = Ids(id_to_cat_filename)
 
-distances = [0.5, 1.0, 1.5, 2.0, 2.5,
-             3.0, 3.5, 4.0, 4.5, 5.0]
-
-axes = ['x','y','z']
-
-directions = ['pos_x', 'neg_x',
-              'pos_y', 'neg_y',
-              'pos_z', 'neg_z']
-
-strictness = ['high', 'med', 'low']
-
-class Constants(object):
-    def __init__(self):
-        # Three thresholds for match strictness:
-        #   - Strict: ALL binary relationships must be equal
-        #   - Medium: ALL orthogonal directions must have a binary relationship in
-        #             common
-        #   - Leniant: HALF of orthogonal directions "" AND/OR "Near" 
-        self.match_strictness = 'med'
-
-        # Three thresholds for category strictness: 
-        #   - Strict: 100% categories must "match"
-        #   - Medium: 60% of categories must "match" 
-        #   - Leniant: 40% of cateogries must "match"
-        self.category_strictness = 'low'
-
-
 ##
-## RELATIONSHIP CLASSES
+## Aux
 ##
 
-class Near(object):
-    def __init__(self):
-        self.dist = [false] * size(direction)
+def pairwise(iterable):
+    """ s -> (s0,s1), (s1,s2), (s2,s2) ..."""
+    new_iterable = []
+    for i, item1 in enumerate(iterable):
+        for item2 in itertools.islice(iterable, i+1, None):
+            new_iterable.append((item1,item2))
 
-class OrthogonalRelationship(object):
-    """ Stores x/y/z values """
-    def __init__(self, direction):
-        self.direction = direction
-
-        # Off-Axis relationships
-        self.within_column    = false
-        self.partially_column = false
-        self.in_direction     = false
-
-        # On-Axis relationships
-        self.dist_to_axis = 0.0
-
-class Relationships(object):
-    """ Stores all realtionships """
-    def __init__(self, id):
-        self.id = id
-
-        self.x = [OrthogonalRelationship('pos_x'), OrthogonalRelationship('neg_x')]
-        self.y = [OrthogonalRelationship('pos_y'), OrthogonalRelationship('neg_y')]
-        self.z = [OrthogonalRelationship('pos_z'), OrthogonalRelationship('neg_z')]
-
-        self.near = Near()
-
+    return new_iterable
 
 ##
 ## Analysis Functions
 ##
-
-def matches(id1, id2):
-    """ Returns bool of matching """
-    constant = Constants()
-    strictness = constant.match_strictness
-
-    if strictness == 'high':
-        for axis in axes:
-            for dir in directions:
-               return false
-
-    elif strictness == 'med':
-        for axis in axes:
-            for dir in directions:
-                return false
-
-    elif strictness == 'low':
-        if near:
-            return true
-        for axis in axes:
-            for dir in directions:
-                return false
-
-    print "Unimplemented"
 
 class Score(object):
     def __init__(self):
@@ -142,15 +71,6 @@ def compute_compatibility_score(id_1, id_2, rel_log):
             ratios["best"] = score.ratio
 
     return ratios["best"] * 10
-
-def pairwise(iterable):
-    """ s -> (s0,s1), (s1,s2), (s2,s2) ..."""
-    new_iterable = []
-    for i, item1 in enumerate(iterable):
-        for item2 in itertools.islice(iterable, i+1, None):
-            new_iterable.append((item1,item2))
-
-    return new_iterable
 
 def get_score(record):
     """ return record.score """
@@ -208,6 +128,10 @@ def get_exchangable_ids(rel_log):
                     break
 
     return exchangable_sets
+
+##
+## Main
+##
 
 if __name__ == '__main__':
     print "Starting ..." 
