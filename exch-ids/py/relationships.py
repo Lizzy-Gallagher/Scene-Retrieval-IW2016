@@ -89,7 +89,7 @@ def above(r):
     return True
 
 def faces_away(r):
-    if "Floor" in r.ref_obj:
+    if "Floor" in r.ref_cat:
         return False
     if below(r) or above(r):
         return False
@@ -100,7 +100,7 @@ def faces_away(r):
     return True
 
 def faces(r):
-    if "Floor" in r.ref_obj:
+    if "Floor" in r.ref_cat:
         return False
     if below(r) or above(r):
         return False
@@ -111,7 +111,7 @@ def faces(r):
     return True
 
 def supports(r):
-    if "Floor" in r.ref_obj:
+    if "Floor" in r.ref_cat:
         return False
     if not above(r):
         return False

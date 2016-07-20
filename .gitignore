@@ -71,10 +71,9 @@ data/rels
 gaps/*
 !gaps/bin
 !gaps/apps
-!gaps/pkgs
 
 gaps/bin/*
-!gaps/bin/x86_64/scn2rel
+!gaps/bin/x86_64
 
 gaps/apps/*
 !gaps/apps/p5danalyze
