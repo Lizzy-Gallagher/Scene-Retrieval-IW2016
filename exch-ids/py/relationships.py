@@ -32,8 +32,27 @@ def next_to(r): # x-value
 
     return False
 
+def against(r):
+    return False
 
 
+
+def lays_on(r):
+    return False
+
+def between(r):
+    return False
+
+def behind(r):
+    # analog "faces away"
+    return False
+
+def in_front_of(r):
+    # analog "faces"
+    return False
+
+def return_false(r):
+    return False
 
 ##
 ## Completed
@@ -42,7 +61,6 @@ def next_to(r): # x-value
 def touching(r):
     if r.sqrt_closest_dd > 0.25:
         return False
-
     return True
 
 def within_1m(r):
@@ -68,8 +86,12 @@ def below(r):
     if r.pc.above_projection_z != 0 or r.bc.above_bbox_z != 0:
         return False
 
+    # If floor is ref, must be on
+    if "Floor" in r.ref_cat and r.cz > 0.0:
+        return False 
+
     # Not on floor, support is lower
-    if r.cz >= -0.01:
+    if "Floor" not in r.ref_cat and r.cz >= -.01:
         return False
 
     return True
@@ -128,4 +150,37 @@ def supported_by(r):
         return False
     return True
 
+def hanging(r):
+    if "W" not in r.ref_cat:
+        return False
+    if not touching(r):
+        return False
+    if r.cz == 0.0:
+        return False
+    return True
 
+def stands_on(r):
+    if not supported_by(r):
+        return False
+
+    npoints = float(r.npoints)
+    print r.make_legible()
+    #lower = 0
+    #mid   = 0
+    #upper = 0
+    for i, val in enumerate(r.ddc.ddc):
+        print str(i) + " " + val
+        #if i < 5:
+        #    lower += float(val)
+        #elif i < 7:
+        #    mid += float(val)
+        #else:
+        #    upper += float(val)
+    #print lower / npoints
+    #print mid   / npoints
+    #print upper / npoints
+    #print "d: " + str(r.sqrt_closest_dd)
+    #print 
+
+
+    return False
