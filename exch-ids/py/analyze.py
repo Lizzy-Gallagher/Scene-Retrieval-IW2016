@@ -6,6 +6,7 @@ import csv
 from maps import Id2Cat
 from maps import Cat2Ids
 import preprocess
+import wordnet
 
 # Command-Line Args
 category        = sys.argv[1]
@@ -147,6 +148,9 @@ def create_header():
     for cat in categories:
         for rel in relationships:
             header.append(rel + "_" + cat)
+    for location in wordnet.locations.keys():
+        header.append(location)
+
     return header
 
 def get_value(id, cat, rel, rel_log):
@@ -180,7 +184,15 @@ def print_rel_log(rel_log, counter):
                 for rel in relationships:
                     row.append(get_value(id, cat, rel, rel_log))
             
-            # num appearances of id
+            for location, set in wordnet.locations.items():
+                num_relationships = 0
+                for cat in categories:
+                    if cat not in set:
+                        continue
+                    
+                    for rel in relationships:
+                        num_relationships += get_value(id, cat, rel, rel_log)
+                row.append(num_relationships)
 
             writer.writerow(row)
 

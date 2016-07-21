@@ -35,20 +35,10 @@ def next_to(r): # x-value
 def against(r):
     return False
 
-
-
 def lays_on(r):
     return False
 
 def between(r):
-    return False
-
-def behind(r):
-    # analog "faces away"
-    return False
-
-def in_front_of(r):
-    # analog "faces"
     return False
 
 def return_false(r):

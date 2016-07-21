@@ -31,6 +31,7 @@ lim_rels = {
     "within_3m" : relationships.within_3m,
 }
 
+# Opposites that can only be calculated one way 
 analogs = {
     "faces" : "in_front_of",
     "faces_away" : "behind",
@@ -40,7 +41,7 @@ analogs = {
 testing = {
     "faces" : relationships.faces,
     "faces_away" : relationships.faces_away,
-    "in_front_of" :relationships.return_false,
+    "in_front_of" : relationships.return_false,
     "behind" : relationships.return_false,
 }
 
@@ -258,14 +259,21 @@ def process_row(row, filter, categories):
     id = extract_id(pri_name)
     category = categories[id]
 
-    #if filter != category:
-    #    return None
+    if filter != category:
+        return None
 
     record = Record(row, categories)
     return record
 
 def create_key(record):
     return record.pri_id + record.ref_id
+
+def init_id(id, rel_log):
+    if id not in rel_log:
+        rel_log[id] = {}
+        for rel in rels.keys():
+            rel_log[id][rel] = {} 
+
 
 def update(dict, key):
     if key not in dict:
@@ -286,33 +294,17 @@ def preprocess(category, input_file, categories):
                 continue
 
             id = r.pri_id
+            init_id(id, rel_log)
+
             for rel, func in rels.items():
                 if not func(r):
                     continue
 
-                if id not in rel_log:
-                    rel_log[id] = {}
-                    for rel in rels.keys():
-                        rel_log[id][rel] = {} 
-
-                # for analogs
                 if rel in analogs:
-                    rel2 = analogs[rel]
-                    ref_id = r.ref_id
-                    if ref_id not in rel_log:
-                        rel_log[ref_id] = {}
-                        for rel in rels.keys():
-                            rel_log[ref_id][rel] = {} 
-                    update(rel_log[ref_id][rel2], r.pri_cat)
-                    #if r.pri_cat not in rel_log[ref_id][rel2]:
-                    #    rel_log[id2][rel2][r.pri_cat] = 1
-                    #else:
-                    #    rel_log[ref_id][rel2][r.pri_cat] += 1
+                    init_id(r.ref_id, rel_log)
+                    update(rel_log[r.ref_id][analogs[rel]], r.pri_cat)
 
-                if r.ref_cat not in rel_log[id][rel]:
-                    rel_log[id][rel][r.ref_cat] = 1
-                else:
-                    rel_log[id][rel][r.ref_cat] += 1
+                update(rel_log[id][rel], r.ref_cat)
 
             counter.update({id : 1})
 
