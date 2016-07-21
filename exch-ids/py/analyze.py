@@ -1,9 +1,10 @@
 import sys
 import itertools
 from random import randint
+import csv
 
-from maps import Categories
-from maps import Ids
+from maps import Id2Cat
+from maps import Cat2Ids
 import preprocess
 
 # Command-Line Args
@@ -16,8 +17,14 @@ output_filename = sys.argv[3]
 ##
 
 id_to_cat_filename = "data/object_names.csv"
-categories = Categories(id_to_cat_filename)
-ids = Ids(id_to_cat_filename)
+
+id2cat = Id2Cat(id_to_cat_filename)
+cat2ids = Cat2Ids(id_to_cat_filename)
+
+categories = cat2ids.keys()
+ids = id2cat.keys()
+
+relationships = preprocess.rels.keys()
 
 ##
 ## Aux
@@ -33,7 +40,7 @@ def pairwise(iterable):
     return new_iterable
 
 ##
-## Analysis Functions
+## Exchanagble Ids
 ##
 
 class Score(object):
@@ -77,7 +84,7 @@ def get_score(record):
     return record[2]
 
 def get_exchangable_ids(rel_log):
-    all_ids = ids[category] # All ids in the category
+    all_ids = cat2ids[category] # All cat2ids in the category
 
     if len(all_ids) <= 1:
         return None
@@ -130,18 +137,72 @@ def get_exchangable_ids(rel_log):
     return exchangable_sets
 
 ##
+## Printing Relationships
+##
+
+def create_header():
+    header = []
+    header.append("id")
+    header.append("num_relationships")
+    for cat in categories:
+        for rel in relationships:
+            header.append(rel + "_" + cat)
+    return header
+
+def get_value(id, cat, rel, rel_log):
+    if rel not in rel_log[id]:
+        return 0
+    elif cat not in rel_log[id][rel]:
+        return 0
+    else:
+        return rel_log[id][rel][cat]
+
+
+def print_rel_log(rel_log, counter):
+    # For every id, print relationships with each category as well as # scenes
+    # in common (necessitates a rewrite of rel_log)
+
+    f = open('relationships.csv', 'w')
+    try:
+        writer = csv.writer(f, quoting=csv.QUOTE_NONNUMERIC)
+        
+        # Write Header
+        header = create_header()
+        writer.writerow(header)
+
+        # Write rows (one per) 
+        for id in rel_log: # ids present in scenes
+            row = []
+            row.append(id)
+            row.append(counter[id])
+
+            for cat in categories:
+                for rel in relationships:
+                    row.append(get_value(id, cat, rel, rel_log))
+            
+            # num appearances of id
+
+            writer.writerow(row)
+
+    finally:
+        f.close()
+
+##
 ## Main
 ##
 
 if __name__ == '__main__':
     print "Starting ..." 
-    
+
     print "\t- Analyzing scenes..."
-    rel_log = preprocess.preprocess(category, input_filename, categories)
-    
-    print "\t- Calculating exchangable sets..."
-    exchangable_ids = get_exchangable_ids(rel_log)
-    print exchangable_ids
+    rel_log, counter = preprocess.preprocess(category, input_filename, id2cat)
+   
+    print "\t- Printing relationship file..."
+    print_rel_log(rel_log, counter)
+
+    #print "\t- Calculating exchangable sets..."
+    #exchangable_ids = get_exchangable_ids(rel_log)
+    #print exchangable_ids
 
     # print get_exchangable_ids("sofa")
     print "Done."

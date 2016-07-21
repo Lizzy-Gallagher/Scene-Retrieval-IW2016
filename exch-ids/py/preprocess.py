@@ -10,6 +10,43 @@ import relationships
 #input_file = "foo.txt"
 map = None
 
+all_rels = {
+    "supports" : relationships.supports,
+    "supported_by" : relationships.supported_by,
+    "above" : relationships.above,
+    "below" : relationships.below,
+    "touching" : relationships.touching,
+    "within_1m" : relationships.within_1m,
+    "within_2m" : relationships.within_2m,
+    "within_3m" : relationships.within_3m,
+    "faces" : relationships.faces,
+    "faces_away" : relationships.faces_away,
+    "hanging"   : relationships.hanging,
+}
+lim_rels = {
+    "supports" : relationships.supports,
+    "supported_by" : relationships.supported_by,
+    "within_1m" : relationships.within_1m,
+    "within_2m" : relationships.within_2m,
+    "within_3m" : relationships.within_3m,
+}
+
+analogs = {
+    "faces" : "in_front_of",
+    "faces_away" : "behind",
+}
+
+
+testing = {
+    "faces" : relationships.faces,
+    "faces_away" : relationships.faces_away,
+    "in_front_of" :relationships.return_false,
+    "behind" : relationships.return_false,
+}
+
+# Change to change rel sets
+rels = testing
+
 def extract_id(name):
     idx = -1
 
@@ -29,22 +66,6 @@ def extract_id(name):
     id = name[idx:]
     return id
 
-def on_top(r):
-    surface_area = r.point_area * r.npoints
-
-    # Amount above
-    num_above = r.pc.above_projection_z
-    percent_above = (num_above * r.point_area) / surface_area
-
-    # Within Horizatonal
-    percent_within_x = (num_above * r.pc.within_projection_x) / surface_area
-    percent_within_y = (num_above * r.pc.within_projection_y) / surface_area
-
-    # Closest Points
-    distance = r.sqrt_closest_dd
-
-    print r.pri_cat + ":" + r.ref_cat + " - " + str(num_above) + " - " + \
-            str(percent_above) + " - " + str(distance)
 class MINIMALPC(object):
     # pc is a histogram of how many points on object B lie below, within,
     # or above the surfaces of A (for each dimension x, y, and z)
@@ -97,6 +118,7 @@ class DDC(object):
     # the closest point on object A (where the ddc[0] represents 0-1cm,
     # ddc[1] represents 1-2cm, etc.)
     def __init__(self, ddc):
+        self.ddc  = ddc
         self.bin0 = int(ddc[0])
         self.bin1 = int(ddc[1])
         self.bin2 = int(ddc[2])
@@ -232,70 +254,70 @@ def process_row(row, filter, categories):
     pri_name = row[0]
     if "W" in pri_name or "F" in pri_name or "C" in pri_name: 
         return None
-    if "W" in row[1]:
-        return None
 
     id = extract_id(pri_name)
     category = categories[id]
 
-    if filter != category:
-        return None
+    #if filter != category:
+    #    return None
 
-    record = MinimalRecord(row, categories)
+    record = Record(row, categories)
     return record
 
 def create_key(record):
     return record.pri_id + record.ref_id
 
+def update(dict, key):
+    if key not in dict:
+        dict[key] = 1
+    else:
+        dict[key] += 1
+
 def preprocess(category, input_file, categories):
     # Load data
     counter = Counter()
 
-    rels = {"supports" : relationships.supports,
-            "supported_by" : relationships.supported_by,
-            "above" : relationships.above,
-            "below" : relationships.below,
-            "touching" : relationships.touching,
-            "within_1m" : relationships.within_1m,
-            "within_2m" : relationships.within_2m,
-            "within_3m" : relationships.within_3m,
-            "faces" : relationships.faces,
-            "faces_away" : relationships.faces_away }
-    lim_rels = {
-        "supports" : relationships.supports,
-        "supported_by" : relationships.supported_by,
-        "within_1m" : relationships.within_1m,
-        "within_2m" : relationships.within_2m,
-        "within_3m" : relationships.within_3m,
-    }
-
-    active_rels = lim_rels # Change me to change rels
-
-    rel_log = {}
+    rel_log = {} # id-rel-cat
     with open(input_file, 'r') as fh:
         for row in fh:
             row = row.split()
-            record = process_row(row, category, categories)
-            if record is not None:
-                id = record.pri_id
+            r = process_row(row, category, categories)
+            if r is None:
+                continue
 
-                for rel, func in active_rels.items():
-                    if func(record):
-                        if id not in rel_log:
-                            rel_log[id] = {}
-                            for rel in active_rels.keys():
-                                rel_log[id][rel] = {} 
+            id = r.pri_id
+            for rel, func in rels.items():
+                if not func(r):
+                    continue
 
-                        if record.ref_cat not in rel_log[id][rel]:
-                            rel_log[id][rel][record.ref_cat] = 1
-                        else:
-                            rel_log[id][rel][record.ref_cat] += 1
+                if id not in rel_log:
+                    rel_log[id] = {}
+                    for rel in rels.keys():
+                        rel_log[id][rel] = {} 
 
-                key = create_key(record)
-                counter.update({key : 1})
+                # for analogs
+                if rel in analogs:
+                    rel2 = analogs[rel]
+                    ref_id = r.ref_id
+                    if ref_id not in rel_log:
+                        rel_log[ref_id] = {}
+                        for rel in rels.keys():
+                            rel_log[ref_id][rel] = {} 
+                    update(rel_log[ref_id][rel2], r.pri_cat)
+                    #if r.pri_cat not in rel_log[ref_id][rel2]:
+                    #    rel_log[id2][rel2][r.pri_cat] = 1
+                    #else:
+                    #    rel_log[ref_id][rel2][r.pri_cat] += 1
+
+                if r.ref_cat not in rel_log[id][rel]:
+                    rel_log[id][rel][r.ref_cat] = 1
+                else:
+                    rel_log[id][rel][r.ref_cat] += 1
+
+            counter.update({id : 1})
 
     # Send back
-    return rel_log
+    return rel_log, counter
 
     # Printing for examination
     for id, rel_set in sorted(rel_log.items()):
@@ -304,15 +326,3 @@ def preprocess(category, input_file, categories):
             print "\t" + rel
             for cat, count in sorted(cat_set.items()):
                 print "\t\t" + cat + " : " + str(count)
-
-    #for r in rel_dict["supports"]:
-    #    print r.make_legible() + " : " + str(r.sqrt_closest_dd)
-
-    # Average values
-    #for key, record in dict.items():
-    #    record.divide(counter[key])
-
-    # for every category of ref_objects, average all numeric values
-
-    # use AWK to do this
-

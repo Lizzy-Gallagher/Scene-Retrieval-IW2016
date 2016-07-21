@@ -1,7 +1,5 @@
 // Source file for the scene converter program
 
-
-
 // Include files 
 
 #include "R3Graphics/R3Graphics.h"
@@ -17,9 +15,9 @@ static const char *input_prefix = NULL;
 static const char *output_relationship_name = NULL;
 static int start_idx = -1;
 static int end_idx = -1;
-static double max_radius = /*5*/ 4;
+static double max_radius = 5;
 static double grid_spacing = 0.05;
-static int grid_max_resolution = /*256*/ /*128*/ 64;
+static int grid_max_resolution = /*256*/ 128;
 static int print_verbose = 0;
 
 
@@ -356,8 +354,13 @@ WriteRelationships(R3Scene *scene, const char *filename)
     // Initialize thresholds for histograms of squared distances
     const int NUM_DD_BINS = 10;
     const RNLength start_d = 0.01;
-    RNLength ddt[NUM_DD_BINS] = { start_d * start_d };
-    for (int i = 1; i < NUM_DD_BINS; i++) ddt[i] = 2.0 * 2.0 * ddt[i-1];
+    RNLength ddt[NUM_DD_BINS] = { start_d /** start_d*/ };
+    fprintf(stdout, "\nddt[%d]: %f", 0, ddt[0]);  
+    for (int i = 1; i < NUM_DD_BINS; i++) {
+        ddt[i] = 2.0 /** 2.0 */ * ddt[i-1];
+        fprintf(stdout, "\nddt[%d]: %f", i, ddt[i]);
+    }
+    
 
     // Foreach leaf node1
     for (int i1 = 0; i1 < scene->NNodes(); i1++) {
@@ -517,11 +520,12 @@ WriteRelationships(R3Scene *scene, const char *filename)
 
             
             // Write relationship statistics
-            fprintf(fp, "%s %s ", GetID(name1).c_str(), GetID(name2).c_str()); // shorten the names to save lots of space
-            fprintf(fp, "%.2g ", sqrt(closest_dd));
-            fprintf(fp, "%.3g ", c.Z());
-            fprintf(fp, "%d %d %d %d %d %d ", bc[WITHIN_BBOX_X], bc[ABOVE_BBOX_Y], bc[WITHIN_BBOX_Y], bc[BELOW_BBOX_Y], bc[ABOVE_BBOX_Z], bc[BELOW_BBOX_Z]);
-            fprintf(fp, "%d %d %d ", pc[ABOVE_PROJECTION_Z], pc[WITHIN_PROJECTION_Z], pc[BELOW_PROJECTION_Z]);
+            fprintf(fp, "%s %s  ", name1, name2);
+            fprintf(fp, "%.3g %.3g %d  ", point_area, sqrt(closest_dd), npoints);
+            fprintf(fp, "%.3g %.3g %.3g  ", c.X(), c.Y(), c.Z());
+            for (int i = 0; i < NUM_DD_BINS; i++) fprintf(fp, "%d ", ddc[i]); fprintf(fp, " ");
+            for (int i = 0; i < NUM_BBOX_REGIONS; i++) fprintf(fp, "%d ", bc[i]); fprintf(fp, " ");
+            for (int i = 0; i < NUM_PROJECTION_REGIONS; i++) fprintf(fp, "%d ", pc[i]); fprintf(fp, " ");
             fprintf(fp, "\n");
 
             // Update statistics

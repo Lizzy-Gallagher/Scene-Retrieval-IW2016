@@ -2,7 +2,7 @@
 
 import csv
 
-class Categories(dict):
+class Id2Cat(dict):
     """ Object Id --> Category """
     def __init__(self, filename):
         with open(filename) as cat_file:
@@ -10,7 +10,7 @@ class Categories(dict):
             for row in reader:
                 self[row[0]] = row[1]
 
-class Ids(dict):
+class Cat2Ids(dict):
     """ Category --> Object Ids """
     def __init__(self, filename):
         with open(filename) as cat_file:
