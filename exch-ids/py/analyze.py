@@ -247,6 +247,7 @@ def print_scene_log(scene_log):
 
         # Header
         header = create_header()
+        writer.writerow(header)
 
         # Write rows:
         for obj1, objs in scene_log.items():
@@ -254,6 +255,7 @@ def print_scene_log(scene_log):
                 row = []
                 row.append(obj1)
                 row.append(obj2)
+                print rels
                 for rel, val in rels.items():
                     if val:
                         row.append(1)
