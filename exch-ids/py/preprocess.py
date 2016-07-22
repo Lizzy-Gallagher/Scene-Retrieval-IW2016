@@ -46,7 +46,7 @@ testing = {
 }
 
 # Change to change rel sets
-rels = testing
+rels = lim_rels
 
 def extract_id(name):
     idx = -1
@@ -349,7 +349,9 @@ def preprocess_scene(input_file, id2cat):
                     analog_cleanup.append((obj1, obj2, analogs[rel]))
 
     for obj1, obj2, rel in analog_cleanup:
-        scene_log[obj1][obj2][rel] = True
+        if "W" in obj2 or "F" in obj2 or "C" in obj2:
+            continue
+        scene_log[obj2][obj1][rel] = True
 
     return scene_log
 
