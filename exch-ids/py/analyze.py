@@ -8,10 +8,36 @@ from maps import Cat2Ids
 import preprocess
 import wordnet
 
+import argparse
+parser = argparse.ArgumentParser()
+parser.add_argument("category", help="the category to filter by")
+parser.add_argument("input_filename", help="the input filename")
+parser.add_argument("output_filename", help="the output filename")
+parser.add_argument("-mode",  action="store", dest="mode",
+                    help="Set mode")
+args = parser.parse_args()
+
+
 # Command-Line Args
-category        = sys.argv[1]
-input_filename  = sys.argv[2]
-output_filename = sys.argv[3]
+category        = args.category
+input_filename  = args.input_filename
+output_filename = args.output_filename
+
+class Mode(object):
+    isAggregate = False
+    isScene     = False
+
+    def __init__(self, mode):
+        if mode == None:
+            self.isAggregate = True
+        elif mode == "agg":
+            self.isAggregate = True
+        elif mode == "scn":
+            self.isScene     = True
+        else:
+            raise ValueError("Unexpected Mode: " + mode)
+
+mode = Mode(args.mode)
 
 ##
 ## Constants
@@ -142,17 +168,25 @@ def get_exchangable_ids(rel_log):
 ##
 
 def create_header():
-    header = []
-    header.append("id")
-    header.append("num_relationships")
-    for cat in categories:
+    if mode.isScene:
+        header = []
+        header.append("Obj1")
+        header.append("Obj2")
         for rel in relationships:
-            header.append(rel + "_" + cat)
-    for location in wordnet.locations.keys():
-        header.append(location)
+            header.append(rel)
+        return header
 
-    return header
+    elif mode.isAggregate:
+        header = []
+        header.append("id")
+        header.append("num_relationships")
+        for cat in categories:
+            for rel in relationships:
+                header.append(rel + "_" + cat)
+        for location in wordnet.locations.keys():
+            header.append(location)
 
+    return headerr
 def get_value(id, cat, rel, rel_log):
     if rel not in rel_log[id]:
         return 0
@@ -166,7 +200,7 @@ def print_rel_log(rel_log, counter):
     # For every id, print relationships with each category as well as # scenes
     # in common (necessitates a rewrite of rel_log)
 
-    f = open('relationships.csv', 'w')
+    f = open(output_filename, 'w')
     try:
         writer = csv.writer(f, quoting=csv.QUOTE_NONNUMERIC)
         
@@ -200,17 +234,55 @@ def print_rel_log(rel_log, counter):
         f.close()
 
 ##
+## Per-Scene Printing
+##
+
+def print_scene_log(scene_log):
+    # For every object # print the relationships with other objects
+    # 0 is false, 1 is true
+
+    f = open(output_filename, 'w')
+    try:
+        writer = csv.writer(f, quoting=csv.QUOTE_NONNUMERIC)
+
+        # Header
+        header = create_header()
+
+        # Write rows:
+        for obj1, objs in scene_log.items():
+            for obj2, rels in objs.items():
+                row = []
+                row.append(obj1)
+                row.append(obj2)
+                for rel, val in rels.items():
+                    if val:
+                        row.append(1)
+                    else:
+                        row.append(0)
+
+                writer.writerow(row)
+    finally:
+        f.close()
+##
 ## Main
 ##
 
 if __name__ == '__main__':
     print "Starting ..." 
 
-    print "\t- Analyzing scenes..."
-    rel_log, counter = preprocess.preprocess(category, input_filename, id2cat)
+    if mode.isAggregate:
+        print "\t- Analyzing scenes..."
+        rel_log, counter = preprocess.preprocess_aggregate(category, input_filename, id2cat)
    
-    print "\t- Printing relationship file..."
-    print_rel_log(rel_log, counter)
+        print "\t- Printing relationship file..."
+        print_rel_log(rel_log, counter)
+    
+    elif mode.isScene:
+        print "\t- Preprocessing data..."
+        scene_log = preprocess.preprocess_scene(input_filename, id2cat)
+
+        print "\t- Printing relationship file..."
+        print_scene_log(scene_log)
 
     #print "\t- Calculating exchangable sets..."
     #exchangable_ids = get_exchangable_ids(rel_log)

@@ -251,19 +251,21 @@ class Record(object):
                 str(self.npoints) + " " + str(self.cx) + " " + str(self.cy) + " " + \
                 str(self.cz)
 
-def process_row(row, filter, categories):
+def process_row(row, filter, id2cat):
     pri_name = row[0]
     if "W" in pri_name or "F" in pri_name or "C" in pri_name: 
         return None
 
     id = extract_id(pri_name)
-    category = categories[id]
+    category = id2cat[id]
+
+    if filter == None:
+        return Record(row, id2cat)
 
     if filter != category:
         return None
 
-    record = Record(row, categories)
-    return record
+    return Record(row, id2cat)
 
 def create_key(record):
     return record.pri_id + record.ref_id
@@ -281,7 +283,7 @@ def update(dict, key):
     else:
         dict[key] += 1
 
-def preprocess(category, input_file, categories):
+def preprocess_aggregate(category, input_file, id2cat):
     # Load data
     counter = Counter()
 
@@ -289,7 +291,7 @@ def preprocess(category, input_file, categories):
     with open(input_file, 'r') as fh:
         for row in fh:
             row = row.split()
-            r = process_row(row, category, categories)
+            r = process_row(row, category, id2cat)
             if r is None:
                 continue
 
@@ -318,3 +320,38 @@ def preprocess(category, input_file, categories):
             print "\t" + rel
             for cat, count in sorted(cat_set.items()):
                 print "\t\t" + cat + " : " + str(count)
+
+def preprocess_scene(input_file, id2cat):
+    analog_cleanup = []
+    
+    scene_log = {} # obj-obj-rel
+    with open(input_file, 'r') as fh:
+        for row in fh:
+            row = row.split()
+            r = process_row(row, None, id2cat)
+
+            if r is None:
+                continue
+            
+            obj1 = r.pri_obj
+            obj2 = r.ref_obj
+
+            if obj1 not in scene_log:
+                scene_log[obj1] = {}
+
+            if obj2 not in scene_log[obj1]:
+                scene_log[obj1][obj2] = {}
+
+            for rel, func in rels.items():
+                scene_log[obj1][obj2][rel] = func(r)
+
+                if rel in analogs:
+                    analog_cleanup.append((obj1, obj2, analogs[rel]))
+
+    for obj1, obj2, rel in analog_cleanup:
+        scene_log[obj1][obj2][rel] = True
+
+    return scene_log
+
+                
+            
