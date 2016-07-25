@@ -503,20 +503,26 @@ void GLUTRedraw(void)
     }  
 
     if (show_rel_1) {
-        glDisable(GL_LIGHTING);
-        glLineWidth(3);
-        std::vector<Names> names = relationships[1];
-        for (int i = 0; i < names.size(); i++) {
+        fprintf(stderr, "In show_rel_1");
+        //glDisable(GL_LIGHTING);
+        //glLineWidth(3);
+        std::vector<Names> names = relationships[0]; // There is only one relationship... Hmmm....
+        for (int i = 0; i < 1 /*names.size()*/; i++) {
             std::string pri_obj = names[i].pri_obj;
             std::string ref_obj = names[i].ref_obj;
+            fprintf(stderr, "Pri_Obj Name: %s\n", pri_obj.c_str());
+            fprintf(stderr, "Ref_Obj Name: %s\n", ref_obj.c_str());
+
 
             R3SceneNode* pri_node = GetSceneNodeByName(scene, pri_obj);
             R3SceneNode* ref_node = GetSceneNodeByName(scene, ref_obj);
 
             R3Point pri_centroid = pri_node->Centroid();
             R3Point ref_centroid = ref_node->Centroid();
+
+            fprintf(stderr, "(%f, %f, %f)\n", pri_centroid.X(), pri_centroid.Y(), pri_centroid.Z());
         }
-        glLineWidth(1);
+        //glLineWidth(1);
     }
 
     // Draw debug
@@ -972,8 +978,10 @@ ReadRels()
     return 1;
 }
 
-static void PrintHelp() {
-    fprintf(stdout, "Press # to toggle realtionships:\n");
+static void 
+PrintHelp() 
+{
+    fprintf(stdout, "Press # to toggle relationships:\n");
 
     for (int i = 0; i < relationship_names.size(); i++) {
         fprintf(stdout, "\t%d : %s\n", i, relationship_names[i].c_str());

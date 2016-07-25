@@ -67,11 +67,12 @@ data/projects
 data/roomfiles
 data/texture
 data/rels
+data/relationships
+data/measurements
 
 #!gaps/
 
 gaps/*
-!gaps/bin
 !gaps/apps
 
 gaps/bin/*

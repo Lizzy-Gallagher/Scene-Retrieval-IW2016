@@ -1,0 +1,51 @@
+#!/bin/bash
+
+data_dir="../.."
+name=$(basename $PWD)
+
+py_dir="../../../exch-ids/"
+analyze_loc="../../../exch-ids/py/analyze.py"
+
+meas_loc="$data_dir/measurements/$name.txt"
+rel_loc="$data_dir/relationships/$name.csv"
+
+meas_loc2="data/measurements/$name.txt"
+rel_loc2="data/relationships/$name.csv"
+
+
+# If no measurements for the scene, measure
+# call it measurements/#.txt
+echo
+echo
+echo "Checking if measurements exist..."
+if [ ! -f $meas_loc ]; then
+    echo -e "\tNo measurements found."
+    echo -e "\tMeasuring..."
+    scn2meas project.json $meas_loc
+else
+    echo -e "\tMeasurements found!"
+fi
+
+echo
+echo
+
+# If no relationships for the scene, calculate relationships
+# call it relationship/#.csv
+
+echo "Checking if relationships exist..."
+if [ ! -f $rel_loc ]; then
+    echo -e "\tNo relationships found."
+    echo -e "\tAnalyzing..."
+    $(cd $py_dir; python py/analyze.py -mode scn $meas_loc2 $rel_loc2)
+else
+    echo -e "\tRelationships found!"
+fi
+
+echo
+echo
+
+echo "Running relview..."
+echo
+echo
+relview project.json $rel_loc
+
