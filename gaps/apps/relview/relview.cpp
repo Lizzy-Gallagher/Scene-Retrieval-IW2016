@@ -921,6 +921,8 @@ std::vector<std::string>& split(const std::string s, char delim, std::vector<std
 }
 
 
+std::vector<std::string> relationship_names;
+
 static int
 ReadRels()
 {
@@ -935,12 +937,13 @@ ReadRels()
         {
             std::vector<std::string> elems;
             split(line, ',', elems);
-            std::cerr << line << "\n";
                 
             if (is_header) {
                 num_relationships = elems.size() - 2;
-                for (int i = 0; i < num_relationships; i++)
+                for (int i = 2; i < elems.size(); i++) {
+                    relationship_names.push_back(elems[i]);
                     relationships.push_back(std::vector<Names>());
+                }
                 is_header = false;
                 continue;
             }
@@ -950,7 +953,6 @@ ReadRels()
             Names names = { pri_obj, ref_obj };
 
             for (int i = 2; i < elems.size() ; i++) {
-                std::cerr << i << ": " << elems[i] <<'\n';
                 if (atoi(elems[i].c_str())) // if is a relationship, stash
                     relationships[i - 2].push_back(names);
             }
@@ -970,6 +972,14 @@ ReadRels()
     return 1;
 }
 
+static void PrintHelp() {
+    fprintf(stdout, "Press # to toggle realtionships:\n");
+
+    for (int i = 0; i < relationship_names.size(); i++) {
+        fprintf(stdout, "\t%d : %s\n", i, relationship_names[i].c_str());
+    }
+}
+
 
 
 int main(int argc, char **argv)
@@ -977,6 +987,7 @@ int main(int argc, char **argv)
     // Parse program arguments
     if (!ParseArgs(argc, argv)) exit(-1);
     if (!ReadRels()) exit(-1);
+    PrintHelp();
 
     // Initialize GLUT
     GLUTInit(&argc, argv);
