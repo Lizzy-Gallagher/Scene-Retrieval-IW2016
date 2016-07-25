@@ -8,6 +8,8 @@ from maps import Cat2Ids
 import preprocess
 import wordnet
 
+import relationships
+
 import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument("input_filename", help="the input filename")
@@ -52,7 +54,7 @@ cat2ids = Cat2Ids(id_to_cat_filename)
 categories = cat2ids.keys()
 ids = id2cat.keys()
 
-relationships = preprocess.rels.keys()
+rels = preprocess.rels.keys()
 
 ##
 ## Aux
@@ -124,7 +126,6 @@ def get_exchangable_ids(rel_log):
 
         score = compute_compatibility_score(id1, id2, rel_log)
         records.append((id1, id2, score))
-        print "\t\t- (" + str(id1) + ")(" + str(id2) + ") : " + str(score)
 
     threshold = 1 # score necessary for compatibility
 
@@ -165,7 +166,7 @@ def get_exchangable_ids(rel_log):
     return exchangable_sets
 
 ##
-## Printing Relationships
+## Printing rels
 ##
 
 def create_header():
@@ -173,7 +174,7 @@ def create_header():
         header = []
         header.append("Obj1")
         header.append("Obj2")
-        for rel in relationships:
+        for rel in sorted(rels):
             header.append(rel)
         return header
 
@@ -182,12 +183,13 @@ def create_header():
         header.append("id")
         header.append("num_relationships")
         for cat in categories:
-            for rel in relationships:
+            for rel in rels:
                 header.append(rel + "_" + cat)
         for location in wordnet.locations.keys():
             header.append(location)
 
     return headerr
+
 def get_value(id, cat, rel, rel_log):
     if rel not in rel_log[id]:
         return 0
@@ -198,7 +200,7 @@ def get_value(id, cat, rel, rel_log):
 
 
 def print_rel_log(rel_log, counter):
-    # For every id, print relationships with each category as well as # scenes
+    # For every id, print rels with each category as well as # scenes
     # in common (necessitates a rewrite of rel_log)
 
     f = open(output_filename, 'w')
@@ -216,7 +218,7 @@ def print_rel_log(rel_log, counter):
             row.append(counter[id])
 
             for cat in categories:
-                for rel in relationships:
+                for rel in rels:
                     row.append(get_value(id, cat, rel, rel_log))
             
             for location, set in wordnet.locations.items():
@@ -225,7 +227,7 @@ def print_rel_log(rel_log, counter):
                     if cat not in set:
                         continue
                     
-                    for rel in relationships:
+                    for rel in rels:
                         num_relationships += get_value(id, cat, rel, rel_log)
                 row.append(num_relationships)
 
@@ -239,7 +241,7 @@ def print_rel_log(rel_log, counter):
 ##
 
 def print_scene_log(scene_log):
-    # For every object # print the relationships with other objects
+    # For every object # print the rels with other objects
     # 0 is false, 1 is true
 
     f = open(output_filename, 'w')
@@ -251,13 +253,13 @@ def print_scene_log(scene_log):
         writer.writerow(header)
 
         # Write rows:
-        for obj1, objs in scene_log.items():
-            for obj2, rels in objs.items():
+        for obj1 in scene_log:
+            for obj2, rels in scene_log[obj1].items():
                 row = []
                 row.append(obj1)
                 row.append(obj2)
-                print rels
-                for rel, val in rels.items():
+                for rel in sorted(rels):
+                    val = rels[rel]
                     if val:
                         row.append(1)
                     else:
@@ -266,6 +268,7 @@ def print_scene_log(scene_log):
                 writer.writerow(row)
     finally:
         f.close()
+
 ##
 ## Main
 ##
@@ -286,7 +289,7 @@ if __name__ == '__main__':
 
         print "\t- Printing relationship file..."
         print_scene_log(scene_log)
-
+        
     #print "\t- Calculating exchangable sets..."
     #exchangable_ids = get_exchangable_ids(rel_log)
     #print exchangable_ids

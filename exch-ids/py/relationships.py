@@ -1,3 +1,7 @@
+from collections import Counter
+num_true = Counter()
+
+
 def print_record(r):
     print r.make_legible()
     print "\tz (bb): " + str(r.bc.above_bbox_z) + " " + str(r.bc.within_bbox_z) + " " +str(r.bc.below_bbox_z)
@@ -41,67 +45,72 @@ def lays_on(r):
 def between(r):
     return False
 
-def return_false(r):
-    return False
 
 ##
 ## Completed
 ##
 
+
 def touching(r):
-    if r.sqrt_closest_dd > 0.25:
+    if "F" in r.ref_cat:
+        return False
+    if r.sqrt_closest_dd > 0.15:
         return False
     return True
 
 def within_1m(r):
+    if "F" in r.ref_cat:
+        return False
     if r.sqrt_closest_dd > 1.0:
         return False
     return True
 
 def within_2m(r):
+    if "F" in r.ref_cat:
+        return False
     if r.sqrt_closest_dd > 4.0:
         return False
     return True
 
 def within_3m(r):
+    if "F" in r.ref_cat:
+        return False
     if r.sqrt_closest_dd > 9.0:
         return False
     return True
 
 def below(r):
+    if "Floor" in r.ref_cat or "Ceiling" in r.ref_cat or "Wall" in r.ref_cat:
+        return False
+
     # In the Z-Column
     total_in_column = r.pc.above_projection_z + r.pc.within_projection_z + r.pc.below_projection_z
     if total_in_column == 0:
         return False
-    if r.pc.above_projection_z != 0 or r.bc.above_bbox_z != 0:
+
+    if r.cz > -0.01:
         return False
-
-    # If floor is ref, must be on
-    if "Floor" in r.ref_cat and r.cz > 0.0:
-        return False 
-
-    # Not on floor, support is lower
-    if "Floor" not in r.ref_cat and r.cz >= -.01:
-        return False
-
+    
+    print r.pri_obj + " " + r.ref_obj
     return True
 
 def above(r):
+    if "Floor" in r.ref_cat or "Ceiling" in r.ref_cat or "Wall" in r.ref_cat:
+        return False
+
     # In the Z-Column
     total_in_column = r.pc.above_projection_z + r.pc.within_projection_z + r.pc.below_projection_z
     if total_in_column == 0:
         return False
-    if r.pc.below_projection_z != 0 or r.bc.below_bbox_z != 0:
+
+    if r.cz < 0.01:
         return False
 
-    # Not on floor, support is higher
-    if r.cz <= 0.01:
-        return False
-
+    print r.ref_obj + " " + r.pri_obj
     return True
 
 def faces_away(r):
-    if "Floor" in r.ref_cat:
+    if "F" in r.ref_cat:
         return False
     if below(r) or above(r):
         return False
@@ -109,10 +118,12 @@ def faces_away(r):
         return False
     if r.bc.above_bbox_y != 0 or r.bc.below_bbox_y == 0:
         return False
+    
+    num_true.update({"faces_away": 1})
     return True
 
 def faces(r):
-    if "Floor" in r.ref_cat:
+    if "F" in r.ref_cat:
         return False
     if below(r) or above(r):
         return False
@@ -120,33 +131,31 @@ def faces(r):
         return False
     if r.bc.below_bbox_y != 0 or r.bc.above_bbox_y == 0:
         return False
+    
+    num_true.update({"faces": 1})
     return True
 
 def supports(r):
-    if "Floor" in r.ref_cat:
+    if "Ceiling" in r.ref_cat or "F" in r.ref_cat or "Wall" in r.ref_cat or "door" in r.ref_cat:
         return False
+
     if not above(r):
         return False
     if not touching(r):
         return False
     if r.bc.within_bbox_x == 0 or r.bc.within_bbox_y == 0:
         return False
-    return True
-
-def supported_by(r):
-    if not below(r):
-        return False
-    if not touching(r):
-        return False
+    
+    num_true.update({"supports": 1})
     return True
 
 def hanging(r):
-    if "W" not in r.ref_cat:
-        return False
     if not touching(r):
         return False
-    if r.cz == 0.0:
+    if r.cz >= 0.0:
         return False
+    
+    num_true.update({"hanging": 1})
     return True
 
 def stands_on(r):
@@ -174,3 +183,7 @@ def stands_on(r):
 
 
     return False
+
+def return_false(r):
+    return False
+
