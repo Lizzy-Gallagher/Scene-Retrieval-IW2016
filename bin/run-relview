@@ -9,9 +9,12 @@ analyze_loc="../../../exch-ids/py/analyze.py"
 meas_loc="$data_dir/measurements/$name.txt"
 rel_loc="$data_dir/relationships/$name.csv"
 
-meas_loc2="data/measurements/$name.txt"
-rel_loc2="data/relationships/$name.csv"
-
+if [[ $# = 0 ]]; then
+    if [[ $1 = "clean" ]]; then 
+        rm $meas_loc 
+        rm $rel_loc
+    fi
+fi
 
 # If no measurements for the scene, measure
 # call it measurements/#.txt
@@ -34,6 +37,9 @@ echo
 
 echo "Checking if relationships exist..."
 if [ ! -f $rel_loc ]; then
+    meas_loc2="data/measurements/$name.txt"
+    rel_loc2="data/relationships/$name.csv"
+    
     echo -e "\tNo relationships found."
     echo -e "\tAnalyzing..."
     $(cd $py_dir; python py/analyze.py -mode scn $meas_loc2 $rel_loc2)
