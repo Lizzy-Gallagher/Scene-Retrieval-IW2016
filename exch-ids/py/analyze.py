@@ -10,9 +10,10 @@ import wordnet
 
 import argparse
 parser = argparse.ArgumentParser()
-parser.add_argument("category", help="the category to filter by")
 parser.add_argument("input_filename", help="the input filename")
 parser.add_argument("output_filename", help="the output filename")
+parser.add_argument("-category", action="store", dest="category",
+                    help="the category to filter by")
 parser.add_argument("-mode",  action="store", dest="mode",
                     help="Set mode")
 args = parser.parse_args()
@@ -43,7 +44,7 @@ mode = Mode(args.mode)
 ## Constants
 ##
 
-id_to_cat_filename = "data/object_names.csv"
+id_to_cat_filename = "../data/object_names.csv"
 
 id2cat = Id2Cat(id_to_cat_filename)
 cat2ids = Cat2Ids(id_to_cat_filename)
