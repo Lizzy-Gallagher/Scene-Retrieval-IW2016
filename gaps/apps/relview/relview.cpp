@@ -71,6 +71,7 @@ static int show_rel_6 = 0;
 static int show_rel_7 = 0;
 static int show_rel_8 = 0;
 static int show_rel_9 = 0;
+static int show_rel_10 = 0;
 
 // I/O Variables
 // rel - pri, ref
@@ -113,6 +114,31 @@ TransformedCentroid(R3SceneNode *node)
     }
     fprintf(stdout, "\n");
     return p;
+}
+
+static void
+DrawRelationship(std::vector<Names> sets, double r, double g, double b)
+{
+    glDisable(GL_LIGHTING);
+    glLineWidth(5);
+    for (int i = 0; i < sets.size(); i++) {
+        std::string pri_obj = sets[i].pri_obj;
+        std::string ref_obj = sets[i].ref_obj;
+
+        R3SceneNode* pri_node = GetSceneNodeByName(scene, pri_obj);
+        R3SceneNode* ref_node = GetSceneNodeByName(scene, ref_obj);
+
+        R3Point pri_centroid = pri_node->Centroid();
+        R3Point ref_centroid = ref_node->Centroid();
+        
+        R3BeginLine();
+        glColor3f(r,g,b);
+        R3LoadPoint(pri_centroid);
+        R3LoadPoint(ref_centroid);
+        R3EndLine();
+
+    }
+    glLineWidth(1);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -519,29 +545,55 @@ void GLUTRedraw(void)
         }
     }  
 
+    // Draw relationships
     if (show_rel_1) {
-        //fprintf(stderr, "In show_rel_1");
-        glDisable(GL_LIGHTING);
-        glLineWidth(5);
-        std::vector<Names> names = relationships[0]; // There is only one relationship... Hmmm....
-        for (int i = 0; i < names.size(); i++) {
-            std::string pri_obj = names[i].pri_obj;
-            std::string ref_obj = names[i].ref_obj;
+        if (relationships.size() >= 1)
+            DrawRelationship(relationships[0], 1, 0, 0);
+    }
 
-            R3SceneNode* pri_node = GetSceneNodeByName(scene, pri_obj);
-            R3SceneNode* ref_node = GetSceneNodeByName(scene, ref_obj);
+    if (show_rel_2) {
+        if (relationships.size() >= 2)
+            DrawRelationship(relationships[1], 0, 1, 0);
+    }
 
-            R3Point pri_centroid = pri_node->Centroid();
-            R3Point ref_centroid = ref_node->Centroid();
-            
-            R3BeginLine();
-            glColor3f(0,1,0);
-            R3LoadPoint(pri_centroid);
-            R3LoadPoint(ref_centroid);
-            R3EndLine();
-
-        }
-        glLineWidth(1);
+    if (show_rel_3) {
+        if (relationships.size() >= 3) 
+            DrawRelationship(relationships[2], 0, 0, 1);
+    }
+    
+    if (show_rel_4) {
+        if (relationships.size() >= 4)
+            DrawRelationship(relationships[3], 1, 1, 0);
+    }
+    
+    if (show_rel_5) {
+        if (relationships.size() >= 5) 
+            DrawRelationship(relationships[4], 0, 1, 1);
+    }
+    
+    if (show_rel_6) {
+        if (relationships.size() >= 6)
+            DrawRelationship(relationships[5], 1, 0, 1);
+    }
+    
+    if (show_rel_7) {
+        if (relationships.size() >= 7)
+            DrawRelationship(relationships[6], 0.5, 0, 0);
+    }
+    
+    if (show_rel_8) {
+        if (relationships.size() >= 8)
+            DrawRelationship(relationships[7], 0, 0.5, 0);
+    }
+    
+    if (show_rel_9) {
+        if (relationships.size() >= 9)
+            DrawRelationship(relationships[8], 0, 0, 0.5);
+    }
+    
+    if (show_rel_10) {
+        if (relationships.size() >= 10)
+            DrawRelationship(relationships[9], 0.5, 0.5, 0);
     }
 
     // Draw debug
@@ -562,6 +614,7 @@ void GLUTRedraw(void)
     // Swap buffers 
     glutSwapBuffers();
 }    
+
 
 
 
@@ -695,6 +748,33 @@ void GLUTKeyboard(unsigned char key, int x, int y)
     switch (key) {
         case '1':
             show_rel_1 = !show_rel_1;
+            break;
+        case '2':
+            show_rel_2 = !show_rel_2;
+            break;
+        case '3':
+            show_rel_3 = !show_rel_3;
+            break;
+        case '4':
+            show_rel_4 = !show_rel_4;
+            break;
+        case '5':
+            show_rel_5 = !show_rel_5;
+            break;
+        case '6':
+            show_rel_6 = !show_rel_6;
+            break;
+        case '7':
+            show_rel_7 = !show_rel_7;
+            break;
+        case '8':
+            show_rel_8 = !show_rel_8;
+            break;
+        case '9':
+            show_rel_9 = !show_rel_9;
+            break;
+        case '0':
+            show_rel_10 = !show_rel_10;
             break;
 
         case 'A':
