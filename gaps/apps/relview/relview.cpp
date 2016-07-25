@@ -87,16 +87,32 @@ std::vector<std::vector<Names>> relationships; //(num_relationships); // must be
 
 static R3SceneNode*
 GetSceneNodeByName(R3Scene* scene, std::string name) {
+    name = name.substr(1, name.length() - 2);
     for (int i = 0; i < scene->NNodes(); i++) {
         R3SceneNode* node = scene->Node(i);
         const char *name_ptr = node->Name();
-        if (strcmp(name_ptr, name.c_str()))
+        if (strcmp(name_ptr, name.c_str()) == 0)
             return node;
     }
 
     fprintf(stderr, "Could not find node: %s", name.c_str());
 
     return NULL; 
+}
+
+static R3Point
+TransformedCentroid(R3SceneNode *node)
+{
+    R3Point p = node->Centroid();
+    R3SceneNode *ancestor = node;
+    while (ancestor) {
+        fprintf(stdout, "Transforming... ");
+        fprintf(stdout, " %s", ancestor->Name());
+        p.Transform(ancestor->Transformation());
+        ancestor = ancestor->Parent();
+    }
+    fprintf(stdout, "\n");
+    return p;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -386,6 +402,7 @@ void GLUTStop(void)
 
 
 
+
 void GLUTRedraw(void)
 {
     // Check scene
@@ -503,26 +520,28 @@ void GLUTRedraw(void)
     }  
 
     if (show_rel_1) {
-        fprintf(stderr, "In show_rel_1");
-        //glDisable(GL_LIGHTING);
-        //glLineWidth(3);
+        //fprintf(stderr, "In show_rel_1");
+        glDisable(GL_LIGHTING);
+        glLineWidth(5);
         std::vector<Names> names = relationships[0]; // There is only one relationship... Hmmm....
-        for (int i = 0; i < 1 /*names.size()*/; i++) {
+        for (int i = 0; i < names.size(); i++) {
             std::string pri_obj = names[i].pri_obj;
             std::string ref_obj = names[i].ref_obj;
-            fprintf(stderr, "Pri_Obj Name: %s\n", pri_obj.c_str());
-            fprintf(stderr, "Ref_Obj Name: %s\n", ref_obj.c_str());
-
 
             R3SceneNode* pri_node = GetSceneNodeByName(scene, pri_obj);
             R3SceneNode* ref_node = GetSceneNodeByName(scene, ref_obj);
 
             R3Point pri_centroid = pri_node->Centroid();
             R3Point ref_centroid = ref_node->Centroid();
+            
+            R3BeginLine();
+            glColor3f(0,1,0);
+            R3LoadPoint(pri_centroid);
+            R3LoadPoint(ref_centroid);
+            R3EndLine();
 
-            fprintf(stderr, "(%f, %f, %f)\n", pri_centroid.X(), pri_centroid.Y(), pri_centroid.Z());
         }
-        //glLineWidth(1);
+        glLineWidth(1);
     }
 
     // Draw debug
@@ -984,7 +1003,7 @@ PrintHelp()
     fprintf(stdout, "Press # to toggle relationships:\n");
 
     for (int i = 0; i < relationship_names.size(); i++) {
-        fprintf(stdout, "\t%d : %s\n", i, relationship_names[i].c_str());
+        fprintf(stdout, "\t%d : %s\n", i + 1, relationship_names[i].c_str());
     }
 }
 
