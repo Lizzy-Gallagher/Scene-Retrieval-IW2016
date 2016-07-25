@@ -49,10 +49,12 @@ Thumbs.db
 
 ========
 
+obj-imgs/
 resources/
 scene-toolkit/
 old-results/
 etc/
+tmp/
 
 # Ignore Output
 prob-dist/output
