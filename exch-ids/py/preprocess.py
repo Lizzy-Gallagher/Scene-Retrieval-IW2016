@@ -6,13 +6,9 @@ import relationships
 ## I/O
 ##
 
-#input_file = "obj_stats.txt"
-#input_file = "foo.txt"
-map = None
-
 all_rels = {
     "supports" : relationships.supports,
-    "supported_by" : relationships.supported_by,
+    "supported_by" : relationships.return_false,
     "above" : relationships.above,
     "below" : relationships.below,
     "touching" : relationships.touching,
@@ -21,22 +17,29 @@ all_rels = {
     "within_3m" : relationships.within_3m,
     "faces" : relationships.faces,
     "faces_away" : relationships.faces_away,
-    "hanging"   : relationships.hanging,
+
 }
+
+most_rels = {
+    "hanging"   : relationships.hanging,
+    "above" : relationships.above,
+    "below" : relationships.below,
+    "touching" : relationships.touching,
+    "faces" : relationships.faces,
+    "faces_away" : relationships.faces_away,
+    "in_front_of" : relationships.return_false,
+    "behind" : relationships.return_false,
+    "supports" : relationships.supports,
+    "supported_by" : relationships.return_false,
+}
+
 lim_rels = {
     "supports" : relationships.supports,
-    "supported_by" : relationships.supported_by,
+    "supported_by" : relationships.return_false,
     "within_1m" : relationships.within_1m,
     "within_2m" : relationships.within_2m,
     "within_3m" : relationships.within_3m,
 }
-
-# Opposites that can only be calculated one way 
-analogs = {
-    "faces" : "in_front_of",
-    "faces_away" : "behind",
-}
-
 
 testing = {
     "faces" : relationships.faces,
@@ -46,7 +49,14 @@ testing = {
 }
 
 # Change to change rel sets
-rels = lim_rels
+rels = most_rels
+
+# Opposites that can only be calculated one way 
+analogs = {
+    "faces" : "in_front_of",
+    "faces_away" : "behind",
+    "supports" : "supported_by",
+}
 
 def extract_id(name):
     idx = -1
@@ -313,14 +323,6 @@ def preprocess_aggregate(category, input_file, id2cat):
     # Send back
     return rel_log, counter
 
-    # Printing for examination
-    for id, rel_set in sorted(rel_log.items()):
-        print id
-        for rel, cat_set in sorted(rel_set.items()):
-            print "\t" + rel
-            for cat, count in sorted(cat_set.items()):
-                print "\t\t" + cat + " : " + str(count)
-
 def preprocess_scene(input_file, id2cat):
     analog_cleanup = []
     
@@ -329,7 +331,6 @@ def preprocess_scene(input_file, id2cat):
         for row in fh:
             row = row.split()
             r = process_row(row, None, id2cat)
-
             if r is None:
                 continue
             
@@ -338,20 +339,20 @@ def preprocess_scene(input_file, id2cat):
 
             if obj1 not in scene_log:
                 scene_log[obj1] = {}
-
             if obj2 not in scene_log[obj1]:
                 scene_log[obj1][obj2] = {}
 
             for rel, func in rels.items():
-                scene_log[obj1][obj2][rel] = func(r)
-
-                if rel in analogs:
+                result = func(r)
+                scene_log[obj1][obj2][rel] = result
+                if result and rel in analogs:
                     analog_cleanup.append((obj1, obj2, analogs[rel]))
 
     for obj1, obj2, rel in analog_cleanup:
-        if "W" in obj2 or "F" in obj2 or "C" in obj2:
+        if "Wall" in obj2 or "Floor" in obj2 or "Ceiling" in obj2 or "Window" in obj2:
             continue
         scene_log[obj2][obj1][rel] = True
+
 
     return scene_log
 

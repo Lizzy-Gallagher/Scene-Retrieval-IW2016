@@ -1058,7 +1058,7 @@ ReadRels()
             Names names = { pri_obj, ref_obj };
 
             for (int i = 2; i < elems.size() ; i++) {
-                if (atoi(elems[i].c_str())) // if is a relationship, stash
+                if (atoi(elems[i].c_str()) == 1 ) // if is a relationship, stash
                     relationships[i - 2].push_back(names);
             }
         }
@@ -1069,9 +1069,6 @@ ReadRels()
         return 0;
     }
 
-    for (int i = 0; i < relationships.size(); i++) {
-        fprintf(stdout, "Size of relationship %d: %lu\n", i, relationships[i].size());
-    }
 
     // Return ok
     return 1;
@@ -1081,10 +1078,11 @@ static void
 PrintHelp() 
 {
     fprintf(stdout, "Press # to toggle relationships:\n");
-
     for (int i = 0; i < relationship_names.size(); i++) {
-        fprintf(stdout, "\t%d : %s\n", i + 1, relationship_names[i].c_str());
+        fprintf(stderr, "\t%d : %s (%d)\n", i + 1, relationship_names[i].c_str(), relationships[i].size());
     }
+    //std::cout << "TESTING...\n"; 
+    //std::cerr << relationship_names[9];
 }
 
 
