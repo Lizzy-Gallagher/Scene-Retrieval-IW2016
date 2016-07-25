@@ -38,8 +38,6 @@ if [[ $# != 0 ]]; then
     fi
 fi
 
-exit
-
 # If no measurements for the scene, measure
 # call it measurements/#.txt
 echo
