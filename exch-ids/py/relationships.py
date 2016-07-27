@@ -1,5 +1,4 @@
 from collections import Counter
-num_true = Counter()
 
 
 def print_record(r):
@@ -119,7 +118,6 @@ def faces_away(r):
     if r.bc.above_bbox_y != 0 or r.bc.below_bbox_y == 0:
         return False
     
-    num_true.update({"faces_away": 1})
     return True
 
 def faces(r):
@@ -132,7 +130,6 @@ def faces(r):
     if r.bc.below_bbox_y != 0 or r.bc.above_bbox_y == 0:
         return False
     
-    num_true.update({"faces": 1})
     return True
 
 def supports(r):
@@ -146,16 +143,16 @@ def supports(r):
     if r.bc.within_bbox_x == 0 or r.bc.within_bbox_y == 0:
         return False
     
-    num_true.update({"supports": 1})
     return True
 
 def hanging(r):
+    if "Door" in r.pri_obj:
+        return False
     if not touching(r):
         return False
     if r.cz >= 0.0:
         return False
     
-    num_true.update({"hanging": 1})
     return True
 
 def stands_on(r):
