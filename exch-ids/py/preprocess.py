@@ -48,6 +48,8 @@ testing = {
     "behind" : relationships.return_false,
 }
 
+hanging = []
+
 # Change to change rel sets
 rels = most_rels
 
@@ -345,13 +347,24 @@ def preprocess_scene(input_file, id2cat):
             for rel, func in rels.items():
                 result = func(r)
                 scene_log[obj1][obj2][rel] = result
+                if rel == "hanging":
+                    hanging.append((obj1, obj2))
                 if result and rel in analogs:
                     analog_cleanup.append((obj1, obj2, analogs[rel]))
 
     for obj1, obj2, rel in analog_cleanup:
         if "Wall" in obj2 or "Floor" in obj2 or "Ceiling" in obj2 or "Window" in obj2:
             continue
-        scene_log[obj2][obj1][rel] = True
+        try:
+            scene_log[obj2][obj1][rel] = True
+        except:
+            i = 1
+    
+    for obj1, obj2 in hanging:
+        for alt in scene_log[obj1]:
+            if scene_log[obj1][alt]["supported_by"] and alt != obj2:
+                scene_log[obj1][obj2]["hanging"] = False
+                break
 
 
     return scene_log

@@ -60,7 +60,9 @@ static int show_rays = 0;
 static int show_closest = 0;
 static int show_debug = 0;
 static int show_frame_rate = 0;
-static int show_backfacing = 0;
+
+static int do_hide = 0;
+static int hide_front = 0;
 
 static int show_rel_1 = 0;
 static int show_rel_2 = 0;
@@ -99,21 +101,6 @@ GetSceneNodeByName(R3Scene* scene, std::string name) {
     fprintf(stderr, "Could not find node: %s", name.c_str());
 
     return NULL; 
-}
-
-static R3Point
-TransformedCentroid(R3SceneNode *node)
-{
-    R3Point p = node->Centroid();
-    R3SceneNode *ancestor = node;
-    while (ancestor) {
-        fprintf(stdout, "Transforming... ");
-        fprintf(stdout, " %s", ancestor->Name());
-        p.Transform(ancestor->Transformation());
-        ancestor = ancestor->Parent();
-    }
-    fprintf(stdout, "\n");
-    return p;
 }
 
 static void
@@ -442,10 +429,15 @@ void GLUTRedraw(void)
     glClearColor(background.R(), background.G(), background.B(), 1.0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    // Set backface culling
-    if (show_backfacing) glDisable(GL_CULL_FACE);
-    else glEnable(GL_CULL_FACE);
-
+    glDisable(GL_CULL_FACE); 
+    
+    // Manage Hiding
+    if (do_hide) {
+        glEnable(GL_CULL_FACE);
+        if (hide_front) glCullFace(GL_FRONT);
+        else glCullFace(GL_BACK);
+    }
+    
     // Load lights
     LoadLights(scene);
 
@@ -782,11 +774,6 @@ void GLUTKeyboard(unsigned char key, int x, int y)
             show_axes = !show_axes;
             break;
 
-        case 'B':
-        case 'b':
-            show_backfacing = !show_backfacing;
-            break;
-
         case 'C':
         case 'c':
             show_camera = !show_camera;
@@ -825,6 +812,16 @@ void GLUTKeyboard(unsigned char key, int x, int y)
         case 'T':
         case 't':
             show_frame_rate = !show_frame_rate;
+            break;
+
+        case 'X':
+        case 'x':
+            do_hide = !do_hide;
+            break;
+
+        case 'Z':
+        case 'z':
+            hide_front = !hide_front;
             break;
 
         case ' ':
@@ -972,7 +969,7 @@ ParseArgs(int argc, char **argv)
             else if (!strcmp(*argv, "-show_bboxes")) show_bboxes = 1;
             else if (!strcmp(*argv, "-show_axes")) show_axes = 1;
             else if (!strcmp(*argv, "-show_rays")) show_rays = 1;
-            else if (!strcmp(*argv, "-show_backfaces")) show_backfacing = 1;
+            //else if (!strcmp(*argv, "-hide_backfaces")) hide_backfacing = 1;
             else if (!strcmp(*argv, "-image")) { argc--; argv++; output_image_name = *argv; }
             else if (!strcmp(*argv, "-camera")) {
                 RNCoord x, y, z, tx, ty, tz, ux, uy, uz;
@@ -1079,7 +1076,7 @@ PrintHelp()
 {
     fprintf(stdout, "Press # to toggle relationships:\n");
     for (int i = 0; i < relationship_names.size(); i++) {
-        fprintf(stderr, "\t%d : %s (%d)\n", i + 1, relationship_names[i].c_str(), relationships[i].size());
+        fprintf(stderr, "\t%d : %s (%lu)\n", i + 1, relationship_names[i].c_str(), relationships[i].size());
     }
     //std::cout << "TESTING...\n"; 
     //std::cerr << relationship_names[9];
