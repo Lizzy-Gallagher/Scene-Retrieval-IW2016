@@ -46,16 +46,40 @@ def between(r):
 
 
 ##
+## AUX
+##
+
+def is_floor_or_ceiling(r):
+    if "Floor" in r.ref_cat or "Ceiling" in r.ref_cat:
+        return True
+
+def correct_mode(r, wall_mode):
+    if wall_mode:
+        if "Wall" not in r.ref_cat:
+            return False
+    else: 
+        if "Wall" in r.ref_cat:
+            return False
+    return True
+
+
+##
 ## Completed
 ##
 
 
-def touching(r):
-    if "F" in r.ref_cat:
+def touching(r, wall_mode=False):
+    if not correct_mode(r, wall_mode):
+        return False
+    if is_floor_or_ceiling(r):
         return False
     if r.sqrt_closest_dd > 0.15:
         return False
     return True
+
+def touching_wall(r):
+    return touching(r, True)
+
 
 def within_1m(r):
     if "F" in r.ref_cat:

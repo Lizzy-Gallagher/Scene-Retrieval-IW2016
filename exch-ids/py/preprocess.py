@@ -31,6 +31,10 @@ most_rels = {
     "behind" : relationships.return_false,
     "supports" : relationships.supports,
     "supported_by" : relationships.return_false,
+
+    "touching_wall" : relationships.touching,
+    "faces_wall"    : relationships.faces,
+    "faces_away_wall" : relationships.faces_away,
 }
 
 lim_rels = {
@@ -42,16 +46,14 @@ lim_rels = {
 }
 
 testing = {
-    "faces" : relationships.faces,
-    "faces_away" : relationships.faces_away,
-    "in_front_of" : relationships.return_false,
-    "behind" : relationships.return_false,
+    "touching" : relationships.touching,
+    "touching_wall" : relationships.touching_wall,
 }
 
 hanging = []
 
 # Change to change rel sets
-rels = most_rels
+rels = testing
 
 # Opposites that can only be calculated one way 
 analogs = {
