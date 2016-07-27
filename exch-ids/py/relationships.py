@@ -35,8 +35,8 @@ def is_floor_or_ceiling(r):
 
 def is_obj(r):
     if "Floor" in r.ref_cat or "Ceiling" in r.ref_cat or "Wall" in r.ref_cat:
-        return True
-    return False
+        return False
+    return True
 
 def correct_wall_mode(r, wall_mode):
     if wall_mode:

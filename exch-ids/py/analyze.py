@@ -27,16 +27,19 @@ input_filename  = args.input_filename
 output_filename = args.output_filename
 
 class Mode(object):
-    isAggregate = False
-    isScene     = False
+    isExchIds = False
+    isRelView = False
+    isLearnCategory = False
 
     def __init__(self, mode):
         if mode == None:
-            self.isAggregate = True
-        elif mode == "agg":
-            self.isAggregate = True
-        elif mode == "scn":
-            self.isScene     = True
+            self.isExchIds = True
+        elif mode == "exch":
+            self.isExchIds = True
+        elif mode == "relview":
+            self.isRelView = True
+        elif mode == "mlcat":
+            self.isLearnCategory = True
         else:
             raise ValueError("Unexpected Mode: " + mode)
 
@@ -166,20 +169,19 @@ def get_exchangable_ids(rel_log):
     return exchangable_sets
 
 ##
-## Printing rels
+## Printing
 ##
 
 def create_header():
-    if mode.isScene:
-        header = []
+    header = []
+    if mode.isRelView:
         header.append("Obj1")
         header.append("Obj2")
         for rel in sorted(rels):
             header.append(rel)
         return header
 
-    elif mode.isAggregate:
-        header = []
+    elif mode.isExchIds:
         header.append("id")
         header.append("num_relationships")
         for cat in categories:
@@ -187,8 +189,15 @@ def create_header():
                 header.append(rel + "_" + cat)
         for location in wordnet.locations.keys():
             header.append(location)
+    
+    elif mode.isLearnCategory:
+        header.append("id1")
+        header.append("cat1")
+        header.append("cat2")
+        for rel in sorted(rels):
+            header.append(rel)
 
-    return headerr
+    return header
 
 def get_value(id, cat, rel, rel_log):
     if rel not in rel_log[id]:
@@ -198,8 +207,7 @@ def get_value(id, cat, rel, rel_log):
     else:
         return rel_log[id][rel][cat]
 
-
-def print_rel_log(rel_log, counter):
+def print_exch_ids(rel_log, counter):
     # For every id, print rels with each category as well as # scenes
     # in common (necessitates a rewrite of rel_log)
 
@@ -236,13 +244,10 @@ def print_rel_log(rel_log, counter):
     finally:
         f.close()
 
-##
-## Per-Scene Printing
-##
-
-def print_scene_log(scene_log):
+def print_relview(relview_log):
     # For every object # print the rels with other objects
     # 0 is false, 1 is true
+
 
     f = open(output_filename, 'w')
     try:
@@ -253,11 +258,12 @@ def print_scene_log(scene_log):
         writer.writerow(header)
 
         # Write rows:
-        for obj1 in scene_log:
-            for obj2, rels in scene_log[obj1].items():
+        for obj1 in relview_log:
+            for obj2, rels in relview_log[obj1].items():
                 row = []
                 row.append(obj1)
                 row.append(obj2)
+                print rels
                 for rel in sorted(rels):
                     val = rels[rel]
                     if val:
@@ -269,6 +275,35 @@ def print_scene_log(scene_log):
     finally:
         f.close()
 
+def print_learn_category(log):
+    f = open(output_filename, 'w')
+
+    try:
+        writer = csv.writer(f, quoting=csv.QUOTE_NONNUMERIC)
+
+        # Header
+        header = create_header()
+        writer.writerow(header)
+
+        for obj1 in log:
+            for obj2 in log[obj1]:
+                rels, id1, cat1, cat2 = log[obj1][obj2]
+                row = []
+                row.append(id1)
+                row.append(cat1)
+                row.append(cat2)
+                for rel in sorted(rels):
+                    if rels[rel]:
+                        row.append(1)
+                    else:
+                        row.append(0)
+                
+                writer.writerow(row)
+    
+    finally:
+        f.close()
+ 
+
 ##
 ## Main
 ##
@@ -276,23 +311,31 @@ def print_scene_log(scene_log):
 if __name__ == '__main__':
     print "Starting ..." 
 
-    if mode.isAggregate:
+    if mode.isExchIds:
         print "\t- Analyzing scenes..."
-        rel_log, counter = preprocess.preprocess_aggregate(category, input_filename, id2cat)
+        rel, counter = preprocess.exch_ids(category, input_filename, id2cat)
    
         print "\t- Printing relationship file..."
-        print_rel_log(rel_log, counter)
+        print_exch_ids(rel, counter)
+        
+        #print "\t- Calculating exchangable sets..."
+        #exchangable_ids = get_exchangable_ids(rel_log)
+        #print exchangable_ids
+        # print get_exchangable_ids("sofa")
     
-    elif mode.isScene:
+    elif mode.isRelView:
         print "\t- Preprocessing data..."
-        scene_log = preprocess.preprocess_scene(input_filename, id2cat)
+        log = preprocess.relview(input_filename, id2cat)
 
         print "\t- Printing relationship file..."
-        print_scene_log(scene_log)
-        
-    #print "\t- Calculating exchangable sets..."
-    #exchangable_ids = get_exchangable_ids(rel_log)
-    #print exchangable_ids
+        print_relview(log)
+    
+    elif mode.isLearnCategory:
+        print "\t- Preprocessing data..."
+        log = preprocess.learn_category(input_filename, id2cat)
 
-    # print get_exchangable_ids("sofa")
+        print "\t- Printing category learning file..."
+        print_learn_category(log)
+
+
     print "Done."
