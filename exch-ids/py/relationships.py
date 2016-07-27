@@ -52,6 +52,7 @@ def between(r):
 def is_floor_or_ceiling(r):
     if "Floor" in r.ref_cat or "Ceiling" in r.ref_cat:
         return True
+    return False
 
 def correct_mode(r, wall_mode):
     if wall_mode:
@@ -114,7 +115,6 @@ def below(r):
     if r.cz > -0.01:
         return False
     
-    print r.pri_obj + " " + r.ref_obj
     return True
 
 def above(r):
@@ -129,12 +129,32 @@ def above(r):
     if r.cz < 0.01:
         return False
 
-    print r.ref_obj + " " + r.pri_obj
     return True
 
-def faces_away(r):
-    if "F" in r.ref_cat:
+def faces(r, wall_mode=False):
+    if not correct_mode(r, wall_mode):
         return False
+    if is_floor_or_ceiling(r):
+        return False
+
+    if below(r) or above(r):
+        return False
+    if not within_1m(r):
+        return False
+    if r.bc.below_bbox_y != 0 or r.bc.above_bbox_y == 0:
+        return False
+    
+    return True
+
+def faces_wall(r):
+    return faces(r, True);
+
+def faces_away(r, wall_mode=False):
+    if not correct_mode(r, wall_mode):
+        return False
+    if is_floor_or_ceiling(r):
+        return False
+
     if below(r) or above(r):
         return False
     if not within_1m(r):
@@ -144,17 +164,8 @@ def faces_away(r):
     
     return True
 
-def faces(r):
-    if "F" in r.ref_cat:
-        return False
-    if below(r) or above(r):
-        return False
-    if not within_1m(r):
-        return False
-    if r.bc.below_bbox_y != 0 or r.bc.above_bbox_y == 0:
-        return False
-    
-    return True
+def faces_away_wall(r):
+    return faces_away(r, True)
 
 def supports(r):
     if "Ceiling" in r.ref_cat or "F" in r.ref_cat or "Wall" in r.ref_cat or "door" in r.ref_cat:
