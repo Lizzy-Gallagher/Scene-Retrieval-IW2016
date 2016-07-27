@@ -6,7 +6,7 @@ import relationships
 ## 
 ##
 
-most_rels = {
+all_rels = {
     "hanging"   : relationships.hanging,
     "above" : relationships.above,
     "below" : relationships.below,
@@ -31,8 +31,6 @@ testing = {
     "hanging_wall" : relationships.hanging_wall,
 }
 
-hanging = []
-
 # Change to change rel sets
 rels = testing
 
@@ -42,6 +40,8 @@ analogs = {
     "faces_away" : "behind",
     "supports" : "supported_by",
 }
+
+hanging = []
 
 ##
 ## Utils
