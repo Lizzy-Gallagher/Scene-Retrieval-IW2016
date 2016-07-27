@@ -46,8 +46,11 @@ lim_rels = {
 }
 
 testing = {
-    "touching" : relationships.touching,
-    "touching_wall" : relationships.touching_wall,
+    "faces" : relationships.faces,
+    "faces_wall" : relationships.faces_wall,
+    "faces_away" : relationships.faces_away,
+    "faces_away_wall" : relationships.faces_away_wall,
+    "behind" : relationships.return_false,
 }
 
 hanging = []
@@ -352,7 +355,8 @@ def preprocess_scene(input_file, id2cat):
                 if rel == "hanging":
                     hanging.append((obj1, obj2))
                 if result and rel in analogs:
-                    analog_cleanup.append((obj1, obj2, analogs[rel]))
+                    if analogs[rel] in rels:
+                        analog_cleanup.append((obj1, obj2, analogs[rel]))
 
     for obj1, obj2, rel in analog_cleanup:
         if "Wall" in obj2 or "Floor" in obj2 or "Ceiling" in obj2 or "Window" in obj2:
