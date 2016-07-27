@@ -46,11 +46,7 @@ lim_rels = {
 }
 
 testing = {
-    "faces" : relationships.faces,
-    "faces_wall" : relationships.faces_wall,
-    "faces_away" : relationships.faces_away,
-    "faces_away_wall" : relationships.faces_away_wall,
-    "behind" : relationships.return_false,
+    "supported_by_floor" : relationships.supported_by_floor,
 }
 
 hanging = []

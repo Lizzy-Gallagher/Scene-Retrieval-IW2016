@@ -54,7 +54,7 @@ def is_floor_or_ceiling(r):
         return True
     return False
 
-def correct_mode(r, wall_mode):
+def correct_wall_mode(r, wall_mode):
     if wall_mode:
         if "Wall" not in r.ref_cat:
             return False
@@ -63,16 +63,26 @@ def correct_mode(r, wall_mode):
             return False
     return True
 
+def correct_floor_mode(r, floor_mode):
+    if floor_mode:
+        if "Floor" not in r.ref_cat:
+            return False
+    else: 
+        if "Floor" in r.ref_cat:
+            return False
+    return True
 
 ##
 ## Completed
 ##
 
 
-def touching(r, wall_mode=False):
-    if not correct_mode(r, wall_mode):
+def touching(r, wall_mode=False, floor_mode=False):
+    if not correct_wall_mode(r, wall_mode):
         return False
-    if is_floor_or_ceiling(r):
+    if not correct_floor_mode(r, floor_mode):
+        return False
+    if "Ceiling" in r.ref_cat:
         return False
     if r.sqrt_closest_dd > 0.15:
         return False
@@ -80,7 +90,6 @@ def touching(r, wall_mode=False):
 
 def touching_wall(r):
     return touching(r, True)
-
 
 def within_1m(r):
     if "F" in r.ref_cat:
@@ -132,7 +141,7 @@ def above(r):
     return True
 
 def faces(r, wall_mode=False):
-    if not correct_mode(r, wall_mode):
+    if not correct_wall_mode(r, wall_mode):
         return False
     if is_floor_or_ceiling(r):
         return False
@@ -150,7 +159,7 @@ def faces_wall(r):
     return faces(r, True);
 
 def faces_away(r, wall_mode=False):
-    if not correct_mode(r, wall_mode):
+    if not correct_wall_mode(r, wall_mode):
         return False
     if is_floor_or_ceiling(r):
         return False
@@ -168,7 +177,7 @@ def faces_away_wall(r):
     return faces_away(r, True)
 
 def supports(r):
-    if "Ceiling" in r.ref_cat or "F" in r.ref_cat or "Wall" in r.ref_cat or "door" in r.ref_cat:
+    if "Ceiling" in r.ref_cat or "Floor" in r.ref_cat or "Wall" in r.ref_cat or "door" in r.ref_cat:
         return False
 
     if not above(r):
@@ -178,6 +187,13 @@ def supports(r):
     if r.bc.within_bbox_x == 0 or r.bc.within_bbox_y == 0:
         return False
     
+    return True
+
+def supported_by_floor(r):
+    if "Floor" not in r.ref_obj:
+        return False
+    if not touching(r, floor_mode=True):
+        return False
     return True
 
 def hanging(r):
