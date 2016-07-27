@@ -3,11 +3,12 @@ from collections import Counter
 import relationships
 
 ##
-## 
+## Relationship Sets
 ##
 
 all_rels = {
     "hanging"   : relationships.hanging,
+    "hanging_wall" : relationships.hanging_wall,
     "above" : relationships.above,
     "below" : relationships.below,
     "touching" : relationships.touching,
@@ -32,7 +33,7 @@ testing = {
 }
 
 # Change to change rel sets
-rels = testing
+rels = all_rels
 
 # Opposites that can only be calculated one way 
 analogs = {
@@ -43,40 +44,6 @@ analogs = {
 
 hanging = []
 
-##
-## Utils
-##
-
-def extract_id(name):
-    idx = -1
-
-    # Case stores__*__*
-    if "stores" in name:
-        idx = name.rfind("stores")
-        # Case: s__* 
-    elif "__" in name:
-        idx = name.rfind("s__")
-        # Case: Numeric
-    else:
-        idx = name.rfind("_") + 1
-
-    if idx == -1:
-        raise LookupError("Unable to parse obj_id from: " + name)
-
-    id = name[idx:]
-    return id
-
-def get_cat(name, map):
-    if "W" in name:
-        return "Wall"
-    elif "F" in name:
-        return "Floor"
-    elif "C" in name:
-        return "Ceiling"
-
-    id = extract_id(name) 
-
-    return map[id]
 
 ##
 ## Record Object
@@ -113,7 +80,7 @@ class BC(object):
 class DDC(object):
     # ddc is a histogram of how many points on object B have distances to
     # the closest point on object A (where the ddc[0] represents 0-1cm,
-    # ddc[1] represents 1-2cm, etc.)
+    # 1-2cm, etc.)
     def __init__(self, ddc):
         self.ddc  = ddc
         self.bin0 = int(ddc[0])
@@ -203,7 +170,58 @@ class Record(object):
                 str(self.cz)
 
 ##
-## Many-Scene Aggregate Mode
+## Utils
+##
+
+def extract_id(name):
+    idx = -1
+
+    # Case stores__*__*
+    if "stores" in name:
+        idx = name.rfind("stores")
+        # Case: s__* 
+    elif "__" in name:
+        idx = name.rfind("s__")
+        # Case: Numeric
+    else:
+        idx = name.rfind("_") + 1
+
+    if idx == -1:
+        raise LookupError("Unable to parse obj_id from: " + name)
+
+    id = name[idx:]
+    return id
+
+def get_cat(name, map):
+    if "Wall" in name:
+        return "Wall"
+    elif "Floor" in name:
+        return "Floor"
+    elif "Ceiling" in name:
+        return "Ceiling"
+
+    id = extract_id(name) 
+
+    return map[id]
+
+def process_row(row, filter, id2cat):
+    pri_name = row[0]
+    if "W" in pri_name or "F" in pri_name or "C" in pri_name: 
+        return None
+
+    id = extract_id(pri_name)
+    category = id2cat[id]
+
+    if filter == None:
+        return Record(row, id2cat)
+
+    if filter != category:
+        return None
+
+    return Record(row, id2cat)
+
+##
+## Exch-Ids Mode (Many-Scene Aggregate)
 ##
 
 def init_id(id, rel_log):
@@ -218,8 +236,7 @@ def update(dict, key):
     else:
         dict[key] += 1
 
-def preprocess_aggregate(category, input_file, id2cat):
-    # Load data
+def exch_ids(category, input_file, id2cat):
     counter = Counter()
 
     rel_log = {} # id-rel-cat
@@ -249,13 +266,13 @@ def preprocess_aggregate(category, input_file, id2cat):
     return rel_log, counter
 
 ##
-## Per-Scene Mode
+## Relview Mode (One-Scene)
 ##
 
-def preprocess_scene(input_file, id2cat):
+def relview(input_file, id2cat):
     analog_cleanup = []
     
-    scene_log = {} # obj-obj-rel
+    log = {} # obj-obj-rel
     with open(input_file, 'r') as fh:
         for row in fh:
             row = row.split()
@@ -266,34 +283,83 @@ def preprocess_scene(input_file, id2cat):
             obj1 = r.pri_obj
             obj2 = r.ref_obj
 
-            if obj1 not in scene_log:
-                scene_log[obj1] = {}
-            if obj2 not in scene_log[obj1]:
-                scene_log[obj1][obj2] = {}
+            if obj1 not in log:
+                log[obj1] = {}
+            if obj2 not in log[obj1]:
+                log[obj1][obj2] = {}
 
             for rel, func in rels.items():
                 result = func(r)
-                scene_log[obj1][obj2][rel] = result
-                if rel == "hanging":
-                    hanging.append((obj1, obj2))
-                if result and rel in analogs:
-                    if analogs[rel] in rels:
-                        analog_cleanup.append((obj1, obj2, analogs[rel]))
+
+                log[obj1][obj2][rel] = result
+                if result: # Handle special cases 
+                    if rel == "hanging":
+                        hanging.append((obj1, obj2))
+                    if rel in analogs:
+                        if analogs[rel] in rels:
+                            analog_cleanup.append((obj1, obj2, analogs[rel]))
 
     for obj1, obj2, rel in analog_cleanup:
         if "Wall" in obj2 or "Floor" in obj2 or "Ceiling" in obj2 or "Window" in obj2:
             continue
-        try:
-            scene_log[obj2][obj1][rel] = True
-        except:
-            i = 1
+        log[obj2][obj1][rel] = True
     
     if "supported_by" in rels:
         for obj1, obj2 in hanging:
-            for alt in scene_log[obj1]:
-                if scene_log[obj1][alt]["supported_by"] and alt != obj2:
-                    scene_log[obj1][obj2]["hanging"] = False
+            for alt in log[obj1]:
+                if log[obj1][alt]["supported_by"] and alt != obj2:
+                    log[obj1][obj2]["hanging"] = False
                     break
 
-    return scene_log
+    return log
 
+##
+## Learn Category Mode (Many-Scene)
+##
+
+def learn_category(input_file, id2cat):
+    analog_cleanup = []
+    # [].append((obj1, obj2, cat1, cat2, rels...) 
+    log = {} # Need dictionary for analogs...
+    # log : obj1 - obj2 - (rels, cat, cat2)
+
+    with open(input_file, 'r') as fh:
+        for row in fh:
+            row = row.split()
+            r = process_row(row, None, id2cat)
+            if r is None:
+                continue
+
+            obj1 = r.pri_obj
+            obj2 = r.ref_obj
+            
+            if obj1 not in log:
+                log[obj1] = {}
+            if obj2 not in log[obj1]:
+                log[obj1][obj2] = ({}, r.pri_id, r.pri_cat, r.ref_cat)
+
+            for rel, func in rels.items():
+                result = func(r)
+
+                log[obj1][obj2][0][rel] = result
+                if result:
+                    if rel == "hanging":
+                        hanging.append((obj1, obj2))
+                    if rel in analogs:
+                        if analogs[rel] in rels:
+                            analog_cleanup.append((obj1, obj2, analogs[rel]))
+      
+    for obj1, obj2, rel in analog_cleanup:
+        if "Wall" in obj2 or "Floor" in obj2 or "Ceiling" in obj2 or "Window" in obj2:
+            continue
+        log[obj2][obj1][0][rel] = True
+    
+    if "supported_by" in rels:
+        for obj1, obj2 in hanging:
+            for alt in log[obj1]:
+                if log[obj1][alt][0]["supported_by"] and alt != obj2:
+                    log[obj1][obj2][0]["hanging"] = False
+                    break
+
+    return log
+  

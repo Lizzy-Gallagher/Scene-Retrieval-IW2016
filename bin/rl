@@ -65,7 +65,7 @@ if [ ! -f $rel ]; then
     
     echo -e "\tNo relationships found."
     echo -e "\tAnalyzing..."
-    $(cd $py_dir; python py/analyze.py -mode relview $meas2 $rel2 > output.txt)
+    $(cd $py_dir; python py/analyze.py -mode mlcat $meas2 $rel2 > output.txt)
 else
     echo -e "\tRelationships found!"
 fi
@@ -73,8 +73,5 @@ fi
 echo
 echo
 
-echo "Running relview..."
-echo
-echo
-relview project.json $rel
+echo "Check out " $rel " for the data" 
 
