@@ -16,41 +16,25 @@ def print_record(r):
     print "\tnpoints: " + str(r.npoints)
     print "\tdist: " + str(r.sqrt_closest_dd)
 
-##
-## Current
-##
-
-# TODO: Fix this, probably just a distance thing...
-def next_to(r): # x-value
-    if below(r) or above(r):
-        return False
-    
-    # Left-side
-    total_in_column = r.pc.above_projection_x + r.pc.within_projection_x
-    if total_in_column == 0:
-        return False
-    
-    if r.pc.within_bbox_y == 0:
-        return False
-
-    return False
-
-def against(r):
-    return False
-
-def lays_on(r):
-    return False
-
-def between(r):
-    return False
-
 
 ##
-## AUX
+## Placeholder
+##
+
+def return_false(r):
+    return False
+
+##
+## Utils
 ##
 
 def is_floor_or_ceiling(r):
     if "Floor" in r.ref_cat or "Ceiling" in r.ref_cat:
+        return True
+    return False
+
+def is_obj(r):
+    if "Floor" in r.ref_cat or "Ceiling" in r.ref_cat or "Wall" in r.ref_cat:
         return True
     return False
 
@@ -72,10 +56,15 @@ def correct_floor_mode(r, floor_mode):
             return False
     return True
 
-##
-## Completed
-##
+def in_z_column(r):
+    total_in_column = r.pc.above_projection_z + r.pc.within_projection_z + r.pc.below_projection_z
+    if total_in_column == 0:
+        return False
+    return True
 
+##
+## Relationships
+##
 
 def touching(r, wall_mode=False, floor_mode=False):
     if not correct_wall_mode(r, wall_mode):
@@ -92,52 +81,42 @@ def touching_wall(r):
     return touching(r, True)
 
 def within_1m(r):
-    if "F" in r.ref_cat:
+    if not is_obj(r): 
         return False
     if r.sqrt_closest_dd > 1.0:
         return False
     return True
 
 def within_2m(r):
-    if "F" in r.ref_cat:
+    if not is_obj(r):
         return False
     if r.sqrt_closest_dd > 4.0:
         return False
     return True
 
 def within_3m(r):
-    if "F" in r.ref_cat:
+    if not is_obj(r):
         return False
     if r.sqrt_closest_dd > 9.0:
         return False
     return True
 
-def below(r):
-    if "Floor" in r.ref_cat or "Ceiling" in r.ref_cat or "Wall" in r.ref_cat:
-        return False
-
-    # In the Z-Column
-    total_in_column = r.pc.above_projection_z + r.pc.within_projection_z + r.pc.below_projection_z
-    if total_in_column == 0:
-        return False
-
-    if r.cz > -0.01:
-        return False
-    
-    return True
-
 def above(r):
-    if "Floor" in r.ref_cat or "Ceiling" in r.ref_cat or "Wall" in r.ref_cat:
+    if not is_obj(r):
         return False
-
-    # In the Z-Column
-    total_in_column = r.pc.above_projection_z + r.pc.within_projection_z + r.pc.below_projection_z
-    if total_in_column == 0:
+    if not in_z_column(r):
         return False
-
     if r.cz < 0.01:
         return False
+    return True
 
+def below(r):
+    if not is_obj(r):
+        return False
+    if not in_z_column(r):
+        return False
+    if r.cz > -0.01:
+        return False
     return True
 
 def faces(r, wall_mode=False):
@@ -145,14 +124,12 @@ def faces(r, wall_mode=False):
         return False
     if is_floor_or_ceiling(r):
         return False
-
     if below(r) or above(r):
         return False
     if not within_1m(r):
         return False
     if r.bc.below_bbox_y != 0 or r.bc.above_bbox_y == 0:
         return False
-    
     return True
 
 def faces_wall(r):
@@ -163,23 +140,22 @@ def faces_away(r, wall_mode=False):
         return False
     if is_floor_or_ceiling(r):
         return False
-
     if below(r) or above(r):
         return False
     if not within_1m(r):
         return False
     if r.bc.above_bbox_y != 0 or r.bc.below_bbox_y == 0:
         return False
-    
     return True
 
 def faces_away_wall(r):
     return faces_away(r, True)
 
 def supports(r):
-    if "Ceiling" in r.ref_cat or "Floor" in r.ref_cat or "Wall" in r.ref_cat or "door" in r.ref_cat:
+    if not is_obj(r):
         return False
-
+    if "door" in r.ref_cat:
+        return False
     if not above(r):
         return False
     if not touching(r):
@@ -196,42 +172,18 @@ def supported_by_floor(r):
         return False
     return True
 
-def hanging(r):
-    if "Door" in r.pri_obj:
+def hanging(r, wall_mode=False):
+    if not correct_wall_mode(r, wall_mode):
         return False
-    if not touching(r):
+    if "door" in r.pri_cat:
+        return False
+    if not touching(r, wall_mode=True):
         return False
     if r.cz >= 0.0:
         return False
-    
     return True
 
-def stands_on(r):
-    if not supported_by(r):
-        return False
+def hanging_wall(r):
+    return hanging(r, True)
 
-    npoints = float(r.npoints)
-    print r.make_legible()
-    #lower = 0
-    #mid   = 0
-    #upper = 0
-    for i, val in enumerate(r.ddc.ddc):
-        print str(i) + " " + val
-        #if i < 5:
-        #    lower += float(val)
-        #elif i < 7:
-        #    mid += float(val)
-        #else:
-        #    upper += float(val)
-    #print lower / npoints
-    #print mid   / npoints
-    #print upper / npoints
-    #print "d: " + str(r.sqrt_closest_dd)
-    #print 
-
-
-    return False
-
-def return_false(r):
-    return False
 
