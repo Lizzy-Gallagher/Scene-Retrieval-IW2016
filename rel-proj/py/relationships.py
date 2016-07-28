@@ -29,9 +29,12 @@ def return_false(r):
 ##
 
 def is_floor_or_ceiling(r):
-    if "Floor" in r.ref_cat or "Ceiling" in r.ref_cat:
+    if "Floor" == r.ref_cat or "Ceiling" == r.ref_cat:
         return True
     return False
+
+def is_wall(r):
+    return "Wall" in r.ref_obj
 
 def is_obj(r):
     if "Floor" in r.ref_cat or "Ceiling" in r.ref_cat or "Wall" in r.ref_cat:
@@ -124,9 +127,9 @@ def faces(r, wall_mode=False):
         return False
     if is_floor_or_ceiling(r):
         return False
-    if below(r) or above(r):
+    if not is_wall(r) and (below(r) or above(r)):
         return False
-    if not within_1m(r):
+    if not is_wall(r) and not within_1m(r):
         return False
     if r.bc.below_bbox_y != 0 or r.bc.above_bbox_y == 0:
         return False
@@ -140,9 +143,9 @@ def faces_away(r, wall_mode=False):
         return False
     if is_floor_or_ceiling(r):
         return False
-    if below(r) or above(r):
+    if not is_wall(r) and (below(r) or above(r)):
         return False
-    if not within_1m(r):
+    if not is_wall(r) and not within_1m(r):
         return False
     if r.bc.above_bbox_y != 0 or r.bc.below_bbox_y == 0:
         return False

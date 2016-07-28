@@ -10,6 +10,10 @@ import wordnet
 
 import relationships
 
+##
+## Command-Line Argument Parsing
+##
+
 import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument("input_filename", help="the input filename")
@@ -25,6 +29,8 @@ args = parser.parse_args()
 category        = args.category
 input_filename  = args.input_filename
 output_filename = args.output_filename
+
+weka_mode = ".arff" in output_filename 
 
 class Mode(object):
     isExchIds = False
@@ -263,7 +269,6 @@ def print_relview(relview_log):
                 row = []
                 row.append(obj1)
                 row.append(obj2)
-                print rels
                 for rel in sorted(rels):
                     val = rels[rel]
                     if val:
@@ -275,16 +280,47 @@ def print_relview(relview_log):
     finally:
         f.close()
 
-def print_learn_category(log):
+cat_lst = "{"
+for cat in categories:
+    cat_lst += cat + ","
+cat_lst = cat_lst[:-1]
+cat_lst += "}"
+
+def create_weka_header():
+    rows = []
+    rows.append("@RELATION Relationships")
+    rows.append("\n")
+
+    rows.append("@ATTRIBUTE id1 string")
+    rows.append("@ATTRIBUTE cat1 " + cat_lst)
+    rows.append("@ATTRIBUTE cat2 " + cat_lst[:-1] + ",Wall,Floor,Ceiling}") 
+
+    for rel in sorted(rels):
+        rows.append("@ATTRIBUTE " + rel + " NUMERIC")
+
+    rows.append("\n")
+    return rows
+
+
+def print_learn_category(log, weka_compatible=False):
     f = open(output_filename, 'w')
 
     try:
-        writer = csv.writer(f, quoting=csv.QUOTE_NONNUMERIC)
-
+        writer = csv.writer(f, quoting=csv.QUOTE_NONE)
+        
         # Header
-        header = create_header()
-        writer.writerow(header)
-
+        if weka_compatible:
+            header = create_weka_header()
+            for row in header:
+                f.write(row + "\n")
+                #writer.writerow(row)
+            #writer.writerow("@DATA")
+            f.write("@DATA\n")
+        else:
+            header = create_header()
+            writer.writerow(header)
+        
+        
         for obj1 in log:
             for obj2 in log[obj1]:
                 rels, id1, cat1, cat2 = log[obj1][obj2]
@@ -335,7 +371,7 @@ if __name__ == '__main__':
         log = preprocess.learn_category(input_filename, id2cat)
 
         print "\t- Printing category learning file..."
-        print_learn_category(log)
+        print_learn_category(log, weka_mode)
 
 
     print "Done."
