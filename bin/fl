@@ -1,0 +1,24 @@
+#!/bin/bash
+
+if [[ $# != 3 ]]; then
+    echo "Usage: $0 filename category category"
+    exit
+fi
+
+input_filename=$1
+cat1=$2
+cat2=$3
+output_filename="../weka/$cat1-$cat2.arff"
+
+echo
+echo "Filtering..."
+echo
+echo "Old size:"
+echo $(wc -l $input_filename)
+echo
+
+awk 'BEGIN { FS="," }; $2 == awk_cat1 || $2 == awk_cat2 || NR < 25 { print; flush(stdout);}'-v awk_cat1=$cat1 awk_cat2=$cat2 $filename > $output_filename
+
+echo "New size:"
+echo $(wc -l output_filename)
+echo

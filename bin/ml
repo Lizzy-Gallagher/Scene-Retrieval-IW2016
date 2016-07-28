@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# Prepare learning
+# Run from data/relationships
+
+if [ ! -f "header" ]; then
+    echo "Missing header"
+    exit
+fi
+
+echo "cat header *.arff > data.arff"
+cat header *.arff > data.arff
+echo "Done."
