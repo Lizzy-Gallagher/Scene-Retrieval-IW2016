@@ -41,7 +41,7 @@ id,category
 140,dresser
 141,dressing_table
 142,chair
-143,"music,piano"
+143,music-piano
 144,mirror
 145,shoes_cabinet
 146,stand
@@ -74,7 +74,7 @@ id,category
 182,closets_wardrobes_cabinets
 183,wash_basins
 184,closets_wardrobes_cabinets
-185,"recreation,pool_table"
+185,recreation-pool_table
 186,wash_basins
 187,closets_wardrobes_cabinets
 188,shelves
@@ -112,8 +112,8 @@ id,category
 220,kitchen_appliance
 221,kitchen_appliance
 222,kitchen_appliance
-223,"household_appliance,vacuuming"
-224,"household_appliance,ironing"
+223,household_appliance-vacuuming
+224,household_appliance-ironing
 225,ac
 226,household_appliance
 227,ac
@@ -150,7 +150,7 @@ id,category
 260,sofa
 261,sofa
 262,sofa
-263,"household_appliance,ironing"
+263,household_appliance-ironing
 264,kitchen_appliance
 265,kitchenware
 266,closets_wardrobes_cabinets
@@ -280,7 +280,7 @@ id,category
 408,kitchen_cabinet
 409,chair
 41,coffee_table
-410,"recreation,basketball_hoop"
+410,recreation-basketball_hoop
 411,outdoor_rest
 412,outdoor_rest
 413,recreation
@@ -301,7 +301,7 @@ id,category
 427,armchair
 428,desk
 429,chair
-43,"household_appliance,dryer"
+43,household_appliance-dryer
 430,desk
 431,dresser
 432,gym
@@ -397,7 +397,7 @@ id,category
 519,fireplaces
 520,floor_lamps
 521,floor_lamps
-522,"music,piano"
+522,music,piano
 523,floor_lamps
 524,floor_lamps
 525,dinning_table
@@ -662,7 +662,7 @@ id,category
 81,bathtub
 82,bathtub
 83,toilet
-85,"household_appliance,washer"
+85,household_appliance-washer
 86,kitchen_cabinet
 87,wash_basins
 88,chair

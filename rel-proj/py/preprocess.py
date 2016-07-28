@@ -19,12 +19,12 @@ all_rels = {
     "supports" : relationships.supports,
     "supported_by" : relationships.return_false,
     "supported_by_floor" : relationships.supported_by_floor,
-    "touching_wall" : relationships.touching,
-    "faces_wall"    : relationships.faces,
-    "faces_away_wall" : relationships.faces_away,
+    "touching_wall" : relationships.touching_wall,
+    #"faces_wall"    : relationships.faces_wall,
+    #"faces_away_wall" : relationships.faces_away_wall,
     "within_1m" : relationships.within_1m,
     "within_2m" : relationships.within_2m,
-    "within_3m" : relationships.within_3m,
+    #"within_3m" : relationships.within_3m,
 }
 
 testing = {
@@ -206,15 +206,15 @@ def get_cat(name, map):
 
 def process_row(row, filter, id2cat):
     pri_name = row[0]
-    if "W" in pri_name or "F" in pri_name or "C" in pri_name: 
+    if "Wall" in pri_name or "Floor" in pri_name or "Ceiling" in pri_name: 
         return None
 
-    id = extract_id(pri_name)
-    category = id2cat[id]
 
     if filter == None:
         return Record(row, id2cat)
-
+    
+    id = extract_id(pri_name)
+    category = id2cat[id]
     if filter != category:
         return None
 
@@ -302,7 +302,11 @@ def relview(input_file, id2cat):
     for obj1, obj2, rel in analog_cleanup:
         if "Wall" in obj2 or "Floor" in obj2 or "Ceiling" in obj2 or "Window" in obj2:
             continue
-        log[obj2][obj1][rel] = True
+
+        try:
+            log[obj2][obj1][rel] = True
+        except:
+            print "KeyError on " + obj2 + " - " + obj1
     
     if "supported_by" in rels:
         for obj1, obj2 in hanging:
@@ -352,7 +356,10 @@ def learn_category(input_file, id2cat):
     for obj1, obj2, rel in analog_cleanup:
         if "Wall" in obj2 or "Floor" in obj2 or "Ceiling" in obj2 or "Window" in obj2:
             continue
-        log[obj2][obj1][0][rel] = True
+        try:
+            log[obj2][obj1][0][rel] = True
+        except:
+            print "KeyError on " + obj2 + " - " + obj1
     
     if "supported_by" in rels:
         for obj1, obj2 in hanging:
