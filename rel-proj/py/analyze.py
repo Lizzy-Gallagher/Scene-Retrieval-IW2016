@@ -296,30 +296,32 @@ def create_weka_header():
     rows.append("@ATTRIBUTE cat2 " + cat_lst[:-1] + ",Wall,Floor,Ceiling}") 
 
     for rel in sorted(rels):
-        rows.append("@ATTRIBUTE " + rel + " NUMERIC")
+        rows.append("@ATTRIBUTE " + rel + " {1,0}")
 
     rows.append("\n")
     return rows
 
-
 def print_learn_category(log, weka_compatible=False):
+    # Print header file
+    if weka_compatible:
+        f = open('../data/relationships/header', 'w')
+        try:
+            header = create_weka_header()
+            for row in header:
+                f.write(row + "\n")
+            f.write("@DATA\n")
+        finally:
+            f.close()
+            
     f = open(output_filename, 'w')
 
     try:
         writer = csv.writer(f, quoting=csv.QUOTE_NONE)
         
         # Header
-        if weka_compatible:
-            header = create_weka_header()
-            for row in header:
-                f.write(row + "\n")
-                #writer.writerow(row)
-            #writer.writerow("@DATA")
-            f.write("@DATA\n")
-        else:
+        if not weka_compatible:
             header = create_header()
             writer.writerow(header)
-        
         
         for obj1 in log:
             for obj2 in log[obj1]:
