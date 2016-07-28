@@ -2,6 +2,11 @@
 
 [ $# -le 1 ] && { echo "Usage: $0 input_file category"; exit 1; }
 
+
+##
+## Deprecated, do not use :)
+##
+
 input_file=$1
 category=$2
 
