@@ -4,8 +4,8 @@
 data_dir="../.."
 name=$(basename $PWD)
 
-py_dir="../../../exch-ids/"
-analyze_loc="../../../exch-ids/py/analyze.py"
+py_dir="../../../rel-proj/"
+analyze_loc="$py_dir/py/analyze.py"
 
 meas="$data_dir/measurements/$name.txt"
 rel="$data_dir/relationships/$name.csv"
@@ -25,10 +25,8 @@ if [[ $# != 0 ]]; then
                 echo "rm $rel"
                 rm $rel
             else
-                echo "rm $meas"
-                rm $meas
-                echo "rm $rel"
-                rm $rel
+                echo "Did not recognize cmd: " $2
+                exit
             fi
         else
             echo "rm $meas"
