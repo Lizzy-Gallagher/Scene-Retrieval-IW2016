@@ -63,6 +63,13 @@ id2cat = Id2Cat(id_to_cat_filename)
 cat2ids = Cat2Ids(id_to_cat_filename)
 
 categories = cat2ids.keys()
+categories.append("Wall")
+categories.append("Floor")
+categories.append("Ceiling")
+
+cat2num = {}
+for i, category in enumerate(set(categories)):
+    cat2num[category] = i
 ids = id2cat.keys()
 
 rels = preprocess.rels.keys()
@@ -332,8 +339,8 @@ def print_learn_category(log, weka_compatible=False):
                 rels, id1, cat1, cat2 = log[obj1][obj2]
                 row = []
                 row.append(id1)
-                row.append(cat1)
-                row.append(cat2)
+                row.append(cat2num[cat1])
+                row.append(cat2num[cat2])
                 for rel in sorted(rels):
                     if rels[rel]:
                         row.append(1)
