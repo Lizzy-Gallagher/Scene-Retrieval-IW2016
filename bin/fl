@@ -10,17 +10,19 @@ fi
 input_filename=$1
 cat1=$2
 cat2=$3
-output_filename="filtered/$cat1-$cat2.arff"
+output_filename="filtered/$cat1""-""$cat2.arff"
 
 echo
 echo "Filtering..."
 echo
-echo "Old size:"
+echo "Old linecount:"
 echo $(wc -l $input_filename)
 echo
 
-awk 'BEGIN { FS="," }; $2 == awk_cat1 || $2 == awk_cat2 || NR < 25 { print; flush(stdout);}'-v awk_cat1=$cat1 awk_cat2=$cat2 $filename > $output_filename
+echo $output_filename
 
-echo "New size:"
-echo $(wc -l output_filename)
+awk 'BEGIN { FS="," }; $2 == awk_cat1 || $2 == awk_cat2 || NR < 25 { print; }' awk_cat1=$cat1 awk_cat2=$cat2 $input_filename > $output_filename
+
+echo "New linecount:"
+echo $(wc -l $output_filename)
 echo
