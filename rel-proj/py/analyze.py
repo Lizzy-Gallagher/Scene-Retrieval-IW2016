@@ -56,7 +56,7 @@ mode = Mode(args.mode)
 ## Constants
 ##
 
-header_filename = '../data/relationships/header'
+header_filename = '../data/weka/header'
 
 id_to_cat_filename = "../data/object_names.csv"
 id2cat = Id2Cat(id_to_cat_filename)

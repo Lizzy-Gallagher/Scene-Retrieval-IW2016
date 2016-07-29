@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# Run from data/weka
+
 if [[ $# != 3 ]]; then
     echo "Usage: $0 filename category category"
     exit
@@ -8,7 +10,7 @@ fi
 input_filename=$1
 cat1=$2
 cat2=$3
-output_filename="../weka/$cat1-$cat2.arff"
+output_filename="filtered/$cat1-$cat2.arff"
 
 echo
 echo "Filtering..."

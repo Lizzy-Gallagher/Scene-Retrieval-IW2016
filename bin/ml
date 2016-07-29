@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Prepare learning
-# Run from data/relationships
+# Run from data/weka
 
 if [ ! -f "header" ]; then
     echo "Missing header"

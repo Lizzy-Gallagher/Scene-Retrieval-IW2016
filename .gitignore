@@ -67,7 +67,8 @@ data/projects
 data/roomfiles
 data/texture
 data/rels
-data/relationships
+data/relview
+data/weka
 data/measurements
 
 #!gaps/
