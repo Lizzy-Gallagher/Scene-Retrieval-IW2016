@@ -8,8 +8,8 @@ py_dir="../../../rel-proj/"
 analyze_loc="$py_dir/py/analyze.py"
 
 meas="$data_dir/measurements/$name.txt"
-rel="$data_dir/relationships/$name.arff"
-header="$data_dir/relationships/header"
+rel="$data_dir/weka/$name.arff"
+header="$data_dir/weka/header"
 
 # Handle command-line args:
 # clean
@@ -59,7 +59,7 @@ echo
 echo "Checking if relationships exist..."
 if [ ! -f $rel ]; then
     meas2="data/measurements/$name.txt"
-    rel2="data/relationships/$name.arff"
+    rel2="data/weka/$name.arff"
     
     echo -e "\tNo relationships found."
     echo -e "\tAnalyzing..."
