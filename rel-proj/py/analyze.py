@@ -2,6 +2,7 @@ import sys
 import itertools
 from random import randint
 import csv
+import os.path
 
 from maps import Id2Cat
 from maps import Cat2Ids
@@ -55,8 +56,9 @@ mode = Mode(args.mode)
 ## Constants
 ##
 
-id_to_cat_filename = "../data/object_names.csv"
+header_filename = '../data/relationships/header'
 
+id_to_cat_filename = "../data/object_names.csv"
 id2cat = Id2Cat(id_to_cat_filename)
 cat2ids = Cat2Ids(id_to_cat_filename)
 
@@ -304,17 +306,19 @@ def create_weka_header():
 def print_learn_category(log, weka_compatible=False):
     # Print header file
     if weka_compatible:
-        f = open('../data/relationships/header', 'w')
-        try:
-            header = create_weka_header()
-            for row in header:
-                f.write(row + "\n")
-            f.write("@DATA\n")
-        finally:
-            f.close()
+        # Check for existence of header
+        if not os.path.isfile(header_filename):
+            # If it does not exist, create it
+            f = open(header_filename, 'w')
+            try:
+                header = create_weka_header()
+                for row in header:
+                    f.write(row + "\n")
+                f.write("@DATA\n")
+            finally:
+                f.close()
             
     f = open(output_filename, 'w')
-
     try:
         writer = csv.writer(f, quoting=csv.QUOTE_NONE)
         

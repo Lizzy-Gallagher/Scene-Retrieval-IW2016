@@ -9,7 +9,7 @@ analyze_loc="$py_dir/py/analyze.py"
 
 meas="$data_dir/measurements/$name.txt"
 rel="$data_dir/relationships/$name.arff"
-
+header="$data_dir/relationships/header"
 
 # Handle command-line args:
 # clean
@@ -54,7 +54,7 @@ echo
 echo
 
 # If no relationships for the scene, calculate relationships
-# call it relationship/#.csv
+# call it relationship/[#.csv / #.arff] 
 
 echo "Checking if relationships exist..."
 if [ ! -f $rel ]; then
