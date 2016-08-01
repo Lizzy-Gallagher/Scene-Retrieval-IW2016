@@ -60,8 +60,9 @@ header_filename = '../data/weka/header'
 
 id_to_cat_filename = "../data/object_names.csv"
 id2cat = Id2Cat(id_to_cat_filename)
-cat2ids = Cat2Ids(id_to_cat_filename)
+ids = id2cat.keys()
 
+cat2ids = Cat2Ids(id_to_cat_filename)
 categories = cat2ids.keys()
 categories.append("Wall")
 categories.append("Floor")
@@ -70,7 +71,6 @@ categories.append("Ceiling")
 cat2num = {}
 for i, category in enumerate(set(categories)):
     cat2num[category] = i
-ids = id2cat.keys()
 
 rels = preprocess.rels.keys()
 
@@ -289,20 +289,24 @@ def print_relview(relview_log):
     finally:
         f.close()
 
-cat_lst = "{"
-for cat in categories:
-    cat_lst += cat + ","
-cat_lst = cat_lst[:-1]
-cat_lst += "}"
-
 def create_weka_header():
+    cat1_lst = "{"
+    for cat1 in range(len(cat2num) - 3):
+        cat1_lst += str(cat1) + ","
+    cat1_lst = cat_lst[:-1] + "}"
+
+    cat2_lst = "{"
+    for cat2 in range(len(cat2num)):
+        cat2_lst += str(cat2) + ","
+    cat2_lst = cat_lst[:-1] + "}"
+
     rows = []
     rows.append("@RELATION Relationships")
     rows.append("\n")
 
     rows.append("@ATTRIBUTE id1 string")
-    rows.append("@ATTRIBUTE cat1 " + cat_lst)
-    rows.append("@ATTRIBUTE cat2 " + cat_lst[:-1] + ",Wall,Floor,Ceiling}") 
+    rows.append("@ATTRIBUTE cat1 " + cat1_lst)
+    rows.append("@ATTRIBUTE cat2 " + cat2_lst) 
 
     for rel in sorted(rels):
         rows.append("@ATTRIBUTE " + rel + " {1,0}")
