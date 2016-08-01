@@ -289,6 +289,8 @@ def print_relview(relview_log):
     finally:
         f.close()
 
+
+to_include = ["Wall", "kitchen_appliance", "chair", "desk"]
 def create_weka_header():
     cat1_lst = "{"
     for cat1 in categories:
@@ -299,8 +301,9 @@ def create_weka_header():
     rows.append("@RELATION Relationships")
     rows.append("\n")
 
-    for rel in sorted(rels):
-        rows.append("@ATTRIBUTE " + rel + " {0,1}")
+    for cat2 in sorted(to_include):
+        for rel in sorted(rels):
+            rows.append("@ATTRIBUTE " + cat2 + "-" + rel + " NUMERIC")
     rows.append("@ATTRIBUTE cat1 " + cat1_lst)
 
     rows.append("\n")
@@ -331,16 +334,32 @@ def print_learn_category(log, weka_compatible=False):
             writer.writerow(header)
         
         for obj1 in log:
+            row = []
+            # obj1 - ref_cat - rels
+            rels_by_cat = {}
+
             for obj2 in log[obj1]:
-                rels, id1, cat1, cat2 = log[obj1][obj2]
-                row = []
+                rels = log[obj1][obj2]
+
+                ref_cat = preprocess.get_cat(obj2, id2cat)
+                if ref_cat not in rels_by_cat:
+                    rels_by_cat[ref_cat] = {}
                 for rel in sorted(rels):
+                    if rel not in rels_by_cat[ref_cat]:
+                        rels_by_cat[ref_cat][rel] = 0
                     if rels[rel]:
-                        row.append(1)
+                        rels_by_cat[ref_cat][rel] += 1
+
+            # Append to row in order
+            for ref_cat in sorted(to_include):
+                for rel in sorted(rels):
+                    if ref_cat in rels_by_cat:
+                        row.append(rels_by_cat[ref_cat][rel])
                     else:
                         row.append(0)
-                row.append(cat1)
-                writer.writerow(row)
+
+            row.append(preprocess.get_cat(obj1, id2cat))
+            writer.writerow(row)
     
     finally:
         f.close()

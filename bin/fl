@@ -19,10 +19,10 @@ echo "Old linecount:"
 echo $(wc -l $input_filename)
 echo
 
-cat1_num=$(nfc $cat1 | cut -d : -f 1)
-cat2_num=$(nfc $cat2 | cut -d : -f 1)
+#cat1_num=$(nfc $cat1 | cut -d : -f 1)
+#cat2_num=$(nfc $cat2 | cut -d : -f 1)
 
-awk 'BEGIN { FS="," }; $NF == awk_cat1 || $NF == awk_cat2 || NR < 25 { print; }' awk_cat1=$cat1_num awk_cat2=$cat2_num $input_filename > $output_filename
+awk 'BEGIN { FS="," }; $NF == awk_cat1 || $NF == awk_cat2 || NR < 63 { print; }' awk_cat1=$cat1 awk_cat2=$cat2m $input_filename > $output_filename
 
 echo "New linecount:"
 echo $(wc -l $output_filename)
