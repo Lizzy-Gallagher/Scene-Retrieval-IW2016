@@ -37,8 +37,8 @@ def is_wall(r):
     return "Wall" in r.ref_obj
 
 def is_obj(r):
-    if "Floor" in r.ref_cat or "Ceiling" in r.ref_cat or "Wall" in r.ref_cat:
-        return False
+    #if "Floor" in r.ref_cat or "Ceiling" in r.ref_cat: #or "Wall" in r.ref_cat:
+    #    return False
     return True
 
 def correct_wall_mode(r, wall_mode):
@@ -74,8 +74,8 @@ def touching(r, wall_mode=False, floor_mode=False):
         return False
     if not correct_floor_mode(r, floor_mode):
         return False
-    if "Ceiling" in r.ref_cat:
-        return False
+    #if "Ceiling" in r.ref_cat:
+    #    return False
     if r.sqrt_closest_dd > 0.15:
         return False
     return True
@@ -168,7 +168,7 @@ def supports(r):
     
     return True
 
-def supported_by_floor(r):
+def supported_by(r):
     if "Floor" not in r.ref_obj:
         return False
     if not touching(r, floor_mode=True):

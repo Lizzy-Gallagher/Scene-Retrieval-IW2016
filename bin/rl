@@ -63,7 +63,7 @@ if [ ! -f $rel ]; then
     
     echo -e "\tNo relationships found."
     echo -e "\tAnalyzing..."
-    $(cd $py_dir; python py/analyze.py -mode mlcat $meas2 $rel2 > output.txt)
+    $(cd $py_dir; python py/analyze.py -mode mlcat $meas2 $rel2 > output.txt 2> err.txt)
 else
     echo -e "\tRelationships found!"
 fi

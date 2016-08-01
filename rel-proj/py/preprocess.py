@@ -17,8 +17,7 @@ all_rels = {
     "in_front_of" : relationships.return_false,
     "behind" : relationships.return_false,
     "supports" : relationships.supports,
-    "supported_by" : relationships.return_false,
-    "supported_by_floor" : relationships.supported_by_floor,
+    "supported_by" : relationships.supported_by,
     "touching_wall" : relationships.touching_wall,
     #"faces_wall"    : relationships.faces_wall,
     #"faces_away_wall" : relationships.faces_away_wall,
@@ -144,22 +143,6 @@ class Record(object):
         end_pc = start_pc + num_projection_regions
         self.pc = PC(row[start_pc:end_pc])
 
-    def add(self, record):
-        self.point_area += record.point_area
-        self.sqrt_closest_dd += record.sqrt_closest_dd
-        self.npoints += record.npoints
-        self.cx += record.cx
-        self.cy += record.cy
-        self.cz += record.cz
-
-    def divide(self, num):
-        self.point_area /= num
-        self.sqrt_closest_dd /= num
-        self.npoints /= num
-        self.cx /= num
-        self.cy /= num
-        self.cz /= num
-
     def make_legible(self):
         return self.pri_cat + "(" + self.pri_id + ")" + " : " + self.ref_cat + "(" + self.ref_id + ")"
 
@@ -202,13 +185,16 @@ def get_cat(name, map):
 
     id = extract_id(name) 
 
+    val = map[id]
+    if "handelier" in val:
+        print name
+
     return map[id]
 
 def process_row(row, filter, id2cat):
     pri_name = row[0]
     if "Wall" in pri_name or "Floor" in pri_name or "Ceiling" in pri_name: 
         return None
-
 
     if filter == None:
         return Record(row, id2cat)
@@ -323,7 +309,7 @@ def relview(input_file, id2cat):
 
 def learn_category(input_file, id2cat):
     analog_cleanup = []
-    # [].append((obj1, obj2, cat1, cat2, rels...) 
+    # [].append((obj1, obj2, cat2, rels...) 
     log = {} # Need dictionary for analogs...
     # log : obj1 - obj2 - (rels, cat, cat2)
 
@@ -340,12 +326,12 @@ def learn_category(input_file, id2cat):
             if obj1 not in log:
                 log[obj1] = {}
             if obj2 not in log[obj1]:
-                log[obj1][obj2] = ({}, r.pri_id, r.pri_cat, r.ref_cat)
+                log[obj1][obj2] = {}
 
             for rel, func in rels.items():
                 result = func(r)
 
-                log[obj1][obj2][0][rel] = result
+                log[obj1][obj2][rel] = result
                 if result:
                     if rel == "hanging":
                         hanging.append((obj1, obj2))
@@ -357,15 +343,15 @@ def learn_category(input_file, id2cat):
         if "Wall" in obj2 or "Floor" in obj2 or "Ceiling" in obj2 or "Window" in obj2:
             continue
         try:
-            log[obj2][obj1][0][rel] = True
+            log[obj2][obj1][rel] = True
         except:
             print "KeyError on " + obj2 + " - " + obj1
     
     if "supported_by" in rels:
         for obj1, obj2 in hanging:
             for alt in log[obj1]:
-                if log[obj1][alt][0]["supported_by"] and alt != obj2:
-                    log[obj1][obj2][0]["hanging"] = False
+                if log[obj1][alt]["supported_by"] and alt != obj2:
+                    log[obj1][obj2]["hanging"] = False
                     break
 
     return log
