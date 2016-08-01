@@ -291,25 +291,17 @@ def print_relview(relview_log):
 
 def create_weka_header():
     cat1_lst = "{"
-    for cat1 in range(len(cat2num) - 3):
+    for cat1 in categories:
         cat1_lst += str(cat1) + ","
     cat1_lst = cat1_lst[:-1] + "}"
-
-    cat2_lst = "{"
-    for cat2 in range(len(cat2num)):
-        cat2_lst += str(cat2) + ","
-    cat2_lst = cat2_lst[:-1] + "}"
 
     rows = []
     rows.append("@RELATION Relationships")
     rows.append("\n")
 
-    rows.append("@ATTRIBUTE id1 string")
-    rows.append("@ATTRIBUTE cat1 " + cat1_lst)
-    rows.append("@ATTRIBUTE cat2 " + cat2_lst) 
-
     for rel in sorted(rels):
-        rows.append("@ATTRIBUTE " + rel + " {1,0}")
+        rows.append("@ATTRIBUTE " + rel + " {0,1}")
+    rows.append("@ATTRIBUTE cat1 " + cat1_lst)
 
     rows.append("\n")
     return rows
@@ -342,15 +334,12 @@ def print_learn_category(log, weka_compatible=False):
             for obj2 in log[obj1]:
                 rels, id1, cat1, cat2 = log[obj1][obj2]
                 row = []
-                row.append(id1)
-                row.append(cat2num[cat1])
-                row.append(cat2num[cat2])
                 for rel in sorted(rels):
                     if rels[rel]:
                         row.append(1)
                     else:
                         row.append(0)
-                
+                row.append(cat1)
                 writer.writerow(row)
     
     finally:
