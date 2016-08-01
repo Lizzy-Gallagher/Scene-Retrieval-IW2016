@@ -293,12 +293,12 @@ def create_weka_header():
     cat1_lst = "{"
     for cat1 in range(len(cat2num) - 3):
         cat1_lst += str(cat1) + ","
-    cat1_lst = cat_lst[:-1] + "}"
+    cat1_lst = cat1_lst[:-1] + "}"
 
     cat2_lst = "{"
     for cat2 in range(len(cat2num)):
         cat2_lst += str(cat2) + ","
-    cat2_lst = cat_lst[:-1] + "}"
+    cat2_lst = cat2_lst[:-1] + "}"
 
     rows = []
     rows.append("@RELATION Relationships")
