@@ -60,6 +60,7 @@ def correct_floor_mode(r, floor_mode):
     return True
 
 def in_z_column(r):
+    # No longer works...
     total_in_column = r.pc.above_projection_z + r.pc.within_projection_z + r.pc.below_projection_z
     if total_in_column == 0:
         return False
@@ -105,21 +106,49 @@ def within_3m(r):
     return True
 
 def above(r):
-    if not is_obj(r):
+    if "Floor" in r.ref_cat:
+        return True
+    if "Wall" in r.ref_cat:
         return False
+
     if not in_z_column(r):
         return False
-    if r.cz < 0.01:
+    
+    # Ref must be at least some below and none above
+    if r.bc.below_bbox_z == 0 or (r.bc.above_bbox_z > 0 and r.pc.above_projection_z > 0):
         return False
+
+    # Ref must have a lower support (and not on the ground)
+    if r.cz > -0.01:
+        return False
+    
+    # Must be contained within the surface's x and y
+    if r.bc.within_bbox_x == 0 or r.bc.within_bbox_y == 0:
+        return False
+
     return True
 
 def below(r):
-    if not is_obj(r):
+    if "Ceiling" in r.ref_cat:
+        return True
+    if "Wall" in r.ref_cat:
         return False
+
     if not in_z_column(r):
         return False
-    if r.cz > -0.01:
+
+    # Ref must be at leaset some above and none below
+    if r.bc.above_bbox_z == 0 or (r.bc.below_bbox_z > 0 and r.pc.below_projection_z > 0):
         return False
+
+    # Ref must have a higher support (and not on the ground)
+    if r.cz < 0.01:
+        return False
+
+    # Must be somewhat within the surface's x and y
+    if r.bc.within_bbox_x == 0 or r.bc.within_bbox_y == 0:
+        return False
+
     return True
 
 def faces(r, wall_mode=False):

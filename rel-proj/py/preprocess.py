@@ -27,15 +27,17 @@ all_rels = {
 }
 
 testing = {
-    "hanging" : relationships.hanging,
-    "hanging_wall" : relationships.hanging_wall,
+    "above" : relationships.above,
+    "below" : relationships.below,
 }
 
 # Change to change rel sets
-rels = all_rels
+rels = testing
 
 # Opposites that can only be calculated one way 
 analogs = {
+    "above" : "below",
+    "below" : "above",
     "faces" : "in_front_of",
     "faces_away" : "behind",
     "supports" : "supported_by",
@@ -186,8 +188,6 @@ def get_cat(name, map):
     id = extract_id(name) 
 
     val = map[id]
-    if "handelier" in val:
-        print name
 
     return map[id]
 
@@ -286,7 +286,7 @@ def relview(input_file, id2cat):
                             analog_cleanup.append((obj1, obj2, analogs[rel]))
 
     for obj1, obj2, rel in analog_cleanup:
-        if "Wall" in obj2 or "Floor" in obj2 or "Ceiling" in obj2 or "Window" in obj2:
+        if "Wall" in obj2 or "Floor" in obj2 or "Ceiling" in obj2:
             continue
 
         try:
