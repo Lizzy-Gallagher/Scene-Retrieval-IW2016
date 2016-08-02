@@ -22,8 +22,8 @@ def csv_file(filename):
             delimiter=",",
             usecols=range(1, num_cols))
 
-        X = dataset[:,1:]
-        y = dataset[:,:1].ravel()
+        X = dataset[:,:-1]
+        y = dataset[:,:-1].ravel()
 
         return Dataset(X,y)
 
@@ -48,8 +48,8 @@ def arff_file(filename):
             skip_header = num_cols + arff_buffer,
             usecols=range(1, num_cols))
         
-        X = dataset[:,1:]
-        y = dataset[:,:1].ravel()
+        X = dataset[:,:-1]
+        y = dataset[:,:-1].ravel()
 
         return Dataset(X,y)
 

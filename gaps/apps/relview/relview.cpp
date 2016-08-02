@@ -121,7 +121,7 @@ DrawRelationship(std::vector<Names> sets, double r, double g, double b)
         R3BeginLine();
         glColor3f(r,g,b);
         R3LoadPoint(pri_centroid);
-        glColor3f(r/2,g/2,b/2); 
+        glColor3f(256,256,256); 
         R3LoadPoint(ref_centroid);
         R3EndLine();
 
