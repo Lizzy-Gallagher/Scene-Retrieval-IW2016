@@ -75,8 +75,6 @@ def touching(r, wall_mode=False, floor_mode=False):
         return False
     if not correct_floor_mode(r, floor_mode):
         return False
-    #if "Ceiling" in r.ref_cat:
-    #    return False
     if r.sqrt_closest_dd > 0.15:
         return False
     return True
@@ -111,11 +109,8 @@ def above(r):
     if "Wall" in r.ref_cat:
         return False
 
-    if not in_z_column(r):
-        return False
-    
     # Ref must be at least some below and none above
-    if r.bc.below_bbox_z == 0 or (r.bc.above_bbox_z > 0 and r.pc.above_projection_z > 0):
+    if r.bc.below_bbox_z == 0 and (r.bc.above_bbox_z > 0 and r.pc.above_projection_z > 0):
         return False
 
     # Ref must have a lower support (and not on the ground)
@@ -134,11 +129,8 @@ def below(r):
     if "Wall" in r.ref_cat:
         return False
 
-    if not in_z_column(r):
-        return False
-
-    # Ref must be at leaset some above and none below
-    if r.bc.above_bbox_z == 0 or (r.bc.below_bbox_z > 0 and r.pc.below_projection_z > 0):
+    # Ref must be at least some above and none below
+    if r.bc.above_bbox_z == 0 and (r.bc.below_bbox_z > 0 and r.pc.below_projection_z > 0):
         return False
 
     # Ref must have a higher support (and not on the ground)
@@ -184,38 +176,37 @@ def faces_away_wall(r):
     return faces_away(r, True)
 
 def supports(r):
-    if not is_obj(r):
-        return False
+    # Corner Case
     if "door" in r.ref_cat:
         return False
-    if not above(r):
+
+    if not below(r):
         return False
     if not touching(r):
         return False
-    if r.bc.within_bbox_x == 0 or r.bc.within_bbox_y == 0:
-        return False
-    
     return True
 
 def supported_by(r):
+    # Only reports "supported by floor" 
     if "Floor" not in r.ref_obj:
         return False
     if not touching(r, floor_mode=True):
         return False
+
     return True
 
-def hanging(r, wall_mode=False):
-    if not correct_wall_mode(r, wall_mode):
-        return False
+def hanging(r):
+    # Corner Case
     if "door" in r.pri_cat:
         return False
-    if not touching(r, wall_mode=True):
-        return False
+    
     if r.cz >= 0.0:
         return False
+    if "Ceiling" in r.ref_cat and r.sqrt_closest_dd < 0.30:
+        return True
+
+    is_wall = "Wall" in r.ref_cat
+    if not touching(r, wall_mode=is_wall):
+        return False
+
     return True
-
-def hanging_wall(r):
-    return hanging(r, True)
-
-

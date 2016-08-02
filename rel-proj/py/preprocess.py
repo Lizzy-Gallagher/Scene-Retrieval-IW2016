@@ -8,7 +8,7 @@ import relationships
 
 all_rels = {
     "hanging"   : relationships.hanging,
-    "hanging_wall" : relationships.hanging_wall,
+    #"hanging_wall" : relationships.hanging_wall,
     "above" : relationships.above,
     "below" : relationships.below,
     "touching" : relationships.touching,
@@ -29,6 +29,9 @@ all_rels = {
 testing = {
     "above" : relationships.above,
     "below" : relationships.below,
+    "hanging" : relationships.hanging,
+    "supports" : relationships.supports,
+    "supported_by" : relationships.supported_by,
 }
 
 # Change to change rel sets
@@ -297,7 +300,7 @@ def relview(input_file, id2cat):
     if "supported_by" in rels:
         for obj1, obj2 in hanging:
             for alt in log[obj1]:
-                if log[obj1][alt]["supported_by"] and alt != obj2:
+                if log[obj1][alt]["supported_by"]:
                     log[obj1][obj2]["hanging"] = False
                     break
 
@@ -340,7 +343,7 @@ def learn_category(input_file, id2cat):
                             analog_cleanup.append((obj1, obj2, analogs[rel]))
       
     for obj1, obj2, rel in analog_cleanup:
-        if "Wall" in obj2 or "Floor" in obj2 or "Ceiling" in obj2 or "Window" in obj2:
+        if "Wall" in obj2 or "Floor" in obj2 or "Ceiling" in obj2:
             continue
         try:
             log[obj2][obj1][rel] = True
@@ -350,7 +353,7 @@ def learn_category(input_file, id2cat):
     if "supported_by" in rels:
         for obj1, obj2 in hanging:
             for alt in log[obj1]:
-                if log[obj1][alt]["supported_by"] and alt != obj2:
+                if log[obj1][alt]["supported_by"]:
                     log[obj1][obj2]["hanging"] = False
                     break
 
