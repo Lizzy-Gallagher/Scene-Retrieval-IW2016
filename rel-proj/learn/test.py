@@ -34,9 +34,6 @@ elif ".csv" in input_filename:
 X = dataset.data.X
 y = dataset.data.y
 
-print X
-print y
-
 ##
 ## Cross Validation
 ##
@@ -64,8 +61,8 @@ print("Accuracy: %0.2f (+/- %0.2f)" % (scores.mean(), scores.std() * 2))
 ## Model Persistence
 ##
 
-from sklearn.externals import joblib # alternative to pickle
-joblib.dump(clf, 'svc.pkl')
+#from sklearn.externals import joblib # alternative to pickle
+#joblib.dump(clf, 'svc.pkl')
 
 # And to load...
 # clf = joblib.load('svc.pkl')

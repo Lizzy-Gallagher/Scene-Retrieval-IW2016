@@ -43,18 +43,14 @@ def arff_file(filename):
         # read dataset
         dataset = np.genfromtxt(
             f,
-            dtype=None,
+            dtype=np.str,
+            autostrip=True,
             delimiter=",",
             skip_header = num_cols + arff_buffer,
         )
         
-        print dataset.shape
-
-        X = dataset[:,:-1]
+        X = dataset[:,:-1].astype(np.int)
         y = dataset[:,-1:].ravel()
 
-        print X.shape
-        print y.shape
-    
         return Dataset(X,y)
 
