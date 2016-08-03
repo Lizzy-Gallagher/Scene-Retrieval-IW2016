@@ -51,6 +51,7 @@ class Mode(object):
             raise ValueError("Unexpected Mode: " + mode)
 
 mode = Mode(args.mode)
+to_include = ["Ceiling", "Floor", "dinning_table", "sofa", "chair"]
 
 ##
 ## Constants
@@ -290,7 +291,6 @@ def print_relview(relview_log):
         f.close()
 
 
-to_include = ["Wall", "kitchen_appliance", "chair", "desk"]
 def create_weka_header():
     cat1_lst = "{"
     for cat1 in categories:

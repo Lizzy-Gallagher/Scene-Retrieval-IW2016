@@ -23,7 +23,7 @@ def csv_file(filename):
             usecols=range(1, num_cols))
 
         X = dataset[:,:-1]
-        y = dataset[:,:-1].ravel()
+        y = dataset[:,-1:].ravel()
 
         return Dataset(X,y)
 
@@ -43,13 +43,18 @@ def arff_file(filename):
         # read dataset
         dataset = np.genfromtxt(
             f,
-            dtype=np.int,
+            dtype=None,
             delimiter=",",
             skip_header = num_cols + arff_buffer,
-            usecols=range(1, num_cols))
+        )
         
-        X = dataset[:,:-1]
-        y = dataset[:,:-1].ravel()
+        print dataset.shape
 
+        X = dataset[:,:-1]
+        y = dataset[:,-1:].ravel()
+
+        print X.shape
+        print y.shape
+    
         return Dataset(X,y)
 
