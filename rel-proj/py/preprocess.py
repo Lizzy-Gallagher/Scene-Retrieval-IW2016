@@ -338,11 +338,13 @@ def learn_category(input_file, id2cat):
         if "Wall" in obj2 or "Floor" in obj2 or "Ceiling" in obj2:
             continue
         try:
-            #if obj1 not in log[obj2]:
-            #    log[obj1][obj2] = {}
+            #  if obj2 not in log:
+            #     log[obj2] = {}
+            #  if obj1 not in log[obj2]:
+            #     log[obj2][obj1] = {}
             log[obj2][obj1][rel] = True
         except:
-            print "KeyError on " + obj2 + " - " + obj1
+            print "\tKeyError on " + obj2 + " - " + obj1 # Don't be afraid
     
     if "supported_by" in rels:
         for obj1, obj2 in hanging:
