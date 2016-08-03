@@ -8,7 +8,6 @@ import relationships
 
 all_rels = {
     "hanging"   : relationships.hanging,
-    #"hanging_wall" : relationships.hanging_wall,
     "above" : relationships.above,
     "below" : relationships.below,
     "touching" : relationships.touching,
@@ -18,24 +17,17 @@ all_rels = {
     "behind" : relationships.return_false,
     "supports" : relationships.supports,
     "supported_by" : relationships.supported_by,
-    "touching_wall" : relationships.touching_wall,
-    #"faces_wall"    : relationships.faces_wall,
-    #"faces_away_wall" : relationships.faces_away_wall,
     "within_1m" : relationships.within_1m,
     "within_2m" : relationships.within_2m,
-    #"within_3m" : relationships.within_3m,
+    "within_3m" : relationships.within_3m,
 }
 
 testing = {
-    "above" : relationships.above,
-    "below" : relationships.below,
-    "hanging" : relationships.hanging,
-    "supports" : relationships.supports,
-    "supported_by" : relationships.supported_by,
+    "faces" : relationships.faces,
 }
 
 # Change to change rel sets
-rels = testing
+rels = all_rels
 
 # Opposites that can only be calculated one way 
 analogs = {
@@ -346,6 +338,8 @@ def learn_category(input_file, id2cat):
         if "Wall" in obj2 or "Floor" in obj2 or "Ceiling" in obj2:
             continue
         try:
+            #if obj1 not in log[obj2]:
+            #    log[obj1][obj2] = {}
             log[obj2][obj1][rel] = True
         except:
             print "KeyError on " + obj2 + " - " + obj1

@@ -28,77 +28,26 @@ def return_false(r):
 ## Utils
 ##
 
-def is_floor_or_ceiling(r):
-    if "Floor" == r.ref_cat or "Ceiling" == r.ref_cat:
-        return True
-    return False
-
-def is_wall(r):
-    return "Wall" in r.ref_obj
-
-def is_obj(r):
-    #if "Floor" in r.ref_cat or "Ceiling" in r.ref_cat: #or "Wall" in r.ref_cat:
-    #    return False
-    return True
-
-def correct_wall_mode(r, wall_mode):
-    if wall_mode:
-        if "Wall" not in r.ref_cat:
-            return False
-    else: 
-        if "Wall" in r.ref_cat:
-            return False
-    return True
-
-def correct_floor_mode(r, floor_mode):
-    if floor_mode:
-        if "Floor" not in r.ref_cat:
-            return False
-    else: 
-        if "Floor" in r.ref_cat:
-            return False
-    return True
-
-def in_z_column(r):
-    # No longer works...
-    total_in_column = r.pc.above_projection_z + r.pc.within_projection_z + r.pc.below_projection_z
-    if total_in_column == 0:
-        return False
-    return True
-
 ##
 ## Relationships
 ##
 
-def touching(r, wall_mode=False, floor_mode=False):
-    if not correct_wall_mode(r, wall_mode):
-        return False
-    if not correct_floor_mode(r, floor_mode):
-        return False
+def touching(r):
     if r.sqrt_closest_dd > 0.15:
         return False
     return True
 
-def touching_wall(r):
-    return touching(r, True)
-
 def within_1m(r):
-    if not is_obj(r): 
-        return False
     if r.sqrt_closest_dd > 1.0:
         return False
     return True
 
 def within_2m(r):
-    if not is_obj(r):
-        return False
     if r.sqrt_closest_dd > 4.0:
         return False
     return True
 
 def within_3m(r):
-    if not is_obj(r):
-        return False
     if r.sqrt_closest_dd > 9.0:
         return False
     return True
@@ -143,37 +92,24 @@ def below(r):
 
     return True
 
-def faces(r, wall_mode=False):
-    if not correct_wall_mode(r, wall_mode):
+def faces(r):
+    if below(r) or above(r):
         return False
-    if is_floor_or_ceiling(r):
-        return False
-    if not is_wall(r) and (below(r) or above(r)):
-        return False
-    if not is_wall(r) and not within_1m(r):
+    if not within_2m(r):
         return False
     if r.bc.below_bbox_y != 0 or r.bc.above_bbox_y == 0:
         return False
     return True
 
-def faces_wall(r):
-    return faces(r, True);
-
-def faces_away(r, wall_mode=False):
-    if not correct_wall_mode(r, wall_mode):
+def faces_away(r):
+    if below(r) or above(r):
         return False
-    if is_floor_or_ceiling(r):
-        return False
-    if not is_wall(r) and (below(r) or above(r)):
-        return False
-    if not is_wall(r) and not within_1m(r):
+    # Within 1-m neighborhood
+    if not within_2m(r):
         return False
     if r.bc.above_bbox_y != 0 or r.bc.below_bbox_y == 0:
         return False
     return True
-
-def faces_away_wall(r):
-    return faces_away(r, True)
 
 def supports(r):
     # Corner Case
@@ -190,7 +126,8 @@ def supported_by(r):
     # Only reports "supported by floor" 
     if "Floor" not in r.ref_obj:
         return False
-    if not touching(r, floor_mode=True):
+
+    if r.cz != 0.0:
         return False
 
     return True
@@ -199,14 +136,15 @@ def hanging(r):
     # Corner Case
     if "door" in r.pri_cat:
         return False
-    
+
+    if "chandelier" in r.pri_cat and "Ceiling" in r.ref_cat:
+        print_record(r)
+
     if r.cz >= 0.0:
         return False
     if "Ceiling" in r.ref_cat and r.sqrt_closest_dd < 0.30:
         return True
-
-    is_wall = "Wall" in r.ref_cat
-    if not touching(r, wall_mode=is_wall):
+    if not touching(r):
         return False
 
     return True
