@@ -51,7 +51,7 @@ class Mode(object):
             raise ValueError("Unexpected Mode: " + mode)
 
 mode = Mode(args.mode)
-to_include = ["Ceiling", "Floor", "dinning_table", "sofa", "chair"]
+#to_include = ["Ceiling", "Floor", "dinning_table", "sofa", "chair"]
 
 ##
 ## Constants
@@ -301,7 +301,8 @@ def create_weka_header():
     rows.append("@RELATION Relationships")
     rows.append("\n")
 
-    for cat2 in sorted(to_include):
+    for cat2 in sorted(categories):
+    #for cat2 in sorted(to_include):
         for rel in sorted(rels):
             rows.append("@ATTRIBUTE " + cat2 + "-" + rel + " NUMERIC")
     rows.append("@ATTRIBUTE cat1 " + cat1_lst)
@@ -351,7 +352,8 @@ def print_learn_category(log, weka_compatible=False):
                         rels_by_cat[ref_cat][rel] += 1
 
             # Append to row in order
-            for ref_cat in sorted(to_include):
+            for ref_cat in sorted(categories):
+            #for ref_cat in sorted(to_include):
                 for rel in sorted(rels):
                     if ref_cat in rels_by_cat:
                         row.append(rels_by_cat[ref_cat][rel])

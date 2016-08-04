@@ -48,14 +48,25 @@ print("Accuracy: %0.2f (+/- %0.2f)" % (scores.mean(), scores.std() * 2))
 
 
 ##
-## Learning
+## Parameter Fitting
 ##
 
-#clf = svm.SVC(gamma=0.001, C=100.)
-#clf.fit(X[:-1], y[:-1]) # select all but the last
-#print clf.predict(X[-1:])
-#print y[-1]
-
+#  from sklearn import svm, grid_search
+#  
+#  print
+#  print "Fitting ..."
+#  print
+#  
+#  param_grid = [
+    #  {'C': [1, 10, 100, 1000], 'kernel': ['linear']},
+    #  {'C': [1, 10, 100, 1000], 'gamma': [0.001, 0.0001], 'kernel': ['rbf']},
+#  ]
+#  svr = svm.SVC()
+#  clf = grid_search.GridSearchCV(svr, param_grid)
+#  clf.fit(X, y)
+#  scores = cross_validation.cross_val_score(clf, X, y,
+                                          #  cv=StratifiedKFold(y,n_folds = 2))
+#  print("Accuracy: %0.2f (+/- %0.2f)" % (scores.mean(), scores.std() * 2))
 
 ##
 ## Model Persistence
