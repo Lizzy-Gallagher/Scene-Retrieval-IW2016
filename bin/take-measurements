@@ -1,0 +1,23 @@
+#!/bin/bash
+
+# Handle command-line args:
+
+# take-measurements projects_dir i output_dir
+if [[ $# != 3 ]]; then
+    echo "Usage: $0 projects_dir i output_dir"
+    exit
+fi
+
+projects_dir=$1
+i=$2
+output_dir=$3
+
+echo
+echo "Getting "$i"th project"
+echo
+projectname=$(ls $projects_dir | head -n $i | tail -n 1)
+echo $projectname
+
+scn2meas $projects_dir/$projectname/project.json $output_dir/$projectname
+
+
