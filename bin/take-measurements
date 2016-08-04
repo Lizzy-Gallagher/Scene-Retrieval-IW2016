@@ -1,23 +1,30 @@
 #!/bin/bash
 
-# Handle command-line args:
+##
+## Collects measurements on the ith
+## Planner5d project.
+##
+##
+## Usage:
+## ------------------------------------------
+## > take-measurements planner5d/projects 42 measurements/
+##
+##
+## Notes:
+## ------------------------------------------
+## For use on Ionic
+## 
 
-# take-measurements projects_dir i output_dir
+# Handle command-line args:
 if [[ $# != 3 ]]; then
     echo "Usage: $0 projects_dir i output_dir"
     exit
 fi
 
 projects_dir=$1
-i=$2
+index=$2
 output_dir=$3
 
-echo
-echo "Getting "$i"th project"
-echo
-projectname=$(ls $projects_dir | head -n $i | tail -n 1)
-echo $projectname
-
+projectname=$(ls $projects_dir | head -n $index | tail -n 1)
 scn2meas $projects_dir/$projectname/project.json $output_dir/$projectname
-
 

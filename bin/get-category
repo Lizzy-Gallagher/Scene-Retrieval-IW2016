@@ -1,0 +1,34 @@
+#!/bin/bash
+
+##
+## Returns the category of the given line number
+##
+##
+## Usage:
+## ------------------------------------------
+## > get-category 42
+##      kitchen_cabinet
+##
+##
+## Notes:
+## ------------------------------------------
+## Useful for machine learning libraries where 
+## parsing strings is difficult
+##
+
+if [[ $# != 1 ]]; then
+    echo "Usage: $0 linenumber"
+    exit
+fi
+
+linenumber=$1
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+# Load category list
+categories=$DIR/../data/categories.txt
+if [[ ! -f $categories ]]; then
+    echo "Category List ($categories) not found"
+    exit
+fi
+
+sed -n "$linenumber p" $categories

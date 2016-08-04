@@ -1,0 +1,89 @@
+#!/bin/bash
+
+##
+## Gather relationship data from a scene for 
+## machine learning in weka.
+##
+##
+## Usage:
+## ------------------------------------------
+## run-learning
+##      runs relview, using any premade files
+##
+## run-learning clean 
+##      removes measurements and relationships 
+##
+## run-learning clean [measurements/relationships] 
+##      removes respective file
+##
+##
+## Notes: 
+## ------------------------------------------
+## Must run from inside a project folder.
+##
+
+dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+project_id=$(basename $PWD)
+
+data_dir="../.."
+py_dir="$dir/../rel-proj/"
+
+measurements="$data_dir/measurements/$project_id.txt"
+relationships="$data_dir/weka/$project_id.arff"
+header="$data_dir/weka/header"
+
+# Parse command-line args:
+if [[ $# != 0 ]]; then
+    if [[ $1 = "clean" ]]; then 
+        if [[ $# > 1 ]]; then 
+            if [[ $2 = "measurements" ]]; then
+                echo "rm $measurements"; rm $measurements
+            elif [[ $2 = "relationships" ]]; then
+                echo "rm $relationships"; rm $relationships
+            else
+                echo "Usage: $0 [clean [measurements/relationships]]"; exit
+            fi
+        else
+            echo "rm $measurements"; rm $measurements
+            echo "rm $relationships"; rm $relationships
+        fi
+    else
+        echo "Usage: $0 [clean [measurements/relationships]]"; exit
+    fi
+fi
+
+# If no measurements for the scene, measure
+# call it measurements/#.txt
+echo
+echo
+echo "Checking if measurements exist..."
+if [ ! -f $measurements ]; then
+    echo -e "\tNo measurements found."
+    echo -e "\tMeasuring..."
+    scn2meas project.json $measurements
+else
+    echo -e "\tMeasurements found!"
+fi
+
+echo
+echo
+
+# If no relationships for the scene, calculate relationships
+# call it relationship/[#.csv / #.arff] 
+
+echo "Checking if relationships exist..."
+if [ ! -f $relationships ]; then
+    measurements="data/measurements/$project_id.txt"
+    relationships="data/weka/$project_id.arff"
+    
+    echo -e "\tNo relationships found."
+    echo -e "\tAnalyzing..."
+    $(cd $py_dir; python py/analyze.py -mode mlcat $measurements $relationships > output.txt 2> err.txt)
+else
+    echo -e "\tRelationships found!"
+fi
+
+echo
+echo "Done!"
+echo
+

@@ -1,0 +1,39 @@
+#!/bin/bash
+
+##
+## Returns the line number(s) of the Planner5D category matching
+## the input query.
+##
+##
+## Usage:
+## ------------------------------------------
+## > get-line-number chair
+##      4:chair
+##      27:table_and_chair
+##      41:office_chairs
+##      43:bench_chair
+##      54:armchair
+##
+##
+## Notes:
+## ------------------------------------------
+## Useful for machine learning libraries where
+## parsing strings is difficult
+##
+
+if [[ $# != 1 ]]; then
+    echo "Usage: $0 category"
+    exit
+fi
+
+query=$1
+dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+# Load category list
+categories=$dir/../data/categories.txt
+if [[ ! -f $categories ]]; then
+    echo "Category list ($categories) not found"
+    exit
+fi
+
+cat $categories | grep -n $query

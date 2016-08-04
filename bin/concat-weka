@@ -1,0 +1,33 @@
+#!/bin/bash
+
+##
+## Concatenates all the .arff files from each scene
+## in the weka directory with a header
+##
+##
+## Notes: 
+## ------------------------------------------
+## Must run from inside data/weka
+##
+
+if [[ $# > 1 ]]; then
+    echo "Usage: $0 [outputfilename]"; exit
+fi
+
+if [ ! -f "header" ]; then
+    echo "Error: header not found"; exit
+fi
+
+if [[ $# = 1 ]]; then
+    outputfilename=$1
+    echo "cat header *.arff > $outputfilename"
+    cat header *.arff > $outputfilename
+fi
+
+if [[ $# = 0 ]]; then
+    echo "cat header *.arff > data.arff"
+    cat header *.arff > data.arff
+fi
+
+echo "Done."
+
