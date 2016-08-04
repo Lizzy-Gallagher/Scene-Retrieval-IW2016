@@ -82,4 +82,5 @@ gaps/bin/*
 gaps/apps/*
 !gaps/apps/p5danalyze
 !gaps/apps/scn2rel
+!gaps/apps/scn2meas
 
