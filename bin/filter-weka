@@ -1,0 +1,38 @@
+#!/bin/bash
+
+##
+## Filters the .arff files to 
+## in the weka directory with a header
+##
+##
+## Notes: 
+## ------------------------------------------
+## - Must run from inside data/weka
+## - Useful for sanity checks
+##
+
+if [[ $# != 3 ]]; then
+    echo "Usage: $0 filename categoryA categoryB"; exit
+fi
+
+input_filename=$1
+categoryA=$2
+categoryB=$3
+output_filename="filtered/$categoryA""-""$categoryB.arff"
+
+echo "Old linecount:"
+echo $(wc -l $input_filename)
+echo
+
+headersize=$(wc -l header | sed 's/[^0-9]//g')
+limit=$((headersize + 1))
+
+echo
+echo "Filtering..."
+echo 
+
+awk 'BEGIN { FS="," }; $NF ~ awk_cat1 || $NF ~ awk_cat2 || NR < limit { print; }' awk_cat1=$categoryA awk_cat2=$categoryB limit=$limit $input_filename > $output_filename
+
+echo "New linecount:"
+echo $(wc -l $output_filename)
+echo

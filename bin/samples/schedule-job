@@ -1,6 +1,8 @@
 #!/usr/bin/perl
 use strict vars;
 
+## Template run_job from Professor Tom Funkhouser
+
 ########################################################################
 
 # Get conf file
