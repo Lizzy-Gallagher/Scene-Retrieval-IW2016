@@ -2,11 +2,16 @@
 
 This is a private repository for the scene understanding independent work I performed in Summer 2016 with the Princeton Graphics Group, Professor Thomas Funkhouser, Shuran Song, Manolis Saava, and Angel Chang.
 
-###Set-Up:
+
+* [Getting Started](#getting-started)
+* [Roadmap](#road-map)
+* [Utilities](#utilities)
+
+###<a name="getting-started"></a>Getting Started:
 - 
 
 
-###Directories:
+###<a name="road-map></a>Roadmap:
 
 - **bin** : scripts for running programs (see below for details)
 - **data** : local version contains: Planner5D projects, generated statistics, ML training files
@@ -14,7 +19,7 @@ This is a private repository for the scene understanding independent work I perf
 - **old-projects** : workspaces for partial / previous projects (e.g. heatmaps, previous preposition model)
 - **rel-proj** : workspace for relationship project (single or many scene, generates ML-ready files)
 
-###Scripts:
+###<a name="utilities"></a>Utilities:
 
 #### schedule-job (Ionic)
 - modify greatly for future use
