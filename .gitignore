@@ -1,3 +1,36 @@
+========
+
+## 
+resources/
+etc/
+
+# Ignore Output
+old-projects/prob-dist/output
+old-projects/prep-dist/output
+
+# Data is way too big!
+data/objects
+data/projects_clean
+data/projects
+data/roomfiles
+data/texture
+data/rels
+data/relview
+data/weka
+data/measurements
+
+gaps/*
+!gaps/apps
+gaps/apps/*
+!gaps/apps/p5danalyze
+!gaps/apps/scn2rel
+!gaps/apps/scn2meas
+
+gaps/bin/*
+!gaps/bin/x86_64
+ 
+========
+
 # Compiled source #
 ###################
 *.com
@@ -47,40 +80,4 @@ Thumbs.db
 ##############
 *.html
 
-========
-
-obj-imgs/
-resources/
-scene-toolkit/
-old-results/
-etc/
-tmp/
-
-# Ignore Output
-prob-dist/output
-prep-dist/output
-
-# Data is way too big!
-data/objects
-data/projects_clean
-data/projects
-data/roomfiles
-data/texture
-data/rels
-data/relview
-data/weka
-data/measurements
-
-#!gaps/
-
-gaps/*
-!gaps/apps
-
-gaps/bin/*
-!gaps/bin/x86_64
-
-gaps/apps/*
-!gaps/apps/p5danalyze
-!gaps/apps/scn2rel
-!gaps/apps/scn2meas
 
