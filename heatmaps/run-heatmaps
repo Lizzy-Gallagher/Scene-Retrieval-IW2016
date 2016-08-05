@@ -1,0 +1,21 @@
+#!/bin/bash
+
+##
+## Runs the heatmap creating utilities
+##
+##
+## Notes: 
+## ------------------------------------------
+## - Not updated since 6/24/2016. May no longer
+##   work out-of-box
+## - Prefer rel-proj/ for active development
+##
+
+echo "Cleaning up..."
+scripts/clean
+
+echo "Analyzing..."
+bin/p5danalyze output/grids/ -heat -ptm 20 -context 4 2> output/err-log.txt
+
+echo "Converting Grids..."
+scripts/convert
