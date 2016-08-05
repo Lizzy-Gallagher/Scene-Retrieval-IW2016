@@ -1,0 +1,20 @@
+#!/bin/bash
+
+##
+## Runs the analyzer to find prepositions
+## and creates html pages for viewing.
+##
+##
+## Notes: 
+## ------------------------------------------
+##  - This project was last updated 7/11/16
+##  - Prefer rel-proj/ for active development
+##
+
+echo "rm output/imgs/*.png"
+rm output/imgs/*.png
+
+echo "Analyzing..."
+p5danalyze output/grids/ -prep -ptm 20 -context 4 2> output/err-log.txt
+
+echo "Done."
