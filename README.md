@@ -8,10 +8,13 @@ This is a private repository for the scene understanding independent work I perf
 * [Utilities](#utilities)
 
 ###<a name="getting-started"></a>Getting Started:
-- 
+*Note:* This section is a work in progress. Check back for changes
+1. Clone this repo 
+```sh
+git clone https://github.com/LizzyBradley/Understanding-Scenes.git
+```
 
-
-###<a name="road-map></a>Roadmap:
+###<a name="road-map"></a>Roadmap:
 
 - **bin** : scripts for running programs (see below for details)
 - **data** : local version contains: Planner5D projects, generated statistics, ML training files
@@ -20,6 +23,7 @@ This is a private repository for the scene understanding independent work I perf
 - **rel-proj** : workspace for relationship project (single or many scene, generates ML-ready files)
 
 ###<a name="utilities"></a>Utilities:
+The top-level folder bin/ contains all the utility scripts necessary to work with this repository.
 
 #### schedule-job (Ionic)
 - modify greatly for future use
