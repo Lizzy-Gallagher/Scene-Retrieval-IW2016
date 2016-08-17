@@ -8,7 +8,6 @@ This is a private repository for the scene understanding independent work I perf
 * [Utilities](#utilities)
 
 ###<a name="getting-started"></a>Getting Started:
-*Note:* This section is a work in progress. Check back for changes
 
 1. Clone this repo 
 ```sh
