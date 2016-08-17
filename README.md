@@ -9,10 +9,32 @@ This is a private repository for the scene understanding independent work I perf
 
 ###<a name="getting-started"></a>Getting Started:
 *Note:* This section is a work in progress. Check back for changes
+
 1. Clone this repo 
 ```sh
 git clone https://github.com/LizzyBradley/Understanding-Scenes.git
 ```
+
+2. The project in its current state relies on a very specific hierarchy for Planner5d files. Therefore, you'll need to symlink the following folders to `data/`. Run the following from this repo's root.
+
+```sh
+ln -s path/to/projects data/projects
+ln -s path/to/objects data/objects
+ln -s path/to/roomfiles data/roomfiles
+ln -s path/to/textures data/textures
+```
+
+Additionally, initiliaze the following directories.
+
+```sh
+mkdir data/measurements
+mkdir data/relview
+mkdir data/weka
+```
+
+3. Due to GAPS' size, only the application directories are included. Copy those folders into your own implementation of GAPs and compile them. As long as the newly created binaries are in your PATH they will work.
+
+4. Add `bin/` to your path. Each script explains how to use it and provides examples. `run-relview` visualize relationships for a given project. `run-learning` collects information about object relationships for use in machine learning. To actually perform learning, run `concat-weka` from `data/weka` after using `run-learning` on a number of projects. The resulting data.arff file may then be used in Weka.
 
 ###<a name="road-map"></a>Roadmap:
 
