@@ -39,7 +39,7 @@ struct PrepRegion {
     R3Box region;
 };
 
-using PrepMap = std::map<std::string, std::map<std::string, PrepositionStats>>;
+using PrepMap = std::map<std::string, std::map<std::string, PrepositionStats> >;
 using PrepRegionMap = std::map<int, PrepRegion>;
 
 // Needs a new name

@@ -82,7 +82,7 @@ struct Names {
     std::string ref_obj;
 };
 
-std::vector<std::vector<Names>> relationships; //(num_relationships); // must be correct
+std::vector<std::vector<Names> > relationships; //(num_relationships); // must be correct
 
 ////////////////////////////////////////////////////////////////////////
 // Utility functions

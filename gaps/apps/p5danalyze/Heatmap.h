@@ -12,7 +12,7 @@
 #include <map>
 #include <vector>
 
-using HeatmapMap = std::map<std::string, std::map<std::string, R2Grid*>>;
+using HeatmapMap = std::map<std::string, std::map<std::string, R2Grid*> >;
 
 int WriteHeatmaps(HeatmapMap* heatmaps, FrequencyStats freq_stats,
         const char* output_grid_directory, bool print_verbose);

@@ -104,7 +104,8 @@ CreateScene(P5DProject *project, const char* input_data_directory)
         sprintf(node_name, "Wall_%d", j);
         wall_node->SetName(node_name);
 
-        if (ReadObj(scene, wall_node, rm_name))
+        RNArray<R3Material *> *materials = new RNArray<R3Material *>();
+        if (ReadObj(scene, wall_node, rm_name, materials))
             room_node->InsertChild(wall_node);
 
         // Read floor

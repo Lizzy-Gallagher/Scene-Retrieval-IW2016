@@ -1,0 +1,50 @@
+#!/bin/bash
+
+##
+## Imports the .csv output of p5d2csv
+##
+## Usage:
+## ------------------------------------------
+##
+## import-csv
+##      imports csv files
+##
+
+# Parse command-line args:
+if [[ $# != 0 ]]; then
+    echo "usage: import-csv"; exit
+fi
+
+project_name=$(basename "$PWD")
+
+
+## RUN PARSER
+p5d2csv $project_name
+
+## ROOMS
+rooms_filename="rooms.csv"
+rooms_cols=$(head -n 1 $rooms_filename)
+
+mysqlimport --ignore-lines 1 planner5d ~/iw/data/projects/$project_name/$rooms_filename -u root --password=password --fields-terminated-by=',' --lines-terminated-by='\n' --columns=$rooms_cols
+
+## SCENES
+scenes_filename="scenes.csv"
+scenes_cols=$(head -n 1 $scenes_filename)
+
+mysqlimport --ignore-lines 1 planner5d ~/iw/data/projects/$project_name/$scenes_filename -u root --password=password --fields-terminated-by=',' --lines-terminated-by='\n' --columns=$scenes_cols
+
+## OBJECTS
+objects_filename="objects.csv"
+objects_cols=$(head -n 1 $objects_filename)
+
+mysqlimport --ignore-lines 1 planner5d ~/iw/data/projects/$project_name/$objects_filename -u root --password=password  --fields-terminated-by=',' --lines-terminated-by='\n' --columns=$objects_cols
+
+## FLOORS
+floors_filename="floors.csv"
+floors_cols=$(head -n 1 $floors_filename)
+
+mysqlimport --ignore-lines 1 planner5d ~/iw/data/projects/$project_name/$floors_filename -u root --password=password --fields-terminated-by=',' --lines-terminated-by='\n' --columns=$floors_cols
+
+
+## CLEAN UP
+rm *.csv

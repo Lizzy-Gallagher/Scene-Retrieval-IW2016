@@ -8,7 +8,7 @@
 #include <string>
 
 using CountMap = std::map<std::string, int>;
-using PairMap = std::map<std::string, std::map<std::string, int>>;
+using PairMap = std::map<std::string, std::map<std::string, int> >;
 
 struct FrequencyStats {
     CountMap* cat_count = new CountMap();

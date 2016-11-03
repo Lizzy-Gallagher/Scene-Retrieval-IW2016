@@ -9,7 +9,7 @@
 #include <iostream>
 #include <fstream>
 
-using HeatmapMap = std::map<std::string, std::map<std::string, R2Grid*>>;
+using HeatmapMap = std::map<std::string, std::map<std::string, R2Grid*> >;
 
 // Take collection of grids and write them
 int WriteHeatmaps(HeatmapMap* heatmaps, FrequencyStats freq_stats,
