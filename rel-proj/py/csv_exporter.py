@@ -20,8 +20,8 @@ def create_relationships_csv():
         writer.writerow(header)
         
 
-        for i, k in enumerate(config.total_rels.keys()):
-            row = [i, k]
+        for i, k in enumerate(sorted(config.total_rels.keys())):
+            row = [i+1, k]
             writer.writerow(row)
             
     finally:

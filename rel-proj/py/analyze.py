@@ -1,6 +1,4 @@
-import sys
 import itertools
-from random import randint
 import csv
 import os.path
 
@@ -9,11 +7,11 @@ from maps import Cat2Ids
 import preprocess
 import wordnet
 
-import relationships
+import subprocess
 
-##
-## Command-Line Argument Parsing
-##
+#
+# Command-Line Argument Parsing
+#
 
 import argparse
 parser = argparse.ArgumentParser()
@@ -27,11 +25,12 @@ args = parser.parse_args()
 
 
 # Command-Line Args
-category        = args.category
-input_filename  = args.input_filename
+category = args.category
+input_filename = args.input_filename
 output_filename = args.output_filename
 
-weka_mode = ".arff" in output_filename 
+weka_mode = ".arff" in output_filename
+
 
 class Mode(object):
     isExchIds = False
@@ -39,7 +38,7 @@ class Mode(object):
     isLearnCategory = False
 
     def __init__(self, mode):
-        if mode == None:
+        if mode is None:
             self.isExchIds = True
         elif mode == "exch":
             self.isExchIds = True
@@ -47,15 +46,16 @@ class Mode(object):
             self.isRelView = True
         elif mode == "mlcat":
             self.isLearnCategory = True
+        elif mode == "db":
+            self.isForDatabase = True
         else:
             raise ValueError("Unexpected Mode: " + mode)
 
 mode = Mode(args.mode)
-#to_include = ["Ceiling", "Floor", "dinning_table", "sofa", "chair"]
 
-##
-## Constants
-##
+#
+# Constants
+#
 
 header_filename = '../data/weka/header'
 
@@ -75,27 +75,29 @@ for i, category in enumerate(set(categories)):
 
 rels = preprocess.rels.keys()
 
-##
-## Aux
-##
+#
+# Aux
+#
+
 
 def pairwise(iterable):
     """ s -> (s0,s1), (s1,s2), (s2,s2) ..."""
     new_iterable = []
     for i, item1 in enumerate(iterable):
         for item2 in itertools.islice(iterable, i+1, None):
-            new_iterable.append((item1,item2))
+            new_iterable.append((item1, item2))
 
     return new_iterable
 
-##
-## Exchanagble Ids
-##
+#
+# Exchanagble Ids
+#
+
 
 class Score(object):
     def __init__(self):
         self.matches = 0.0
-        self.misses  = 0.0
+        self.misses = 0.0
 
     def is_empty(self):
         return self.misses + self.matches == 0
@@ -106,12 +108,13 @@ class Score(object):
 
         return self.matches / (self.matches + self.misses)
 
+
 def compute_compatibility_score(id_1, id_2, rel_log):
     rels_that_matter = ["supported_by", "supports"]
     rel_set1 = rel_log[id_1]
     rel_set2 = rel_log[id_2]
 
-    ratios = {"best" : 0.0}
+    ratios = {"best": 0.0}
     for rel in rels_that_matter:
         score = Score()
         for cat, count in rel_set1[rel].items():
@@ -122,22 +125,24 @@ def compute_compatibility_score(id_1, id_2, rel_log):
         for cat, count in rel_set2[rel].items():
             if cat not in rel_set1[rel]:
                 score.misses += 1
-       
+
         if score.ratio > ratios["best"]:
             ratios["best"] = score.ratio
 
     return ratios["best"] * 10
 
+
 def get_score(record):
     """ return record.score """
     return record[2]
 
+
 def get_exchangable_ids(rel_log):
-    all_ids = cat2ids[category] # All cat2ids in the category
+    all_ids = cat2ids[category]  # All cat2ids in the category
 
     if len(all_ids) <= 1:
         return None
- 
+
     records = []
     for id1, id2 in pairwise(all_ids):
         if id1 not in rel_log or id2 not in rel_log:
@@ -146,14 +151,14 @@ def get_exchangable_ids(rel_log):
         score = compute_compatibility_score(id1, id2, rel_log)
         records.append((id1, id2, score))
 
-    threshold = 1 # score necessary for compatibility
+    threshold = 1  # score necessary for compatibility
 
     # Only inlclude records above a certain threshold
-    records = filter(lambda record: get_score(record) > threshold,
-                               records)
+    records = filter(lambda record: get_score(record) > threshold, records)
+
     # Sort for human readability
     records = sorted(records, reverse=True)
-    
+
     # Exchangable sets is a connected component
     exchangable_sets = []
     setted_ids = []
@@ -163,8 +168,8 @@ def get_exchangable_ids(rel_log):
 
         if id1 not in setted_ids:
             setted_ids.append(id1)
-            
-            if id2 not in setted_ids: 
+
+            if id2 not in setted_ids:
                 setted_ids.append(id2)
                 exchangable_sets.append([id1, id2])
 
@@ -184,9 +189,10 @@ def get_exchangable_ids(rel_log):
 
     return exchangable_sets
 
-##
-## Printing
-##
+#
+# Printing
+#
+
 
 def create_header():
     header = []
@@ -205,7 +211,7 @@ def create_header():
                 header.append(rel + "_" + cat)
         for location in wordnet.locations.keys():
             header.append(location)
-    
+
     elif mode.isLearnCategory:
         header.append("id1")
         header.append("cat1")
@@ -215,6 +221,7 @@ def create_header():
 
     return header
 
+
 def get_value(id, cat, rel, rel_log):
     if rel not in rel_log[id]:
         return 0
@@ -223,6 +230,7 @@ def get_value(id, cat, rel, rel_log):
     else:
         return rel_log[id][rel][cat]
 
+
 def print_exch_ids(rel_log, counter):
     # For every id, print rels with each category as well as # scenes
     # in common (necessitates a rewrite of rel_log)
@@ -230,13 +238,13 @@ def print_exch_ids(rel_log, counter):
     f = open(output_filename, 'w')
     try:
         writer = csv.writer(f, quoting=csv.QUOTE_NONNUMERIC)
-        
+
         # Write Header
         header = create_header()
         writer.writerow(header)
 
-        # Write rows (one per) 
-        for id in rel_log: # ids present in scenes
+        # Write rows (one per)
+        for id in rel_log:  # ids present in scenes
             row = []
             row.append(id)
             row.append(counter[id])
@@ -244,13 +252,13 @@ def print_exch_ids(rel_log, counter):
             for cat in categories:
                 for rel in rels:
                     row.append(get_value(id, cat, rel, rel_log))
-            
+
             for location, set in wordnet.locations.items():
                 num_relationships = 0
                 for cat in categories:
                     if cat not in set:
                         continue
-                    
+
                     for rel in rels:
                         num_relationships += get_value(id, cat, rel, rel_log)
                 row.append(num_relationships)
@@ -260,10 +268,10 @@ def print_exch_ids(rel_log, counter):
     finally:
         f.close()
 
+
 def print_relview(relview_log):
     # For every object # print the rels with other objects
     # 0 is false, 1 is true
-
 
     f = open(output_filename, 'w')
     try:
@@ -302,13 +310,70 @@ def create_weka_header():
     rows.append("\n")
 
     for cat2 in sorted(categories):
-    #for cat2 in sorted(to_include):
         for rel in sorted(rels):
             rows.append("@ATTRIBUTE " + cat2 + "-" + rel + " NUMERIC")
     rows.append("@ATTRIBUTE cat1 " + cat1_lst)
 
     rows.append("\n")
     return rows
+
+
+object_hashes = {}
+
+
+def get_object_hash(p5d_id, object_name):
+    if object_name in object_hashes:
+        return object_hashes[object_name]
+
+    cmd = " ".join(["obj2id", p5d_id, object_name])
+    output = subprocess.check_output(cmd, shell=True)
+
+    object_hashes[object_name] = output.strip('\n')
+    return output.strip('\n')
+
+
+def convert_rel_to_id(rel_name):
+    return sorted(rels).index(rel_name)
+
+
+def get_p5d_id():
+    start = input_filename.rfind('/') + 1
+    end = -len(".txt")
+    return input_filename[start:end]
+
+
+def print_for_database(log):
+    p5d_id = get_p5d_id()
+    f = open(output_filename, 'w')
+    try:
+        writer = csv.writer(f, quoting=csv.QUOTE_NONE)
+
+        # Header
+        header = ["obj1", "obj2", "relationship_id"]
+        writer.writerow(header)
+
+        for obj1 in log:
+            if "Wall" in obj1 or "Door" in obj1 \
+               or "Ceiling" in obj1 or "Floor" in obj1:
+                continue
+            obj1_hash = get_object_hash(p5d_id, obj1)
+
+            for obj2 in log[obj1]:
+                if "Wall" in obj2 or "Door" in obj2 \
+                   or "Ceiling" in obj2 or "Floor" in obj2:
+                    continue
+                obj2_hash = get_object_hash(p5d_id, obj2)
+
+                rels = log[obj1][obj2]
+
+                for rel_name in sorted(rels):
+                    if log[obj1][obj2][rel_name]:
+                        rel_id = convert_rel_to_id(rel_name)
+                        writer.writerow([obj1_hash, obj2_hash, rel_id])
+
+    finally:
+        f.close()
+
 
 def print_learn_category(log, weka_compatible=False):
     # Print header file
@@ -324,16 +389,16 @@ def print_learn_category(log, weka_compatible=False):
                 f.write("@DATA\n")
             finally:
                 f.close()
-            
+
     f = open(output_filename, 'w')
     try:
         writer = csv.writer(f, quoting=csv.QUOTE_NONE)
-        
+
         # Header
         if not weka_compatible:
             header = create_header()
             writer.writerow(header)
-        
+
         for obj1 in log:
             row = []
             # obj1 - ref_cat - rels
@@ -353,7 +418,6 @@ def print_learn_category(log, weka_compatible=False):
 
             # Append to row in order
             for ref_cat in sorted(categories):
-            #for ref_cat in sorted(to_include):
                 for rel in sorted(rels):
                     if ref_cat in rels_by_cat:
                         row.append(rels_by_cat[ref_cat][rel])
@@ -362,43 +426,49 @@ def print_learn_category(log, weka_compatible=False):
 
             row.append(preprocess.get_cat(obj1, id2cat))
             writer.writerow(row)
-    
+
     finally:
         f.close()
- 
 
-##
-## Main
-##
+
+#
+# Main
+#
 
 if __name__ == '__main__':
-    print "Starting ..." 
+    print("Starting ...")
 
     if mode.isExchIds:
-        print "\t- Analyzing scenes..."
+        print("\t- Analyzing scenes...")
         rel, counter = preprocess.exch_ids(category, input_filename, id2cat)
-   
-        print "\t- Printing relationship file..."
+
+        print("\t- Printing relationship file...")
         print_exch_ids(rel, counter)
-        
-        #print "\t- Calculating exchangable sets..."
-        #exchangable_ids = get_exchangable_ids(rel_log)
-        #print exchangable_ids
+
+        # print "\t- Calculating exchangable sets..."
+        # exchangable_ids = get_exchangable_ids(rel_log)
+        # print exchangable_ids
         # print get_exchangable_ids("sofa")
-    
+
     elif mode.isRelView:
-        print "\t- Preprocessing data..."
+        print("\t- Preprocessing data...")
         log = preprocess.relview(input_filename, id2cat)
 
-        print "\t- Printing relationship file..."
+        print("\t- Printing relationship file...")
         print_relview(log)
-    
-    elif mode.isLearnCategory:
-        print "\t- Preprocessing data..."
-        log = preprocess.learn_category(input_filename, id2cat)
 
-        print "\t- Printing category learning file..."
+    elif mode.isLearnCategory:
+        print("\t- Preprocessing data...")
+        log = preprocess.preprocess_many_scenes(input_filename, id2cat)
+
+        print("\t- Printing category learning file...")
         print_learn_category(log, weka_mode)
 
+    elif mode.isForDatabase:
+        print("Preprocessing data...")
+        log = preprocess.preprocess_many_scenes(input_filename, id2cat)
 
-    print "Done."
+        print("\t- Printing relationships individually")
+        print_for_database(log)
+
+    print("Done.")

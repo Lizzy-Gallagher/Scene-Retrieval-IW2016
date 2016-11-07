@@ -1,0 +1,20 @@
+#!/bin/bash
+
+##
+## Runs an update sql
+##
+##
+## Usage:
+## ------------------------------------------
+## update-sql
+##      creates sql csv files
+##
+
+# Parse command-line args:
+if [[ $# != 0 ]]; then
+    echo "usage: update-sql"; exit
+fi
+
+python ~/iw/rel-proj/py/csv_exporter
+mv ~/iw/rel-proj/py/*.csv ~/iw/db-proj/csv 
+
