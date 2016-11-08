@@ -346,10 +346,10 @@ def print_for_database(log):
     p5d_id = get_p5d_id()
     f = open(output_filename, 'w')
     try:
-        writer = csv.writer(f, quoting=csv.QUOTE_NONE)
+        writer = csv.writer(f, quoting=csv.QUOTE_NONE, lineterminator='\n')
 
         # Header
-        header = ["obj1", "obj2", "relationship_id"]
+        header = ["obj1_id", "obj2_id", "relation_id"]
         writer.writerow(header)
 
         for obj1 in log:
