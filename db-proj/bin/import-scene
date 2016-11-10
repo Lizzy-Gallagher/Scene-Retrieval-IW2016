@@ -16,11 +16,15 @@
 ##
 
 # GOALS - 
+#   [X] Check whether scene is already in database (scenes)
+#       - if yes, abort
 #   [X] Run measurements/calculating relationships on a scene
 #   [X] Create pairwise-relationships csv
 #   [X] Create scene, rooms, scenes, objects csv
 #   [X] Import each into appropriate database
 #   [] Report time taken for each step, and size of files added
+#   [X] Add name of scene to list of names
+#   [] Add img of scene to the imgs/ folder
 
 # Parse command-line args:
 if [[ $# != 0 ]]; then
@@ -28,6 +32,13 @@ if [[ $# != 0 ]]; then
 fi
 
 project_name=$(basename "$PWD")
+dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+data_dir="../.."
+py_dir="$dir/../../rel-proj"
+record="$dir/../scenes-in-db"
+
+
 
 # Filenames
 scenes_filename="scenes.csv"
@@ -35,6 +46,18 @@ floors_filename="floors.csv"
 rooms_filename="rooms.csv"
 objects_filename="objects.csv"
 relationships_filename="pairwise_relations.csv"
+
+#
+# (0) Check if scenes is already in database
+#
+
+if grep -Fxq $project_name $record
+then
+    # code if found
+    echo "Scenes already in database."
+    echo "Think this is incorrect? Check $record."
+    exit
+fi
 
 #
 # (1) Generate all csv files (would be silly to import out-of-order)
@@ -50,15 +73,8 @@ echo
 echo 
 
 
-dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-
-
-data_dir="../.."
-py_dir="$dir/../rel-proj"
-measurements="$data_dir/measurements/$project_name.txt"
-relationships="$data_dir/weka/$project_name.arff"
-
 echo "Checking if measurements exist..."
+measurements="$data_dir/measurements/$project_name.txt"
 if [ ! -f $measurements ]; then
     echo -e "\tNo measurements found."
     echo -e "\tMeasuring..."
@@ -71,13 +87,14 @@ echo
 echo
 
 echo "Checking if relationships exist..."
+relationships="$data_dir/weka/$project_name.arff"
 if [ ! -f $relationships ]; then
-    measurements="data/measurements/$project_name.txt"
-    relationships="data/weka/$project_name.arff"
+    local_measurements="data/measurements/$project_name.txt"
+    local_relationships="data/weka/$project_name.arff"
     
     echo -e "\tNo relationships found."
     echo -e "\tAnalyzing..."
-    $(cd $py_dir; ls; python py/analyze.py -mode mlcat $measurements $relationships > output.txt 2> err.txt)
+    $(cd $py_dir; python py/analyze.py -mode mlcat $local_measurements $local_relationships > output.txt 2> err.txt)
 else
     echo -e "\tRelationships found!"
 fi
@@ -141,3 +158,13 @@ mysqlimport --ignore-lines 1 planner5d ~/iw/data/projects/$project_name/$relatio
 
 # Clean up
 rm *.csv
+
+# 
+# (4) Add name of the scene to name list
+#
+
+echo $project_name >> $record
+
+# 
+# (5) Add image of scene to the db-proj/imgs
+#
