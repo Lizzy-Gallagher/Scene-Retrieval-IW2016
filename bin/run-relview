@@ -71,21 +71,12 @@ echo
 # call it relationship/#.csv
 echo "Checking if relationships exist..."
 if [ ! -f $relationships ]; then
-<<<<<<< HEAD
     measurements2="data/measurements/$project_id.txt"
     relationships2="data/relview/$project_id.csv"
     
     echo -e "\tNo relationships found."
     echo -e "\tAnalyzing..."
     $(cd $py_dir; python py/analyze.py -mode relview $measurements2 $relationships2 > output.txt)
-=======
-    measurements="data/measurements/$project_id.txt"
-    relationships="data/relview/$project_id.csv"
-    
-    echo -e "\tNo relationships found."
-    echo -e "\tAnalyzing..."
-    $(cd $py_dir; python py/analyze.py -mode relview $measurements $relationships > output.txt)
->>>>>>> fedaf21c0805a3c64c5a984dd8c1380d49fede4c
 else
     echo -e "\tRelationships found!"
 fi
