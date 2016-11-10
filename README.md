@@ -2,7 +2,6 @@
 
 This is a private repository for the scene understanding independent work I performed in Summer 2016 with the Princeton Graphics Group, Professor Thomas Funkhouser, Shuran Song, Manolis Saava, and Angel Chang.
 
-<<<<<<< HEAD
 ###Set-Up:
 - 
 
@@ -43,7 +42,6 @@ mkdir data/weka
 4. Add `bin/` to your path. Each script explains how to use it and provides examples. `run-relview` visualize relationships for a given project. `run-learning` collects information about object relationships for use in machine learning. To actually perform learning, run `concat-weka` from `data/weka` after using `run-learning` on a number of projects. The resulting data.arff file may then be used in Weka.
 
 ###<a name="road-map"></a>Roadmap:
->>>>>>> fedaf21c0805a3c64c5a984dd8c1380d49fede4c
 
 - **bin** : scripts for running programs (see below for details)
 - **data** : local version contains: Planner5D projects, generated statistics, ML training files
@@ -56,7 +54,6 @@ mkdir data/weka
 =======
 ###<a name="utilities"></a>Utilities:
 The top-level folder bin/ contains all the utility scripts necessary to work with this repository.
->>>>>>> fedaf21c0805a3c64c5a984dd8c1380d49fede4c
 
 #### schedule-job (Ionic)
 - modify greatly for future use
