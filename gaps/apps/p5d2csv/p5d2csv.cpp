@@ -76,7 +76,8 @@ getModelId(const char* object_name) {
 // HASHING (Unique identifiers)
 ////////////////////////////////////////////////////////////////////////
 
-static size_t
+/*
+ * static size_t
 hash(std::string text) {
     std::hash<std::string> hash_func;
     return hash_func(text);
@@ -110,7 +111,8 @@ getUniqueObjectID(int p5d_id, int floor, int room, int object) {
 
     std::string text = p5d_id_str + floor_str + room_str + object_str;
     return hash(text);
-}
+} 
+*/
 
 
 ////////////////////////////////////////////////////////////////////////
@@ -120,16 +122,16 @@ getUniqueObjectID(int p5d_id, int floor, int room, int object) {
 static int
 ParseScene(R3Scene *scene, FILE* scenes_file, FILE* floors_file, FILE* rooms_file, FILE* objs_file )
 {
-    fprintf(scenes_file, "name,p5d_id,num_floors,num_rooms,num_objects\n");
-    fprintf(floors_file, "p5d_id,floor_id,num_rooms,num_objects,area,floor_num\n");
-    fprintf(rooms_file, "p5d_id,floor_id,room_id,type_id,num_objects,area\n");
-    fprintf(objs_file, "p5d_id,floor_id,room_id,model_id,object_id,x,y,z,sX,sY,sZ,a,fX,fY\n");
+    fprintf(scenes_file, "id,num_floors,num_rooms,num_objects,name\n");
+    fprintf(floors_file, "scene_id,floor_num,num_rooms,num_objects,area\n");
+    fprintf(rooms_file, "scene_id,floor_num,room_num,num_objects,area\n");
+    fprintf(objs_file, "scene_id,floor_num,room_num,object_num,model_id,x,y,z,sX,sY,sZ,a,fX,fY\n");
     
     R3SceneNode* root = scene->Node(0);
 
     const char* name = root->Name();
-    size_t prefix = strlen("Project#");
-    name = name + prefix;
+    size_t prefix_len = strlen("Project#");
+    name = name + prefix_len;
 
     int p5d_id = getP5DId(name);
 
@@ -138,9 +140,9 @@ ParseScene(R3Scene *scene, FILE* scenes_file, FILE* floors_file, FILE* rooms_fil
     int nTotalObjs = 0;
 
     // Floors
-    for (int i = 0; i < root->NChildren(); i++) {
-        R3SceneNode* floor = root->Child(i);
-        size_t floor_id = getUniqueFloorID(p5d_id, i);
+    for (int floor_num = 0; floor_num < root->NChildren(); floor_num++) {
+        R3SceneNode* floor = root->Child(floor_num);
+        //size_t floor_id = getUniqueFloorID(p5d_id, floor_num);
 
         int nObjsFloor = 0;
 
@@ -148,18 +150,18 @@ ParseScene(R3Scene *scene, FILE* scenes_file, FILE* floors_file, FILE* rooms_fil
         nTotalRooms += nRooms;
 
         // Rooms
-        for (int j = 0; j < nRooms; j++) {
-            R3SceneNode* room = floor->Child(j);
-            size_t room_id = getUniqueRoomID(p5d_id, i, j);
+        for (int room_num = 0; room_num < nRooms; room_num++) {
+            R3SceneNode* room = floor->Child(room_num);
+            //size_t room_id = getUniqueRoomID(p5d_id, i, j);
 
             int nObjects = room->NChildren();
             nObjsFloor += nObjects;
             nTotalObjs += nObjects;
 
             // Objects
-            for (int k = 0; k < nObjects; k++) {
-                R3SceneNode* obj_node = room->Child(k);
-                size_t object_id = getUniqueObjectID(p5d_id, i, j, k);
+            for (int object_num = 0; object_num < nObjects; object_num++) {
+                R3SceneNode* obj_node = room->Child(object_num);
+                //size_t object_id = getUniqueObjectID(p5d_id, i, j, k);
 
                 P5DObject *obj = (P5DObject*) obj_node->Data();
                 if (!obj) // Floors, Walls, etc.
@@ -177,28 +179,25 @@ ParseScene(R3Scene *scene, FILE* scenes_file, FILE* floors_file, FILE* rooms_fil
 
                 char* model_id = getModelId(obj_node->Name());
 
-                fprintf(objs_file, "%d,%lu,%lu,%s,%lu,%f,%f,%f,%f,%f,%f,%f,%d,%d\n",
-                        p5d_id,floor_id,room_id,model_id,object_id,x,y,z,sX,sY,sZ,a,fX,fY);
-
+                fprintf(objs_file, "%d,%d,%d,%d,%s,%f,%f,%f,%f,%f,%f,%f,%d,%d\n",
+                        p5d_id,floor_num+1,room_num+1,object_num+1,model_id,
+                        x,y,z,sX,sY,sZ,a,fX,fY);
             }
+            double room_area = room->Area();
+            //int type_id = 0;
 
-        double room_area = room->Area();
-        int type_id = 0;
-
-        fprintf(rooms_file, "%d,%lu,%lu,%d,%d,%f\n",
-                p5d_id,floor_id,room_id,type_id,nObjects,room_area);
+            fprintf(rooms_file, "%d,%d,%d,%d,%f\n",
+                    p5d_id,floor_num+1,room_num+1,nObjects,room_area);
 
         }
         double floor_area = floor->Area();
-
-        fprintf(floors_file, "%d,%lu,%d,%d,%f,%d\n",
-                p5d_id,floor_id,nRooms,nObjsFloor,floor_area,i);
-
+    
+        fprintf(floors_file, "%d,%d,%d,%d,%f\n",
+                p5d_id,floor_num+1,nRooms,nObjsFloor,floor_area);
     }
 
-    fprintf(scenes_file, "%s,%d,%d,%d,%d\n", 
-        name, p5d_id, nFloors, nTotalRooms, nTotalObjs);
-
+    fprintf(scenes_file, "%d,%d,%d,%d,%s\n", 
+            p5d_id,nFloors,nTotalRooms,nTotalObjs,name);
     
     // Return OK status
     return 1;

@@ -7,8 +7,6 @@ from maps import Cat2Ids
 import preprocess
 import wordnet
 
-import subprocess
-
 #
 # Command-Line Argument Parsing
 #
@@ -201,7 +199,6 @@ def create_header():
         header.append("Obj2")
         for rel in sorted(rels):
             header.append(rel)
-        return header
 
     elif mode.isExchIds:
         header.append("id")
@@ -218,6 +215,14 @@ def create_header():
         header.append("cat2")
         for rel in sorted(rels):
             header.append(rel)
+
+    elif mode.isForDatabase:
+        header.append("scene_id")
+        header.append("floor_num")
+        header.append("room_num")
+        header.append("primary_object_num")
+        header.append("secondary_object_num")
+        header.append("relation_id")
 
     return header
 
@@ -318,22 +323,8 @@ def create_weka_header():
     return rows
 
 
-object_hashes = {}
-
-
-def get_object_hash(p5d_id, object_name):
-    if object_name in object_hashes:
-        return object_hashes[object_name]
-
-    cmd = " ".join(["obj2id", p5d_id, object_name])
-    output = subprocess.check_output(cmd, shell=True)
-
-    object_hashes[object_name] = output.strip('\n')
-    return output.strip('\n')
-
-
 def convert_rel_to_id(rel_name):
-    return sorted(rels).index(rel_name)
+    return sorted(rels).index(rel_name) + 1
 
 
 def get_p5d_id():
@@ -342,34 +333,56 @@ def get_p5d_id():
     return input_filename[start:end]
 
 
+def get_data(object_name):
+    pieces = object_name.split("_")
+    floor_num = pieces[1]
+    room_num = pieces[2]
+    object_num = pieces[3]
+
+    return (floor_num, room_num, object_num)
+
+
+def get_scene_id(p5d_id):
+    f = open('/Users/lizzybradley/iw/data/list-of-projects.txt')
+    projects = f.readlines()
+    return projects.index(p5d_id + '\n')
+
+
 def print_for_database(log):
     p5d_id = get_p5d_id()
+    scene_id = get_scene_id(p5d_id)
+
     f = open(output_filename, 'w')
     try:
         writer = csv.writer(f, quoting=csv.QUOTE_NONE, lineterminator='\n')
 
         # Header
-        header = ["obj1_id", "obj2_id", "relation_id"]
+        header = create_header()
         writer.writerow(header)
 
         for obj1 in log:
             if "Wall" in obj1 or "Door" in obj1 \
-               or "Ceiling" in obj1 or "Floor" in obj1:
+               or "Ceiling" in obj1 or "Floor" in obj1 or "Window" in obj1:
                 continue
-            obj1_hash = get_object_hash(p5d_id, obj1)
+            (floor_num, room_num, object1_num) = get_data(obj1)
 
             for obj2 in log[obj1]:
                 if "Wall" in obj2 or "Door" in obj2 \
-                   or "Ceiling" in obj2 or "Floor" in obj2:
+                   or "Ceiling" in obj2 or "Floor" in obj2 or "Window" in obj1:
                     continue
-                obj2_hash = get_object_hash(p5d_id, obj2)
+                (floor_num, room_num, object2_num) = get_data(obj2)
 
                 rels = log[obj1][obj2]
+
+                if int(floor_num) < 1 or int(room_num) < 1 \
+                   or int(object1_num) < 1 or int(object2_num) < 1:
+                    continue
 
                 for rel_name in sorted(rels):
                     if log[obj1][obj2][rel_name]:
                         rel_id = convert_rel_to_id(rel_name)
-                        writer.writerow([obj1_hash, obj2_hash, rel_id])
+                        writer.writerow([scene_id, floor_num, room_num,
+                                         object1_num, object2_num, rel_id])
 
     finally:
         f.close()
