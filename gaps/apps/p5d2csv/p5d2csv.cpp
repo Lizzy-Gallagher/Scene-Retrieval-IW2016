@@ -71,7 +71,7 @@ getRTypeId(const char* name)
     if (!name)
         return -1;
 
-    for (int i = 0; i < rtype_ids.size(); i++) {
+    for (size_t i = 0; i < rtype_ids.size(); i++) {
         if (strcmp(rtype_ids[i].c_str(), name) == 0) return i;
     }
 
@@ -81,24 +81,24 @@ getRTypeId(const char* name)
 static int 
 getP5DId(const char* name)
 {
-    for (int i = 0; i < project_ids.size(); i++) {
+    for (size_t i = 0; i < project_ids.size(); i++) {
         if (strcmp(project_ids[i].c_str(), name) == 0) return i;
     }
 
     return -1;
 }
 
-static char*
+static const char*
 getModelId(const char* object_name) {
-    char* door_id = strstr(object_name, "Door");
+    const char* door_id = strstr(object_name, "Door");
     if (door_id)
         return strlen("Door_") + door_id;
 
-    char* window_id = strstr(object_name, "Window");
+    const char* window_id = strstr(object_name, "Window");
     if (window_id)
         return strlen("Window_") + window_id;
 
-    char* model_id = strstr(object_name, "Ns_") + strlen("Ns_");
+    const char* model_id = strstr(object_name, "Ns_") + strlen("Ns_");
     return model_id;
 }
 
@@ -125,7 +125,7 @@ int PrintOutdoorObject(FILE* objs_file, R3SceneNode* obj_node, int p5d_id, int f
         int fY = obj->fY;
         int floor_index = obj->floor_index;
 
-        char* model_id = getModelId(obj_node->Name());
+        const char* model_id = getModelId(obj_node->Name());
 
         fprintf(objs_file, "%d,%d,%d,%d,%s,%f,%f,%f,%f,%f,%f,%f,%d,%d,%d\n",
                 p5d_id,floor_num+1,room_num+1,object_num+1,model_id,
@@ -200,7 +200,7 @@ ParseScene(R3Scene *scene, FILE* scenes_file, FILE* floors_file, FILE* rooms_fil
                 int fY = obj->fY;
                 int floor_index = obj->floor_index;
 
-                char* model_id = getModelId(obj_node->Name());
+                const char* model_id = getModelId(obj_node->Name());
 
                 fprintf(objs_file, "%d,%d,%d,%d,%s,%f,%f,%f,%f,%f,%f,%f,%d,%d,%d\n",
                         p5d_id,floor_num+1,room_num+1,object_num+1,model_id,
