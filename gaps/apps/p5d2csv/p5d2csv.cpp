@@ -1,5 +1,4 @@
-// Source file for the scene converter program
-
+//Source file for the scene converter program
 
 
 // Include files 
@@ -21,6 +20,7 @@ static std::vector<std::string> rtype_ids;
 // Program Variables
 
 static const char *input_project_name = NULL;
+static const char *output_directory = NULL;
 
 static const char *project_list = "../../../data/list-of-projects.txt";
 static const char *model_list = "../../../data/list-of-models.txt";
@@ -68,6 +68,9 @@ static int LoadModelIds() {
 static int 
 getRTypeId(const char* name)
 {
+    if (!name)
+        return -1;
+
     for (int i = 0; i < rtype_ids.size(); i++) {
         if (strcmp(rtype_ids[i].c_str(), name) == 0) return i;
     }
@@ -100,46 +103,9 @@ getModelId(const char* object_name) {
 }
 
 ////////////////////////////////////////////////////////////////////////
-// HASHING (Unique identifiers)
+// AUX
 ////////////////////////////////////////////////////////////////////////
 
-/*
- * static size_t
-hash(std::string text) {
-    std::hash<std::string> hash_func;
-    return hash_func(text);
-}
-
-static size_t
-getUniqueFloorID(int p5d_id, int floor) {
-    std::string p5d_id_str = std::to_string(p5d_id);
-    std::string floor_str = std::to_string(floor);
-    std::string text = p5d_id_str + floor_str;
-    
-    return hash(text);
-}
-
-static size_t
-getUniqueRoomID(int p5d_id, int floor, int room) {
-    std::string p5d_id_str = std::to_string(p5d_id);
-    std::string floor_str = std::to_string(floor);
-    std::string room_str = std::to_string(room);
-
-    std::string text = p5d_id_str + floor_str + room_str;
-    return hash(text);
-}
-
-static size_t
-getUniqueObjectID(int p5d_id, int floor, int room, int object) {
-    std::string p5d_id_str = std::to_string(p5d_id);
-    std::string floor_str = std::to_string(floor);
-    std::string room_str = std::to_string(room);
-    std::string object_str = std::to_string(object);
-
-    std::string text = p5d_id_str + floor_str + room_str + object_str;
-    return hash(text);
-} 
-*/
 int outdoor_object_num = 0;
 int PrintOutdoorObject(FILE* objs_file, R3SceneNode* obj_node, int p5d_id, int floor_num, int room_num = -1){
         int object_num = outdoor_object_num++;
@@ -176,13 +142,14 @@ int PrintOutdoorObject(FILE* objs_file, R3SceneNode* obj_node, int p5d_id, int f
 ////////////////////////////////////////////////////////////////////////
 
 static int
-ParseScene(R3Scene *scene, FILE* scenes_file, FILE* floors_file, FILE* rooms_file, FILE* objs_file )
+ParseScene(R3Scene *scene, FILE* scenes_file, FILE* floors_file, FILE* rooms_file, FILE* objs_file, FILE* rtypes_file )
 {
     fprintf(scenes_file, "id,num_floors,num_rooms,num_objects,hash\n");
     fprintf(floors_file, "scene_id,floor_num,num_rooms,num_objects,area\n");
-    fprintf(rooms_file, "scene_id,floor_num,room_num,num_objects,area,room_type_id,floor_index\n");
+    fprintf(rooms_file, "scene_id,floor_num,room_num,num_objects,area,floor_index\n");
     fprintf(objs_file, "scene_id,floor_num,room_num,object_num,model_id,x,y,z,sX,sY,sZ,a,fX,fY,floor_index\n");
-    
+    fprintf(rtypes_file, "scene_id,floor_num,room_num,floor_index,room_type_id\n");
+
     R3SceneNode* root = scene->Node(0);
 
     const char* name = root->Name();
@@ -200,8 +167,6 @@ ParseScene(R3Scene *scene, FILE* scenes_file, FILE* floors_file, FILE* rooms_fil
         R3SceneNode* floor = root->Child(floor_num);
 
         int nObjsFloor = 0;
-
-
         int nRooms = floor->NChildren();
         nTotalRooms += nRooms;
 
@@ -209,7 +174,7 @@ ParseScene(R3Scene *scene, FILE* scenes_file, FILE* floors_file, FILE* rooms_fil
         for (int room_num = 0; room_num < nRooms; room_num++) {
             R3SceneNode* room = floor->Child(room_num);
             
-           if (strstr(room->Name(), "Object")) {
+            if (strstr(room->Name(), "Object")) {
                 PrintOutdoorObject(objs_file, room, p5d_id, floor_num);
                 continue;
             }
@@ -250,11 +215,23 @@ ParseScene(R3Scene *scene, FILE* scenes_file, FILE* floors_file, FILE* rooms_fil
                 double room_area = room->Area();
 
                 P5DRoom *p5d_room = (P5DRoom*) room->Data();
-                int type_id = getRTypeId(p5d_room->rtypeStr);
-                int floor_index = room->floor_index;
+                int floor_index = p5d_room->floor_index;
 
-                fprintf(rooms_file, "%d,%d,%d,%d,%f,%d,%d\n",
-                        p5d_id,floor_num+1,room_num+1,nObjects,room_area,type_id,floor_index);
+                if (p5d_room->rtypeStr) {
+                    std::string s(p5d_room->rtypeStr); 
+                    std::string delimiter = ",";
+                    size_t pos = 0;
+                    while ((pos = s.find(delimiter)) != std::string::npos) {
+                        std::string current_rtype = s.substr(0, pos);
+                        int type_id = getRTypeId(current_rtype.c_str());
+                        s.erase(0, pos + delimiter.length());
+                        fprintf(rtypes_file, "%d,%d,%d,%d,%d\n",
+                                p5d_id,floor_num+1,room_num+1,floor_index,type_id);
+                    }
+                }
+
+                fprintf(rooms_file, "%d,%d,%d,%d,%f,%d\n",
+                        p5d_id,floor_num+1,room_num+1,nObjects,room_area,floor_index);
             }
         }
 
@@ -267,6 +244,8 @@ ParseScene(R3Scene *scene, FILE* scenes_file, FILE* floors_file, FILE* rooms_fil
     fprintf(scenes_file, "%d,%d,%d,%d,%s\n", 
             p5d_id,nFloors,nTotalRooms,nTotalObjs,name);
     
+
+
     // Return OK status
     return 1;
 }
@@ -288,14 +267,15 @@ ParseArgs(int argc, char **argv)
         }
         else {
             if (!input_project_name) input_project_name = *argv;
+            else if (!output_directory) output_directory = *argv;
             else { fprintf(stderr, "Invalid program argument: %s", *argv); exit(1); }
             argv++; argc--;
         }
     }
 
     // Check input filename
-    if (!input_project_name) {
-        fprintf(stderr, "Usage: scn2csv input_project_name [options]\n");
+    if (!input_project_name || !output_directory) {
+        fprintf(stderr, "Usage: p5d2csv input_project_name output_directory [options]\n");
         return 0;
     }
 
@@ -317,32 +297,48 @@ int main(int argc, char **argv)
     
     // Rename to actual projectname.csv 
     // because not loading everything, but individually
-    const char* scenes_file = "scenes.csv";
-    const char* floors_file = "floors.csv";
-    const char* rooms_file  = "rooms.csv";
-    const char* objs_file   = "objects.csv";
+    char output_scenes_filename[1024];
+    sprintf(output_scenes_filename, "%s/scenes.csv", output_directory);
+
+    char output_floors_filename[1024];
+    sprintf(output_floors_filename, "%s/floors.csv", output_directory);
+
+    char output_rooms_filename[1024];
+    sprintf(output_rooms_filename, "%s/rooms.csv", output_directory);
+
+    char output_objects_filename[1024];
+    sprintf(output_objects_filename, "%s/objects.csv", output_directory);
+
+    char output_room_types_filename[1024];
+    sprintf(output_room_types_filename, "%s/room_types.csv", output_directory);
 
     // Open the csv files
-    FILE *scenes_fp = fopen(scenes_file, "w");
+    FILE *scenes_fp = fopen(output_scenes_filename, "w");
     if (!scenes_fp) {
-        fprintf(stderr, "Unable to open output file %s\n", floors_file);
+        fprintf(stderr, "Unable to open output file %s\n", output_scenes_filename);
         exit(-1);
     }
-    FILE *floors_Fp = fopen(floors_file, "w");
+    FILE *floors_Fp = fopen(output_floors_filename, "w");
     if (!floors_Fp) {
-        fprintf(stderr, "Unable to open output file %s\n", floors_file);
+        fprintf(stderr, "Unable to open output file %s\n", output_floors_filename);
         exit(-1);
     }
-    FILE *rooms_fp = fopen(rooms_file, "w");
+    FILE *rooms_fp = fopen(output_rooms_filename, "w");
     if (!rooms_fp) {
-        fprintf(stderr, "Unable to open output file %s\n", rooms_file);
+        fprintf(stderr, "Unable to open output file %s\n", output_rooms_filename);
         exit(-1);
     }
-    FILE *objs_fp = fopen(objs_file, "w");
+    FILE *objs_fp = fopen(output_objects_filename, "w");
     if (!objs_fp) {
-        fprintf(stderr, "Unable to open output file %s\n", objs_file);
+        fprintf(stderr, "Unable to open output file %s\n", output_objects_filename);
         exit(-1);
     }
+    FILE *rtypes_fp = fopen(output_room_types_filename, "w");
+    if (!rtypes_fp) {
+        fprintf(stderr, "Unable to open output file %s\n", output_room_types_filename);
+        exit(-1);
+    }
+
 
     if(!LoadProjects()) exit(-1);
     if(!LoadRTypes()) exit(-1);
@@ -359,7 +355,7 @@ int main(int argc, char **argv)
         exit(-1);
     }
 
-    ParseScene(scene, scenes_fp, floors_Fp, rooms_fp, objs_fp);
+    ParseScene(scene, scenes_fp, floors_Fp, rooms_fp, objs_fp, rtypes_fp);
 
     // Return success 
     return 0;
