@@ -1,10 +1,6 @@
 # Understanding Scenes
 
-This is a private repository for the scene understanding independent work I performed in Summer 2016 with the Princeton Graphics Group, Professor Thomas Funkhouser, Shuran Song, Manolis Saava, and Angel Chang.
-
-###Set-Up:
-- 
-
+This is a repository for the scene understanding independent work I performed in Summer 2016 with the Princeton Graphics Group, Professor Thomas Funkhouser, Shuran Song, Manolis Saava, and Angel Chang.
 
 ###Directories:
 =======
@@ -49,7 +45,6 @@ mkdir data/weka
 - **old-projects** : workspaces for partial / previous projects (e.g. heatmaps, previous preposition model)
 - **rel-proj** : workspace for relationship project (single or many scene, generates ML-ready files)
 
-<<<<<<< HEAD
 ###Scripts:
 =======
 ###<a name="utilities"></a>Utilities:
