@@ -7,6 +7,8 @@ from maps import Cat2Ids
 import preprocess
 import wordnet
 
+import config
+
 #
 # Command-Line Argument Parsing
 #
@@ -29,11 +31,11 @@ output_filename = args.output_filename
 
 weka_mode = ".arff" in output_filename
 
-
 class Mode(object):
     isExchIds = False
     isRelView = False
     isLearnCategory = False
+    isForDatabase = False
 
     def __init__(self, mode):
         if mode is None:
@@ -71,7 +73,7 @@ cat2num = {}
 for i, category in enumerate(set(categories)):
     cat2num[category] = i
 
-rels = preprocess.rels.keys()
+rels = config.relationships_set.keys()
 
 #
 # Aux
