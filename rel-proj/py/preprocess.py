@@ -1,42 +1,13 @@
 from collections import Counter
 
-import relationships
+import config
 
 #
 # Relationship Sets
 #
 
-all_rels = {
-    "hanging": relationships.hanging,
-    "above": relationships.above,
-    "below": relationships.below,
-    "touching": relationships.touching,
-    "faces": relationships.faces,
-    "faces_away": relationships.faces_away,
-    "in_front_of": relationships.return_false,
-    "behind": relationships.return_false,
-    "supports": relationships.supports,
-    "supported_by": relationships.supported_by,
-    "within_1m": relationships.within_1m,
-    "within_2m": relationships.within_2m,
-    "within_3m": relationships.within_3m,
-}
-
-testing = {
-    "faces": relationships.faces,
-}
-
-# Change to change rel sets
-rels = all_rels
-
-# Opposites that can only be calculated one way
-analogs = {
-    "above": "below",
-    "below": "above",
-    "faces": "in_front_of",
-    "faces_away": "behind",
-    "supports": "supported_by",
-}
+rels = config.relationships_set
+analogs = config.analogs
 
 hanging = []
 
@@ -317,7 +288,7 @@ def relview(input_file, id2cat):
 def preprocess_many_scenes(input_file, id2cat):
     analog_cleanup = []
     # [].append((obj1, obj2, cat2, rels...)
-    log = {}  # Need dictionary for analogs...
+    log = {}
     # log : obj1 - obj2 - (rels, cat, cat2)
 
     with open(input_file, 'r') as fh:
@@ -362,4 +333,3 @@ def preprocess_many_scenes(input_file, id2cat):
                     break
 
     return log
-
