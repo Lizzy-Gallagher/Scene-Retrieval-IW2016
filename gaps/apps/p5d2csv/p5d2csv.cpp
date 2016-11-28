@@ -18,12 +18,9 @@ static std::vector<std::string> model_ids;
 static std::vector<std::string> rtype_ids;
 
 // Program Variables
-
-static const char *input_project_name = NULL;
 static const char *output_directory = NULL;
 
 static const char *project_list = "../../../data/list-of-projects.txt";
-static const char *model_list = "../../../data/list-of-models.txt";
 static const char *rtype_list = "../../../data/list-of-rtypes.txt";
 
 static int print_verbose = 0;
@@ -49,17 +46,6 @@ static int LoadProjects() {
     while (std::getline(file, str))
     {
         project_ids.push_back(str);
-    }
-
-    return 1;
-}
-
-static int LoadModelIds() {
-    std::ifstream file(model_list);
-    std::string str;
-    while (std::getline(file, str))
-    {
-        model_ids.push_back(str);
     }
 
     return 1;
@@ -167,55 +153,58 @@ ParseScene(R3Scene *scene, FILE* scenes_file, FILE* floors_file, FILE* rooms_fil
         R3SceneNode* floor = root->Child(floor_num);
 
         int nObjsFloor = 0;
-        int nRooms = floor->NChildren();
-        nTotalRooms += nRooms;
-
+        int nRooms = 0;
+        
         // Rooms
-        for (int room_num = 0; room_num < nRooms; room_num++) {
-            R3SceneNode* room = floor->Child(room_num);
+        for (int room_num = 0; room_num < floor->NChildren(); room_num++) {
+            R3SceneNode* node = floor->Child(room_num);
             
-            if (strstr(room->Name(), "Object")) {
-                PrintOutdoorObject(objs_file, room, p5d_id, floor_num);
+            if (strstr(node->Name(), "Object")) {
+                nObjsFloor++;
+                PrintOutdoorObject(objs_file, node, p5d_id, floor_num);
                 continue;
             }
  
-            int nObjects = room->NChildren();
-
-            // Objects
-            for (int object_num = 0; object_num < nObjects; object_num++) {
-                R3SceneNode* obj_node = room->Child(object_num);
-
-                P5DObject *obj = (P5DObject*) obj_node->Data();
-                if (!obj) // Floors, Walls, etc.
+            else if (strstr(node->Name(), "Room")) {
+                P5DRoom* room = (P5DRoom*) node->Data();
+                if (!strstr(room->className, "Room")) // Ignore "Ground"
                     continue;
 
-                double x = obj->x;
-                double y = obj->y;
-                double z = obj->z;
-                double sX = obj->sX;
-                double sY = obj->sY;
-                double sZ = obj->sZ;
-                double a = obj->a;
-                int fX = obj->fX;
-                int fY = obj->fY;
-                int floor_index = obj->floor_index;
+                nRooms++;
+                int nObjectsRoom = 0;
 
-                const char* model_id = getModelId(obj_node->Name());
+                // Objects
+                for (int object_num = 0; object_num < node->NChildren(); object_num++) {
+                    R3SceneNode* obj_node = node->Child(object_num);
+                    P5DObject *obj = (P5DObject*) obj_node->Data();
 
-                fprintf(objs_file, "%d,%d,%d,%d,%s,%f,%f,%f,%f,%f,%f,%f,%d,%d,%d\n",
-                        p5d_id,floor_num+1,room_num+1,object_num+1,model_id,
-                        x,y,z,sX,sY,sZ,a,fX,fY,floor_index);
-            }
+                    if (!obj) // Floors, Walls, etc.
+                        continue;
 
+                    nObjectsRoom++;
 
-            if (strstr(room->Name(), "Room")) {
-                nObjsFloor += nObjects;
-                nTotalObjs += nObjects;
+                    double x = obj->x;
+                    double y = obj->y;
+                    double z = obj->z;
+                    double sX = obj->sX;
+                    double sY = obj->sY;
+                    double sZ = obj->sZ;
+                    double a = obj->a;
+                    int fX = obj->fX;
+                    int fY = obj->fY;
+                    int floor_index = obj->item_index;
 
-                double room_area = room->Area();
+                    const char* model_id = getModelId(obj_node->Name());
 
-                P5DRoom *p5d_room = (P5DRoom*) room->Data();
-                int floor_index = p5d_room->floor_index;
+                    fprintf(objs_file, "%d,%d,%d,%d,%s,%f,%f,%f,%f,%f,%f,%f,%d,%d,%d\n",
+                            p5d_id,floor_num+1,room_num+1,object_num+1,model_id,
+                            x,y,z,sX,sY,sZ,a,fX,fY,floor_index);
+                }
+
+                double room_area = node->Area();
+
+                P5DRoom *p5d_room = (P5DRoom*) node->Data();
+                int floor_index = p5d_room->item_index;
 
                 if (p5d_room->rtypeStr) {
                     std::string s(p5d_room->rtypeStr); 
@@ -231,14 +220,20 @@ ParseScene(R3Scene *scene, FILE* scenes_file, FILE* floors_file, FILE* rooms_fil
                 }
 
                 fprintf(rooms_file, "%d,%d,%d,%d,%f,%d\n",
-                        p5d_id,floor_num+1,room_num+1,nObjects,room_area,floor_index);
+                        p5d_id,floor_num+1,room_num+1,nObjectsRoom,room_area,floor_index);
+                
+                nObjsFloor += nObjectsRoom;
             }
+
         }
 
         double floor_area = floor->Area();
     
         fprintf(floors_file, "%d,%d,%d,%d,%f\n",
                 p5d_id,floor_num+1,nRooms,nObjsFloor,floor_area);
+
+        nTotalRooms += nRooms;
+        nTotalObjs += nObjsFloor;
     }
 
     fprintf(scenes_file, "%d,%d,%d,%d,%s\n", 
@@ -266,16 +261,15 @@ ParseArgs(int argc, char **argv)
             argv++; argc--;
         }
         else {
-            if (!input_project_name) input_project_name = *argv;
-            else if (!output_directory) output_directory = *argv;
+            if (!output_directory) output_directory = *argv;
             else { fprintf(stderr, "Invalid program argument: %s", *argv); exit(1); }
             argv++; argc--;
         }
     }
 
     // Check input filename
-    if (!input_project_name || !output_directory) {
-        fprintf(stderr, "Usage: p5d2csv input_project_name output_directory [options]\n");
+    if (!output_directory) {
+        fprintf(stderr, "Usage: p5d2csv output_directory [options]\n");
         return 0;
     }
 
@@ -347,7 +341,7 @@ int main(int argc, char **argv)
     
     R3Scene *scene = new R3Scene();
     if (!scene) {
-        fprintf(stderr, "Unable to allocate scene for %s\n", input_project_name);
+        fprintf(stderr, "Unable to allocate scene.\n");
         exit(-1);
     } 
     if (!scene->ReadPlanner5DFile("project.json")) {

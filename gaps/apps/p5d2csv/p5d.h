@@ -56,6 +56,7 @@ public:
 public:
   struct P5DFloor *floor;
   int floor_index;
+  int item_index;
   struct P5DRoom *room;
   int room_index;
   std::vector<P5DMaterial *> materials;
@@ -85,6 +86,7 @@ struct P5DRoom {
 public:
   struct P5DFloor *floor;
   int floor_index;
+  int item_index;
   std::vector<P5DWall *> walls;
   std::vector<P5DObject *> objects;
   char *className;

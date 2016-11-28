@@ -110,6 +110,7 @@ P5DObject::
 P5DObject(P5DFloor *floor)
   : floor(floor),
     floor_index(-1),
+    item_index(-1),
     room(NULL),
     room_index(-1),
     materials(),
@@ -173,6 +174,7 @@ P5DRoom::
 P5DRoom(P5DFloor *floor)
   : floor(floor),
     floor_index(-1),
+    item_index(-1),
     walls(),
     objects(),
     className(NULL),
@@ -412,14 +414,13 @@ GetJsonArrayEntry(Json::Value *&result, Json::Value *array, unsigned int k, int 
 
 
 static int 
-ParseObject(P5DObject *object, Json::Value *json_object, int idx_index)
+ParseObject(P5DObject *object, Json::Value *json_object, int item_index, int idx_index)
 {
   // Parse attributes
   Json::Value *json_value;
   if (GetJsonObjectMember(json_value, json_object, "className", Json::stringValue)) {
       object->className = (char*) malloc(strlen(json_value->asString().c_str())+1);
       strcpy(object->className, json_value->asString().c_str()); 
-      //object->className = strdup(json_value->asString().c_str());
   }
   if (GetJsonObjectMember(json_value, json_object, "id", Json::stringValue)) 
     object->id = strdup(json_value->asString().c_str());
@@ -446,6 +447,7 @@ ParseObject(P5DObject *object, Json::Value *json_object, int idx_index)
   // if (GetJsonObjectMember(json_value, json_object, "otf", Json::intValue)) 
   //   object->otf = json_value->asInt();
   object->idx_index = idx_index;
+  object->item_index = item_index;
   
   // Fix id
   if (object->id) {
@@ -529,7 +531,7 @@ ParseWall(P5DWall *wall, Json::Value *json_wall, int idx_index)
 
 
 static int 
-ParseRoom(P5DRoom *room, Json::Value *json_room, int idx_index)
+ParseRoom(P5DRoom *room, Json::Value *json_room, int item_index, int idx_index)
 {
   // Parse attributes
   Json::Value *json_value;
@@ -559,7 +561,8 @@ ParseRoom(P5DRoom *room, Json::Value *json_room, int idx_index)
   if (GetJsonObjectMember(json_value, json_room, "wtexture", Json::stringValue))
     room->wtexture = strdup(json_value->asString().c_str());
   room->idx_index = idx_index;
-  
+  room->item_index = item_index;
+
   // Check/fix stuff
   if (room->h <= 0) room->h = 2.7;
 
@@ -597,6 +600,8 @@ ParseRoom(P5DRoom *room, Json::Value *json_room, int idx_index)
 static int 
 ParseFloor(P5DFloor *floor, Json::Value *json_floor, int idx_index)
 {
+  int item_index = 0;
+
   // Parse attributes
   Json::Value *json_value;
   if (GetJsonObjectMember(json_value, json_floor, "h")) 
@@ -617,27 +622,42 @@ ParseFloor(P5DFloor *floor, Json::Value *json_floor, int idx_index)
     if (!GetJsonObjectMember(json_className, json_item, "className", Json::stringValue)) continue; // return 0;
     if (!json_className->asString().compare(std::string("Ground"))) {
       P5DRoom *room = new P5DRoom(floor);
-      if (ParseRoom(room, json_item, index)) tmp_rooms.push_back(room);
+      if (ParseRoom(room, json_item, item_index, index)) {
+          tmp_rooms.push_back(room);
+          item_index++;
+      }
       tmp_objects.push_back(NULL);
     }
     else if (!json_className->asString().compare(std::string("Room"))) {
       P5DRoom *room = new P5DRoom(floor);
-      if (ParseRoom(room, json_item, index)) tmp_rooms.push_back(room);
+      if (ParseRoom(room, json_item, item_index, index)) {
+          tmp_rooms.push_back(room);
+          item_index++;
+      } 
       tmp_objects.push_back(NULL);
     }
     else if (!json_className->asString().compare(std::string("Door"))) {
       P5DObject *object = new P5DObject(floor);
-      if (ParseObject(object, json_item, index)) tmp_objects.push_back(object);
+      if (ParseObject(object, json_item, item_index, index)) {
+          tmp_objects.push_back(object);
+          item_index++;
+      } 
       else tmp_objects.push_back(NULL);
     }
     else if (!json_className->asString().compare(std::string("Window"))) {
       P5DObject *object = new P5DObject(floor);
-      if (ParseObject(object, json_item, index)) tmp_objects.push_back(object);
+      if (ParseObject(object, json_item, item_index, index)) {
+          tmp_objects.push_back(object);
+          item_index++;
+      } 
       else tmp_objects.push_back(NULL);
     }
     else if (!json_className->asString().compare(std::string("Ns"))) {
       P5DObject *object = new P5DObject(floor);
-      if (ParseObject(object, json_item, index)) tmp_objects.push_back(object);
+      if (ParseObject(object, json_item, item_index, index)) {
+          tmp_objects.push_back(object);
+          item_index++;
+      } 
       else tmp_objects.push_back(NULL);
     }
   }
@@ -645,9 +665,9 @@ ParseFloor(P5DFloor *floor, Json::Value *json_floor, int idx_index)
   // Parse which objects are in which rooms
   Json::Value *array_items = NULL, *array_item = NULL;
   if (GetJsonObjectMember(json_items, json_floor, "roomObjectMapping", Json::arrayValue)) {
-    for (Json::ArrayIndex room_index = 0; room_index < json_items->size(); room_index++) {
-      if (room_index >= tmp_rooms.size()) break;
-      GetJsonArrayEntry(array_items, json_items, room_index, Json::arrayValue);
+    int room_index = 0;
+      for (Json::ArrayIndex array_idx = 0; array_idx < json_items->size(); array_idx++) {
+      GetJsonArrayEntry(array_items, json_items, array_idx, Json::arrayValue);
       if (array_items->isArray()) {
         for (Json::ArrayIndex array_index = 0; array_index < array_items->size(); array_index++) {
           GetJsonArrayEntry(array_item, array_items, array_index);
@@ -664,6 +684,7 @@ ParseFloor(P5DFloor *floor, Json::Value *json_floor, int idx_index)
             }
           }
         }
+        room_index++;
       }
     }
   }
