@@ -23,6 +23,8 @@ gaps/*
 !gaps/apps
 gaps/apps/*
 !gaps/apps/p5danalyze
+!gaps/apps/p5d2csv
+!gaps/apps/p5dview
 !gaps/apps/scn2rel
 !gaps/apps/scn2meas
 
@@ -65,6 +67,7 @@ gaps/bin/*
 *.log
 *.sql
 *.sqlite
+*.arff
 
 # OS generated files #
 ######################
