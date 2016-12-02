@@ -95,7 +95,7 @@ static int ParseArgs(int argc, char **argv)
 
     // Check filenames
     if (!output_grid_directory || task == NOT_SET) {
-        fprintf(stderr, "Usage: p5dview outputgriddirectory <task> [-debug] [-v]" 
+        fprintf(stderr, "Usage: p5danalyze outputgriddirectory <task> [-debug] [-v]" 
                 "[data-directory dir] [-ptm num] [-context num] [-category id]  \n");
         return 0;
     }
@@ -115,7 +115,7 @@ static int ParseArgs(int argc, char **argv)
 static int Update(R3Scene *scene)
 {
     SceneNodes nodes = GetSceneNodes(scene);
-    fprintf(stdout, "\t- Located Objects : %lu\n", nodes.objects.size());
+    fprintf(stderr, "\t- Located Objects : %lu\n", nodes.objects.size());
 
     switch ( task ) {
         case HEATMAPS:
@@ -125,7 +125,7 @@ static int Update(R3Scene *scene)
             PopulatePrepMap(scene, nodes.objects, &prep_map, freq_stats, &id2cat);
             break;
     } 
-    fprintf(stdout, "\t- Updated Collection\n");
+    fprintf(stderr, "\t- Updated Collection\n");
 
     // For each object, calculate a grid that identifies what it means to be
     // "on the front side of, etc
@@ -173,7 +173,7 @@ static int Update(R3Scene *scene)
 
             switch ( task ) {
                 case HEATMAPS:
-                    //CalcHeatmaps(pri_obj, wall_node, "wall", pri_cat, &id2cat, &heatmaps, values, threshold, pixels_to_meters);
+                   // CalcHeatmaps(pri_obj, wall_node, "wall", pri_cat, &id2cat, &heatmaps, values, threshold, pixels_to_meters);
                     break;
                 case INTRINSIC_PREPOSITIONS:
                     CalcPrepositions(pri_obj, ref_wall, pri_cat, prep_region_map, &prep_map, meters_of_context); 
@@ -195,6 +195,9 @@ void CreateDirectory(const char* dir_name) {
 
 int main(int argc, char **argv)
 {
+
+    fprintf(stderr, "Hello World!");
+
     // Parse program arguments
     if (!ParseArgs(argc, argv)) exit(-1);
 
@@ -208,6 +211,7 @@ int main(int argc, char **argv)
     CreateDirectory(output_grid_directory);
     CreateDirectory("html");
 
+
     int failures = 0;
     int i = 0; 
     for (std::string project_id : project_ids) // For each project...
@@ -215,27 +219,27 @@ int main(int argc, char **argv)
         if (i == 5) break;
 
         start = clock();
-        fprintf(stdout, "Working on ... %s (%d) \n", project_id.c_str(), i); 
+        fprintf(stderr, "Working on ... %s (%d) \n", project_id.c_str(), i); 
 
         // Read project
         P5DProject *project = ReadProject(project_id.c_str(), print_verbose, input_data_directory);
         if (!project) { failures++; continue; }
-        fprintf(stdout, "\t- Read Project\n");
+        fprintf(stderr, "\t- Read Project\n");
 
         // Create scene
         R3Scene *scene = CreateScene(project, input_data_directory);
         if (!scene) { failures++; continue; }
-        fprintf(stdout, "\t- Created Scene\n");
+        fprintf(stderr, "\t- Created Scene\n");
 
         // Update the task goal
         if (!Update(scene)) { failures++; continue; }
-        fprintf(stdout, "\t- Completed in : %f sec\n", (double)(clock() - start) / CLOCKS_PER_SEC);
+        fprintf(stderr, "\t- Completed in : %f sec\n", (double)(clock() - start) / CLOCKS_PER_SEC);
 
         i++;
     }
 
-    fprintf(stdout, "\n-- Failures: %d---\n", failures);
-    fprintf(stdout, "\n--- Finished. ---\n");
+    fprintf(stderr, "\n-- Failures: %d---\n", failures);
+    fprintf(stderr, "\n--- Finished. ---\n");
 
     switch ( task ) {
         case HEATMAPS:
