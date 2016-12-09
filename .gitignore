@@ -27,7 +27,9 @@ gaps/apps/*
 !gaps/apps/p5dview
 !gaps/apps/scn2rel
 !gaps/apps/scn2meas
-!gaps/apps/p5d2heatmaps
+!gaps/apps/p5d2htm
+!gaps/apps/relview
+!gaps/apps/htm2htm
 
 gaps/bin/*
 !gaps/bin/x86_64

@@ -2,9 +2,8 @@
 # Application name and list of source files.
 #
 
-NAME=p5d2heatmaps
-CCSRCS=$(NAME).cpp Drawing.cpp IOAux.cpp P5DAux.cpp Heatmap.cpp GraphAux.cpp 
-
+NAME=htm2htm
+CCSRCS=$(NAME).cpp
 
 #
 # Dependency libraries

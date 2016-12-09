@@ -3,14 +3,9 @@
 ##
 ## Runs the heatmap creating utilities
 ##
-##
 
 echo "Cleaning up..."
 scripts/clean-output
 
 echo "Analyzing..."
-p5d2heatmaps data output/grids/ output/imgs/ -ptm 20 -context 4
-
-#echo "Converting Grids..."
-#scripts/convert-grids 2< err.txt
-
+p5d2htm data output/grids/ output/imgs/ -ptm 20 -context 4

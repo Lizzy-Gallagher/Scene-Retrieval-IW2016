@@ -82,8 +82,8 @@ static int ParseArgs(int argc, char **argv)
     }
 
     // Check filenames
-    if (!output_grid_directory || !output_img_directory) {
-        fprintf(stderr, "Usage: p5d2heatmaps inputdatadirectory"
+    if (!output_grid_directory || !output_img_directory || !input_data_directory) {
+        fprintf(stderr, "Usage: p5d2htm inputdatadirectory"
                 "outputgriddirectory outputimgdirectory [-mode mode]"
                 "[-debug] [-v] [data-directory dir] [-ptm num] [-context num]\n");
         return 0;
