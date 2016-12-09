@@ -15,13 +15,13 @@
 using HeatmapMap = std::map<std::string, std::map<std::string, R2Grid*> >;
 
 int WriteGrid(R2Grid *grid, std::string primary_cat, std::string secondary_cat, 
-        const char* output_grid_directory, Mode mode, char* tag) {
+        const char* output_grid_directory, Mode mode, const char* data) {
     const char* directory = output_grid_directory; // default
     
     // If in scene-by-scene mode, create directory for scene
     if (mode == SceneByScene) {
         char scene_directory[1024];
-        sprintf(scene_directory, "%s/%s", output_grid_directory, tag);
+        sprintf(scene_directory, "%s/%s", output_grid_directory, data);
         CreateDirectory(scene_directory);
         directory = scene_directory;
     }
@@ -34,12 +34,33 @@ int WriteGrid(R2Grid *grid, std::string primary_cat, std::string secondary_cat,
     return grid->Write(grid_filename);
 }
 
+int WriteImage (R2Grid *grid, std::string primary_cat, std::string secondary_cat, 
+        const char* output_img_directory, Mode mode, const char* data) {
+    const char* directory = output_img_directory; // default
+    
+    // If in scene-by-scene mode, create directory for scene
+    if (mode == SceneByScene) {
+        char scene_directory[1024];
+        sprintf(scene_directory, "%s/%s", output_img_directory, data);
+        CreateDirectory(scene_directory);
+        directory = scene_directory;
+    }
+    
+    char img_filename[1024];
+    sprintf(img_filename, "%s/%s___%s.jpg", directory, 
+        primary_cat.c_str(), secondary_cat.c_str());
+
+    // return status
+    return grid->Write(img_filename);
+
+}
+
 // Take collection of grids and write them
 int WriteHeatmaps(HeatmapMap* heatmaps, FrequencyStats freq_stats,
         const char* output_grid_directory, const char* output_img_directory,
-        bool print_verbose, Mode mode)
+        bool print_verbose, Mode mode, const char* data)
 {
-    char* tag = NULL; // TODO: temp
+    //char* data = NULL; // TODO: temp
     std::ofstream stats_categories_file;
     stats_categories_file.open("output/stats/categories.csv");
     stats_categories_file << "category,count\n"; 
@@ -61,8 +82,13 @@ int WriteHeatmaps(HeatmapMap* heatmaps, FrequencyStats freq_stats,
             stats_pairs_file << pri_cat.c_str() << "," << sec_cat.c_str() << 
                 "," << (*freq_stats.pair_count)[pri_cat][sec_cat] << "\n"; 
 
-            if (!WriteGrid(grid, pri_cat, sec_cat, output_grid_directory, mode, tag)) {
+            if (!WriteGrid(grid, pri_cat, sec_cat, output_grid_directory, mode, data)) {
                 fprintf(stderr, "Failure to write grid.\n");
+                return 0;
+            }
+            
+            if (!WriteImage(grid, pri_cat, sec_cat, output_img_directory, mode, data)) {
+                fprintf(stderr, "Failure to write image.\n");
                 return 0;
             }
 

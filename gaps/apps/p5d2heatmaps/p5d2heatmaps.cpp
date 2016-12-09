@@ -20,7 +20,6 @@
 #include <time.h>
 
 // Program variables
-//static const char *input_data_directory = "data/";
 static const char *input_data_directory;
 static const char *output_grid_directory;
 static const char *output_img_directory;
@@ -41,7 +40,7 @@ static int threshold;
 
 clock_t start, finish;
 
-Mode mode = All;
+Mode mode = SceneByScene;
 
 HeatmapMap heatmaps = HeatmapMap(); 
 
@@ -172,7 +171,7 @@ int main(int argc, char **argv)
         
         if (mode == SceneByScene) {
             WriteHeatmaps(&heatmaps, freq_stats, output_grid_directory, 
-                output_img_directory, print_verbose, mode);
+                output_img_directory, print_verbose, mode, project_id.c_str());
             heatmaps = HeatmapMap(); // clear it
         }
 
@@ -185,7 +184,7 @@ int main(int argc, char **argv)
 
     if (mode == All)
         WriteHeatmaps(&heatmaps, freq_stats, output_grid_directory, 
-                output_img_directory, print_verbose, mode);
+                output_img_directory, print_verbose, mode, NULL);
 
     // Return success 
     return 0;
