@@ -4,5 +4,5 @@ echo -e "\tConverting grids to images..."
 for f in output/grids/*.grd; 
 do 
     filename=$(basename $f .grd)
-    bin/pfm2pfm $f output/imgs/$filename.png
+    pfm2pfm $f output/imgs/$filename.png
 done

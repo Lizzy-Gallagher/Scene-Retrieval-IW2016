@@ -19,9 +19,10 @@
 #include <time.h>
 
 // Program variables
-static const char *input_data_directory = "data/";
-static const char *output_grid_directory = NULL;
-static const char *output_img_directory = NULL;
+//static const char *input_data_directory = "data/";
+static const char *input_data_directory;
+static const char *output_grid_directory;
+static const char *output_img_directory;
 static int print_verbose = 0;
 static int print_debug = 0;
 
@@ -32,9 +33,9 @@ FrequencyStats freq_stats;
 static std::map<std::string, std::string> id2cat;
 static std::vector<std::string> project_ids;
 
-static int meters_of_context = 2;
-static int pixels_to_meters = 15;
-static int resolution = pixels_to_meters * (2 * meters_of_context);
+static int meters_of_context = 2; // default
+static int pixels_to_meters = 15; // default
+static int resolution;
 
 static double threshold = meters_of_context + 1;
 clock_t start, finish;
@@ -60,7 +61,8 @@ static int ParseArgs(int argc, char **argv)
             argv++; argc--;
         }
         else {
-            if (!output_grid_directory) output_grid_directory = *argv;
+            if (!input_data_directory) input_data_directory = *argv;
+            else if (!output_grid_directory) output_grid_directory = *argv;
             else if (!output_img_directory) output_img_directory = *argv;
             else { fprintf(stderr, "Invalid program argument: %s", *argv); exit(1); }
             argv++; argc--;
@@ -69,10 +71,12 @@ static int ParseArgs(int argc, char **argv)
 
     // Check filenames
     if (!output_grid_directory || !output_img_directory) {
-        fprintf(stderr, "Usage: p5danalyze outputgriddirectory outputimgdirectory"
+        fprintf(stderr, "Usage: p5d2heatmaps inputdatadirectory outputgriddirectory outputimgdirectory"
                 "[-debug] [-v] [data-directory dir] [-ptm num] [-context num]\n");
         return 0;
     }
+
+    resolution = pixels_to_meters * (2 * meters_of_context);
 
     // Return OK status 
     return 1;
@@ -83,15 +87,12 @@ static int Update(R3Scene *scene)
 {
     SceneNodes nodes = GetSceneNodes(scene);
     fprintf(stderr, "\t- Located Objects : %lu\n", nodes.objects.size());
-
-    // TODO: Unnecessary, added to CalcHeatmaps
-    UpdateHeatmaps(scene, nodes.objects, &heatmaps, resolution, freq_stats.cat_count, &id2cat);
-    fprintf(stderr, "\t- Updated Collection\n");
-
+    
     for (int i = 0; i < nodes.objects.size(); i++) {
         R3SceneNode* pri_obj = nodes.objects[i];
         std::string pri_cat = GetObjectCategory(pri_obj, &id2cat);
         if (pri_cat.size() == 0) continue;
+
         XformValues values = CreateXformValues(pri_obj, resolution);
 
         // Draw objects
@@ -102,7 +103,8 @@ static int Update(R3Scene *scene)
             std::string sec_cat = GetObjectCategory(sec_obj, &id2cat);
             if (sec_cat.size() == 0) continue;
 
-            CalcHeatmaps(pri_obj, sec_obj, sec_cat, pri_cat, &id2cat, &heatmaps, values, threshold, pixels_to_meters, freq_stats.pair_count);
+            CalcHeatmaps(pri_obj, sec_obj, sec_cat, pri_cat, &id2cat, &heatmaps, 
+                    values, threshold, pixels_to_meters, freq_stats.pair_count);
         }
 
         // Draw walls
@@ -111,7 +113,8 @@ static int Update(R3Scene *scene)
             R3SceneNode* wall_node = nodes.walls[w];
             Wall* ref_wall = nodes.walls[w];
 
-            CalcHeatmaps(pri_obj, wall_node, "wall", pri_cat, &id2cat, &heatmaps, values, threshold, pixels_to_meters);
+            CalcHeatmaps(pri_obj, wall_node, "wall", pri_cat, &id2cat, &heatmaps,
+            values, threshold, pixels_to_meters);
         }
         */
     }
@@ -130,12 +133,9 @@ void CreateDirectory(const char* dir_name) {
 int main(int argc, char **argv)
 {
     // Parse program arguments
-    if (!ParseArgs(argc, argv)) exit(-1);
+    if (!ParseArgs(argc, argv)) exit(1);
 
-    // Create a vector of all project IDs
     project_ids = LoadProjectIds();
-
-    // Create mapping of ids to object categories
     id2cat = LoadIdToCategoryMap();
 
     // Create the output directory (if it does not exist)
@@ -143,29 +143,26 @@ int main(int argc, char **argv)
     CreateDirectory(output_img_directory);
 
     int failures = 0;
-    int i = 0; 
-    for (std::string project_id : project_ids) // For each project...
-    {
-        if (i == 5) break;
+    for (int i = 0; i < 3; i++) {
+        std::string project_id = project_ids[i];
 
         start = clock();
         fprintf(stderr, "Working on ... %s (%d) \n", project_id.c_str(), i); 
 
-        // Read project
-        P5DProject *project = ReadProject(project_id.c_str(), print_verbose, input_data_directory);
-        if (!project) { failures++; continue; }
-        fprintf(stderr, "\t- Read Project\n");
-
-        // Create scene
-        R3Scene *scene = CreateScene(project, input_data_directory);
+        R3Scene *scene = new R3Scene();
         if (!scene) { failures++; continue; }
-        fprintf(stderr, "\t- Created Scene\n");
 
-        // Update the task goal
+        char project_path[1024];
+        sprintf(project_path, "%s/projects_room/%s/project.json", 
+                input_data_directory, project_id.c_str());
+        if (!scene->MyReadPlanner5DFile(project_path)) { exit(1); failures++; continue; }
+        
         if (!Update(scene)) { failures++; continue; }
-        fprintf(stderr, "\t- Completed in : %f sec\n", (double)(clock() - start) / CLOCKS_PER_SEC);
-
-        i++;
+        
+        double task_time = (double)(clock() - start) / CLOCKS_PER_SEC;
+        fprintf(stderr, "\t- Completed in : %f sec\n", task_time);
+    
+        //i++;
     }
 
     fprintf(stderr, "\n-- Failures: %d---\n", failures);

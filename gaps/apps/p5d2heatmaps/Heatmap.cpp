@@ -43,7 +43,6 @@ int WriteHeatmaps(HeatmapMap* heatmaps, FrequencyStats freq_stats,
                 fprintf(stderr, "Failure to write grid.\n");
             }
 
-            // TODO: Needs output_img_directory
             char img_filename[1024];
             sprintf(img_filename, "%s/%s___%s.jpg", output_img_directory, 
                     pri_cat.c_str(), sec_cat.c_str());
@@ -57,34 +56,6 @@ int WriteHeatmaps(HeatmapMap* heatmaps, FrequencyStats freq_stats,
     stats_categories_file.close();
     stats_pairs_file.close();
     return 1;
-}
-
-void UpdateHeatmaps(R3Scene* scene, std::vector<R3SceneNode*> objects,
-        HeatmapMap* heatmaps, int resolution, std::map<std::string, int>* cat_count, 
-        Id2CatMap* id2cat)
-{ 
-    // Populate category->category map
-    for (int i = 0; i < objects.size(); i++) {
-        R3SceneNode* pri_obj = objects[i];
-        std::string pri_cat = GetObjectCategory(pri_obj, id2cat);
-        if (pri_cat.size() == 0) continue; 
-
-        (*cat_count)[pri_cat]++;
-
-        for (int j = 0; j < objects.size(); j++) {
-            if (i == j) continue;
-
-            R3SceneNode* sec_obj = objects[j];
-            std::string sec_cat = GetObjectCategory(sec_obj, id2cat);
-            if (sec_cat.size() == 0) continue;
-
-            //if ((*heatmaps)[pri_cat].count(sec_cat) == 0)
-            //    (*heatmaps)[pri_cat][sec_cat] = new R2Grid(resolution, resolution); 
-        }
-
-        //if ((*heatmaps)[pri_cat]["wall"] == 0)
-        //    (*heatmaps)[pri_cat]["wall"] = new R2Grid(resolution, resolution);
-    }
 }
 
 void CalcHeatmaps( R3SceneNode* pri_obj, R3SceneNode* sec_obj, std::string sec_cat,

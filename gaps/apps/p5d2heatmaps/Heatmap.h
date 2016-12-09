@@ -17,9 +17,6 @@ using HeatmapMap = std::map<std::string, std::map<std::string, R2Grid*> >;
 int WriteHeatmaps(HeatmapMap* heatmaps, FrequencyStats freq_stats,
         const char* output_grid_directory, const char* output_img_directory, 
         bool print_verbose);
-void UpdateHeatmaps(R3Scene* scene, std::vector<R3SceneNode*> objects, 
-        HeatmapMap* heatmaps, int resolution, std::map<std::string, int>* cat_count, 
-        Id2CatMap* id2cat);
 void CalcHeatmaps( R3SceneNode* pri_obj, R3SceneNode* ref_obj, std::string ref_cat, 
         std::string pri_cat, Id2CatMap* id2cat, HeatmapMap* heatmaps, 
         XformValues values, double threshold, int pixels_to_meters, PairMap* pair_count);

@@ -4,18 +4,12 @@
 ## Runs the heatmap creating utilities
 ##
 ##
-## Notes: 
-## ------------------------------------------
-## - Not updated since 6/24/2016. May no longer
-##   work out-of-box
-## - Prefer rel-proj/ for active development
-##
 
 echo "Cleaning up..."
 scripts/clean-output
 
 echo "Analyzing..."
-p5d2heatmaps output/grids/ output/imgs/ -ptm 20 -context 4
+p5d2heatmaps data output/grids/ output/imgs/ -ptm 20 -context 4
 
 #echo "Converting Grids..."
 #scripts/convert-grids 2< err.txt

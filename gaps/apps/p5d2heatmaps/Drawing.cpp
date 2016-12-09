@@ -192,18 +192,17 @@ R2Grid* Draw(R3SceneNode* obj, R2Grid *grid, XformValues values, int pixels_to_m
                 R3Triangle *triangle = arr->Triangle(t);
 
                 // Create new points
-                R2Point v0 = R2Point(triangle->V0()->Position().X(), triangle->V0()->Position().Y());
-                R2Point v1 = R2Point(triangle->V1()->Position().X(), triangle->V1()->Position().Y());
-                R2Point v2 = R2Point(triangle->V2()->Position().X(), triangle->V2()->Position().Y());
+                R2Point v0 = R2Point(triangle->V0()->Position().X(), 
+                                     triangle->V0()->Position().Y());
+                R2Point v1 = R2Point(triangle->V1()->Position().X(), 
+                                     triangle->V1()->Position().Y());
+                R2Point v2 = R2Point(triangle->V2()->Position().X(), 
+                                     triangle->V2()->Position().Y());
 
                 if (IsOutsideGrid(&temp_grid, v0, v1, v2)) continue;
 
                 // Move exterior verticies inside the grid
                 std::vector<R2Point> v = MoveInsideGrid(&temp_grid, v0, v1, v2);
-
-                v0 = temp_grid.GridPosition(v[0]);
-                v1 = temp_grid.GridPosition(v[1]);
-                v2 = temp_grid.GridPosition(v[2]);
 
                 temp_grid.RasterizeWorldTriangle(v[0], v[1], v[2], 1);
             }
