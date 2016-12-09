@@ -212,6 +212,15 @@ std::string GetObjectCategory(R3SceneNode* obj, Id2CatMap* id2cat)
 {
     // Parse object name for id
     std::string name (obj->Name());
+    
+    if (name.find("Wall") != std::string::npos)
+        return "";
+
+    if (name.find("Ceiling") != std::string::npos)
+        return "";
+
+    if (name.find("Floor") != std::string::npos)
+        return "";
 
     size_t pos = name.find_last_of("_") + 1;
     if (name[pos - 2] == '_') { // for the s__* series
@@ -228,7 +237,8 @@ std::string GetObjectCategory(R3SceneNode* obj, Id2CatMap* id2cat)
     // Lookup id in id2cat_map
     auto cat_iter = (*id2cat).find(id);
     if (cat_iter == (*id2cat).end()) {
-        fprintf(stderr, "FAILURE. Unexpected object Id: %s\n", id.c_str());
+        fprintf(stderr, "FAILURE. Unexpected object Id: %s (Name: %s)\n", 
+                id.c_str(), name.c_str());
         return "";
     }
 

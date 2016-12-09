@@ -40,7 +40,7 @@ static int threshold;
 
 clock_t start, finish;
 
-Mode mode = SceneByScene;
+Mode mode = RoomByRoom;
 
 HeatmapMap heatmaps = HeatmapMap(); 
 
@@ -99,6 +99,60 @@ static int ParseArgs(int argc, char **argv)
 
 static int Update(R3Scene *scene)
 {
+    if (mode == RoomByRoom) {
+        R3SceneNode* root = scene->Node(0); 
+
+        const char* name = root->Name();
+        size_t prefix_len = strlen("Project#");
+        name = name + prefix_len;
+
+        std::vector<R3SceneNode*> outdoor_objects;
+
+        for (int f = 0; f < root->NChildren(); f++) { // Floor
+            R3SceneNode* floor = root->Child(f);
+            for (int r = 0; r < floor->NChildren(); r++) { // Rooms
+                R3SceneNode* node = floor->Child(r);
+                if (strstr(node->Name(), "Object")) { // Outdoor object
+                    outdoor_objects.push_back(node);
+                } else { // Room
+                    // Ignore "Ground"
+                    P5DRoom* room = (P5DRoom*) node->Data();
+                    if (!strstr(room->className, "Room")) continue;
+
+                    for (int i = 0; i < node->NChildren(); i++) { // Objects
+                        R3SceneNode* primary_obj = node->Child(i);
+                        std::string primary_cat = GetObjectCategory(primary_obj, &id2cat);
+                        if (primary_cat.size() == 0) continue;
+        
+                        XformValues values = CreateXformValues(primary_obj, resolution);
+
+                        for (int j = 0; j < node->NChildren(); j++) {
+                            if (i == j) continue;
+            
+                            R3SceneNode* secondary_obj = node->Child(j);
+                            std::string secondary_cat = GetObjectCategory(secondary_obj, &id2cat);
+                            if (secondary_cat.size() == 0) continue;
+
+                            CalcHeatmaps(primary_obj, secondary_obj, secondary_cat, 
+                                    primary_cat, &heatmaps, values, threshold, 
+                                    pixels_to_meters, freq_stats.pair_count);
+                        
+                        }
+                    }
+                }
+            
+                std::string name_str(name);
+                std::string delim_str("|");
+                std::string room_num_str = std::to_string(r);
+                std::string data = name_str + delim_str + room_num_str;
+                WriteHeatmaps(&heatmaps, freq_stats, output_grid_directory, 
+                    output_img_directory, print_verbose, mode, data.c_str());
+                heatmaps = HeatmapMap(); // clear it
+            }
+        }
+        return 1;
+    }
+
     SceneNodes nodes = GetSceneNodes(scene);
     fprintf(stderr, "\t- Located Objects : %lu\n", nodes.objects.size());
     
@@ -168,6 +222,7 @@ int main(int argc, char **argv)
         
         // Update the heatmaps
         if (!Update(scene)) { failures++; continue; }
+        fprintf(stderr, "After Update.\n");
         
         if (mode == SceneByScene) {
             WriteHeatmaps(&heatmaps, freq_stats, output_grid_directory, 
