@@ -36,11 +36,23 @@ static std::vector<std::string> project_ids;
 static int meters_of_context = 2; // default
 static int pixels_to_meters = 15; // default
 static int resolution;
+static int threshold;
 
-static double threshold = meters_of_context + 1;
 clock_t start, finish;
 
+enum Mode { All, SceneByScene, RoomByRoom };
+Mode mode = All;
 HeatmapMap heatmaps = HeatmapMap(); 
+
+
+static void setMode(char *mode_str) {
+    if (!strcmp(mode_str, "scene")) {
+        mode = SceneByScene;
+    } else {
+        fprintf(stderr, "Did not recognize mode: %s", mode_str);
+        exit(1);
+    }
+}
 
 static int ParseArgs(int argc, char **argv)
 {
@@ -53,7 +65,7 @@ static int ParseArgs(int argc, char **argv)
             else if (!strcmp(*argv, "-data_directory")) { argc--; argv++; input_data_directory = *argv; }
             else if (!strcmp(*argv, "-ptm")) { argc--; argv++; pixels_to_meters = atoi(*argv); }
             else if (!strcmp(*argv, "-context")) { argc--; argv++; meters_of_context = atoi(*argv); }
-
+            else if (!strcmp(*argv, "-mode")) { argc--; argv++; setMode(*argv); }
             else { 
                 fprintf(stderr, "Invalid program argument: %s", *argv); 
                 exit(1); 
@@ -71,12 +83,14 @@ static int ParseArgs(int argc, char **argv)
 
     // Check filenames
     if (!output_grid_directory || !output_img_directory) {
-        fprintf(stderr, "Usage: p5d2heatmaps inputdatadirectory outputgriddirectory outputimgdirectory"
+        fprintf(stderr, "Usage: p5d2heatmaps inputdatadirectory"
+                "outputgriddirectory outputimgdirectory [-mode mode]"
                 "[-debug] [-v] [data-directory dir] [-ptm num] [-context num]\n");
         return 0;
     }
 
     resolution = pixels_to_meters * (2 * meters_of_context);
+    threshold = meters_of_context + 1;
 
     // Return OK status 
     return 1;
@@ -149,20 +163,21 @@ int main(int argc, char **argv)
         start = clock();
         fprintf(stderr, "Working on ... %s (%d) \n", project_id.c_str(), i); 
 
+        // Allocate new scene
         R3Scene *scene = new R3Scene();
         if (!scene) { failures++; continue; }
 
+        // Parse Planner5D file
         char project_path[1024];
         sprintf(project_path, "%s/projects_room/%s/project.json", 
                 input_data_directory, project_id.c_str());
         if (!scene->MyReadPlanner5DFile(project_path)) { exit(1); failures++; continue; }
         
+        // Update the heatmaps
         if (!Update(scene)) { failures++; continue; }
         
         double task_time = (double)(clock() - start) / CLOCKS_PER_SEC;
         fprintf(stderr, "\t- Completed in : %f sec\n", task_time);
-    
-        //i++;
     }
 
     fprintf(stderr, "\n-- Failures: %d---\n", failures);

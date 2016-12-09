@@ -333,12 +333,10 @@ int main(int argc, char **argv)
         exit(-1);
     }
 
-
     if(!LoadProjects()) exit(-1);
     if(!LoadRTypes()) exit(-1);
 
     // Allocate scene
-    
     R3Scene *scene = new R3Scene();
     if (!scene) {
         fprintf(stderr, "Unable to allocate scene.\n");

@@ -10,6 +10,10 @@
 #include <iostream>
 #include <fstream>
 
+// rtype -> primary object -> secondary object - R2Grid*
+//using HeatmapMap
+
+// primary object -> secondary object - R2Grid*
 using HeatmapMap = std::map<std::string, std::map<std::string, R2Grid*> >;
 
 // Take collection of grids and write them
