@@ -56,7 +56,20 @@ int WriteImage (R2Grid *grid, std::string primary_cat, std::string secondary_cat
         sprintf(scene_directory, "%s/%s", output_img_directory, data);
         CreateDirectory(scene_directory);
         directory = scene_directory;
+    } else if (mode == RoomByRoom) {
+        std::string s(data);
+        std::string delimiter = "|";
+        std::string scene = s.substr(0, s.find(delimiter));
+        s.erase(0, s.find(delimiter) + delimiter.length());
+        std::string room_num = s.substr(0, s.find(delimiter));
+
+        char room_directory[1024];
+        sprintf(room_directory, "%s/%s/%s", output_img_directory, 
+                scene.c_str(), room_num.c_str());
+        CreateDirectory(room_directory);
+        directory = room_directory;
     }
+ 
     
     char img_filename[1024];
     sprintf(img_filename, "%s/%s___%s.jpg", directory, 
