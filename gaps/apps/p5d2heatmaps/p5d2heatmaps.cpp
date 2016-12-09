@@ -11,6 +11,7 @@
 #include "IOAux.h"
 #include "StatsAux.h"
 #include "Heatmap.h"
+#include "Mode.h"
 
 #include <string>
 #include <map>
@@ -40,8 +41,8 @@ static int threshold;
 
 clock_t start, finish;
 
-enum Mode { All, SceneByScene, RoomByRoom };
 Mode mode = All;
+
 HeatmapMap heatmaps = HeatmapMap(); 
 
 
@@ -117,7 +118,7 @@ static int Update(R3Scene *scene)
             std::string sec_cat = GetObjectCategory(sec_obj, &id2cat);
             if (sec_cat.size() == 0) continue;
 
-            CalcHeatmaps(pri_obj, sec_obj, sec_cat, pri_cat, &id2cat, &heatmaps, 
+            CalcHeatmaps(pri_obj, sec_obj, sec_cat, pri_cat, &heatmaps, 
                     values, threshold, pixels_to_meters, freq_stats.pair_count);
         }
 
@@ -136,13 +137,6 @@ static int Update(R3Scene *scene)
     // Return success
     return 1;
 }
-
-void CreateDirectory(const char* dir_name) {
-    char cmd[1024];
-    sprintf(cmd, "mkdir -p %s", dir_name);
-    system(cmd);
-}
-
 
 int main(int argc, char **argv)
 {
@@ -166,7 +160,7 @@ int main(int argc, char **argv)
         // Allocate new scene
         R3Scene *scene = new R3Scene();
         if (!scene) { failures++; continue; }
-
+ 
         // Parse Planner5D file
         char project_path[1024];
         sprintf(project_path, "%s/projects_room/%s/project.json", 
@@ -176,6 +170,12 @@ int main(int argc, char **argv)
         // Update the heatmaps
         if (!Update(scene)) { failures++; continue; }
         
+        if (mode == SceneByScene) {
+            WriteHeatmaps(&heatmaps, freq_stats, output_grid_directory, 
+                output_img_directory, print_verbose, mode);
+            heatmaps = HeatmapMap(); // clear it
+        }
+
         double task_time = (double)(clock() - start) / CLOCKS_PER_SEC;
         fprintf(stderr, "\t- Completed in : %f sec\n", task_time);
     }
@@ -183,8 +183,9 @@ int main(int argc, char **argv)
     fprintf(stderr, "\n-- Failures: %d---\n", failures);
     fprintf(stderr, "\n--- Finished. ---\n");
 
-    WriteHeatmaps(&heatmaps, freq_stats, output_grid_directory, output_img_directory,
-            print_verbose);
+    if (mode == All)
+        WriteHeatmaps(&heatmaps, freq_stats, output_grid_directory, 
+                output_img_directory, print_verbose, mode);
 
     // Return success 
     return 0;

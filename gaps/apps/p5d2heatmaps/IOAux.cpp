@@ -237,30 +237,9 @@ std::string GetObjectCategory(R3SceneNode* obj, Id2CatMap* id2cat)
     return cat;
 }
 
-int 
-WriteGrid(R2Grid *grid, const char *filename, bool print_verbose) {
-    // Start statistics
-    RNTime start_time;
-    start_time.Read();
-
-    // Write grid
-    int status = grid->Write(filename);
-
-    // Print statistics
-    if (print_verbose) {
-        printf("Wrote grid to %s\n", filename);
-        printf("  Time = %.2f seconds\n", start_time.Elapsed());
-        printf("  Resolution = %d %d\n", grid->XResolution(), grid->YResolution());
-        printf("  Spacing = %g\n", grid->GridToWorldScaleFactor());
-        printf("  Cardinality = %d\n", grid->Cardinality());
-        RNInterval grid_range = grid->Range();
-        printf("  Minimum = %g\n", grid_range.Min());
-        printf("  Maximum = %g\n", grid_range.Max());
-        printf("  L1Norm = %g\n", grid->L1Norm());
-        printf("  L2Norm = %g\n", grid->L2Norm());
-        fflush(stdout);
-    }
-
-    // Return status
-    return status;
+void CreateDirectory(const char* dirname) {
+    char cmd[1024];
+    sprintf(cmd, "mkdir -p %s", dirname);
+    system(cmd);
 }
+

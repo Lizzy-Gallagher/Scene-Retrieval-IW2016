@@ -2,6 +2,7 @@
 #include "IOAux.h"
 #include "StatsAux.h"
 #include "Drawing.h"
+#include "Mode.h"
 
 #include <string>
 #include <map>
@@ -10,17 +11,35 @@
 #include <iostream>
 #include <fstream>
 
-// rtype -> primary object -> secondary object - R2Grid*
-//using HeatmapMap
-
 // primary object -> secondary object - R2Grid*
 using HeatmapMap = std::map<std::string, std::map<std::string, R2Grid*> >;
+
+int WriteGrid(R2Grid *grid, std::string primary_cat, std::string secondary_cat, 
+        const char* output_grid_directory, Mode mode, char* tag) {
+    const char* directory = output_grid_directory; // default
+    
+    // If in scene-by-scene mode, create directory for scene
+    if (mode == SceneByScene) {
+        char scene_directory[1024];
+        sprintf(scene_directory, "%s/%s", output_grid_directory, tag);
+        CreateDirectory(scene_directory);
+        directory = scene_directory;
+    }
+    
+    char grid_filename[1024];
+    sprintf(grid_filename, "%s/%s___%s.grd", directory, 
+        primary_cat.c_str(), secondary_cat.c_str());
+
+    // return status
+    return grid->Write(grid_filename);
+}
 
 // Take collection of grids and write them
 int WriteHeatmaps(HeatmapMap* heatmaps, FrequencyStats freq_stats,
         const char* output_grid_directory, const char* output_img_directory,
-        bool print_verbose)
+        bool print_verbose, Mode mode)
 {
+    char* tag = NULL; // TODO: temp
     std::ofstream stats_categories_file;
     stats_categories_file.open("output/stats/categories.csv");
     stats_categories_file << "category,count\n"; 
@@ -32,27 +51,29 @@ int WriteHeatmaps(HeatmapMap* heatmaps, FrequencyStats freq_stats,
     for (auto it : (*heatmaps)) {
         std::string pri_cat = it.first;
         std::map<std::string, R2Grid*> map = it.second;
-        stats_categories_file << pri_cat.c_str() << "," << (*freq_stats.cat_count)[pri_cat] << "\n";
+        stats_categories_file << pri_cat.c_str() << "," << 
+            (*freq_stats.cat_count)[pri_cat] << "\n";
 
         for (auto it2 : map) {
             std::string sec_cat = it2.first;
             R2Grid* grid        = it2.second;
 
-            char grid_filename[1024];
-            sprintf(grid_filename, "%s/%s___%s.grd", output_grid_directory, 
-                    pri_cat.c_str(), sec_cat.c_str());
+            stats_pairs_file << pri_cat.c_str() << "," << sec_cat.c_str() << 
+                "," << (*freq_stats.pair_count)[pri_cat][sec_cat] << "\n"; 
 
-            stats_pairs_file << pri_cat.c_str() << "," << sec_cat.c_str() << "," << (*freq_stats.pair_count)[pri_cat][sec_cat] << "\n"; 
-            if (!WriteGrid(grid, grid_filename, print_verbose)) {
+            if (!WriteGrid(grid, pri_cat, sec_cat, output_grid_directory, mode, tag)) {
                 fprintf(stderr, "Failure to write grid.\n");
+                return 0;
             }
 
-            char img_filename[1024];
+            /*
+             * char img_filename[1024];
             sprintf(img_filename, "%s/%s___%s.jpg", output_img_directory, 
                     pri_cat.c_str(), sec_cat.c_str());
             if (!WriteGrid(grid, img_filename, print_verbose)) {
                 fprintf(stderr, "Failure to write grid (img).\n");
             }
+            */
 
         }
     }
@@ -63,8 +84,8 @@ int WriteHeatmaps(HeatmapMap* heatmaps, FrequencyStats freq_stats,
 }
 
 void CalcHeatmaps( R3SceneNode* pri_obj, R3SceneNode* sec_obj, std::string sec_cat,
-        std::string pri_cat, Id2CatMap* id2cat, HeatmapMap* heatmaps, 
-        XformValues values, double threshold, int pixels_to_meters, PairMap* pair_count) 
+        std::string pri_cat, HeatmapMap* heatmaps, XformValues values, 
+        double threshold, int pixels_to_meters, PairMap* pair_count) 
 {
     R3Vector dist3d = (sec_obj->Centroid() - pri_obj->Centroid());
     R2Vector dist = R2Vector(dist3d.X(), dist3d.Y());

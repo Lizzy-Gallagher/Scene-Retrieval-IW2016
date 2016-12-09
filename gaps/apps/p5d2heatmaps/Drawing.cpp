@@ -1,5 +1,5 @@
 #include "R3Graphics/R3Graphics.h"
-#include "R3Graphics/p5d.h"
+#include "p5d.h"
 #include "GraphAux.h"
 #include "Drawing.h"
 #include <vector>
@@ -7,7 +7,6 @@
 /*-------------------------------------------------------------------------*/
 //  Drawing Methods
 /*-------------------------------------------------------------------------*/
-
 
 XformValues CreateXformValues(R3SceneNode* node, int resolution, bool is_room) {
     // Translation constants
