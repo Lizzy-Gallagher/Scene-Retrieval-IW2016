@@ -14,12 +14,6 @@
 
 using HeatmapMap = std::map<std::string, std::map<std::string, R2Grid*> >;
 
-int WriteGrid(R2Grid *grid, std::string primary_cat, std::string secondary_cat, 
-    Mode mode, const char* data);
-
-int WriteImage (R2Grid *grid, std::string primary_cat, std::string secondary_cat, 
-    const char* output_directory, Mode mode, const char* data);
-
 int WriteHeatmaps(HeatmapMap* heatmaps, const char* output_directory, 
     Mode mode, const char* data);
 

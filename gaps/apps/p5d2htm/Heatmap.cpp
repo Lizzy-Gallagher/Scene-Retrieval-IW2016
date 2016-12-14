@@ -13,37 +13,39 @@
 // primary object -> secondary object - R2Grid*
 using HeatmapMap = std::map<std::string, std::map<std::string, R2Grid*> >;
 
-int WriteImage (R2Grid *grid, std::string primary_cat, std::string secondary_cat, 
-    const char* output_directory, Mode mode, const char* data) {
-    const char* directory = output_directory; // default
-    
-    // If in scene-by-scene mode, create directory for scene
+char* parseData(Mode mode, const char* data) {
+    char* directory = new char[1024];
     if (mode == SceneByScene) {
-        char scene_directory[1024];
-        sprintf(scene_directory, "%s/%s", output_directory, data);
-        CreateDirectory(scene_directory);
-        directory = scene_directory;
-    } else if (mode == RoomByRoom) {
+        sprintf(directory, "%s", data);
+    }
+    else if (mode == RoomByRoom) {
         std::string s(data);
         std::string delimiter = "|";
         std::string scene = s.substr(0, s.find(delimiter));
         s.erase(0, s.find(delimiter) + delimiter.length());
         std::string room_num = s.substr(0, s.find(delimiter));
-
-        char room_directory[1024];
-        sprintf(room_directory, "%s/%s/%s", output_directory, 
-                scene.c_str(), room_num.c_str());
-        CreateDirectory(room_directory);
-        directory = room_directory;
+        
+        sprintf(directory, "%s/%s", scene.c_str(), room_num.c_str());
     }
- 
+
+    return directory;
+}
+
+int WriteHeatmap (R2Grid *grid, std::string primary_cat, std::string secondary_cat, 
+    const char* output_directory, Mode mode, const char* data) {
+    
+    // Create Output directory
+    char directory[1024];
+    sprintf(directory, "%s/%s", output_directory, parseData(mode, data));
+    CreateDirectory(directory);
+
+    // Image filename
     char img_filename[1024];
     sprintf(img_filename, "%s/%s___%s.jpg", directory, 
         primary_cat.c_str(), secondary_cat.c_str());
 
     // return status
     return grid->Write(img_filename);
-
 }
 
 // Take collection of grids and write them
@@ -58,7 +60,7 @@ int WriteHeatmaps(HeatmapMap* heatmaps, const char* output_directory,
             std::string sec_cat = it2.first;
             R2Grid* grid        = it2.second;
 
-            if (!WriteImage(grid, pri_cat, sec_cat, output_directory, mode, data)) {
+            if (!WriteHeatmap(grid, pri_cat, sec_cat, output_directory, mode, data)) {
                 fprintf(stderr, "Failure to write image.\n");
                 return 0;
             }
@@ -108,7 +110,7 @@ void CalcHeatmapsByObject(R3SceneNode* primary_obj, R3SceneNode* secondary_obj,
     }
 }
 
-void CalcHeatmaps( R3SceneNode* pri_obj, R3SceneNode* sec_obj, std::string sec_cat,
+void CalcHeatmaps(R3SceneNode* pri_obj, R3SceneNode* sec_obj, std::string sec_cat,
     std::string pri_cat, HeatmapMap* heatmaps, XformValues values, 
     double threshold, int pixels_to_meters) 
 {
