@@ -130,6 +130,7 @@ int WriteHeatmap(R2Grid* heatmap, Mode mode, std::string scene_id,
     const char* output_grid_directory, const char* output_img_directory) {
     
     // Write Grid
+    /*
     char grd_directory[1024];
     sprintf(grd_directory, "%s/%s/%d/%d/%d", output_grid_directory, 
             scene_id.c_str(), floor_num, room_num, primary_object_num);
@@ -139,6 +140,7 @@ int WriteHeatmap(R2Grid* heatmap, Mode mode, std::string scene_id,
     sprintf(grid_filename, "%s/%d.grd", grd_directory, secondary_object_num);
 
     heatmap->Write(grid_filename);
+    */
 
     // Write Image
     char img_directory[1024];

@@ -58,11 +58,13 @@ int main(int argc, char **argv)
     std::vector<std::string> heatmap_names = LoadHeatmaps();
 
     R2Grid* collation = new R2Grid();
-    collation->ReadGridFile(heatmap_names[0].c_str());
+    collation->ReadImage(heatmap_names[0].c_str());
     for (int i = 1; i < heatmap_names.size(); i++) {
         fprintf(stderr, "Working on %d\n", i);
         R2Grid* next = new R2Grid();
-        next->ReadGridFile(heatmap_names[i].c_str());
+        fprintf(stderr, "About to read...\n");
+        next->ReadImage(heatmap_names[i].c_str());
+        fprintf(stderr, "Finished reading...\n");
         *collation += *next;
     }
 
