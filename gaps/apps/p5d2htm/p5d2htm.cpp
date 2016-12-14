@@ -9,7 +9,6 @@
 #include "P5DAux.h"
 #include "Drawing.h"
 #include "IOAux.h"
-#include "StatsAux.h"
 #include "Heatmap.h"
 #include "Mode.h"
 
@@ -24,9 +23,6 @@ static const char *input_data_directory;
 static const char *output_img_directory;
 static int print_verbose = 0;
 static int print_debug = 0;
-
-// Stats Logging
-FrequencyStats freq_stats;
 
 // For later use
 static std::map<std::string, std::string> id2cat;
@@ -149,7 +145,7 @@ static int Update(R3Scene *scene)
                             if (mode == RoomByRoom)
                                 CalcHeatmaps(primary_obj, secondary_obj, secondary_cat, 
                                     primary_cat, &heatmaps, values, threshold, 
-                                    pixels_to_meters, freq_stats.pair_count);
+                                    pixels_to_meters);
                         }
                     }
                 }
@@ -158,8 +154,7 @@ static int Update(R3Scene *scene)
                 std::string delim_str("|");
                 std::string room_num_str = std::to_string(r);
                 std::string data = name_str + delim_str + room_num_str;
-                WriteHeatmaps(&heatmaps, freq_stats, 
-                    output_img_directory, print_verbose, mode, data.c_str());
+                WriteHeatmaps(&heatmaps, output_img_directory, mode, data.c_str());
                 heatmaps = HeatmapMap(); // clear it
             }
         }
@@ -211,7 +206,7 @@ static int Update(R3Scene *scene)
             if (sec_cat.size() == 0) continue;
 
             CalcHeatmaps(pri_obj, sec_obj, sec_cat, pri_cat, &heatmaps, 
-                    values, threshold, pixels_to_meters, freq_stats.pair_count);
+                    values, threshold, pixels_to_meters); 
         }
 
         // Draw walls
@@ -263,8 +258,7 @@ int main(int argc, char **argv)
         fprintf(stderr, "After Update.\n");
         
         if (mode == SceneByScene) {
-            WriteHeatmaps(&heatmaps, freq_stats, output_img_directory,
-                print_verbose, mode, project_id.c_str());
+            WriteHeatmaps(&heatmaps, output_img_directory, mode, project_id.c_str());
             heatmaps = HeatmapMap(); // clear it
         }
 
@@ -276,8 +270,7 @@ int main(int argc, char **argv)
     fprintf(stderr, "\n--- Finished. ---\n");
 
     if (mode == All)
-        WriteHeatmaps(&heatmaps, freq_stats, output_img_directory, 
-                print_verbose, mode, NULL);
+        WriteHeatmaps(&heatmaps, output_img_directory, mode, NULL);
 
     // Return success 
     return 0;
