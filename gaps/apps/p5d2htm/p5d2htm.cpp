@@ -20,7 +20,7 @@
 
 // Program variables
 static const char *input_data_directory;
-static const char *output_img_directory;
+static const char *output_directory;
 static int print_verbose = 0;
 static int print_debug = 0;
 
@@ -73,14 +73,14 @@ static int ParseArgs(int argc, char **argv)
         }
         else {
             if (!input_data_directory) input_data_directory = *argv;
-            else if (!output_img_directory) output_img_directory = *argv;
+            else if (!output_directory) output_directory = *argv;
             else { fprintf(stderr, "Invalid program argument: %s", *argv); exit(1); }
             argv++; argc--;
         }
     }
 
     // Check filenames
-    if (!output_img_directory || !input_data_directory) {
+    if (!output_directory || !input_data_directory) {
         fprintf(stderr, "Usage: p5d2htm inputdatadirectory"
                 "outputimgdirectory [-mode mode]"
                 "[-debug] [-v] [data-directory dir] [-ptm num] [-context num]\n");
@@ -139,7 +139,7 @@ static int Update(R3Scene *scene)
                                 CalcHeatmapsByObject(primary_obj, secondary_obj,
                                     values, threshold, pixels_to_meters, name,
                                     floor_num, room_num, primary_object_num, 
-                                    secondary_object_num, output_img_directory);
+                                    secondary_object_num, output_directory);
                             }
 
                             if (mode == RoomByRoom)
@@ -154,7 +154,7 @@ static int Update(R3Scene *scene)
                 std::string delim_str("|");
                 std::string room_num_str = std::to_string(r);
                 std::string data = name_str + delim_str + room_num_str;
-                WriteHeatmaps(&heatmaps, output_img_directory, mode, data.c_str());
+                WriteHeatmaps(&heatmaps, output_directory, mode, data.c_str());
                 heatmaps = HeatmapMap(); // clear it
             }
         }
@@ -180,7 +180,7 @@ static int Update(R3Scene *scene)
                     CalcHeatmapsByObject(primary_obj, secondary_obj,
                         values, threshold, pixels_to_meters, name,
                         floor_num, room_num, primary_object_num, secondary_object_num,
-                        output_img_directory);
+                        output_directory);
 
             }
         }
@@ -234,7 +234,7 @@ int main(int argc, char **argv)
     id2cat = LoadIdToCategoryMap();
 
     // Create the output directory (if it does not exist)
-    CreateDirectory(output_img_directory);
+    CreateDirectory(output_directory);
 
     int failures = 0;
     for (int i = 0; i < 3; i++) {
@@ -258,7 +258,7 @@ int main(int argc, char **argv)
         fprintf(stderr, "After Update.\n");
         
         if (mode == SceneByScene) {
-            WriteHeatmaps(&heatmaps, output_img_directory, mode, project_id.c_str());
+            WriteHeatmaps(&heatmaps, output_directory, mode, project_id.c_str());
             heatmaps = HeatmapMap(); // clear it
         }
 
@@ -270,7 +270,7 @@ int main(int argc, char **argv)
     fprintf(stderr, "\n--- Finished. ---\n");
 
     if (mode == All)
-        WriteHeatmaps(&heatmaps, output_img_directory, mode, NULL);
+        WriteHeatmaps(&heatmaps, output_directory, mode, NULL);
 
     // Return success 
     return 0;
