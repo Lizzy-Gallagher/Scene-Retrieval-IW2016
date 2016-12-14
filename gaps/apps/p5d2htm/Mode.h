@@ -7,6 +7,7 @@ enum Mode {
     All,
     SceneByScene, 
     RoomByRoom,
+    ObjectByObject,
 };
 
 #endif

@@ -40,7 +40,7 @@ static int threshold;
 
 clock_t start, finish;
 
-Mode mode = RoomByRoom;
+Mode mode = ObjectByObject;
 
 HeatmapMap heatmaps = HeatmapMap(); 
 
@@ -48,6 +48,10 @@ HeatmapMap heatmaps = HeatmapMap();
 static void setMode(char *mode_str) {
     if (!strcmp(mode_str, "scene")) {
         mode = SceneByScene;
+    } else if (!strcmp(mode_str, "room")) {
+        mode = RoomByRoom;
+    } else if (!strcmp(mode_str, "object")) {
+        mode = ObjectByObject;
     } else {
         fprintf(stderr, "Did not recognize mode: %s", mode_str);
         exit(1);
@@ -99,7 +103,7 @@ static int ParseArgs(int argc, char **argv)
 
 static int Update(R3Scene *scene)
 {
-    if (mode == RoomByRoom) {
+    if (mode == RoomByRoom || mode == ObjectByObject) {
         R3SceneNode* root = scene->Node(0); 
 
         const char* name = root->Name();
@@ -133,10 +137,21 @@ static int Update(R3Scene *scene)
                             std::string secondary_cat = GetObjectCategory(secondary_obj, &id2cat);
                             if (secondary_cat.size() == 0) continue;
 
-                            CalcHeatmaps(primary_obj, secondary_obj, secondary_cat, 
+                            if (mode == ObjectByObject) {
+                                int floor_num = f + 1;
+                                int room_num = r + 1;
+                                int primary_object_num = i + 1;
+                                int secondary_object_num = j + 1;
+                                CalcHeatmapsByObject(primary_obj, secondary_obj,
+                                    values, threshold, pixels_to_meters, name,
+                                    floor_num, room_num, primary_object_num, secondary_object_num,
+                                    output_grid_directory, output_img_directory);
+                            }
+
+                            if (mode == RoomByRoom)
+                                CalcHeatmaps(primary_obj, secondary_obj, secondary_cat, 
                                     primary_cat, &heatmaps, values, threshold, 
                                     pixels_to_meters, freq_stats.pair_count);
-                        
                         }
                     }
                 }
@@ -148,6 +163,32 @@ static int Update(R3Scene *scene)
                 WriteHeatmaps(&heatmaps, freq_stats, output_grid_directory, 
                     output_img_directory, print_verbose, mode, data.c_str());
                 heatmaps = HeatmapMap(); // clear it
+            }
+        }
+
+        // Handle outdoor objects
+        for (int i = 0; i < outdoor_objects.size(); i++) {
+            R3SceneNode* primary_obj = outdoor_objects[i];
+            std::string primary_cat = GetObjectCategory(primary_obj, &id2cat);
+            if (primary_cat.size() == 0) continue;
+
+            XformValues values = CreateXformValues(primary_obj, resolution);
+
+            for (int j = 0; j < outdoor_objects.size(); j++) {
+                if (i == j) continue;
+                    R3SceneNode* secondary_obj = outdoor_objects[j];
+                    std::string secondary_cat = GetObjectCategory(secondary_obj, &id2cat);
+                    if (secondary_cat.size() == 0) continue;
+
+                    int floor_num = 0;
+                    int room_num = 0;
+                    int primary_object_num = i + 1;
+                    int secondary_object_num = j + 1;
+                    CalcHeatmapsByObject(primary_obj, secondary_obj,
+                        values, threshold, pixels_to_meters, name,
+                        floor_num, room_num, primary_object_num, secondary_object_num,
+                        output_grid_directory, output_img_directory);
+
             }
         }
         return 1;

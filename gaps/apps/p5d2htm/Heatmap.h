@@ -29,4 +29,9 @@ void CalcHeatmaps( R3SceneNode* pri_obj, R3SceneNode* ref_obj, std::string ref_c
         std::string pri_cat, HeatmapMap* heatmaps, XformValues values, 
         double threshold, int pixels_to_meters, PairMap* pair_count);
 
+void CalcHeatmapsByObject(R3SceneNode* primary_obj, R3SceneNode* secondary_obj,
+    XformValues values, double threshold, int pixels_to_meters, std::string scene_id, 
+    int floor_num, int room_num, int primary_object_num, int secondary_object_num,
+    const char* output_grid_directory, const char* output_img_directory);
+
 #endif

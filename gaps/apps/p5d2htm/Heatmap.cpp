@@ -115,16 +115,6 @@ int WriteHeatmaps(HeatmapMap* heatmaps, FrequencyStats freq_stats,
                 fprintf(stderr, "Failure to write image.\n");
                 return 0;
             }
-
-            /*
-             * char img_filename[1024];
-            sprintf(img_filename, "%s/%s___%s.jpg", output_img_directory, 
-                    pri_cat.c_str(), sec_cat.c_str());
-            if (!WriteGrid(grid, img_filename, print_verbose)) {
-                fprintf(stderr, "Failure to write grid (img).\n");
-            }
-            */
-
         }
     }
 
@@ -133,9 +123,61 @@ int WriteHeatmaps(HeatmapMap* heatmaps, FrequencyStats freq_stats,
     return 1;
 }
 
+
+// Just for ObjectByObject
+int WriteHeatmap(R2Grid* heatmap, Mode mode, std::string scene_id, 
+    int floor_num, int room_num, int primary_object_num, int secondary_object_num,
+    const char* output_grid_directory, const char* output_img_directory) {
+    
+    // Write Grid
+    char grd_directory[1024];
+    sprintf(grd_directory, "%s/%s/%d/%d/%d", output_grid_directory, 
+            scene_id.c_str(), floor_num, room_num, primary_object_num);
+    CreateDirectory(grd_directory);
+    
+    char grid_filename[1024];
+    sprintf(grid_filename, "%s/%d.grd", grd_directory, secondary_object_num);
+
+    heatmap->Write(grid_filename);
+
+    // Write Image
+    char img_directory[1024];
+    sprintf(img_directory, "%s/%s/%d/%d/%d", output_img_directory, 
+            scene_id.c_str(), floor_num, room_num, primary_object_num);
+    CreateDirectory(img_directory);
+    
+    char img_filename[1024];
+    sprintf(img_filename, "%s/%d.jpeg", img_directory, secondary_object_num);
+
+    heatmap->Write(img_filename);
+
+    return 1;
+}
+
+
+void CalcHeatmapsByObject(R3SceneNode* primary_obj, R3SceneNode* secondary_obj,
+    XformValues values, double threshold, int pixels_to_meters, std::string scene_id, 
+    int floor_num, int room_num, int primary_object_num, int secondary_object_num,
+    const char* output_grid_directory, const char* output_img_directory) {
+    
+    R3Vector dist3d = (secondary_obj->Centroid() - primary_obj->Centroid());
+    R2Vector dist = R2Vector(dist3d.X(), dist3d.Y());
+    values.dist = &dist; 
+
+    int resolution = pixels_to_meters * (2 * threshold - 1);
+    
+    if (fabs(dist.Length()) < threshold) {
+        R2Grid *heatmap = new R2Grid(resolution, resolution);
+        Draw(secondary_obj, heatmap, values, pixels_to_meters);
+        WriteHeatmap(heatmap, ObjectByObject, scene_id,
+                floor_num, room_num, primary_object_num, secondary_object_num,
+                output_grid_directory, output_img_directory);
+    }
+}
+
 void CalcHeatmaps( R3SceneNode* pri_obj, R3SceneNode* sec_obj, std::string sec_cat,
-        std::string pri_cat, HeatmapMap* heatmaps, XformValues values, 
-        double threshold, int pixels_to_meters, PairMap* pair_count) 
+    std::string pri_cat, HeatmapMap* heatmaps, XformValues values, 
+    double threshold, int pixels_to_meters, PairMap* pair_count) 
 {
     R3Vector dist3d = (sec_obj->Centroid() - pri_obj->Centroid());
     R2Vector dist = R2Vector(dist3d.X(), dist3d.Y());
