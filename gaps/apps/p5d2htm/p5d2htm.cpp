@@ -59,8 +59,7 @@ static int ParseArgs(int argc, char **argv)
     argc--; argv++;
     while (argc > 0) {
         if ((*argv)[0] == '-') {
-            if (!strcmp(*argv, "-data_directory")) { argc--; argv++; input_data_directory = *argv; }
-            else if (!strcmp(*argv, "-ptm")) { argc--; argv++; pixels_to_meters = atoi(*argv); }
+            if (!strcmp(*argv, "-ptm")) { argc--; argv++; pixels_to_meters = atoi(*argv); }
             else if (!strcmp(*argv, "-context")) { argc--; argv++; meters_of_context = atoi(*argv); }
             else if (!strcmp(*argv, "-mode")) { argc--; argv++; setMode(*argv); }
             else { 
@@ -79,9 +78,8 @@ static int ParseArgs(int argc, char **argv)
 
     // Check filenames
     if (!output_directory || !input_data_directory) {
-        fprintf(stderr, "Usage: p5d2htm inputdatadirectory"
-                "outputimgdirectory [-mode mode]"
-                "[data-directory dir] [-ptm num] [-context num]\n");
+        fprintf(stderr, "Usage: p5d2htm input-data-directory output-directory" 
+                " [-mode mode] [-ptm num] [-context num]\n");
         return 0;
     }
 
