@@ -3,12 +3,5 @@
 echo -e "\tRemoving all images..."
 rm -r output/imgs/*
 
-echo -e "\tRemoving all grids..."
-rm -r output/grids/*
-
-echo -e "\tRemoving stats files..."
-rm output/stats/categories.csv
-rm output/stats/pairs.csv
-
 echo -e "\tRemoving log files..."
 rm output/err-log.txt

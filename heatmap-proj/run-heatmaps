@@ -4,8 +4,8 @@
 ## Runs the heatmap creating utilities
 ##
 
-echo "Cleaning up..."
-scripts/clean-output
+echo -e "\tRemoving all images..."
+rm -r output/imgs/*
 
 echo "Analyzing..."
-p5d2htm data output/grids/ output/imgs/ -ptm 20 -context 4
+p5d2htm data output/imgs/ -ptm 20 -context 4

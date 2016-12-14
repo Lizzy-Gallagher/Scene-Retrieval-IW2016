@@ -35,13 +35,15 @@ static int threshold;
 
 clock_t start, finish;
 
-Mode mode = ObjectByObject;
+Mode mode = RoomByRoom;
 
 HeatmapMap heatmaps = HeatmapMap(); 
 
 
 static void setMode(char *mode_str) {
-    if (!strcmp(mode_str, "scene")) {
+    if (!strcmp(mode_str, "all")) {
+        mode = All;
+    } else if (!strcmp(mode_str, "scene")) {
         mode = SceneByScene;
     } else if (!strcmp(mode_str, "room")) {
         mode = RoomByRoom;
@@ -140,22 +142,23 @@ static int Update(R3Scene *scene)
                                     values, threshold, pixels_to_meters, name,
                                     floor_num, room_num, primary_object_num, 
                                     secondary_object_num, output_directory);
-                            }
-
-                            if (mode == RoomByRoom)
+                            } else if (mode == RoomByRoom) {
                                 CalcHeatmaps(primary_obj, secondary_obj, secondary_cat, 
                                     primary_cat, &heatmaps, values, threshold, 
                                     pixels_to_meters);
+                            }
                         }
                     }
                 }
             
-                std::string name_str(name);
-                std::string delim_str("|");
-                std::string room_num_str = std::to_string(r);
-                std::string data = name_str + delim_str + room_num_str;
-                WriteHeatmaps(&heatmaps, output_directory, mode, data.c_str());
-                heatmaps = HeatmapMap(); // clear it
+                if (mode == RoomByRoom) {
+                    std::string name_str(name);
+                    std::string delim_str("|");
+                    std::string room_num_str = std::to_string(r + 1);
+                    std::string data = name_str + delim_str + room_num_str;
+                    WriteHeatmaps(&heatmaps, output_directory, mode, data.c_str());
+                    heatmaps = HeatmapMap(); // clear it
+                }
             }
         }
 
@@ -177,10 +180,12 @@ static int Update(R3Scene *scene)
                     int room_num = 0;
                     int primary_object_num = i + 1;
                     int secondary_object_num = j + 1;
-                    CalcHeatmapsByObject(primary_obj, secondary_obj,
-                        values, threshold, pixels_to_meters, name,
-                        floor_num, room_num, primary_object_num, secondary_object_num,
-                        output_directory);
+                    if (mode == ObjectByObject) {
+                        CalcHeatmapsByObject(primary_obj, secondary_obj,
+                            values, threshold, pixels_to_meters, name,
+                            floor_num, room_num, primary_object_num, secondary_object_num,
+                            output_directory);
+                    }
 
             }
         }
@@ -255,7 +260,6 @@ int main(int argc, char **argv)
         
         // Update the heatmaps
         if (!Update(scene)) { failures++; continue; }
-        fprintf(stderr, "After Update.\n");
         
         if (mode == SceneByScene) {
             WriteHeatmaps(&heatmaps, output_directory, mode, project_id.c_str());

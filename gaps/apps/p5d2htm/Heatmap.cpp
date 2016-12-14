@@ -13,19 +13,20 @@
 // primary object -> secondary object - R2Grid*
 using HeatmapMap = std::map<std::string, std::map<std::string, R2Grid*> >;
 
-char* parseData(Mode mode, const char* data) {
+char* parseData(Mode mode, const char* output_directory, const char* data) {
     char* directory = new char[1024];
-    if (mode == SceneByScene) {
-        sprintf(directory, "%s", data);
-    }
-    else if (mode == RoomByRoom) {
+    if (mode == All) {
+        sprintf(directory, "%s", output_directory);
+    } else if (mode == SceneByScene) {
+        sprintf(directory, "%s/%s", output_directory, data);
+    } else if (mode == RoomByRoom) {
         std::string s(data);
         std::string delimiter = "|";
         std::string scene = s.substr(0, s.find(delimiter));
         s.erase(0, s.find(delimiter) + delimiter.length());
         std::string room_num = s.substr(0, s.find(delimiter));
         
-        sprintf(directory, "%s/%s", scene.c_str(), room_num.c_str());
+        sprintf(directory, "%s/%s/%s", output_directory, scene.c_str(), room_num.c_str());
     }
 
     return directory;
@@ -35,8 +36,7 @@ int WriteHeatmap (R2Grid *grid, std::string primary_cat, std::string secondary_c
     const char* output_directory, Mode mode, const char* data) {
     
     // Create Output directory
-    char directory[1024];
-    sprintf(directory, "%s/%s", output_directory, parseData(mode, data));
+    char* directory = parseData(mode, output_directory, data);
     CreateDirectory(directory);
 
     // Image filename
