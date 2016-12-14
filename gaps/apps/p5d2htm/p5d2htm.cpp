@@ -21,8 +21,6 @@
 // Program variables
 static const char *input_data_directory;
 static const char *output_directory;
-static int print_verbose = 0;
-static int print_debug = 0;
 
 // For later use
 static std::map<std::string, std::string> id2cat;
@@ -61,9 +59,7 @@ static int ParseArgs(int argc, char **argv)
     argc--; argv++;
     while (argc > 0) {
         if ((*argv)[0] == '-') {
-            if (!strcmp(*argv, "-v")) print_verbose = 1; 
-            else if (!strcmp(*argv, "-debug")) print_debug = 1; 
-            else if (!strcmp(*argv, "-data_directory")) { argc--; argv++; input_data_directory = *argv; }
+            if (!strcmp(*argv, "-data_directory")) { argc--; argv++; input_data_directory = *argv; }
             else if (!strcmp(*argv, "-ptm")) { argc--; argv++; pixels_to_meters = atoi(*argv); }
             else if (!strcmp(*argv, "-context")) { argc--; argv++; meters_of_context = atoi(*argv); }
             else if (!strcmp(*argv, "-mode")) { argc--; argv++; setMode(*argv); }
@@ -85,7 +81,7 @@ static int ParseArgs(int argc, char **argv)
     if (!output_directory || !input_data_directory) {
         fprintf(stderr, "Usage: p5d2htm inputdatadirectory"
                 "outputimgdirectory [-mode mode]"
-                "[-debug] [-v] [data-directory dir] [-ptm num] [-context num]\n");
+                "[data-directory dir] [-ptm num] [-context num]\n");
         return 0;
     }
 
