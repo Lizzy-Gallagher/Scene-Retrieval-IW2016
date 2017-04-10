@@ -1,0 +1,15 @@
+#!/bin/bash
+#
+# Use to run the Slate api documentation for the scene-search api server locally.
+#
+
+(cd ~/iw/db-proj/slate/; bundle install)
+
+echo
+echo - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+echo           Navigate to http://localhost:4567
+echo - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+echo
+
+(cd ~/iw/db-proj/slate/; bundle exec middleman server)
+

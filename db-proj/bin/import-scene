@@ -24,7 +24,6 @@
 #   [X] Import each into appropriate database
 #   [] Report time taken for each step, and size of files added
 #   [X] Add name of scene to list of names
-#   [] Add img of scene to the imgs/ folder
 
 # Parse command-line args:
 if [[ $# != 0 ]]; then
@@ -38,11 +37,9 @@ data_dir="../.."
 py_dir="$dir/../../rel-proj"
 record="$dir/../scenes-in-db"
 
-
-
 # Filenames
 scenes_filename="scenes.csv"
-floors_filename="floors.csv"
+levels_filename="levels.csv"
 rooms_filename="rooms.csv"
 objects_filename="objects.csv"
 relationships_filename="pairwise_relations.csv"
@@ -65,8 +62,10 @@ fi
 #
 echo
 echo "Parsing project.json..."
-echo -e "\tGenerating entries for the scene (floors, rooms, objects, room_types)..."
-p5d2csv $project_name
+echo -e "\tGenerating entries for the scene (levels, rooms, objects, room_types)..."
+#suncg2csv $project_name
+suncg2csv .
+
 echo -e "\tDone."
 #echo -e "\tTime taken: 0.00s"  # TODO
 
@@ -79,7 +78,7 @@ measurements="$data_dir/measurements/$project_name.txt"
 if [ ! -f $measurements ]; then
     echo -e "\tNo measurements found."
     echo -e "\tMeasuring..."
-    scn2meas project.json $measurements
+    scn2rel house.json $measurements
 else
     echo -e "\tMeasurements found!"
 fi
@@ -87,37 +86,23 @@ fi
 echo
 echo
 
-echo "Checking if relationships exist..."
-relationships="$data_dir/weka/$project_name.arff"
-if [ ! -f $relationships ]; then
-    local_measurements="data/measurements/$project_name.txt"
-    local_relationships="data/weka/$project_name.arff"
-    
-    echo -e "\tNo relationships found."
-    echo -e "\tAnalyzing..."
-    $(cd $py_dir; python py/analyze.py -mode mlcat $local_measurements $local_relationships > output.txt 2> err.txt)
-else
-    echo -e "\tRelationships found!"
-fi
 
-echo
-echo
 echo "Generating entries for pairwise-relationships..."
-
 local_measurements="data/measurements/$project_name.txt"
-local_relationships_filename="data/projects_room/$project_name/$relationships_filename"
-$(cd $py_dir; python py/analyze.py -mode db $local_measurements $local_relationships_filename > output.txt 2> err.txt)
+local_relationships_filename="data/house/$project_name/$relationships_filename"
+local_objects_filename="data/house/$project_name/$objects_filename"
+$(cd $py_dir; python py/analyze.py -mode db $local_measurements $local_relationships_filename -ref $local_objects_filename> output.txt 2> err.txt)
 echo -e "\t Done."
 
-echo
-echo
+#echo
+#echo
 
 # (2) Report on the size of each file
 echo "Rows in scenes.csv:"
 cat $scenes_filename | wc -l
 
-echo "Rows in floors.csv:"
-cat $floors_filename | wc -l
+echo "Rows in levels.csv:"
+cat $levels_filename | wc -l
 
 echo "Rows in rooms.csv:"
 cat $rooms_filename | wc -l
@@ -141,29 +126,29 @@ echo
 
 # Columns
 scenes_cols=$(head -n 1 $scenes_filename)
-floors_cols=$(head -n 1 $floors_filename)
+levels_cols=$(head -n 1 $levels_filename)
 rooms_cols=$(head -n 1 $rooms_filename)
 objects_cols=$(head -n 1 $objects_filename)
 room_types_cols=$(head -n 1 $room_types_filename)
 relationships_cols=$(head -n 1 $relationships_filename)
 
 echo "Importing $scenes_filename"
-mysqlimport --ignore-lines 1 scene_search ~/iw/data/projects_room/$project_name/$scenes_filename -u root --password=password --fields-terminated-by=',' --lines-terminated-by='\n' --columns=$scenes_cols
+mysqlimport --ignore-lines 1 scene_search ~/iw/data/house/$project_name/$scenes_filename -u root --password=password --fields-terminated-by=',' --lines-terminated-by='\n' --columns=$scenes_cols
 
-echo "Importing $floors_filename"
-mysqlimport --ignore-lines 1 scene_search ~/iw/data/projects_room/$project_name/$floors_filename -u root --password=password --fields-terminated-by=',' --lines-terminated-by='\n' --columns=$floors_cols
+echo "Importing $levels_filename"
+mysqlimport --ignore-lines 1 scene_search ~/iw/data/house/$project_name/$levels_filename -u root --password=password --fields-terminated-by=',' --lines-terminated-by='\n' --columns=$levels_cols
 
 echo "Importing $rooms_filename"
-mysqlimport --ignore-lines 1 scene_search ~/iw/data/projects_room/$project_name/$rooms_filename -u root --password=password --fields-terminated-by=',' --lines-terminated-by='\n' --columns=$rooms_cols
+mysqlimport --ignore-lines 1 scene_search ~/iw/data/house/$project_name/$rooms_filename -u root --password=password --fields-terminated-by=',' --lines-terminated-by='\n' --columns=$rooms_cols
 
 echo "Importing $objects_filename"
-mysqlimport --ignore-lines 1 scene_search ~/iw/data/projects_room/$project_name/$objects_filename -u root --password=password  --fields-terminated-by=',' --lines-terminated-by='\n' --columns=$objects_cols
+mysqlimport --ignore-lines 1 scene_search ~/iw/data/house/$project_name/$objects_filename -u root --password=password  --fields-terminated-by=',' --lines-terminated-by='\n' --columns=$objects_cols
 
 echo "Importing $room_types_filename"
-mysqlimport --ignore-lines 1 scene_search ~/iw/data/projects_room/$project_name/$room_types_filename -u root --password=password  --fields-terminated-by=',' --lines-terminated-by='\n' --columns=$room_types_cols
+mysqlimport --ignore-lines 1 scene_search ~/iw/data/house/$project_name/$room_types_filename -u root --password=password  --fields-terminated-by=',' --lines-terminated-by='\n' --columns=$room_types_cols
 
 echo "Importing $relationships_filename"
-mysqlimport --ignore-lines 1 scene_search ~/iw/data/projects_room/$project_name/$relationships_filename -u root --password=password --fields-terminated-by=',' --lines-terminated-by='\n' --columns=$relationships_cols
+mysqlimport --ignore-lines 1 scene_search ~/iw/data/house/$project_name/$relationships_filename -u root --password=password --fields-terminated-by=',' --lines-terminated-by='\n' --columns=$relationships_cols
 
 # Clean up
 rm *.csv
@@ -174,6 +159,3 @@ rm *.csv
 
 echo $project_name >> $record
 
-# 
-# (5) Add image of scene to the db-proj/imgs
-#

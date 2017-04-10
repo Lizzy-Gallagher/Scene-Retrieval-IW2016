@@ -68,35 +68,38 @@ class Record(object):
     def __init__(self, row, map):
         self.pri_obj = row[0]
         self.pri_id = extract_id(self.pri_obj)
-        self.pri_cat = get_cat(row[0], map)
+        
+        self.pri_cat = row[2] # new
+        #self.pri_cat = get_cat(row[0], map)
 
         self.ref_obj = row[1]
         self.ref_id = extract_id(self.ref_obj)
-        self.ref_cat = get_cat(row[1], map)
+        self.ref_cat = row[3] # new
+        #self.ref_cat = get_cat(row[1], map)
 
         # point_area is a scaling factor that can be used to compute a number
         # of points to a surface area (by multiplying by point_area)
-        self.point_area = float(row[2])
+        self.point_area = float(row[4])
 
         # distance between closest points
-        self.sqrt_closest_dd = float(row[3])
+        self.sqrt_closest_dd = float(row[5])
 
         # npoints is the total number of points from object B used to compute
         # the following histograms
-        self.npoints = int(row[4])
+        self.npoints = int(row[6])
 
         # c is the offset of the origin of object B from the origin of object A
         # in x, y, and z respectively (note that the origin is not the
         # centroid, and is weird for all walls, floors, and ceilings)
-        self.cx = float(row[5])
-        self.cy = float(row[6])
-        self.cz = float(row[7])
+        self.cx = float(row[7])
+        self.cy = float(row[8])
+        self.cz = float(row[9])
 
         # ddc is a histogram of how many points on object B have distances to
         # the closest point on object A (where the ddc[0] represents 0-1cm,
         # ddc[1] represents 1-2cm, etc.)
         num_dd_bins = 10
-        start_ddc = 8
+        start_ddc = 10
         end_ddc = start_ddc + num_dd_bins
         self.ddc = DDC(row[start_ddc:end_ddc])
 
@@ -158,8 +161,6 @@ def get_cat(name, map):
         return "Ceiling"
 
     id = extract_id(name)
-
-    # val = map[id]
 
     return map[id]
 
@@ -323,7 +324,7 @@ def preprocess_many_scenes(input_file, id2cat):
         try:
             log[obj2][obj1][rel] = True
         except:
-            print("\tKeyError on " + obj2 + " - " + obj1)  # Don't be afraid
+            print("\tKeyError on " + obj2 + " - " + obj1 + " (Don't be afraid)")
 
     if "supported_by" in rels:
         for obj1, obj2 in hanging:

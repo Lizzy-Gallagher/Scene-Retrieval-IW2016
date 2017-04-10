@@ -1,0 +1,17 @@
+/* Base Application Styles */
+body {
+    margin: 40px;
+    font-family: 'Droid Sans', Helvetica, Arial, sans-serif
+    /*font-family: 'Vollkorn', Georgia, Times, serif*/
+}
+
+h1 {
+	font-family: 'Droid Serif', Georgia, Times, serif;
+  /*font-family: 'Ubuntu', Helvetica, Arial, sans-serif*/
+}
+
+#footer{
+ position:fixed;
+ bottom:0px;
+ left:10;
+}

@@ -1,0 +1,54 @@
+#!/bin/bash
+
+##
+## Imports a P5D scene into the mysql database. Including:
+## 
+##
+## Usage:
+## ------------------------------------------
+##
+## import-csv
+##      imports a whole p5d scene into the database
+##
+## Notes:
+## ------------------------------------------
+##  - Must be run from a project folder
+##
+
+# Parse command-line args:
+if [[ $# != 0 ]]; then
+    echo "usage: import-csv"; exit
+fi
+
+project_name=$(basename "$PWD")
+dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+data_dir="../.."
+record="$dir/../scenes-in-db"
+
+#
+# (0) Check if scenes is already in database
+#
+
+if grep -Fxq $project_name $record
+then
+    # code if found
+    echo "Scenes already in database."
+    echo "Think this is incorrect? Check $record."
+    exit
+fi
+
+echo "Checking if measurements exist..."
+measurements="$data_dir/measurements/$project_name.txt"
+if [ ! -f $measurements ]; then
+    echo -e "\tNo measurements found."
+    echo -e "\tMeasuring..."
+    scn2rel house.json $measurements
+else
+    echo -e "\tMeasurements found!"
+fi
+
+echo
+echo
+
+

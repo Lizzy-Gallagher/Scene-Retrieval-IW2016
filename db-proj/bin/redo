@@ -1,0 +1,6 @@
+#!/bin/bash
+
+while read scene_hash; do
+  $(cd ../../data/house/$scene_hash; reimport-rels)
+  echo $scene_hash
+done < ../scenes-in-db

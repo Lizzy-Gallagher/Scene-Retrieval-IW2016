@@ -156,8 +156,6 @@ def hanging(r):
     if r.cz >= 0.0:
         return False
     if "Ceiling" in r.ref_cat and r.sqrt_closest_dd < 0.30:
-        if "Ceiling" in r.ref_cat and "chandelier" in r.pri_cat:
-            print "\t...hanging!"
         return True
 
     if not touching(r):

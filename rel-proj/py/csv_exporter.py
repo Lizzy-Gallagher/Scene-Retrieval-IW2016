@@ -5,7 +5,7 @@
 import config
 import csv
 
-from maps import Cat2Ids
+from reference import Cat2Ids
 
 relationships_filename = "relationships.csv"
 categories_filename = "categories.csv"
@@ -20,7 +20,7 @@ def create_relationships_csv():
         writer.writerow(header)
         
 
-        for i, k in enumerate(sorted(config.total_rels.keys())):
+        for i, k in enumerate(sorted(config.relationships_set.keys())):
             row = [i+1, k]
             writer.writerow(row)
             

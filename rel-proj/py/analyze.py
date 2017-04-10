@@ -2,10 +2,10 @@ import itertools
 import csv
 import os.path
 
-from maps import Id2Cat
-from maps import Cat2Ids
+from reference import Id2Cat
+from reference import Cat2Ids
+from reference import Obj2Data
 import preprocess
-import wordnet
 
 import config
 
@@ -21,6 +21,8 @@ parser.add_argument("-category", action="store", dest="category",
                     help="the category to filter by")
 parser.add_argument("-mode",  action="store", dest="mode",
                     help="Set mode")
+parser.add_argument("-ref", action="store", dest="reference",
+                    help="A reference file for the object data")
 args = parser.parse_args()
 
 
@@ -74,6 +76,9 @@ for i, category in enumerate(set(categories)):
     cat2num[category] = i
 
 rels = config.relationships_set.keys()
+
+obj2data = Obj2Data(args.reference)
+
 
 #
 # Aux
@@ -220,11 +225,13 @@ def create_header():
 
     elif mode.isForDatabase:
         header.append("scene_id")
-        header.append("floor_num")
+        header.append("level_num")
         header.append("room_num")
         header.append("primary_object_num")
         header.append("secondary_object_num")
         header.append("relation_id")
+        header.append("primary_id")
+        header.append("secondary_id")
 
     return header
 
@@ -363,28 +370,31 @@ def print_for_database(log):
         writer.writerow(header)
 
         for obj1 in log:
-            if "Wall" in obj1 or "Door" in obj1 \
+            if "Wall" in obj1 or "Door" in obj1 or "Box" in obj1 \
                or "Ceiling" in obj1 or "Floor" in obj1 or "Window" in obj1:
                 continue
-            (floor_num, room_num, object1_num) = get_data(obj1)
+
+            (floor_num, room_num, object1_num, object1_modelid) = obj2data[obj1] #get_data(obj1)
 
             for obj2 in log[obj1]:
-                if "Wall" in obj2 or "Door" in obj2 \
+                if "Wall" in obj2 or "Door" in obj2  or "Box" in obj2 \
                    or "Ceiling" in obj2 or "Floor" in obj2 or "Window" in obj1:
                     continue
-                (floor_num, room_num, object2_num) = get_data(obj2)
+                (floor_num, room_num, object2_num, object2_modelid) = obj2data[obj2]  #get_data(obj2)
 
                 rels = log[obj1][obj2]
 
-                if int(floor_num) < 1 or int(room_num) < 1 \
-                   or int(object1_num) < 1 or int(object2_num) < 1:
-                    continue
+                #if int(floor_num) < 1 or int(room_num) < 1 \
+                #   or int(object1_num) < 1 or int(object2_num) < 1:
+                #    continue
+                # ???
 
                 for rel_name in sorted(rels):
                     if log[obj1][obj2][rel_name]:
                         rel_id = convert_rel_to_id(rel_name)
                         writer.writerow([scene_id, floor_num, room_num,
-                                         object1_num, object2_num, rel_id])
+                                         object1_num, object2_num, rel_id,
+                                         object1_modelid, object2_modelid])
 
     finally:
         f.close()

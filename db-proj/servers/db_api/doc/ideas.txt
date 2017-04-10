@@ -1,0 +1,13 @@
+SESSION ID METHOD
+-------------------------------------------
+Each connection is given an id.
+Then you make multiple calls using that id, each time the set is filtered. i.e. all the requests must be true of that set.
+
+1. Create route that is getQueryId, returns some number
+2. Keep the results for each query stored until asked to return
+3. Use itertools to calculate the intersection of the sets.
+
+Javascript Method
+-------------------------------------------
+1. Make multiple calls (as returned by nlp), with each additional call perform an intersect or difference (see http://2ality.com/2015/01/es6-set-operations.html )
+

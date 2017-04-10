@@ -1,0 +1,151 @@
+#!/bin/bash
+
+##
+## Imports a P5D scene into the mysql database. Including:
+## 
+##
+## Usage:
+## ------------------------------------------
+##
+## import-csv
+##      imports a whole p5d scene into the database
+##
+## Notes:
+## ------------------------------------------
+##  - Must be run from a project folder
+##
+
+# Parse command-line args:
+if [[ $# != 0 ]]; then
+    echo "usage: import-csv"; exit
+fi
+
+project_name=$(basename "$PWD")
+dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+data_dir="../.."
+py_dir="$dir/../../rel-proj"
+record="$dir/../scenes-in-db"
+
+# Filenames
+scenes_filename="scenes.csv"
+levels_filename="levels.csv"
+rooms_filename="rooms.csv"
+objects_filename="objects.csv"
+relationships_filename="pairwise_relations.csv"
+room_types_filename="room_types.csv"
+
+#
+# (0) Check if scenes is already in database
+#
+
+#if grep -Fxq $project_name $record
+#then
+#    # code if found
+#    echo "Scenes already in database."
+#    echo "Think this is incorrect? Check $record."
+#    exit
+#fi
+
+#
+# (1) Generate all csv files (would be silly to import out-of-order)
+#
+echo
+echo "Parsing project.json..."
+echo -e "\tGenerating entries for the scene (levels, rooms, objects, room_types)..."
+#suncg2csv $project_name
+suncg2csv .
+
+echo -e "\tDone."
+#echo -e "\tTime taken: 0.00s"  # TODO
+
+echo
+echo 
+
+
+echo "Checking if measurements exist..."
+measurements="$data_dir/measurements/$project_name.txt"
+if [ ! -f $measurements ]; then
+    echo -e "\tNo measurements found."
+    echo -e "\tMeasuring..."
+    scn2rel house.json $measurements
+else
+    echo -e "\tMeasurements found!"
+fi
+
+echo
+echo
+
+
+echo "Generating entries for pairwise-relationships..."
+local_measurements="data/measurements/$project_name.txt"
+local_relationships_filename="data/house/$project_name/$relationships_filename"
+local_objects_filename="data/house/$project_name/$objects_filename"
+$(cd $py_dir; python py/analyze.py -mode db $local_measurements $local_relationships_filename -ref $local_objects_filename> output.txt 2> err.txt)
+echo -e "\t Done."
+
+#echo
+#echo
+
+# (2) Report on the size of each file
+echo "Rows in scenes.csv:"
+cat $scenes_filename | wc -l
+
+echo "Rows in levels.csv:"
+cat $levels_filename | wc -l
+
+echo "Rows in rooms.csv:"
+cat $rooms_filename | wc -l
+
+echo "Rows in objects.csv:"
+cat $objects_filename | wc -l
+
+echo "Rows in room_types.csv:"
+cat $room_types_filename | wc -l
+
+echo "Rows in pairwise_relations.csv:"
+cat $relationships_filename | wc -l
+
+echo
+echo
+
+
+#
+# (3) Import all the files
+#
+
+# Columns
+scenes_cols=$(head -n 1 $scenes_filename)
+levels_cols=$(head -n 1 $levels_filename)
+rooms_cols=$(head -n 1 $rooms_filename)
+objects_cols=$(head -n 1 $objects_filename)
+room_types_cols=$(head -n 1 $room_types_filename)
+relationships_cols=$(head -n 1 $relationships_filename)
+
+#echo "Importing $scenes_filename"
+#mysqlimport --ignore-lines 1 scene_search ~/iw/data/house/$project_name/$scenes_filename -u root --password=password --fields-terminated-by=',' --lines-terminated-by='\n' --columns=$scenes_cols
+
+#echo "Importing $levels_filename"
+#mysqlimport --ignore-lines 1 scene_search ~/iw/data/house/$project_name/$levels_filename -u root --password=password --fields-terminated-by=',' --lines-terminated-by='\n' --columns=$levels_cols
+
+#echo "Importing $rooms_filename"
+#mysqlimport --ignore-lines 1 scene_search ~/iw/data/house/$project_name/$rooms_filename -u root --password=password --fields-terminated-by=',' --lines-terminated-by='\n' --columns=$rooms_cols
+
+#echo "Importing $objects_filename"
+#mysqlimport --ignore-lines 1 scene_search ~/iw/data/house/$project_name/$objects_filename -u root --password=password  --fields-terminated-by=',' --lines-terminated-by='\n' --columns=$objects_cols
+
+#echo "Importing $room_types_filename"
+#mysqlimport --ignore-lines 1 scene_search ~/iw/data/house/$project_name/$room_types_filename -u root --password=password  --fields-terminated-by=',' --lines-terminated-by='\n' --columns=$room_types_cols
+
+#echo "Importing $relationships_filename"
+#mysqlimport --ignore-lines 1 scene_search ~/iw/data/house/$project_name/$relationships_filename -u root --password=password --fields-terminated-by=',' --lines-terminated-by='\n' --columns=$relationships_cols
+
+# Clean up
+# rm *.csv
+
+# 
+# (4) Add name of the scene to name list
+#
+
+# echo $project_name >> $record
+

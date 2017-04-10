@@ -1,11 +1,19 @@
 #!/bin/bash
 
 ##
-## Runs the heatmap creating utilities
+## Runs the heatmap creating utility
 ##
 
-echo -e "\tRemoving all images..."
-rm -r output/imgs/*
+inputdatadirectory=data/
+outputdirectory=output/imgs
+pixelstometers=20
+metersofcontext=4
 
-echo "Analyzing..."
-p5d2htm data output/imgs/ -ptm 20 -context 4
+echo
+echo -e "Removing previous output..."
+rm -r $outputdirectory/*
+echo -e "\tDone."
+
+echo -e "Creating heatmaps..."
+p5d2htm $inputdatadirectory $outputdirectory -ptm $pixelstometers -context $metersofcontext
+echo -e "\tDone."
