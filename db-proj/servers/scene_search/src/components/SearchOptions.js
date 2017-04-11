@@ -19,6 +19,4 @@ class SearchOptions extends Component {
   }
 }
 
-SearchOptions.defaultProps = {};
-
 export default SearchOptions;

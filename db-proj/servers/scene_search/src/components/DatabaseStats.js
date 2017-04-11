@@ -31,7 +31,4 @@ class DatabaseStats extends Component {
   }
 }
 
-DatabaseStats.defaultProps = {};
-
 export default DatabaseStats;
-

@@ -16,7 +16,5 @@ class IconAttribution extends Component {
   }
 }
 
-IconAttribution.defaultProps = {};
-
 export default IconAttribution;
 

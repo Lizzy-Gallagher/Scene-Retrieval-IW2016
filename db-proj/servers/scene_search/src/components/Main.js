@@ -8,18 +8,21 @@ import SearchOptions from './SearchOptions';
 import DatabaseStats from './DatabaseStats';
 import IconAttribution from './IconAttribution';
 
+import { filter } from '../actions/filter';
+import { score } from '../actions/score'
+
 class Main extends Component {
   constructor() {
     super();
     this.state = {
-      query: '',
-      returnType: 'scene',
       databaseURL: 'http://localhost:5000/',
       nlpURL: 'http://localhost:4000/',
+      query: '',
+      returnType: 'scene',
+      showNotFoundError: false,
       sceneData: [],
       levelData: [],
-      roomData:  [],
-      showNotFoundError: false
+      roomData:  []
     };
 
     this.tempSceneData = [];
@@ -27,7 +30,6 @@ class Main extends Component {
     this.tempRoomData = [];
 
     this.handleChange = this.handleChange.bind(this);
-    this.handleClick  = this.handleClick.bind(this);
     this.handleSelectChange = this.handleSelectChange.bind(this);
     this.queryDatabase = this.queryDatabase.bind(this);
     this.fetchResultsFromServer = this.fetchResultsFromServer.bind(this);
@@ -37,117 +39,39 @@ class Main extends Component {
     this.setState({query: text})
   }
 
-  handleClick() {
-    this.fetchResultsFromServer();
-  }
-
   handleSelectChange(event) {
     this.setState({returnType: event.target.value});
   }
 
+  // Makes apiCall to the MySQL Database
   queryDatabase(apiCall, params, toInclude) {
     let self = this;
     return $.Deferred(function() {
       let defer = this;
-      let url = self.state.databaseURL + apiCall;
-
+      
       // Format the api call's url
+      let url = self.state.databaseURL + apiCall;
       let esc = encodeURIComponent;
-
       url = url + '?' + Object.keys(params)
           .map(key => esc(key) + '=' + esc(params[key]))
           .join('&');
 
-      console.log('url:', url);
+      console.log('DEBUG url:', url);
       fetch(url).then(function(response) {
-        // Format as json
         return response.json()
       }).then(function(json) {
-        
-        // If no results, show not found error
-        self.setState({
-           showNotFoundError : json.scene_results.length == 0
-        });
+        // Add data to temp collection
+        self.tempSceneData.push({ results: score(json.scene_results), toInclude: toInclude});
+        self.tempLevelData.push({ results: score(json.level_results), toInclude: toInclude});
+        self.tempRoomData.push({ results: score(json.room_results), toInclude: toInclude});
 
-        self.tempSceneData.push({ results: Main.score(json.scene_results), toInclude: toInclude});
-        self.tempLevelData.push({ results: Main.score(json.level_results), toInclude: toInclude});
-        self.tempRoomData.push({ results: Main.score(json.room_results), toInclude: toInclude});
-
-        // Required to return this "deferred" function
+        // Return from "deferred" function
         defer.resolve();
-      })
-      .catch(function(ex) {
-        console.log('parsing failed', ex)
+      }).catch(function(ex) {
+        console.log('Bug in Main.queryDatabase', ex)
         defer.resolve();
        })
     })
-  }
-
-  static sortByValue(arr) {
-    return arr.sort(function(a,b) {
-      return b.value - a.value
-    })
-  }
-
-  static intersect(currentData, tempData) {
-    return currentData.filter(function(element) {
-        return tempData.some(function(e) {
-          if (e.scene_hash == element.scene_hash)
-            element.value += e.value
-
-          return e.scene_hash == element.scene_hash
-        })
-    })
-  }
-
-  static difference(currentData, tempData) {
-    return currentData.filter(function(element) {
-      let exists = tempData.some(function(e) {
-        return e.scene_hash == element.scene_hash
-      })
-      return !exists
-    })
-  }
-
-  static filter(tempData) {
-    var currentData = tempData[0].results;
-    for (var i = 1; i < tempData.length; i++) {
-      if (tempData[i].toInclude > 0)
-        currentData = Main.intersect(currentData, tempData[i].results)
-      else {
-        currentData = Main.difference(currentData, tempData[i].results)
-      }
-    }
-    return currentData;
-  }
-
-  static maximum(results) {
-    var max = -1;
-    for (var i = 0; i < results.length; i++) {
-      if (results[i].value > max)
-        max = results[i].value
-    }
-    return max
-  }
-
-  static minimum(results) {
-    var min = Infinity;
-    for (var i = 0; i < results.length; i++) {
-      if (results[i].value < min)
-        min = results[i].value
-    }
-    return min
-  }
-
-  static score(tempData) {
-    var max = Main.maximum(tempData)
-    var min = Main.minimum(tempData)
-    tempData = tempData.map(function(e){
-      e.value = 100 * ((e.value - min) / (max - min))
-      return e
-    })
-
-    return tempData
   }
 
   fetchResultsFromServer() {
@@ -164,30 +88,43 @@ class Main extends Component {
       .then(function(response) {
         return response.json()
       }).then(function(json) {
+        // If no results, show not found error
+        if (typeof json.error !== "undefined") {
+          self.setState({
+            sceneData: [],
+            levelData: [],
+            roomData: [],
+            showNotFoundError : true
+          });
+          return
+        }
+          
         console.log(json.apiCalls)
-        // Make calls
+        
+        // Make database requests
         var requests = Array();
         json.apiCalls.forEach(function(apiCall) {
           requests.push(self.queryDatabase(apiCall.apiCall, apiCall.params, apiCall.toInclude));
         })
-
         var defer = $.when.apply($, requests);
+
+        // Wait on database requests
         defer.done(function() {
           // Filter results (TODO: Just binaries)
-          var filteredSceneData = Main.filter(self.tempSceneData)
-          var filteredLevelData = Main.filter(self.tempLevelData)
-          var filteredRoomData = Main.filter(self.tempRoomData)
-          
-          // Update state
+          var filteredSceneData = filter(self.tempSceneData)
+          var filteredLevelData = filter(self.tempLevelData)
+          var filteredRoomData = filter(self.tempRoomData)
+          let showNotFoundError = filteredSceneData.length === 0
+
           self.setState({
-            sceneData : Main.sortByValue(filteredSceneData),
-            levelData : Main.sortByValue(filteredLevelData),
-            roomData  : Main.sortByValue(filteredRoomData),
+            sceneData : filteredSceneData,
+            levelData : filteredLevelData,
+            roomData  : filteredRoomData,
+            showNotFoundError : showNotFoundError
           })
         })
       })
   }
-
 
   render() {
     return (
@@ -198,7 +135,7 @@ class Main extends Component {
         <QueryBox databaseURL={ this.state.databaseURL }
                   query={ this.state.query }
                   handleChange={ this.handleChange }
-                  handleClick={() => this.handleClick()} />
+                  handleClick={() => this.fetchResultsFromServer()} />
         <ResultList sceneData = { this.state.sceneData }
                     levelData = { this.state.levelData }
                     roomData  = { this.state.roomData }
@@ -209,8 +146,5 @@ class Main extends Component {
     );
   }
 }
-
-Main.defaultProps = {
-};
 
 export default Main;

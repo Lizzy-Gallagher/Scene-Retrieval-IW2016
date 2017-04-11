@@ -5,6 +5,16 @@
 import React, { Component } from 'react';
 import { Line } from  'rc-progress'
 
+let imgStyle = {
+  margin: 'auto',
+  display: 'block',
+  width:'95%'
+}
+
+let cardStyle = {
+  margin: '3px'
+}
+
 class SceneResult extends Component {
   constructor(props) {
     super(props);
@@ -13,16 +23,6 @@ class SceneResult extends Component {
   render() {
     let imgURL = 'http://dovahkiin.stanford.edu/fuzzybox/suncg/planner5d/scenes_rendered/' +
       this.props.sceneId + '/' + this.props.sceneId + '.png';
-
-    let imgStyle = {
-      margin: 'auto',
-      display: 'block',
-      width:'95%'
-    }
-
-    let cardStyle = {
-      margin: '3px'
-    }
 
     return (
       <div className="col-sm-3">
@@ -44,21 +44,9 @@ class LevelResult extends Component {
     super(props);
   }
 
-  
-
   render() {
     let imgURL = 'http://dovahkiin.stanford.edu/fuzzybox/suncg/planner5d/levels_rendered/' +
       this.props.sceneId + '/' + this.props.sceneId + '_' + this.props.level_num + '.png';
-
-    let imgStyle = {
-      margin: 'auto',
-      display: 'block',
-      width: '95%'
-    }
-
-    let cardStyle = {
-      margin: '3px'
-    }
 
     return (
       <div className="col-sm-3">
@@ -85,16 +73,6 @@ class RoomResult extends Component {
       this.props.sceneId + '/' + this.props.sceneId + '_' +
       this.props.level_num + '_' +  + this.props.room_num + '.png';
 
-    let imgStyle = {
-      margin: 'auto',
-      display: 'block',
-      width: '95%'
-    }
-
-    let cardStyle = {
-      margin: '3px'
-    }
-
     return (
       <div className="col-sm-3">
         <div className="card text-center" style={cardStyle}>
@@ -114,7 +92,7 @@ class RoomResult extends Component {
 class ErrorMessage extends Component {
   render() {
     return (
-      <div className="alert alert-danger" role="alert">
+      <div className="alert alert-danger col-sm-2" role="alert" style={{margin: '50px auto', textAlign:'center'}}>
         No results.
       </div>
     )
@@ -129,19 +107,12 @@ class ResultList extends Component {
   render() {
     let resultNodes = [];
     let self = this;
-
-    if (this.props.showNotFoundError) {
-      resultNodes = <ErrorMessage />
-
-      return (
-        <div id="results" className="row">
-          { resultNodes }
-        </div>
-      );
-    }
     
     let i = -1;
-    if (this.props.returnType == 'scene') {
+    if (this.props.showNotFoundError) {
+      resultNodes = <ErrorMessage />
+    }
+    else if (this.props.returnType == 'scene') {
 
       resultNodes = this.props.sceneData.slice(0,24).map(function (result) {
         return (
@@ -173,7 +144,5 @@ class ResultList extends Component {
     );
   }
 }
-
-ResultList.defaultProps = {};
 
 export default ResultList;
