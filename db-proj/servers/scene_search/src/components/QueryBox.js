@@ -3,6 +3,7 @@
  */
 
 import React, { Component } from 'react';
+import AutoSuggestBox from './AutoSuggestBox'
 
 let searchImg = require('../images/search.svg');
 
@@ -43,7 +44,6 @@ class SearchButton extends Component {
     return (
       <span className="input-group-btn">
         <button id="btnQuery" className="btn btn-danger" type="button" onClick={() => this.props.onClick()}>
-          <img src={ searchImg } />
           <span className="glyphicon glyphicon-search" />
         </button>
       </span>
@@ -60,14 +60,19 @@ class QueryBox extends Component {
     let inputStyle = {
       margin: '10px -27px'
     }
+    let searchBox  = this.props.doEnableAutosuggest ? 
+                      <AutoSuggestBox query={ this.props.query }
+                        handleChange={ this.props.handleChange }
+                        onClick={() => this.props.handleClick()} /> :
+                      <SearchBox query={ this.props.query }
+                        handleChange={ this.props.handleChange }
+                        onClick={() => this.props.handleClick()} />
 
     return (
       <div className="container-fluid">
         <div id="custom-search-input" className="row" style={inputStyle}>
           <div className="input-group col-md-8">
-            <SearchBox query={ this.props.query }
-                       handleChange={ this.props.handleChange }
-                       onClick={() => this.props.handleClick()} />
+            { searchBox }
             <SearchButton onClick={() => this.props.handleClick()}/>
           </div>
         </div>

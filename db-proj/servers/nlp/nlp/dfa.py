@@ -69,7 +69,7 @@ class DFA(object):
         token = inflection.singularize(token)
         
         # Fixing nonsensical singularization
-        if token in ['ha', 'contain']:
+        if token in ['ha', 'contain', 'shoe']:
             token += 's'
         
         self.state, call = self.state.next(token)

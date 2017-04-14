@@ -25,7 +25,7 @@ def createContainPhrase(location, object, do_include=True):
     phrase = "Contains('%s', '%s')" % (location, object)
     return mod_phrase(phrase, do_include)
 
-def createStatsPhrase(location, adjective, object):
+def createStatsPhrase(location, adjective, object, do_include=True):
     phrase = "Stats('%s', '%s', '%s')" % (location, adjective, object)
     return mod_phrase(phrase, do_include)
 
@@ -326,6 +326,8 @@ class LocationCount(State):
         self.dfa = dfa
 
     def next(self, token):
+        print token
+        print token in self.dfa.objects
         if token in self.dfa.objects or token == 'object':
             return self, createStatsPhrase(self.location, self.count_adjective, token)
         elif token == 'and':

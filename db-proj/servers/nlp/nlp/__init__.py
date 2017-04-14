@@ -91,7 +91,7 @@ def process_tokens(query):
         'table and chair': 'table_and_chair',
         'trash can': 'trash_can',
         'tv stand': 'tv_stand',
-        'wardrobe': 'wardrobe_cabinet',
+        #'wardrobe': 'wardrobe_cabinet', (Also a roomtype)
         'wardrobe cabinet': 'wardrobe_cabinet',
 
         # fine categories
@@ -178,9 +178,7 @@ class ApiCall(Resource):
         dfa_ = dfa.DFA()
 
         for token in tokens:
-            print token
             dfa_.next(token)
-            print dfa_.state
 
         for call in dfa_.get_calls():
             print call
@@ -204,8 +202,10 @@ class Autocomplete(Resource):
         dfa_ = dfa.DFA()
 
         for token in tokens:
+            print token
+            print dfa_.state
             dfa_.next(token)
-
+            
         print dfa_.state
         
         ret = {

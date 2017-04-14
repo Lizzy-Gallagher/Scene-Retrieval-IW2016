@@ -8,8 +8,12 @@ import SearchOptions from './SearchOptions';
 import DatabaseStats from './DatabaseStats';
 import IconAttribution from './IconAttribution';
 
+import AdminPanel from './modals/AdminPanel'
+
 import { filter } from '../actions/filter';
 import { score } from '../actions/score'
+
+//let searchImg = require('../images/cog.svg');
 
 class Main extends Component {
   constructor() {
@@ -24,17 +28,31 @@ class Main extends Component {
       showNotFoundError: false,
       sceneData: [],
       levelData: [],
-      roomData:  []
+      roomData:  [],
+      
+      doEnableAutosuggest: true,
+      doEnableVis: true
     };
 
     this.tempSceneData = [];
     this.tempLevelData = [];
     this.tempRoomData = [];
 
+    this.toggleAutosuggest = this.toggleAutosuggest.bind(this);
+    this.toggleVis = this.toggleVis.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleSelectChange = this.handleSelectChange.bind(this);
     this.queryDatabase = this.queryDatabase.bind(this);
     this.fetchResultsFromServer = this.fetchResultsFromServer.bind(this);
+  }
+
+  toggleAutosuggest() {
+    this.setState({ doEnableAutosuggest: !this.state.doEnableAutosuggest})
+  }
+
+  toggleVis() {
+    this.setState({ doEnableVis: !this.state.doEnableVis })
+    console.log('Success!')
   }
 
   handleChange(text) {
@@ -131,13 +149,18 @@ class Main extends Component {
   render() {
     return (
       <div className="container-fluid">
+        <AdminPanel doEnableAutosuggest={ this.state.doEnableAutosuggest }
+                    toggleAutosuggest={ this.toggleAutosuggest }
+                    doEnableVis={ this.state.doEnableVis }
+                    toggleVis={ this.toggleVis }/>
         <h1>SUNCG Scene Search</h1>
         <DatabaseStats databaseURL={ this.state.databaseURL } />
         <SearchOptions handleSelectChange={ this.handleSelectChange } />
         <QueryBox databaseURL={ this.state.databaseURL }
                   query={ this.state.query }
                   handleChange={ this.handleChange }
-                  handleClick={() => this.fetchResultsFromServer()} />
+                  handleClick={() => this.fetchResultsFromServer()} 
+                  doEnableAutosuggest={ this.state.doEnableAutosuggest }/>
         <ResultList sceneData = { this.state.sceneData }
                     levelData = { this.state.levelData }
                     roomData  = { this.state.roomData }
