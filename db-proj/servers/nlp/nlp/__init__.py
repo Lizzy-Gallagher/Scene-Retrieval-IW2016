@@ -173,7 +173,6 @@ class ApiCall(Resource):
     @use_kwargs(apicall_args)
     def get(self, query):
         calls = []
-        #tokens = query.split(' ') # eventually more complicated e.g. within_3m
         tokens = process_tokens(query)
 
         dfa_ = dfa.DFA()

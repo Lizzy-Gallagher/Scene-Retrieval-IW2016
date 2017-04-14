@@ -42,7 +42,7 @@ scenes_filename="scenes.csv"
 levels_filename="levels.csv"
 rooms_filename="rooms.csv"
 objects_filename="objects.csv"
-relationships_filename="pairwise_relations.csv"
+relationships_filename="pairwise_rels.csv"
 room_types_filename="room_types.csv"
 
 #

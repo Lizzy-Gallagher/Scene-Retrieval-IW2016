@@ -13,15 +13,17 @@ class DFA(object):
     def __init__(self):
         print "Initializing DFA..."
 
-        # Load roomtypes
-        f = open('data/list-of-rtypes.txt')
-        for line in f:
-            self.roomtypes.append(line.rstrip('\n').lower())
+        if len(self.roomtypes) == 0:
+            # Load roomtypes
+            f = open('data/list-of-rtypes.txt')
+            for line in f:
+                self.roomtypes.append(line.rstrip('\n').lower())
 
-        # Load State classes
-        f = open('data/categories.txt')
-        for line in f:
-            self.objects.append(line.rstrip('\n').lower())
+        if len(self.objects) == 0:
+            # Load State classes
+            f = open('data/categories.txt')
+            for line in f:
+                self.objects.append(line.rstrip('\n').lower())
 
         self.state = StartState(self)
         self.calls = []
@@ -67,8 +69,8 @@ class DFA(object):
         token = inflection.singularize(token)
         
         # Fixing nonsensical singularization
-        if token in ['ha']:
-            token = 'has'
+        if token in ['ha', 'contain']:
+            token += 's'
         
         self.state, call = self.state.next(token)
         

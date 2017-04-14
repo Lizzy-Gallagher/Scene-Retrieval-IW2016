@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import 'whatwg-fetch'
 import $ from 'jquery'
 
-import QueryBox from './QueryBox';
+import TestQueryBox from './TestQueryBox2';
 import ResultList from './ResultList';
 import SearchOptions from './SearchOptions';
 import DatabaseStats from './DatabaseStats';
@@ -11,7 +11,7 @@ import IconAttribution from './IconAttribution';
 import { filter } from '../actions/filter';
 import { score } from '../actions/score'
 
-class Main extends Component {
+class TestAutosuggest extends Component {
   constructor() {
     super();
     this.state = {
@@ -134,7 +134,7 @@ class Main extends Component {
         <h1>SUNCG Scene Search</h1>
         <DatabaseStats databaseURL={ this.state.databaseURL } />
         <SearchOptions handleSelectChange={ this.handleSelectChange } />
-        <QueryBox databaseURL={ this.state.databaseURL }
+        <TestQueryBox databaseURL={ this.state.databaseURL }
                   query={ this.state.query }
                   handleChange={ this.handleChange }
                   handleClick={() => this.fetchResultsFromServer()} />
@@ -150,4 +150,4 @@ class Main extends Component {
   }
 }
 
-export default Main;
+export default TestAutosuggest;

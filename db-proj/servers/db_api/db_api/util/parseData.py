@@ -1,13 +1,16 @@
 from db_api import hashes 
 
-def toLevelKey(hash, level_num):
+def to_level_key(hash, level_num):
     return hash + ' ' + str(level_num)
-def fromLevelKey(lk):
+def from_level_key(lk):
     return lk.split(' ')
-def toRoomKey(hash, level_num,room_num):
+def to_room_key(hash, level_num,room_num):
     return hash + ' ' + str(level_num) + ' ' + str(room_num)
-def fromRoomKey(rk):
+def from_room_key(rk):
     return rk.split(' ')
+
+def remove_prefix(object_name):
+    return object_name[object_name.index('#') + 1:]
 
 def parseData(data):
     scene_results = {}
@@ -22,12 +25,12 @@ def parseData(data):
             scene_results[hash] = 0
         scene_results[hash] += count
 
-        lkey = toLevelKey(hash, level_num)
+        lkey = to_level_key(hash, level_num)
         if lkey not in level_results:
             level_results[lkey] = 0
         level_results[lkey] += count
     
-        rkey = toRoomKey(hash, level_num, room_num)
+        rkey = to_room_key(hash, level_num, room_num)
         if rkey not in room_results:
             room_results[rkey] = 0
         room_results[rkey] += count
@@ -41,7 +44,7 @@ def parseData(data):
 
     level_return = []
     for lr, value in level_results.items():
-        hash, level_num = fromLevelKey(lr)
+        hash, level_num = from_level_key(lr)
         level_return.append({
             'scene_hash' : hash,
             'level_num'  : level_num,
@@ -51,7 +54,7 @@ def parseData(data):
 
     room_return = []
     for rr, value in room_results.items():
-        hash, level_num, room_num = fromRoomKey(rr)
+        hash, level_num, room_num = from_room_key(rr)
         room_return.append({
             'scene_hash' : hash,
             'level_num'  : level_num,
@@ -60,5 +63,21 @@ def parseData(data):
         })
     
     return scene_return, level_return, room_return
+
+def parse_data_test(data):
+    test_results = {}
+    for row in data:
+        hash = hashes[row[0]]
+        level_num = str(row[1])
+        room_num = str(row[2])
+        object_id = remove_prefix(row[3])
+
+        if hash not in test_results:
+            test_results[hash] = []
+        test_results[hash].append(object_id)
+
+        print object_id
+
+    return test_results
 
 

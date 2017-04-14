@@ -62,12 +62,19 @@ class AndState(State):
         return UnexpectedState(self.dfa), None
 
     def get_suggestions(self):
-        # TODO (should be dependent on scene)
-        suggestions = {
-            'location': self.dfa.locations,
-            'object': self.dfa.objects,
-            'adjective': self.dfa.adjectives,
-        }
+       # TODO (should be dependent on scene)
+        suggestions = [{
+            'title': 'location',
+            'suggestions': self.dfa.locations
+        },
+        {
+            'title': 'objects',
+            'suggestions': self.dfa.objects
+        },
+        {
+            'title': 'adjectives',
+            'suggestions': self.dfa.adjectives
+        }]
         return suggestions
 
 class ButState(State):
@@ -100,11 +107,18 @@ class StartState(State):
         return UnexpectedState(self.dfa), None
 
     def get_suggestions(self):
-        suggestions = {
-            'location': self.dfa.locations,
-            'object': self.dfa.objects,
-            'adjective': self.dfa.adjectives,
-        }
+        suggestions = [{
+            'title': 'location',
+            'suggestions': self.dfa.locations
+        },
+        {
+            'title': 'objects',
+            'suggestions': self.dfa.objects
+        },
+        {
+            'title': 'adjectives',
+            'suggestions': self.dfa.adjectives
+        }]
         return suggestions
 
 
@@ -124,10 +138,14 @@ class StartAdjective(State):
         return UnexpectedState(self.dfa), None
 
     def get_suggestions(self):
-        suggestions = {
-            'location': self.dfa.locations,
-            'and': 'and'
-        }
+        suggestions = [{
+            'title': 'locations',
+            'suggestions': self.dfa.locations
+        },
+        {
+            'title': 'conjunctions',
+            'suggestions': ['and']
+        }]
         return suggestions
 
 
@@ -142,9 +160,10 @@ class StartObject(State):
         return UnexpectedState(self.dfa), None
 
     def get_suggestions(self):
-        suggestions = {
-            'relationship': self.dfa.relationships
-        }
+        suggestions = [{
+            'title': 'relationships',
+            'suggestions': self.dfa.relationships
+        }]
         return suggestions
 
 class Relationship(State):
@@ -164,10 +183,14 @@ class Relationship(State):
         return UnexpectedState(self.dfa), None
     
     def get_suggestions(self):
-        suggestions = {
-            'objects': self.dfa.objects,
-            'and': 'and'
-        }
+        suggestions = [{
+            'title': 'objects',
+            'suggestions': self.dfa.objects
+        },
+        {
+            'title': 'conjunctions',
+            'suggestions': ['and']
+        }]
         return suggestions
 
 
@@ -186,11 +209,18 @@ class HoldAdjective(State):
         return UnexpectedState(self.dfa), None
     
     def get_suggestions(self):
-        suggestions = {
-            'containing_words': self.dfa.containing_words,
-            'anti_containing_words': self.dfa.anti_containing_words,
-            'and': 'and'
-        }
+        suggestions = [{
+            'title': 'containment',
+            'suggestions': self.dfa.containing_words
+        },
+        {
+            'title': 'not-containment',
+            'suggestions': self.dfa.anti_containing_words
+        },
+        {
+            'title': 'conjunctions',
+            'suggestions': ['and']
+        }]
         return suggestions
 
 
@@ -206,11 +236,11 @@ class AwaitAdjective(State):
         return UnexpectedState(self.dfa), None
     
     def get_suggestions(self):
-        suggestions = {
-            'adjective': self.dfa.adjectives
-        }
+        suggestions = [{
+            'title': 'adjectives',
+            'suggestions': self.dfa.adjectives
+        }]
         return suggestions
-
 
 
 class StartLocation(State):
@@ -219,6 +249,7 @@ class StartLocation(State):
         self.dfa = dfa
 
     def next(self, token):
+        print token
         if token in self.dfa.containing_words:
             return LocationContaining(self.location, self.dfa), None
         elif token in self.dfa.anti_containing_words:
@@ -230,12 +261,18 @@ class StartLocation(State):
         return UnexpectedState(self.dfa), None
     
     def get_suggestions(self):
-        suggestions = {
-            'containing_words': self.dfa.containing_words,
-            'anti_containing_words': self.dfa.anti_containing_words,
-            #'relative_pronoun': self.dfa.relative_pronouns,
-            'and': 'and'
-        }
+        suggestions = [{
+            'title': 'containment',
+            'suggestions': self.dfa.containing_words
+        },
+        {
+            'title': 'not-containment',
+            'suggestions': self.dfa.anti_containing_words
+        },
+        {
+            'title': 'conjunctions',
+            'suggestions': ['and']
+        }]
         return suggestions
 
 
@@ -263,12 +300,22 @@ class LocationContaining(State):
         return UnexpectedState(self.dfa), None
 
     def get_suggestions(self):
-        suggestions = {
-            'objects': 'objects',
-            'class': self.dfa.objects,
-            'count_adjectives': self.dfa.count_adjectives,
-            'and': 'and'
-        }
+        suggestions = [{
+            'title': 'objects',
+            'suggestions': self.dfa.objects
+        },
+        {
+            'title': 'misc',
+            'suggestions': ['objects']
+        },
+        {
+            'title': 'adjectives',
+            'suggestions': self.dfa.count_adjectives
+        },
+        {
+            'title': 'conjunctions',
+            'suggestions': ['and']
+        }]
         return suggestions
 
 # be able to handle too many / outlier
@@ -286,11 +333,18 @@ class LocationCount(State):
         return UnexpectedState(self.dfa), None
 
     def get_suggestions(self):
-        suggestions = {
-            'objects': 'objects',
-            'class': self.dfa.objects,
-            'and': 'and'
-        }
+        suggestions = [{
+            'title': 'objects',
+            'suggestions': self.dfa.objects
+        },
+        {
+            'title': 'misc',
+            'suggestions': ['objects']
+        },
+        {
+            'title': 'conjunctions',
+            'suggestions': ['and']
+        }]
         return suggestions
 
 class UnexpectedState(State):

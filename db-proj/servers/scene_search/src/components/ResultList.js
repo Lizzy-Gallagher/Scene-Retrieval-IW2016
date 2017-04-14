@@ -15,6 +15,10 @@ let cardStyle = {
   margin: '3px'
 }
 
+function getImage() {
+  
+}
+
 class SceneResult extends Component {
   constructor(props) {
     super(props);
@@ -28,11 +32,6 @@ class SceneResult extends Component {
       <div className="col-sm-3">
         <div className="card text-center" style={ cardStyle }>
           <img className="card-img-top" src={ imgURL } style={ imgStyle }/>
-            {/*<p className="card-text">Scene: { this.props.sceneId }</p>*/}
-            {/*<p className="card-text">Score: { this.props.count }</p>*/}
-            {/*<Line percent={ this.props.partialSceneData[0].results[this.props.i].value } strokeWidth="4" strokeColor="#D3D3D3"/>*/}
-            {/*<Line percent={ this.props.partialSceneData[1].results[this.props.i].value} strokeWidth="4" strokeColor="#D3D3D3"/>*/}
-            {/*<Line percent={ this.props.count } strokeWidth="4" strokeColor="#D3D3D3" />*/}
         </div>
       </div>
     );

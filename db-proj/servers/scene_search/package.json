@@ -64,14 +64,20 @@
     "bootstrap": "^3.3.7",
     "core-js": "^2.0.0",
     "jQuery": "^1.7.4",
+    "jimp": "^0.2.27",
     "jquery": "^3.2.1",
     "json-loader": "^0.5.4",
+    "jsonp": "^0.2.1",
+    "material-ui": "^0.17.3",
     "normalize.css": "^4.0.0",
     "rc-progress": "^2.1.0",
     "react": "^15.0.0",
+    "react-autosuggest": "^9.0.0",
     "react-dom": "^15.0.0",
     "react-progressbar": "^1.4.6",
     "react-router": "^3.0.2",
+    "react-tap-event-plugin": "^2.0.1",
+    "shuffle-array": "^1.0.1",
     "whatwg-fetch": "^2.0.2"
   }
 }
