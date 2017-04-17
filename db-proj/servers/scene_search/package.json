@@ -75,6 +75,7 @@
     "react-autosuggest": "^9.0.0",
     "react-bootstrap": "^0.30.8",
     "react-dom": "^15.5.4",
+    "react-lazyload": "^2.2.7",
     "react-progressbar": "^1.4.6",
     "react-router": "^3.0.2",
     "react-tap-event-plugin": "^2.0.1",

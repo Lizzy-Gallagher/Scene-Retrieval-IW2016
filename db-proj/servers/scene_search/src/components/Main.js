@@ -7,6 +7,7 @@ import ResultList from './ResultList';
 import SearchOptions from './SearchOptions';
 import DatabaseStats from './DatabaseStats';
 import IconAttribution from './IconAttribution';
+import StatsBar from './StatsBar';
 
 import AdminPanel from './modals/AdminPanel'
 
@@ -161,6 +162,11 @@ class Main extends Component {
                   handleChange={ this.handleChange }
                   handleClick={() => this.fetchResultsFromServer()} 
                   doEnableAutosuggest={ this.state.doEnableAutosuggest }/>
+        <StatsBar 
+          numSceneResults={ this.state.sceneData.length }
+          numLevelResults={ this.state.levelData.length }
+          numRoomResults={ this.state.roomData.length }
+        />
         <ResultList sceneData = { this.state.sceneData }
                     levelData = { this.state.levelData }
                     roomData  = { this.state.roomData }

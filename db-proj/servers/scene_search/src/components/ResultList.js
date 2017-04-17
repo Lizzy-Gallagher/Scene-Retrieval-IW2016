@@ -4,6 +4,7 @@
 
 import React, { Component } from 'react';
 import { Line } from  'rc-progress'
+import LazyLoad from 'react-lazyload';
 
 let imgStyle = {
   margin: 'auto',
@@ -13,10 +14,6 @@ let imgStyle = {
 
 let cardStyle = {
   margin: '3px'
-}
-
-function getImage() {
-  
 }
 
 class SceneResult extends Component {
@@ -113,25 +110,31 @@ class ResultList extends Component {
     }
     else if (this.props.returnType == 'scene') {
 
-      resultNodes = this.props.sceneData.slice(0,24).map(function (result) {
+      resultNodes = this.props.sceneData.slice(0,48).map(function (result) {
         return (
-          <SceneResult sceneId={result.scene_hash} count={result.value}
+          <LazyLoad once offset={100}>
+            <SceneResult sceneId={result.scene_hash} count={result.value}
                        key={i} i={++i} />
+          </LazyLoad>
         );
       });
     } else if (this.props.returnType == 'level') {
         resultNodes = this.props.levelData.slice(0,24).map(function (result) {
         return (
-          <LevelResult sceneId={result.scene_hash} count={result.value}
+          <LazyLoad once offset={100}>
+            <LevelResult sceneId={result.scene_hash} count={result.value}
                        level_num={result.level_num} key={++i} />
+          </LazyLoad>
         );
       });
     } else {
         resultNodes = this.props.roomData.slice(0,24).map(function (result) {
         return (
-          <RoomResult sceneId={result.scene_hash} count={result.value}
+          <LazyLoad once offset={100}>
+            <RoomResult sceneId={result.scene_hash} count={result.value}
                       level_num={result.level_num} room_num={result.room_num}
                       key={++i} />
+          </LazyLoad>
         );
       });
     }
