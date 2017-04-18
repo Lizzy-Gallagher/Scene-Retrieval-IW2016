@@ -5,8 +5,6 @@
 import React, { Component } from 'react';
 import AutoSuggestBox from './AutoSuggestBox'
 
-let searchImg = require('../images/search.svg');
-
 class SearchBox extends Component {
   constructor(props) {
     super(props);
@@ -60,7 +58,8 @@ class QueryBox extends Component {
     let inputStyle = {
       margin: '10px -27px'
     }
-    let searchBox  = this.props.doEnableAutosuggest ? 
+
+    let searchBox = this.props.doEnableAutosuggest ?
                       <AutoSuggestBox query={ this.props.query }
                         handleChange={ this.props.handleChange }
                         onClick={() => this.props.handleClick()} /> :

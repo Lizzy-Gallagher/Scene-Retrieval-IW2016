@@ -1,0 +1,10 @@
+$primary-color: #808c99;
+//@import 'loaders.css/src/animations/line-scale.scss';
+@import '../../../node_modules/loaders.css/src/animations/ball-grid-pulse.scss';
+
+.loader-hidden {
+  display: none;
+}
+.loader-active {
+  display: block;
+}

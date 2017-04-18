@@ -1,20 +1,20 @@
 import React, { Component } from 'react';
+
 import 'whatwg-fetch'
 import $ from 'jquery'
+import Loader from 'react-loaders'
 
 import QueryBox from './QueryBox';
 import ResultList from './ResultList';
 import SearchOptions from './SearchOptions';
 import DatabaseStats from './DatabaseStats';
-import IconAttribution from './IconAttribution';
 import StatsBar from './StatsBar';
 
 import AdminPanel from './modals/AdminPanel'
+import InfoPanel from './modals/InfoPanel'
 
 import { filter } from '../actions/filter';
 import { score } from '../actions/score'
-
-//let searchImg = require('../images/cog.svg');
 
 class Main extends Component {
   constructor() {
@@ -26,11 +26,13 @@ class Main extends Component {
 
       query: '',
       returnType: 'scene',
-      showNotFoundError: false,
       sceneData: [],
       levelData: [],
       roomData:  [],
-      
+
+      showNotFoundError: false,
+      showLoading: false,
+    
       doEnableAutosuggest: true,
       doEnableVis: true
     };
@@ -53,7 +55,6 @@ class Main extends Component {
 
   toggleVis() {
     this.setState({ doEnableVis: !this.state.doEnableVis })
-    console.log('Success!')
   }
 
   handleChange(text) {
@@ -96,6 +97,13 @@ class Main extends Component {
   }
 
   fetchResultsFromServer() {
+    this.setState({ 
+      showLoading: true,
+      sceneData: [],
+      levelData: [],
+      roomData: []
+    })
+    
     let self = this;
 
     // Reset temporary data
@@ -110,7 +118,7 @@ class Main extends Component {
         return response.json()
       }).then(function(json) {
         // If no results, show not found error
-        if (typeof json.error !== "undefined") {
+        if (typeof json.error !== 'undefined') {
           self.setState({
             sceneData: [],
             levelData: [],
@@ -141,10 +149,29 @@ class Main extends Component {
             sceneData : filteredSceneData,
             levelData : filteredLevelData,
             roomData  : filteredRoomData,
-            showNotFoundError : showNotFoundError
+            showNotFoundError : showNotFoundError,
+            showLoading : false
           })
         })
       })
+  }
+
+  renderLoader() {
+    var Loader = require('react-loaders').Loader;
+    if (!this.state.showLoading)
+       return <div></div>
+    return (
+      <div class="container" 
+          style={{
+            height: '70vh',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center'
+           }}
+      >
+        <Loader type="ball-grid-pulse" active />
+      </div>
+    )
   }
 
   render() {
@@ -154,26 +181,26 @@ class Main extends Component {
                     toggleAutosuggest={ this.toggleAutosuggest }
                     doEnableVis={ this.state.doEnableVis }
                     toggleVis={ this.toggleVis }/>
+        <InfoPanel />
         <h1>SUNCG Scene Search</h1>
         <DatabaseStats databaseURL={ this.state.databaseURL } />
         <SearchOptions handleSelectChange={ this.handleSelectChange } />
-        <QueryBox databaseURL={ this.state.databaseURL }
-                  query={ this.state.query }
+        <QueryBox query={ this.state.query }
                   handleChange={ this.handleChange }
-                  handleClick={() => this.fetchResultsFromServer()} 
-                  doEnableAutosuggest={ this.state.doEnableAutosuggest }/>
-        <StatsBar 
-          numSceneResults={ this.state.sceneData.length }
-          numLevelResults={ this.state.levelData.length }
-          numRoomResults={ this.state.roomData.length }
+                  handleClick={() => this.fetchResultsFromServer() }
+                  doEnableAutosuggest={ this.state.doEnableAutosuggest }
         />
+        <StatsBar numSceneResults={ this.state.sceneData.length }
+                  numLevelResults={ this.state.levelData.length }
+                  numRoomResults={ this.state.roomData.length }
+        />
+        { this.renderLoader() }
         <ResultList sceneData = { this.state.sceneData }
                     levelData = { this.state.levelData }
                     roomData  = { this.state.roomData }
                     returnType = { this.state.returnType }
                     showNotFoundError = { this.state.showNotFoundError }
                     imgURL={this.state.imgURL}/>
-        <IconAttribution />
       </div>
     );
   }

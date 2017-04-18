@@ -20,11 +20,10 @@ class AutoSuggestBox extends Component {
     this.getSuggestionValue = this.getSuggestionValue.bind(this)
     this.shouldRenderSuggestions = this.shouldRenderSuggestions.bind(this);
 
-    // this.isSelecting = false;
-
     this.state = {
       suggestions: [],
-      isSelecting: false
+      isSelecting: false,
+      skipEnter: false
     };
   }
 
@@ -46,11 +45,11 @@ class AutoSuggestBox extends Component {
   }
 
   renderInputComponent = inputProps => (
-    <input 
+    <input
       id="query" type="text" className="search-query form-control" placeholder="Search"
       onKeyPress={this.handleKeyPress}
       autoFocus
-      {...inputProps} 
+      {...inputProps}
     />
 );
 
@@ -88,7 +87,6 @@ class AutoSuggestBox extends Component {
 
   // Autosuggest will call this function every time you need to clear suggestions.
   onSuggestionsClearRequested = () => {
-    console.log('onSuggestionsClearRequested')
     this.setState({
       suggestions: []
     });
@@ -99,9 +97,12 @@ class AutoSuggestBox extends Component {
   }
 
   handleKeyPress(target) {
-    if (target.charCode == 13) {
-      this.props.onClick()
-    } else if (target.charCode == 32) {
+    if (target.charCode === 13) {
+      if (this.state.skipEnter) 
+        this.setState({skipEnter: false})
+      else 
+        this.props.onClick()
+    } else if (target.charCode === 32) {
       this.setState({
         isSelecting: false
       })
@@ -109,24 +110,23 @@ class AutoSuggestBox extends Component {
   }
 
   onSuggestionSelected(event, { suggestion, suggestionValue, suggestionIndex, sectionIndex, method }) {
-    console.log('onSuggestionSelected')
-    this.props.handleChange(this.props.query + suggestion)
+    if (method === 'enter')
+      this.setState({ skipEnter: true })
+    else
+      this.props.handleChange(this.props.query + suggestion)
+    
     this.setState({
       isSelecting: false
     })
   }
 
   getSuggestionValue(suggestion) {
-    console.log('getSuggestionValue')
-    console.log(this.props.query)
-
     let value = this.props.query;
 
     // If not the first word
     if (this.props.query.trim().includes(' ') && this.state.isSelecting) {
       let withoutTrailingSpace = this.props.query.slice(0, this.props.query.length - 1)
       value = this.props.query.slice(0, withoutTrailingSpace.lastIndexOf(' ') + 1)
-      console.log(value)
     }
 
     this.setState({
@@ -134,7 +134,6 @@ class AutoSuggestBox extends Component {
     })
 
     return value + suggestion;
-    //return value + suggestion + ' ';
   }
 
   render() {

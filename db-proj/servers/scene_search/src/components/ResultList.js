@@ -3,7 +3,6 @@
  */
 
 import React, { Component } from 'react';
-import { Line } from  'rc-progress'
 import LazyLoad from 'react-lazyload';
 
 let imgStyle = {
@@ -49,9 +48,6 @@ class LevelResult extends Component {
         <div className="card text-center" style={cardStyle}>
           <div className="card-block">
             <img className="card-img-top" src={ imgURL } style={imgStyle}/>
-            {/*<p className="card-text">Scene: { this.props.sceneId }</p>*/}
-            {/*<p className="card-text">Level: { this.props.level_num }</p>*/}
-            {/*<p className="card-text">Occurences: { this.props.count }</p>*/}
           </div>
         </div>
       </div>
@@ -74,10 +70,6 @@ class RoomResult extends Component {
         <div className="card text-center" style={cardStyle}>
           <div className="card-block">
             <img className="card-img-top" src={ imgURL } style={imgStyle}/>
-            {/*<p className="card-text">Scene: { this.props.sceneId }</p>*/}
-            {/*<p className="card-text">Level: { this.props.level_num }</p>*/}
-            {/*<p className="card-text">Room: { this.props.room_num }</p>*/}
-            {/*<p className="card-text">Occurences: { this.props.count }</p>*/}
           </div>
         </div>
       </div>
@@ -101,39 +93,36 @@ class ResultList extends Component {
   }
 
   render() {
+    let cutoff = 100;
     let resultNodes = [];
-    let self = this;
-    
-    let i = -1;
+    let i = 0;
     if (this.props.showNotFoundError) {
       resultNodes = <ErrorMessage />
     }
     else if (this.props.returnType == 'scene') {
 
-      resultNodes = this.props.sceneData.slice(0,48).map(function (result) {
+      resultNodes = this.props.sceneData.slice(0,cutoff).map(function (result) {
         return (
-          <LazyLoad once offset={100}>
-            <SceneResult sceneId={result.scene_hash} count={result.value}
-                       key={i} i={++i} />
+          <LazyLoad once offset={100} key={i++} >
+            <SceneResult sceneId={result.scene_hash} count={result.value}/>
           </LazyLoad>
         );
       });
     } else if (this.props.returnType == 'level') {
-        resultNodes = this.props.levelData.slice(0,24).map(function (result) {
+        resultNodes = this.props.levelData.slice(0,cutoff).map(function (result) {
         return (
-          <LazyLoad once offset={100}>
+          <LazyLoad once offset={100} key={i++} >
             <LevelResult sceneId={result.scene_hash} count={result.value}
-                       level_num={result.level_num} key={++i} />
+                       level_num={result.level_num} />
           </LazyLoad>
         );
       });
     } else {
-        resultNodes = this.props.roomData.slice(0,24).map(function (result) {
+        resultNodes = this.props.roomData.slice(0,cutoff).map(function (result) {
         return (
-          <LazyLoad once offset={100}>
+          <LazyLoad once offset={100} key={i++} >
             <RoomResult sceneId={result.scene_hash} count={result.value}
-                      level_num={result.level_num} room_num={result.room_num}
-                      key={++i} />
+                      level_num={result.level_num} room_num={result.room_num}/>
           </LazyLoad>
         );
       });

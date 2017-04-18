@@ -41,7 +41,7 @@ class AdminPanel extends Component {
       <div>
         <Button
           onClick={this.open}
-          style={{position: "absolute", top: "10px", right: "10px"}}
+          style={{position: 'absolute', top: '10px', right: '10px', width: '50px'}}
         >
             <i className="fa fa-cog fa-2x" aria-hidden="true"></i>
         </Button>
