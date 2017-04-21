@@ -39,4 +39,4 @@ api.add_resource(LevelSparse, '/levelSparse')
 api.add_resource(RoomDense, '/roomDense')
 api.add_resource(RoomSparse, '/roomSparse')
 
-api.add_resource(TestSceneMembership, '/test')
+#api.add_resource(TestSceneMembership, '/test')

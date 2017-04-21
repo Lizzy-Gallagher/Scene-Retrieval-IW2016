@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 
 import 'whatwg-fetch'
 import $ from 'jquery'
-import Loader from 'react-loaders'
 
 import QueryBox from './QueryBox';
 import ResultList from './ResultList';
@@ -97,20 +96,19 @@ class Main extends Component {
   }
 
   fetchResultsFromServer() {
-    this.setState({ 
+    this.setState({
       showLoading: true,
       sceneData: [],
       levelData: [],
       roomData: []
     })
-    
-    let self = this;
 
     // Reset temporary data
-    self.tempSceneData = []
-    self.tempLevelData = []
-    self.tempRoomData = []
+    this.tempSceneData = []
+    this.tempLevelData = []
+    this.tempRoomData = []
 
+    let self = this;
     // First get the appropriate api call from other server
     let queryParams = this.state.query.split(' ').join('+');
     fetch(this.state.nlpURL + 'api?query='+queryParams)
@@ -119,12 +117,7 @@ class Main extends Component {
       }).then(function(json) {
         // If no results, show not found error
         if (typeof json.error !== 'undefined') {
-          self.setState({
-            sceneData: [],
-            levelData: [],
-            roomData: [],
-            showNotFoundError : true
-          });
+          self.setState({ showNotFoundError: true, showLoading: false});
           return
         }
           
@@ -161,7 +154,7 @@ class Main extends Component {
     if (!this.state.showLoading)
        return <div></div>
     return (
-      <div class="container" 
+      <div className="container"
           style={{
             height: '70vh',
             display: 'flex',
@@ -200,7 +193,8 @@ class Main extends Component {
                     roomData  = { this.state.roomData }
                     returnType = { this.state.returnType }
                     showNotFoundError = { this.state.showNotFoundError }
-                    imgURL={this.state.imgURL}/>
+                    imgURL={this.state.imgURL}
+                    doEnableVis={this.state.doEnableVis}/>
       </div>
     );
   }

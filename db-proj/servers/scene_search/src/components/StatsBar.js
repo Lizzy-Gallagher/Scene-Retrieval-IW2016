@@ -12,7 +12,7 @@ class StatsBar extends Component {
         <Panel bsStyle="success">
             <Grid>
                 <Row className="show-grid">
-                    <Col md={3}>{'Matches scenes: ' + this.props.numSceneResults}</Col>
+                    <Col md={3}>{'Matching scenes: ' + this.props.numSceneResults}</Col>
                     <Col md={3}>{'Matching levels: ' + this.props.numLevelResults}</Col>
                     <Col md={3}>{'Matching rooms: ' + this.props.numRoomResults}</Col>
                 </Row>

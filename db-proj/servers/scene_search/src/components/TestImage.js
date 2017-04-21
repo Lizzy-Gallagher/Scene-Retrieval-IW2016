@@ -33,7 +33,6 @@ class TestImage extends Component {
   }
 
   render() {
-    //this.fetchResults('http://localhost:5000/test?object=sofa')
     let testFilename = this.createImageCall('0020d9dab70c6c8cfc0564c139c82dce', ['0_22','0_64','0_39'])
 
     return (
