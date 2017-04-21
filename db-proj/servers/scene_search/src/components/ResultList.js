@@ -15,10 +15,27 @@ let cardStyle = {
   margin: '3px'
 }
 
-function createImageCall(hash,objectList) {
-    let baseURL = 'http://localhost:2000/getimage?'
+function createSceneImageCall(hash, objectList) {
+    let baseURL = 'http://localhost:2000/highlightscene?'
     baseURL += 'hash=' + hash
     baseURL += '&';
+    baseURL += 'objects=' + objectList.join(',')
+    return baseURL;
+}
+
+function createImageCall(hash, level_num, objectList) {
+    let baseURL = 'http://localhost:2000/highlightlevel?'
+    baseURL += 'hash=' + hash + '&';
+    baseURL += 'level_num=' + level_num + '&';
+    baseURL += 'objects=' + objectList.join(',')
+    return baseURL;
+}
+
+function createImageCall(hash, level_num, room_num, objectList) {
+    let baseURL = 'http://localhost:2000/highlightroom?'
+    baseURL += 'hash=' + hash + '&';
+    baseURL += 'level_num=' + level_num + '&';
+    baseURL += 'room_num=' + room_num + '&';
     baseURL += 'objects=' + objectList.join(',')
     return baseURL;
 }
@@ -37,30 +54,27 @@ class SceneResult extends Component {
       return
 
     this.refs.enhanced.style = { imgStyle }
-    this.refs.regular.style = { display: "none" }
+    this.refs.regular.style = { display: 'none' }
     this.setState({isLoaded: true})
   }
   render() {
-    console.log("rendering")
-    // let imgURL = this.props.doEnableVis ?
-    //   createImageCall(this.props.sceneId, this.props.objects) :
-    //   'http://dovahkiin.stanford.edu/fuzzybox/suncg/planner5d/scenes_rendered/' +
-    //    this.props.sceneId + '/' + this.props.sceneId + '.png';
-
-    let enhancedImg = createImageCall(this.props.sceneId, this.props.objects);
-
-    let regularImg = 'http://dovahkiin.stanford.edu/fuzzybox/suncg/planner5d/scenes_rendered/' +
+    let enhancedImgURL = createSceneImageCall(this.props.sceneId, this.props.objects);
+    let regularImgURL = 'http://dovahkiin.stanford.edu/fuzzybox/suncg/planner5d/scenes_rendered/' +
        this.props.sceneId + '/' + this.props.sceneId + '.png';
 
-    let enhancedStyle = this.state.isLoaded ? imgStyle : { display: "none" }
-    let regularStyle = this.state.isLoaded ? { display: "none" } : imgStyle
+    let enhancedStyle = this.state.isLoaded ? imgStyle : { display: 'none' }
+    let regularStyle = this.state.isLoaded ? { display: 'none' } : imgStyle
+
+    let enhancedImg = this.props.doEnableVis ?
+            <img className="card-img-top" src={ enhancedImgURL } style={ enhancedStyle }
+              onLoad={this.handleImageLoaded.bind(this)} ref="enhanced"/> :
+              <div></div>
 
     return (
       <div className="col-sm-3">
         <div className="card text-center" style={ cardStyle }>
-          <img className="card-img-top" src={ enhancedImg } style={ enhancedStyle }
-                onLoad={this.handleImageLoaded.bind(this)} ref="enhanced"/>
-          <img className="card-img-top" src={ regularImg } style={ regularStyle } ref="regular"/>
+          { enhancedImg }
+          <img className="card-img-top" src={ regularImgURL } style={ regularStyle } ref="regular"/>
         </div>
       </div>
     );
@@ -70,6 +84,8 @@ class SceneResult extends Component {
 class LevelResult extends Component {
   constructor(props) {
     super(props);
+
+
   }
 
   render() {
@@ -91,18 +107,42 @@ class LevelResult extends Component {
 class RoomResult extends Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      isLoaded : false
+    }
+  }
+
+  handleImageLoaded() {
+    if (this.state.isLoaded)
+      return
+
+    this.refs.enhanced.style = { imgStyle }
+    this.refs.regular.style = { display: 'none' }
+    this.setState({isLoaded: true})
   }
 
   render() {
-    let imgURL = 'http://dovahkiin.stanford.edu/fuzzybox/suncg/planner5d/rooms_rendered/' +
+    let enhancedImgURL = createImageCall(this.props.sceneId, this.props.level_num, 
+                                         this.props.room_num, this.props.objects);
+    let regularImgURL = 'http://dovahkiin.stanford.edu/fuzzybox/suncg/planner5d/rooms_rendered/' +
       this.props.sceneId + '/' + this.props.sceneId + '_' +
       this.props.level_num + '_' +  + this.props.room_num + '.png';
+
+    let enhancedStyle = this.state.isLoaded ? imgStyle : { display: 'none' }
+    let regularStyle = this.state.isLoaded ? { display: 'none' } : imgStyle
+
+    let enhancedImg = this.props.doEnableVis ?
+            <img className="card-img-top" src={ enhancedImgURL } style={ enhancedStyle }
+              onLoad={this.handleImageLoaded.bind(this)} ref="enhanced"/> :
+              <div></div>
 
     return (
       <div className="col-sm-3">
         <div className="card text-center" style={cardStyle}>
           <div className="card-block">
-            <img className="card-img-top" src={ imgURL } style={imgStyle}/>
+            { enhancedImg }
+            <img className="card-img-top" src={ regularImgURL } style={ regularStyle } ref="regular"/>
           </div>
         </div>
       </div>
@@ -126,7 +166,7 @@ class ResultList extends Component {
   }
 
   render() {
-    let cutoff = 5;
+    let cutoff = 50;
     let resultNodes = [];
     let i = 0;
     if (this.props.showNotFoundError) {
@@ -137,7 +177,8 @@ class ResultList extends Component {
       resultNodes = this.props.sceneData.slice(0,cutoff).map(function (result) {
         return (
           <LazyLoad once offset={100} key={i++} >
-            <SceneResult sceneId={result.scene_hash} count={result.value} objects={result.objects} doEnableVis={doEnableVis}/>
+            <SceneResult sceneId={result.scene_hash} count={result.value} 
+                         objects={result.objects} doEnableVis={doEnableVis}/>
           </LazyLoad>
         );
       });
@@ -151,11 +192,17 @@ class ResultList extends Component {
         );
       });
     } else {
+        let doEnableVis = this.props.doEnableVis;
         resultNodes = this.props.roomData.slice(0,cutoff).map(function (result) {
+          
+          // bandaid :( -- outdoor spaces
+          if (result.room_num == -1)
+            return (<div></div>)
         return (
           <LazyLoad once offset={100} key={i++} >
             <RoomResult sceneId={result.scene_hash} count={result.value}
-                      level_num={result.level_num} room_num={result.room_num}/>
+                        level_num={result.level_num} room_num={result.room_num}
+                        objects={result.objects} doEnableVis={doEnableVis}/>
           </LazyLoad>
         );
       });
