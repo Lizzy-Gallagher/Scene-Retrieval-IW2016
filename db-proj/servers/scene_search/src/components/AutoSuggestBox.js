@@ -98,9 +98,9 @@ class AutoSuggestBox extends Component {
 
   handleKeyPress(target) {
     if (target.charCode === 13) {
-      if (this.state.skipEnter) 
+      if (this.state.skipEnter)
         this.setState({skipEnter: false})
-      else 
+      else
         this.props.onClick()
     } else if (target.charCode === 32) {
       this.setState({
@@ -109,7 +109,7 @@ class AutoSuggestBox extends Component {
     }
   }
 
-  onSuggestionSelected(event, { suggestion, suggestionValue, suggestionIndex, sectionIndex, method }) {
+  onSuggestionSelected(event, { suggestion, method }) {
     if (method === 'enter')
       this.setState({ skipEnter: true })
     else
@@ -141,7 +141,7 @@ class AutoSuggestBox extends Component {
 
     // Autosuggest will pass through all these props to the input element.
     const inputProps = {
-      placeholder: 'Search',
+      placeholder: 'e.g. living room with sofa',
       value: this.props.query,
       onChange: this.onChange
     };

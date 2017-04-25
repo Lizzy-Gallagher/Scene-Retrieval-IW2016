@@ -3,14 +3,16 @@ import React, { Component } from 'react';
 import 'whatwg-fetch'
 import $ from 'jquery'
 
+import {PageHeader} from 'react-bootstrap'
+
 import QueryBox from './QueryBox';
 import ResultList from './ResultList';
-import SearchOptions from './SearchOptions';
 import DatabaseStats from './DatabaseStats';
 import StatsBar from './StatsBar';
 
-import AdminPanel from './modals/AdminPanel'
-import InfoPanel from './modals/InfoPanel'
+import AdminPanel from './modals/AdminPanel';
+import InfoPanel from './modals/InfoPanel';
+import TestServerPanel from './modals/TestServerPanel';
 
 import { filter } from '../actions/filter';
 import { score } from '../actions/score'
@@ -31,6 +33,7 @@ class Main extends Component {
 
       showNotFoundError: false,
       showLoading: false,
+      isVisPossible: false,
     
       doEnableAutosuggest: true,
       doEnableVis: true
@@ -39,6 +42,7 @@ class Main extends Component {
     this.tempSceneData = [];
     this.tempLevelData = [];
     this.tempRoomData = [];
+    this.isVisPossible = false;
 
     this.toggleAutosuggest = this.toggleAutosuggest.bind(this);
     this.toggleVis = this.toggleVis.bind(this);
@@ -85,6 +89,7 @@ class Main extends Component {
         self.tempSceneData.push({ results: score(json.scene_results), toInclude: toInclude});
         self.tempLevelData.push({ results: score(json.level_results), toInclude: toInclude});
         self.tempRoomData.push({ results: score(json.room_results), toInclude: toInclude});
+        self.isVisPossible = self.isVisPossible || typeof json.enhanced_vis !== 'undefined';
 
         // Return from "deferred" function
         defer.resolve();
@@ -98,6 +103,8 @@ class Main extends Component {
   fetchResultsFromServer() {
     this.setState({
       showLoading: true,
+      showNotFoundError: false,
+      isVisPossible: false,
       sceneData: [],
       levelData: [],
       roomData: []
@@ -107,6 +114,7 @@ class Main extends Component {
     this.tempSceneData = []
     this.tempLevelData = []
     this.tempRoomData = []
+    this.isVisPossible = false;
 
     let self = this;
     // First get the appropriate api call from other server
@@ -132,18 +140,22 @@ class Main extends Component {
 
         // Wait on database requests
         defer.done(function() {
+          console.log('defer done')
           // Filter results (TODO: Just binaries)
           var filteredSceneData = filter(self.tempSceneData)
           var filteredLevelData = filter(self.tempLevelData)
           var filteredRoomData = filter(self.tempRoomData)
+          
           let showNotFoundError = filteredSceneData.length === 0
+          let isVisPossible = self.isVisPossible && self.state.doEnableVis;
 
           self.setState({
             sceneData : filteredSceneData,
             levelData : filteredLevelData,
             roomData  : filteredRoomData,
             showNotFoundError : showNotFoundError,
-            showLoading : false
+            showLoading : false,
+            isVisPossible : isVisPossible
           })
         })
       })
@@ -175,9 +187,10 @@ class Main extends Component {
                     doEnableVis={ this.state.doEnableVis }
                     toggleVis={ this.toggleVis }/>
         <InfoPanel />
-        <h1>SUNCG Scene Search</h1>
-        <DatabaseStats databaseURL={ this.state.databaseURL } />
-        <SearchOptions handleSelectChange={ this.handleSelectChange } />
+        <TestServerPanel databaseURL={ this.state.databaseURL }
+                         nlpURL={ this.state.nlpURL }
+                         imgURL={ this.state.imgURL }/>
+        <PageHeader>SUNCG Scene Search <DatabaseStats databaseURL={ this.state.databaseURL } /> </PageHeader>
         <QueryBox query={ this.state.query }
                   handleChange={ this.handleChange }
                   handleClick={() => this.fetchResultsFromServer() }
@@ -186,6 +199,7 @@ class Main extends Component {
         <StatsBar numSceneResults={ this.state.sceneData.length }
                   numLevelResults={ this.state.levelData.length }
                   numRoomResults={ this.state.roomData.length }
+                  handleSelectChange={ this.handleSelectChange }
         />
         { this.renderLoader() }
         <ResultList sceneData = { this.state.sceneData }
@@ -194,7 +208,7 @@ class Main extends Component {
                     returnType = { this.state.returnType }
                     showNotFoundError = { this.state.showNotFoundError }
                     imgURL={this.state.imgURL}
-                    doEnableVis={this.state.doEnableVis}/>
+                    doEnableVis={this.state.isVisPossible}/>
       </div>
     );
   }

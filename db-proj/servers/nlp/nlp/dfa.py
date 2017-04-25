@@ -37,7 +37,10 @@ class DFA(object):
         self.negation = ['negation', 'but']
 
         self.count_adjectives = ['many', 'few', 'no']
-        self.relationships = ['above']
+        self.relationships = ['above', 'behind', 'below', 'faces',
+                              'faces_away', 'hanging', 'in_front_of',
+                             'supported_by', 'supports', 'touching',
+                             'within_1m', 'within_2m', 'within_3m']
 
         self.scene_words = ['scene', 'house', 'building']
         self.level_words = ['level', 'floor']
@@ -62,6 +65,47 @@ class DFA(object):
         self.locations.extend(self.level_words)
         self.locations.extend(self.outside_words)
         self.locations.extend(self.roomtypes)
+
+        self.all_words = [{
+            'title': 'articles',
+            'suggestions': self.articles
+        },
+        {
+            'title': 'locations',
+            'suggestions': self.locations
+        },
+        {
+            'title': 'containing_words',
+            'suggestions': self.containing_words
+        },
+        {
+            'title': 'anti_containing_words',
+            'suggestions': self.anti_containing_words
+        },
+        {
+            'title': 'negation',
+            'suggestions': self.negation
+        },
+        {
+            'title': 'count_adjective',
+            'suggestions': self.count_adjectives
+        },
+        {
+            'title': 'relationships',
+            'suggestions': self.relationships
+        },
+        {
+            'title': 'locations',
+            'suggestions': self.locations
+        },
+        {
+            'title': 'adjectives',
+            'suggestions': self.adjectives
+        },
+        {
+            'title': 'misc',
+            'suggestions': ['many', 'few', 'no', 'objects']
+        }]
 
         print "\tDone!"
 

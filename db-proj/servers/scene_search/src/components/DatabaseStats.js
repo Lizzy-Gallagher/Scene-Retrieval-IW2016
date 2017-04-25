@@ -16,7 +16,7 @@ class DatabaseStats extends Component {
       .then(function(response) {
         return response.json();
       }).then(function(json) {
-          document.getElementById('numScenes').innerHTML += json.numScenes.toLocaleString();
+          document.getElementById('numScenes').innerHTML += json.numScenes.toLocaleString() + ' scenes';
       });
   }
 
@@ -26,7 +26,7 @@ class DatabaseStats extends Component {
 
   render() {
     return (
-        <p id="numScenes">Number of scenes in database: </p>
+        <small id="numScenes"><span style={{display: 'inline-block', width: '25px'}}></span> </small>
     );
   }
 }

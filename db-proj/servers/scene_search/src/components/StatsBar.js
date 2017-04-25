@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
-import {Grid, Row, Col, Panel} from 'react-bootstrap';
+import {Row, Col, Table} from 'react-bootstrap';
+import SearchOptions from './SearchOptions';
 
 class StatsBar extends Component {
     constructor(props) {
@@ -9,15 +10,30 @@ class StatsBar extends Component {
 
     render() {
         let element = this.props.numSceneResults > 0 ?
-        <Panel bsStyle="success">
-            <Grid>
-                <Row className="show-grid">
-                    <Col md={3}>{'Matching scenes: ' + this.props.numSceneResults}</Col>
-                    <Col md={3}>{'Matching levels: ' + this.props.numLevelResults}</Col>
-                    <Col md={3}>{'Matching rooms: ' + this.props.numRoomResults}</Col>
-                </Row>
-            </Grid>
-         </Panel>:
+            <Row>
+                <Col md={4}>
+                    <Table striped bordered condensed>
+                        <thead>
+                            <tr>
+                                <th>Scenes</th>
+                                <th>Levels</th>
+                                <th>Rooms</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>{this.props.numSceneResults}</td>
+                                <td>{this.props.numLevelResults}</td>
+                                <td>{this.props.numRoomResults}</td>
+                            </tr>
+                        </tbody>
+                    </Table>
+                </Col>
+                <Col md={1}>
+                    <SearchOptions handleSelectChange={ this.props.handleSelectChange } />
+                </Col>
+            </Row>
+         :
             <div></div>
         
         return (

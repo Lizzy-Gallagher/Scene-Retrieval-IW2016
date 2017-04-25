@@ -215,5 +215,18 @@ class Autocomplete(Resource):
 
         return jsonify(ret), 200
 
+class AllWords(Resource):
+    @cors.crossdomain(origin='*')
+    def get(self):
+        dfa_ = dfa.DFA()
+        return jsonify({'all_words': dfa_.all_words}), 200
+
+class Ping(Resource):
+    @cors.crossdomain(origin='*')
+    def get(self):
+        return jsonify({'status':'ok!'}), 200
+
 api.add_resource(ApiCall, '/api')
 api.add_resource(Autocomplete, '/autocomplete')
+api.add_resource(AllWords, '/allwords')
+api.add_resource(Ping, '/ping')

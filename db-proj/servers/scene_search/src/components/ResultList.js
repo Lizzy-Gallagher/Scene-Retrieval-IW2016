@@ -23,7 +23,7 @@ function createSceneImageCall(hash, objectList) {
     return baseURL;
 }
 
-function createImageCall(hash, level_num, objectList) {
+function createLevelImageCall(hash, level_num, objectList) {
     let baseURL = 'http://localhost:2000/highlightlevel?'
     baseURL += 'hash=' + hash + '&';
     baseURL += 'level_num=' + level_num + '&';
@@ -31,7 +31,7 @@ function createImageCall(hash, level_num, objectList) {
     return baseURL;
 }
 
-function createImageCall(hash, level_num, room_num, objectList) {
+function createRoomImageCall(hash, level_num, room_num, objectList) {
     let baseURL = 'http://localhost:2000/highlightroom?'
     baseURL += 'hash=' + hash + '&';
     baseURL += 'level_num=' + level_num + '&';
@@ -57,8 +57,14 @@ class SceneResult extends Component {
     this.refs.regular.style = { display: 'none' }
     this.setState({isLoaded: true})
   }
+  
   render() {
-    let enhancedImgURL = createSceneImageCall(this.props.sceneId, this.props.objects);
+    let enhancedImgURL = '';
+
+    if (this.props.doEnableVis)
+      enhancedImgURL = createSceneImageCall(this.props.sceneId, this.props.objects);
+    
+
     let regularImgURL = 'http://dovahkiin.stanford.edu/fuzzybox/suncg/planner5d/scenes_rendered/' +
        this.props.sceneId + '/' + this.props.sceneId + '.png';
 
@@ -85,18 +91,42 @@ class LevelResult extends Component {
   constructor(props) {
     super(props);
 
+    this.state = {
+      isLoaded : false
+    }
+  }
 
+  handleImageLoaded() {
+    if (this.state.isLoaded)
+      return
+
+    this.refs.enhanced.style = { imgStyle }
+    this.refs.regular.style = { display: 'none' }
+    this.setState({isLoaded: true})
   }
 
   render() {
-    let imgURL = 'http://dovahkiin.stanford.edu/fuzzybox/suncg/planner5d/levels_rendered/' +
+    let enhancedImgURL = '';
+
+    if (this.props.doEnableVis)
+      enhancedImgURL = createLevelImageCall(this.props.sceneId, this.props.level_num,
+                                         this.props.room_num, this.props.objects);
+    let regularImgURL = 'http://dovahkiin.stanford.edu/fuzzybox/suncg/planner5d/levels_rendered/' +
       this.props.sceneId + '/' + this.props.sceneId + '_' + this.props.level_num + '.png';
 
+    let enhancedStyle = this.state.isLoaded ? imgStyle : { display: 'none' }
+    let regularStyle = this.state.isLoaded ? { display: 'none' } : imgStyle
+
+    let enhancedImg = this.props.doEnableVis ?
+            <img className="card-img-top" src={ enhancedImgURL } style={ enhancedStyle }
+              onLoad={this.handleImageLoaded.bind(this)} ref="enhanced"/> :
+              <div></div>
     return (
       <div className="col-sm-3">
         <div className="card text-center" style={cardStyle}>
           <div className="card-block">
-            <img className="card-img-top" src={ imgURL } style={imgStyle}/>
+            <img className="card-img-top" src={ regularImgURL } style={regularStyle} ref="regular"/>
+            { enhancedImg }
           </div>
         </div>
       </div>
@@ -123,7 +153,10 @@ class RoomResult extends Component {
   }
 
   render() {
-    let enhancedImgURL = createImageCall(this.props.sceneId, this.props.level_num, 
+    let enhancedImgURL = '';
+
+    if (this.props.doEnableVis)
+      enhancedImgURL = createRoomImageCall(this.props.sceneId, this.props.level_num,
                                          this.props.room_num, this.props.objects);
     let regularImgURL = 'http://dovahkiin.stanford.edu/fuzzybox/suncg/planner5d/rooms_rendered/' +
       this.props.sceneId + '/' + this.props.sceneId + '_' +
@@ -177,7 +210,7 @@ class ResultList extends Component {
       resultNodes = this.props.sceneData.slice(0,cutoff).map(function (result) {
         return (
           <LazyLoad once offset={100} key={i++} >
-            <SceneResult sceneId={result.scene_hash} count={result.value} 
+            <SceneResult sceneId={result.scene_hash} count={result.value}
                          objects={result.objects} doEnableVis={doEnableVis}/>
           </LazyLoad>
         );

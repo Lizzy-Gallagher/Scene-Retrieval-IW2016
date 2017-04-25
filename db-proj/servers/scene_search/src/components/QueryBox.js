@@ -3,6 +3,8 @@
  */
 
 import React, { Component } from 'react';
+import { Row, Col, Button, FormGroup, FormControl } from 'react-bootstrap'
+
 import AutoSuggestBox from './AutoSuggestBox'
 
 class SearchBox extends Component {
@@ -28,23 +30,13 @@ class SearchBox extends Component {
 
   render() {
     return (
-      <input id="query" type="text" className="search-query form-control" placeholder="Search"
+      <input id="query" type="text" className="search-query form-control" placeholder="e.g. living room with sofa"
         value = {this.props.query}
         ref={(input) => {this.textInput = input;}}
         onChange={this.handleChange}
-        onKeyPress={this.handleKeyPress}/>
-    );
-  }
-}
-
-class SearchButton extends Component {
-  render() {
-    return (
-      <span className="input-group-btn">
-        <button id="btnQuery" className="btn btn-danger" type="button" onClick={() => this.props.onClick()}>
-          <span className="glyphicon glyphicon-search" />
-        </button>
-      </span>
+        onKeyPress={this.handleKeyPress}
+        style={{height: "44px"}}
+      />
     );
   }
 }
@@ -55,10 +47,6 @@ class QueryBox extends Component {
   }
 
   render() {
-    let inputStyle = {
-      margin: '10px -27px'
-    }
-
     let searchBox = this.props.doEnableAutosuggest ?
                       <AutoSuggestBox query={ this.props.query }
                         handleChange={ this.props.handleChange }
@@ -67,15 +55,23 @@ class QueryBox extends Component {
                         handleChange={ this.props.handleChange }
                         onClick={() => this.props.handleClick()} />
 
+    let inputStyle = {
+      margin: '0px -36px',
+    }
+
     return (
-      <div className="container-fluid">
-        <div id="custom-search-input" className="row" style={inputStyle}>
-          <div className="input-group col-md-8">
-            { searchBox }
-            <SearchButton onClick={() => this.props.handleClick()}/>
-          </div>
-        </div>
-      </div>
+      <Row>
+        <Col md={8}>
+          { searchBox }
+        </Col>
+        <Col md={1}>
+          <Button bsStyle="danger" style={inputStyle} onClick={this.props.onClick} block>
+            <i className="fa fa-search fa-2x" aria-hidden="true"></i>
+          </Button>
+        </Col>
+        <Col md={3}/>
+      </Row>
+
   );
   }
 }

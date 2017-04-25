@@ -3,18 +3,24 @@
  */
 
 import React, { Component } from 'react';
+import { FormGroup, ControlLabel, FormControl, Row } from 'react-bootstrap'
 
 class SearchOptions extends Component {
   render() {
     return (
-      <div className="form-inline">
-        <label className="mr-sm-2" htmlFor="select">View by: </label>
-        <select onChange={ this.props.handleSelectChange } className="form-control .col-md-4" id="searchOption">
-          <option value="scene">Scene</option>
-          <option value="level">Level</option>
-          <option value="room">Room</option>
-        </select>
-      </div>
+       <FormGroup controlId="formControlsSelect">
+          <Row>
+            <ControlLabel>View by:</ControlLabel>
+          </Row>
+          <Row>
+            <FormControl componentClass="select"
+                        onChange={ this.props.handleSelectChange }>
+              <option value="scene">Scene</option>
+              <option value="level">Level</option>
+              <option value="room">Room</option>
+            </FormControl>
+          </Row>
+      </FormGroup>
     );
   }
 }

@@ -62,6 +62,16 @@ class AdminPanel extends Component {
                 <Button active={!this.props.doEnableVis} onClick={this.toggleVis}>No</Button>
                 <Button active={this.props.doEnableVis} onClick={this.toggleVis}>Yes</Button>
             </ButtonGroup>
+            {/*<h4>Show Intermediate Representation?</h4>
+            <ButtonGroup>
+                <Button active={!this.props.doEnableVis} onClick={this.toggleVis}>No</Button>
+                <Button active={this.props.doEnableVis} onClick={this.toggleVis}>Yes</Button>
+            </ButtonGroup>*/}
+            {/*<h4>Enable Advanced User Mode? (TAKES INT QUERIES</h4>
+            <ButtonGroup>
+                <Button active={!this.props.doEnableAdvUser} onClick={this.toggleVis}>No</Button>
+                <Button active={this.props.doEnableAdvUser} onClick={this.toggleVis}>Yes</Button>
+            </ButtonGroup>*/}
           </Modal.Body>
           <Modal.Footer>
             <Button onClick={this.close}>Close</Button>

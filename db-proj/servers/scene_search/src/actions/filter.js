@@ -1,8 +1,15 @@
 function intersect(currentData, tempData) {
   return currentData.filter(function(element) {
       return tempData.some(function(e) {
-        if (e.scene_hash == element.scene_hash)
+        if (e.scene_hash == element.scene_hash) {
           element.value += e.value
+          
+          if (typeof element.objects === 'undefined') {
+            element.objects = e.objects
+          } else if (typeof e.objects !== 'undefined') {
+            element.objects = element.objects.concat(e.objects)
+          }
+        }
 
         return e.scene_hash == element.scene_hash
       })

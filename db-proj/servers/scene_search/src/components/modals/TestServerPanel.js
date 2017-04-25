@@ -30,8 +30,8 @@ class TestServerPanel extends Component {
      fetch(this.props.databaseURL + 'ping')
       .then(function(response) {
         return response.json()
-      }).then(function(json) {
-        self.setState({databaseResult: true}) 
+      }).then(function() {
+        self.setState({databaseResult: true})
       })
     }
 
@@ -39,8 +39,8 @@ class TestServerPanel extends Component {
      fetch(this.props.nlpURL + 'ping')
       .then(function(response) {
         return response.json()
-      }).then(function(json) {
-        self.setState({nlpResult: true}) 
+      }).then(function() {
+        self.setState({nlpResult: true})
       })
     }
 
@@ -48,8 +48,8 @@ class TestServerPanel extends Component {
      fetch(this.props.imgURL + 'ping')
       .then(function(response) {
         return response.json()
-      }).then(function(json) {
-        self.setState({imgResult: true}) 
+      }).then(function() {
+        self.setState({imgResult: true})
       })
     }
   }
@@ -87,9 +87,9 @@ class TestServerPanel extends Component {
             <Modal.Title>Information</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <h4>Database Server: { databaseIcon }</h4>
-            <h4>NLP Server { nlpIcon }</h4>
-            <h4>Image Server { imgIcon }</h4>
+            <h4>{ databaseIcon } Database Server</h4>
+            <h4>{ nlpIcon } NLP Server</h4>
+            <h4>{ imgIcon } Image Server</h4>
           </Modal.Body>
           <Modal.Footer>
             <Button onClick={this.close}>Close</Button>

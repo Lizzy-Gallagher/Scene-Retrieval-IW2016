@@ -221,9 +221,9 @@ class HighlightInstancesRoom(Resource):
 
         truth = np.where(decoded, True, np.where(A == 0, True, False))
         
-        r = np.where(decoded, r, np.where(A == 0, 255, gray))
-        g = np.where(decoded, g, np.where(A == 0, 255, gray))
-        b = np.where(decoded, b, np.where(A == 0, 255, gray))
+        r = np.where(decoded, 255, np.where(A == 0, 255, gray))
+        g = np.where(decoded, 48, np.where(A == 0, 255, gray))
+        b = np.where(decoded, 48, np.where(A == 0, 255, gray))
 
         color_im = np.dstack((r, g, b))
 
@@ -236,6 +236,12 @@ class HighlightInstancesRoom(Resource):
         print "Elapsed time " + hash + " : " + str(end - start)
         return pkg
 
+class Ping(Resource):
+    @cors.crossdomain(origin='*')
+    def get(self):
+        return jsonify({'status':'ok!'}), 200
+
+api.add_resource(Ping, '/ping')
 api.add_resource(HighlightInstancesScene, '/highlightscene')
 api.add_resource(HighlightInstancesLevel, '/highlightlevel')
 api.add_resource(HighlightInstancesRoom, '/highlightroom')
