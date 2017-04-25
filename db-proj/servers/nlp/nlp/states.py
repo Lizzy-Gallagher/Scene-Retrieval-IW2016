@@ -36,30 +36,30 @@ class AndState(State):
 
     def next(self, token):
         if token in self.dfa.articles:
-            return self, None
+            return self
         elif type(self.previous_state) == Relationship:
             if token in self.dfa.objects:
-                return self.previous_state.next(token), None
+                return self.previous_state.next(token)
         elif type(self.previous_state) == StartLocation:
-            return StartState(self.dfa).next(token)[0], None
+            return StartState(self.dfa).next(token)
         elif type(self.previous_state) == LocationContaining:
             if token in self.dfa.objects:
-                return self.previous_state.next(token), None
+                return self.previous_state.next(token)
         
         elif type(self.previous_state) == StartAdjective:
             if token in self.dfa.adjectives:
                 self.previous_state.adjectives.extend([token])
                 new_adjectives = self.previous_state.adjectives
-                return StartAdjective(new_adjectives, self.dfa), None
+                return StartAdjective(new_adjectives, self.dfa)
 
         elif type(self.previous_state) == HoldAdjective:
             if token in self.dfa.containing_words:
-                return LocationContaining(self.previous_state.location, self.dfa), None
+                return LocationContaining(self.previous_state.location, self.dfa)
             elif token in self.dfa.anti_containing_words:
-                return LocationContaining(self.previous_state.location, self.dfa, False), None
+                return LocationContaining(self.previous_state.location, self.dfa, False)
             else:
-                return StartState(self.dfa).next(token)[0], None
-        return UnexpectedState(self.dfa), None
+                return StartState(self.dfa).next(token)
+        return UnexpectedState(self.dfa)
 
     def get_suggestions(self):
        # TODO (should be dependent on scene)
@@ -84,12 +84,12 @@ class ButState(State):
 
     def next(self, token):
         if token in self.dfa.articles:
-            return self, None
+            return self
         elif type(self.previous_state) == LocationContaining:
             if token in self.dfa.objects:
-                return self.previous_state.next(token, False), None
+                return self.previous_state.next(token, False)
 
-        return UnexpectedState(self.dfa), None
+        return UnexpectedState(self.dfa)
 
 class StartState(State):
     def __init__(self, dfa):
@@ -97,14 +97,14 @@ class StartState(State):
 
     def next(self, token):
         if token in self.dfa.articles:
-            return self, None
+            return self
         elif token in self.dfa.locations:
-            return StartLocation(token, self.dfa), None
+            return StartLocation(token, self.dfa)
         elif token in self.dfa.objects:
-            return StartObject(token, self.dfa), None
+            return StartObject(token, self.dfa)
         elif token in self.dfa.adjectives:
-            return StartAdjective([token], self.dfa), None
-        return UnexpectedState(self.dfa), None
+            return StartAdjective([token], self.dfa)
+        return UnexpectedState(self.dfa)
 
     def get_suggestions(self):
         suggestions = [{
@@ -132,10 +132,10 @@ class StartAdjective(State):
             for adj in self.adjectives:
                 phrase = createAdjPhrase(adj, token)
                 self.dfa.append_call(phrase)
-            return StartLocation(token, self.dfa), None
+            return StartLocation(token, self.dfa)
         elif token == 'and':
-            return AndState(self, self.dfa), None
-        return UnexpectedState(self.dfa), None
+            return AndState(self, self.dfa)
+        return UnexpectedState(self.dfa)
 
     def get_suggestions(self):
         suggestions = [{
@@ -156,8 +156,8 @@ class StartObject(State):
 
     def next(self, token):
         if token in self.dfa.relationships:
-            return Relationship(self.primary_object, token, self.dfa), None
-        return UnexpectedState(self.dfa), None
+            return Relationship(self.primary_object, token, self.dfa)
+        return UnexpectedState(self.dfa)
 
     def get_suggestions(self):
         suggestions = [{
@@ -174,13 +174,15 @@ class Relationship(State):
 
     def next(self, token):
         if token in self.dfa.articles:
-            return self, None
+            return self
         elif token in self.dfa.objects:
-            return self, createRelPhrase(self.primary_object, \
-                                         self.relationship, token)
+            self.dfa.append_call(createRelPhrase(self.primary_object,
+                                                 self.relationship,
+                                                 token))
+            return self
         elif token == 'and':
-            return AndState(self, self.dfa), None
-        return UnexpectedState(self.dfa), None
+            return AndState(self, self.dfa)
+        return UnexpectedState(self.dfa)
     
     def get_suggestions(self):
         suggestions = [{
@@ -201,12 +203,12 @@ class HoldAdjective(State):
 
     def next(self, token):
         if token == 'and':
-            return AndState(self, self.dfa), None
+            return AndState(self, self.dfa)
         elif token in self.dfa.containing_words:
-            return LocationContaining(self.location, self.dfa), None
+            return LocationContaining(self.location, self.dfa)
         elif token in self.dfa.anti_containing_words:
-            return LocationContaining(self.location, self.dfa, False), None
-        return UnexpectedState(self.dfa), None
+            return LocationContaining(self.location, self.dfa, False)
+        return UnexpectedState(self.dfa)
     
     def get_suggestions(self):
         suggestions = [{
@@ -232,8 +234,8 @@ class AwaitAdjective(State):
     def next(self, token):
         if token in self.dfa.adjectives:
             self.dfa.append_call(createAdjPhrase(token, self.location))
-            return HoldAdjective(self.location, self.dfa), None
-        return UnexpectedState(self.dfa), None
+            return HoldAdjective(self.location, self.dfa)
+        return UnexpectedState(self.dfa)
     
     def get_suggestions(self):
         suggestions = [{
@@ -251,14 +253,14 @@ class StartLocation(State):
     def next(self, token):
         print token
         if token in self.dfa.containing_words:
-            return LocationContaining(self.location, self.dfa), None
+            return LocationContaining(self.location, self.dfa)
         elif token in self.dfa.anti_containing_words:
-            return LocationContaining(self.location, self.dfa, False), None
+            return LocationContaining(self.location, self.dfa, False)
         elif token == 'relative_pronoun':
-            return AwaitAdjective(self.location, self.dfa), None
+            return AwaitAdjective(self.location, self.dfa)
         elif token == 'and': # coming from StartAdjective
-            return AndState(self, self.dfa), None
-        return UnexpectedState(self.dfa), None
+            return AndState(self, self.dfa)
+        return UnexpectedState(self.dfa)
     
     def get_suggestions(self):
         suggestions = [{
@@ -286,18 +288,18 @@ class LocationContaining(State):
         if to_include != None:
             self.do_include = to_include
         if token in self.dfa.articles:
-            return self, None
+            return self
         elif token in self.dfa.objects:
             self.dfa.append_call(createContainPhrase(self.location, token, self.do_include))
-            return self, None
+            return self
         elif token == 'and':
-            return AndState(self, self.dfa), None
+            return AndState(self, self.dfa)
         elif token in self.dfa.negation:
-            return ButState(self, self.dfa), None
+            return ButState(self, self.dfa)
 
         elif token in self.dfa.count_adjectives:
-            return LocationCount(self.location, token, self.dfa), None
-        return UnexpectedState(self.dfa), None
+            return LocationCount(self.location, token, self.dfa)
+        return UnexpectedState(self.dfa)
 
     def get_suggestions(self):
         suggestions = [{
@@ -329,10 +331,13 @@ class LocationCount(State):
         print token
         print token in self.dfa.objects
         if token in self.dfa.objects or token == 'object':
-            return self, createStatsPhrase(self.location, self.count_adjective, token)
+            self.dfa.append_call(createStatsPhrase(self.location,
+                                                   self.count_adjective,
+                                                   token)) 
+            return self
         elif token == 'and':
-            return LocationContaining(self.location, self.dfa), None
-        return UnexpectedState(self.dfa), None
+            return LocationContaining(self.location, self.dfa)
+        return UnexpectedState(self.dfa)
 
     def get_suggestions(self):
         suggestions = [{
@@ -354,6 +359,6 @@ class UnexpectedState(State):
         dfa.in_unexpected_state = True
 
     def next(self, token):
-        return self, None
+        return self
 
 

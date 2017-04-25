@@ -3,7 +3,7 @@
  */
 
 import React, { Component } from 'react';
-import { Row, Col, Button, FormGroup, FormControl } from 'react-bootstrap'
+import { Row, Col, Button } from 'react-bootstrap'
 
 import AutoSuggestBox from './AutoSuggestBox'
 
@@ -35,7 +35,7 @@ class SearchBox extends Component {
         ref={(input) => {this.textInput = input;}}
         onChange={this.handleChange}
         onKeyPress={this.handleKeyPress}
-        style={{height: "44px"}}
+        style={{height: '44px'}}
       />
     );
   }
@@ -56,11 +56,11 @@ class QueryBox extends Component {
                         onClick={() => this.props.handleClick()} />
 
     let inputStyle = {
-      margin: '0px -36px',
+      margin: '0px -36px'
     }
 
     return (
-      <Row>
+      <Row style={{padding: '10px 0px'}}>
         <Col md={8}>
           { searchBox }
         </Col>

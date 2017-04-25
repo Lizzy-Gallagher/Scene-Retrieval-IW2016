@@ -199,7 +199,7 @@ class ResultList extends Component {
   }
 
   render() {
-    let cutoff = 50;
+    let cutoff = 150;
     let resultNodes = [];
     let i = 0;
     if (this.props.showNotFoundError) {
@@ -208,34 +208,43 @@ class ResultList extends Component {
     else if (this.props.returnType == 'scene') {
       let doEnableVis = this.props.doEnableVis;
       resultNodes = this.props.sceneData.slice(0,cutoff).map(function (result) {
-        return (
-          <LazyLoad once offset={100} key={i++} >
+      let anchorLink = 'https://dovahkiin.stanford.edu/fuzzybox/scene-viewer.html?allowEdit=false&sceneId=p5dScene.' + result.scene_hash;
+      return (
+        <LazyLoad once offset={100} height={'95%'} key={i++} >
+          <a href={ anchorLink } target="_blank">
             <SceneResult sceneId={result.scene_hash} count={result.value}
-                         objects={result.objects} doEnableVis={doEnableVis}/>
-          </LazyLoad>
-        );
+                        objects={result.objects} doEnableVis={doEnableVis}/>
+          </a>
+        </LazyLoad>
+      );
       });
     } else if (this.props.returnType == 'level') {
+        let doEnableVis = this.props.doEnableVis;
         resultNodes = this.props.levelData.slice(0,cutoff).map(function (result) {
+        let anchorLink = 'https://dovahkiin.stanford.edu/fuzzybox/scene-viewer.html?allowEdit=false&sceneId=p5dScene.' + result.scene_hash;
         return (
           <LazyLoad once offset={100} key={i++} >
+            <a href={ anchorLink } target="_blank">
             <LevelResult sceneId={result.scene_hash} count={result.value}
-                       level_num={result.level_num} />
+                       level_num={result.level_num} doEnableVis={doEnableVis}/>
+            </a>
           </LazyLoad>
         );
       });
     } else {
         let doEnableVis = this.props.doEnableVis;
         resultNodes = this.props.roomData.slice(0,cutoff).map(function (result) {
-          
+        let anchorLink = 'https://dovahkiin.stanford.edu/fuzzybox/scene-viewer.html?allowEdit=false&sceneId=p5dScene.' + result.scene_hash;
           // bandaid :( -- outdoor spaces
           if (result.room_num == -1)
             return (<div></div>)
         return (
           <LazyLoad once offset={100} key={i++} >
+            <a href={ anchorLink } target="_blank">
             <RoomResult sceneId={result.scene_hash} count={result.value}
                         level_num={result.level_num} room_num={result.room_num}
                         objects={result.objects} doEnableVis={doEnableVis}/>
+            </a>
           </LazyLoad>
         );
       });

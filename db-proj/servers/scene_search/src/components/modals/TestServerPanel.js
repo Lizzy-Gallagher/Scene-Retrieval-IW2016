@@ -56,11 +56,17 @@ class TestServerPanel extends Component {
 
   close() {
     this.setState({
-      showModal: false,
-      databaseResult: false,
-      nlpResult: false,
-      imgResult: false
+      showModal: false
     });
+
+    let self = this;
+    setTimeout(function() {
+      self.setState({
+        databaseResult: false,
+        nlpResult: false,
+        imgResult: false
+      });
+    }, 1000);
   }
 
   open() {

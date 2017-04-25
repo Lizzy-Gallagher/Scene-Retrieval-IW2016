@@ -116,13 +116,10 @@ class DFA(object):
         if token in ['ha', 'contain', 'shoe']:
             token += 's'
         
-        self.state, call = self.state.next(token)
+        self.state = self.state.next(token)
         
         if type(self.state) is UnexpectedState:
             print "UnexpectedState!"
-
-        if call is not None:
-            self.calls.append(call)
     
     def append_call(self, call):
         self.calls.append(call)
