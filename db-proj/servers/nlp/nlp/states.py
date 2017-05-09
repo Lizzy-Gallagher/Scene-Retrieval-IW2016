@@ -45,6 +45,8 @@ class AndState(State):
         elif type(self.previous_state) == LocationContaining:
             if token in self.dfa.objects:
                 return self.previous_state.next(token)
+            else:
+                return StartState(self.dfa).next(token)
         
         elif type(self.previous_state) == StartAdjective:
             if token in self.dfa.adjectives:
@@ -104,6 +106,8 @@ class StartState(State):
             return StartObject(token, self.dfa)
         elif token in self.dfa.adjectives:
             return StartAdjective([token], self.dfa)
+        else:
+            return self
         return UnexpectedState(self.dfa)
 
     def get_suggestions(self):
@@ -179,7 +183,7 @@ class Relationship(State):
             self.dfa.append_call(createRelPhrase(self.primary_object,
                                                  self.relationship,
                                                  token))
-            return self
+            return StartState(self.dfa)
         elif token == 'and':
             return AndState(self, self.dfa)
         return UnexpectedState(self.dfa)
@@ -331,9 +335,14 @@ class LocationCount(State):
         print token
         print token in self.dfa.objects
         if token in self.dfa.objects or token == 'object':
+            call = createStatsPhrase(self.location, self.count_adjective, token)
+            print '- - - - - - - -'
+            print call
             self.dfa.append_call(createStatsPhrase(self.location,
                                                    self.count_adjective,
                                                    token)) 
+            print '- - - - - - - -'
+            print self.dfa.calls
             return self
         elif token == 'and':
             return LocationContaining(self.location, self.dfa)
